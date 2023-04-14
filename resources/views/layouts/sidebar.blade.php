@@ -1,0 +1,63 @@
+<div class="sidebar-menu">
+    <div class="sidebar-header">
+        <div class="logo">
+            <a href=""><img src="{{ asset('images/icon/Logo_40x280.png') }}" alt="logo"></a>
+        </div>
+    </div>
+    <div class="main-menu">
+        <div class="menu-inner">
+            <nav>
+                <ul class="metismenu" id="menu">
+                    <li id="dashBoard">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>儀表板</span></a>
+                        <ul class="collapse">
+                            <li><a href="">戰情室</a></li>
+                            <li id="dashboardLeaderBtn"><a href="dashboardLeader">排行榜</a></li>
+                        </ul>
+                    </li>
+                    <li id="documentSearch">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>文件查詢/下載
+                            </span></a>
+                        <ul class="collapse">
+                            <li id="mesRepairProductsBtn"><a href="mesRepairProducts">維修不良查詢</a></li>
+                            <li id="mesUploadListBtn"><a href="mesUploadList">韌體下載查詢</a></li>
+                            <li id="mesModelListBtn"><a href="mesModelList">產品型號查詢</a></li>
+                            <li id="mesItemListBtn"><a href="mesItemList">成品庫存查詢</a></li>
+                            <li id="mesItemPartListBtn"><a href="mesItemPartList">料件庫存查詢</a></li>
+                            <li id="mesKickoffListBtn"><a href="mesKickoffList">客製化申請單查詢</a></li>
+                            <li id="mesCutsQueryBtn"><a href="mesCutsQuery">客戶代碼查詢</a></li>
+                            <li id="mesMonProductionListBtn"><a href="mesMonProductionList">訂單生產狀態查詢</a></li>
+                            <li id="mesProductionResumeListBtn"><a href="mesProductionResumeList">生產履歷查詢</a></li>
+                            <li id="mesHistoryProductionQuantityBtn"><a href="mesHistoryProductionQuantity">歷史產品生產數量</a></li>
+                            <li id="mesMfrListBtn"><a href="mesMfrList">借品未歸還一覽表</a></li>
+                            <li id="mesRunCardListBtn"><a href="mesRunCardList">生產流程卡查詢</a></li>
+                            <li id="mesRuncardListNotinBtn"><a href="mesRuncardListNotin">未回報MES工單查詢</a></li>
+                            <li id="mesDefectiveListBtn"><a href="mesDefectiveList">生產維修紀錄查詢</a></li>
+                            <li id="mesDefectiveRateBtn"><a href="mesDefectiveRate">產品維修不良率分析</a></li>
+                            <li id="mesRepairNGListBtn"><a href="mesRepairNGList">產線零件維修不良排行</a></li>
+                            <li id="mesBuyDelayBtn"><a href="mesBuyDelay">入料逾期明細表</a></li>
+                            <li id="mesECNListBtn"><a href="mesECNList">ECN查詢</a></li>
+                            <li id="mesRMAListBtn"><a href="mesRMAList">RMA退貨授權查詢</a></li>
+                            <li id="mesRMAAnalysisBtn"><a href="mesRMAAnalysis">RMA不良原因查詢</a></li>
+                        </ul>
+                    </li>
+                    <li id="aiQuery">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-comments-smiley"></i><span>AI 權重查詢</span></a>
+                        <ul class="collapse">
+                            <li id="aiQuerySearch"><a href="fontawesome.html">AI 權重查詢</a></li>
+                        </ul>
+                    </li>
+                    <li class="setup">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-table"></i>
+                            <span>設定</span></a>
+                        <ul class="collapse">
+                            <li><a href="">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
