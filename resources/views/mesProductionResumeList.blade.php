@@ -210,17 +210,17 @@
                     "title": "倉位",
                 },
             ],
-            columnDefs: [{
-                targets: [16], // 所在的 index（從 0 開始）
-                render: function(data, type, row, meta) {
-                    var ecn = "ECN"
-                    if (data.indexOf(ecn) !== -1) {
-                        return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/' + data + '.pdf" target="_blank">' + data
-                    } else {
-                        return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' + data + '.pdf" target="_blank">' + data
-                    }
-                }
-            }]
+            // columnDefs: [{
+            //     targets: [16], // 所在的 index（從 0 開始）
+            //     render: function(data, type, row, meta) {
+            //         var ecn = "ECN"
+            //         if (data.indexOf(ecn) !== -1) {
+            //             return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/' + data + '.pdf" target="_blank">' + data
+            //         } else {
+            //             return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' + data + '.pdf" target="_blank">' + data
+            //         }
+            //     }
+            // }]
 
         });
 

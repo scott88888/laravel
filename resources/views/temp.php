@@ -29,20 +29,41 @@ Name=COD_LOC<|||>OldName=COD_LOC<|||>DataType=27<|||>OldDataType=53<|||>LengthSe
 Name=PRODKEY<|||>OldName=PRODKEY<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status='0'
 
 
+sqlplus MFDEMO/mf2000@192.168.0.8/orcl
 
-'NUM_PS'
-'NUM_ORD'
-'REMARK3'
-'REMARK2'
-'QTY_PCS'
-'DAT_BEGS'
-'DAT_BEGA'
-'CLDS_COD_ITEM'
-'NAM_ITEM'
-'NUM_PROD'
-'SEQ_COMQ'
-'SEQ_MITEM'
-'COD_MITEM'
-'PS1'
-'PS2'
-'PS3'
+
+SET COLSEP ","
+SET HEADING OFF
+SET PAGESIZE 0
+SET FEEDBACK OFF
+SET TRIMSPOOL ON
+SPOOL "C:\path.csv"
+SELECT * FROM EOVHR_BAK;
+SPOOL OFF
+
+
+SELECT compqm.num_ps,compqm.num_ord,clds.remark3,clds.dat_begs,dat_bega,clds.cod_item,compqm.num_ps||substr( compqm.seq_comq,4,3 ) num_prod,  compqm.seq_comq,compqm.seq_mitem,compqm.cod_mitem,compqm.ps1,compqm.ps2, compqm.ps3,compq.seq_no, compq.cod_item,compq.seq_item,clds.ps4,clds.ps5, clds.ps6,   '' num_rff,  '' num_redo,  substr(remark3,6,1)  line_prod,mseq.dat_del ,  substr(remark3,7,35)  prodkey FROM clds, compq, compqm left join (select mseq.cod_item,mseq.no_seq,mseq.dat_del from mseq ) mseq on (mseq.no_seq = compqm.seq_mitem) WHERE  1 = 1  and ( compqm.num_ps = compqm.num_ps  )  and ( compqm.num_ord = compq.num_ord ) and  ( compqm.seq_comq = compq.seq_comq ) and ( compqm.num_ps = clds.num_ps )
+
+SET NEWPAGE NONE
+SET SPACE 0
+SET LINESIZE 1000
+SET PAGESIZE 0
+SET ECHO OFF
+SET FEEDBACK OFF
+SET TERMOUT OFF
+SET TRIMSPOOL OFF
+SET COLSEP ","
+SET HEADING ON
+SET SQLFORMAT csv
+SET DEFINE OFF
+SET CHARSET utf8
+SET RECSEP ""
+SPOOL "C:\path.csv"
+SELECT compqm.num_ps,compqm.num_ord,clds.remark3,clds.dat_begs,dat_bega,clds.cod_item,compqm.num_ps||substr( compqm.seq_comq,4,3 ) num_prod,  compqm.seq_comq,compqm.seq_mitem,compqm.cod_mitem,compqm.ps1,compqm.ps2, compqm.ps3,compq.seq_no, compq.cod_item,compq.seq_item,clds.ps4,clds.ps5, clds.ps6,   '' num_rff,  '' num_redo,  substr(remark3,6,1)  line_prod,mseq.dat_del ,  substr(remark3,7,35)  prodkey FROM clds, compq, compqm left join (select mseq.cod_item,mseq.no_seq,mseq.dat_del from mseq ) mseq on (mseq.no_seq = compqm.seq_mitem) WHERE  1 = 1  and ( compqm.num_ps = 'GA221026016' )  and ( compqm.num_ord = compq.num_ord ) and  ( compqm.seq_comq = compq.seq_comq ) and ( compqm.num_ps = clds.num_ps );
+SPOOL OFF
+
+
+
+
+CLDS_COD_ITEM  COD_ITEM
+COMPQ_COD_ITEM  COD_ITEM1
