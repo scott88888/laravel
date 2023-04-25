@@ -40,21 +40,13 @@
                                         <tbody>
                                             @foreach ($MesItemPartList as $ListData)
                                             <tr>
-                                                <td>{{$ListData->cod_item}}</td>
+                                                <td>{{$ListData->COD_ITEM}}</td>
                                                 <td>
-                                                    @if (app()->getLocale() =='zh_TW' && $ListData->dsc_allc == null )
-                                                    {{$ListData->nam_item}}
-                                                    @elseif (app()->getLocale() !='zh_TW' && $ListData->dsc_allc != null )
-                                                    {{$ListData->dsc_allc}}
-                                                    @elseif ($ListData->dsc_allc == null)
-                                                    {{$ListData->nam_item}}
-                                                    @else
-                                                    {{$ListData->dsc_alle}}
-                                                    @endif
+                                                {{$ListData->NAM_ITEM}}
                                                 </td>
-                                                <td>{{$ListData->qty_stk}}</td>
+                                                <td>{{$ListData->QTY_STK}}</td>
                                                 <td>
-                                                @switch($ListData->cod_loc)
+                                                @switch($ListData->COD_LOC)
                                                     @case('GO-001')
                                                     <p style="color:blue">內銷成品倉</p>
                                                     @break
@@ -88,13 +80,14 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    $(ListData).DataTable({
+   $(ListData).DataTable({
         "autoWidth": false,
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
         "info": true,
+        "order": [[2, "desc"]]
     })
 </script>
 

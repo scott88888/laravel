@@ -133,10 +133,13 @@ class MesModelList extends Authenticatable
     public static function getItemPartListData()
     {
 
-        $value = DB::select("SELECT * FROM lcst_temp");
+        $value = DB::table('mes_lcst_parts')
+            ->where('qty_stk', '!=', 0)
+            ->orderBy('qty_stk', 'asc')
+            ->get();
         return $value;
     }
-
+   
     public static function getKickoffListData()
     {
         $value = DB::select("SELECT * FROM `kickoff` where upload_date ='2022-10-07' order by kickoff_No desc");
