@@ -1,69 +1,156 @@
-Name=NUM_PS<|||>OldName=NUM_PS<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=NUM_ORD<|||>OldName=NUM_ORD<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=REMARK3<|||>OldName=REMARK3<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=REMARK2<|||>OldName=REMARK2<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=100<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=QTY_PCS<|||>OldName=QTY_PCS<|||>DataType=3<|||>OldDataType=53<|||>LengthSet=20<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=<|||>Collation=<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=DAT_BEGS<|||>OldName=DAT_BEGS<|||>DataType=16<|||>OldDataType=53<|||>LengthSet=<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=<|||>Collation=<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=DAT_BEGA<|||>OldName=DAT_BEGA<|||>DataType=16<|||>OldDataType=53<|||>LengthSet=<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=<|||>Collation=<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=CLDS_COD_ITEM<|||>OldName=CLDS_COD_ITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=NAM_ITEM<|||>OldName=NAM_ITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=500<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=NUM_PROD<|||>OldName=NUM_PROD<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=SEQ_COMQ<|||>OldName=SEQ_COMQ<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=SEQ_MITEM<|||>OldName=SEQ_MITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=COD_MITEM<|||>OldName=COD_MITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS1<|||>OldName=PS1<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS2<|||>OldName=PS2<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS3<|||>OldName=PS3<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=SEQ_NO<|||>OldName=SEQ_NO<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=COMPQ_COD_ITEM<|||>OldName=COMPQ_COD_ITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=SEQ_ITEM<|||>OldName=SEQ_ITEM<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS4<|||>OldName=PS4<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS5<|||>OldName=PS5<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PS6<|||>OldName=PS6<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=200<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=NUM_RFF<|||>OldName=NUM_RFF<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=NUM_REDO<|||>OldName=NUM_REDO<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=LINE_PROD<|||>OldName=LINE_PROD<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=DAT_DEL<|||>OldName=DAT_DEL<|||>DataType=16<|||>OldDataType=53<|||>LengthSet=<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=<|||>Collation=<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=STS_MSEQ<|||>OldName=STS_MSEQ<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=COD_LOC<|||>OldName=COD_LOC<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status=0
-Name=PRODKEY<|||>OldName=PRODKEY<|||>DataType=27<|||>OldDataType=53<|||>LengthSet=50<|||>Unsigned=0<|||>AllowNull=0<|||>ZeroFill=0<|||>LengthCustomized=0<|||>DefaultType=0<|||>DefaultText=<|||>OnUpdateType=0<|||>OnUpdateText=<|||>Comment=<|||>Charset=utf8<|||>Collation=utf8_general_ci<|||>GenerationExpression=<|||>Virtuality=<|||>Status='0'
-
-
-sqlplus MFDEMO/mf2000@192.168.0.8/orcl
-
-
-SET COLSEP ","
-SET HEADING OFF
-SET PAGESIZE 0
-SET FEEDBACK OFF
-SET TRIMSPOOL ON
-SPOOL "C:\path.csv"
-SELECT * FROM EOVHR_BAK;
-SPOOL OFF
-
-
-SELECT compqm.num_ps,compqm.num_ord,clds.remark3,clds.dat_begs,dat_bega,clds.cod_item,compqm.num_ps||substr( compqm.seq_comq,4,3 ) num_prod,  compqm.seq_comq,compqm.seq_mitem,compqm.cod_mitem,compqm.ps1,compqm.ps2, compqm.ps3,compq.seq_no, compq.cod_item,compq.seq_item,clds.ps4,clds.ps5, clds.ps6,   '' num_rff,  '' num_redo,  substr(remark3,6,1)  line_prod,mseq.dat_del ,  substr(remark3,7,35)  prodkey FROM clds, compq, compqm left join (select mseq.cod_item,mseq.no_seq,mseq.dat_del from mseq ) mseq on (mseq.no_seq = compqm.seq_mitem) WHERE  1 = 1  and ( compqm.num_ps = compqm.num_ps  )  and ( compqm.num_ord = compq.num_ord ) and  ( compqm.seq_comq = compq.seq_comq ) and ( compqm.num_ps = clds.num_ps )
-
-SET NEWPAGE NONE
-SET SPACE 0
-SET LINESIZE 1000
-SET PAGESIZE 0
-SET ECHO OFF
-SET FEEDBACK OFF
-SET TERMOUT OFF
-SET TRIMSPOOL OFF
-SET COLSEP ","
-SET HEADING ON
-SET SQLFORMAT csv
-SET DEFINE OFF
-SET CHARSET utf8
-SET RECSEP ""
-SPOOL "C:\path.csv"
-SELECT compqm.num_ps,compqm.num_ord,clds.remark3,clds.dat_begs,dat_bega,clds.cod_item,compqm.num_ps||substr( compqm.seq_comq,4,3 ) num_prod,  compqm.seq_comq,compqm.seq_mitem,compqm.cod_mitem,compqm.ps1,compqm.ps2, compqm.ps3,compq.seq_no, compq.cod_item,compq.seq_item,clds.ps4,clds.ps5, clds.ps6,   '' num_rff,  '' num_redo,  substr(remark3,6,1)  line_prod,mseq.dat_del ,  substr(remark3,7,35)  prodkey FROM clds, compq, compqm left join (select mseq.cod_item,mseq.no_seq,mseq.dat_del from mseq ) mseq on (mseq.no_seq = compqm.seq_mitem) WHERE  1 = 1  and ( compqm.num_ps = 'GA221026016' )  and ( compqm.num_ord = compq.num_ord ) and  ( compqm.seq_comq = compq.seq_comq ) and ( compqm.num_ps = clds.num_ps );
-SPOOL OFF
+'{NUM_PS}',
+'{NUM_ORD}','{REMARK2}','{REMARK3}','{DAT_BEGS}','{DAT_BEGA}','{CLDS_COD_ITEM}','{QTY_PCS}','{NUM_PROD}','{SEQ_COMQ}','{SEQ_MITEM}','{COD_MITEM}','{PS1}','{PS2}','{PS3}','{SEQ_NO}','{COMPQ_COD_ITEM}','{SEQ_ITEM}','{PS4}','{PS5}','{PS6}','{NUM_RFF}','{NUM_REDO}','{LINE_PROD}','{DAT_DEL}','{PRODKEY}'
 
 
 
+NUM_PS = oracleReader["num_ps"].ToString();
 
-CLDS_COD_ITEM  COD_ITEM
-COMPQ_COD_ITEM  COD_ITEM1
+NUM_PS = oracleReader["NUM_PS"].ToString();
+NUM_ORD = oracleReader["NUM_ORD"].ToString();
+REMARK2 = oracleReader["REMARK2"].ToString();
+REMARK3 = oracleReader["REMARK3"].ToString();
+DAT_BEGS = oracleReader["DAT_BEGS"].ToString();
+DAT_BEGA = oracleReader["DAT_BEGA"].ToString();
+CLDS_COD_ITEM = oracleReader["CLDS_COD_ITEM"].ToString();
+QTY_PCS = oracleReader["QTY_PCS"].ToString();
+NUM_PROD = oracleReader["NUM_PROD"].ToString();
+SEQ_COMQ = oracleReader["SEQ_COMQ"].ToString();
+SEQ_MITEM = oracleReader["SEQ_MITEM"].ToString();
+COD_MITEM = oracleReader["COD_MITEM"].ToString();
+PS1 = oracleReader["PS1"].ToString();
+PS2 = oracleReader["PS2"].ToString();
+PS3 = oracleReader["PS3"].ToString();
+SEQ_NO = oracleReader["SEQ_NO"].ToString();
+COMPQ_COD_ITEM = oracleReader["COMPQ_COD_ITEM"].ToString();
+SEQ_ITEM = oracleReader["SEQ_ITEM"].ToString();
+PS4 = oracleReader["PS4"].ToString();
+PS5 = oracleReader["PS5"].ToString();
+PS6 = oracleReader["PS6"].ToString();
+NUM_RFF = oracleReader["NUM_RFF"].ToString();
+NUM_REDO = oracleReader["NUM_REDO"].ToString();
+LINE_PROD = oracleReader["LINE_PROD"].ToString();
+DAT_DEL = oracleReader["DAT_DEL"].ToString();
+PRODKEY = oracleReader["PRODKEY"].ToString();
+
+
+
+string insertSql = $"INSERT INTO MAC_QUERY (NUM_PS,NUM_ORD,REMARK2,REMARK3,DAT_BEGS,DAT_BEGA,CLDS_COD_ITEM,QTY_PCS,NUM_PROD,SEQ_COMQ,SEQ_MITEM,COD_MITEM,PS1,PS2,PS3,SEQ_NO,COMPQ_COD_ITEM,SEQ_ITEM,PS4,PS5,PS6,NUM_RFF,NUM_REDO,LINE_PROD,DAT_DEL,PRODKEY) VALUES ('{NUM_PS}','{NUM_ORD}','{REMARK2}','{REMARK3}','{DAT_BEGS}','{DAT_BEGA}','{CLDS_COD_ITEM}','{QTY_PCS}','{NUM_PROD}','{SEQ_COMQ}','{SEQ_MITEM}','{COD_MITEM}','{PS1}','{PS2}','{PS3}','{SEQ_NO}','{COMPQ_COD_ITEM}','{SEQ_ITEM}','{PS4}','{PS5}','{PS6}','{NUM_RFF}','{NUM_REDO}','{LINE_PROD}','{DAT_DEL}','{PRODKEY}')";
+
+
+
+INSERT INTO MAC_QUERY (NUM_PS,
+NUM_ORD,
+REMARK2,
+REMARK3,
+DAT_BEGS,
+DAT_BEGA,
+CLDS_COD_ITEM,
+QTY_PCS,
+NUM_PROD,
+SEQ_COMQ,
+SEQ_MITEM,
+COD_MITEM,
+PS1,
+PS2,
+PS3,
+SEQ_NO,
+COMPQ_COD_ITEM,
+SEQ_ITEM,
+PS4,
+PS5,
+PS6,
+NUM_RFF,
+NUM_REDO,
+LINE_PROD,
+DAT_DEL,
+PRODKEY) VALUES 
+('AA230412003'
+,'AA230412003'
+,'重工/美國參展'
+,'0801'
+'20230412'
+''
+'S8D4654EX30'
+'2'
+'AA230412003001'
+'000001'
+'2210004739'
+'S8D4654EX30'
+'AA2304120030001'
+''
+'N'
+'001'
+'S8D4654EX30'
+'2210004739'
+''
+'CAM:3.23IP 12.1.001.4120\r\n'
+''
+''
+''
+''
+''
+'')
+
+
+SELECT 
+        cod_item,nam_item,dsc_allc,dsc_alle,cod_loc,qty_stk,ser_pcs, eol_list.official_website2 
+        FROM `lcst` 
+      
+        where cod_item not REGEXP '^[0-9]' and cod_loc ='GO-001' or cod_loc ='WO-003' or cod_loc ='LL-000'
+
+
+        SELECT 
+        cod_item,nam_item,dsc_allc,cod_loc,qty_stk,
+        FROM `lcst`       
+        where cod_loc ='AO-111' or cod_loc ='  GO-001' or cod_loc ='GO-003' or cod_loc ='LL-000' or cod_loc ='WO-003'
+
+
+        AO-111
+        GO-001
+        GO-003
+        LL-000
+        WO-003
+
+
+        SELECT * 
+        FROM lcst_temp
+WHERE (cod_loc ='AO-111' or cod_loc ='  GO-001' or cod_loc ='GO-003' or cod_loc ='LL-000' or cod_loc ='WO-003') AND qty_stk > 0
+
+
+
+SELECT  
+lcst.cod_item,
+lcst.cid_loc,
+lcst.unt_stk,
+lcst.qty_stk,
+item.cod_item,
+item.nam_item,
+item.dsc_item
+from lcst
+left join item on lcst.cod_item = item.cod_item,
+where lcst.cod_item not REGEXP '^[0-9]' and lcst.cod_loc ='GO-001' or lcst.cod_loc ='WO-003' or lcst.cod_loc ='LL-000'
+
+
+調整 mes_lcst_item 為成品  不含 cod_loc ='AO-111'
+調整 mes_lcst_XXX 為料件 cod_loc ='AO-111'
+
+
+
+class MesModelList extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+public static function getItemListData1()
+    {
+        
+        // $value = DB::select("SELECT * FROM lcst");
+        $value = MesModelList::orderBy('qty_stk', 'asc')->get();
+        return $value;
+    }
+    public static function getItemListData2()
+    {
+        
+        // $value = DB::select("SELECT * FROM lcst");
+        $value = MesModelList::orderBy('qty_stk', 'asc')->get();
+        return $value;
+    }
+}

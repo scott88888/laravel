@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
+
 use DB;
 use Illuminate\Http\Request;
 
@@ -50,7 +51,6 @@ class MesController extends BaseController
         //獲取資料
         $MesItemList = MesModelList::getItemListData();
         if ($MesItemList) {
-
             return view('mesItemList', ['MesItemList' => $MesItemList]);
         }
     }

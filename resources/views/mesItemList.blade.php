@@ -44,34 +44,26 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_model.php?={{$ListData->cod_item}}&{{$ListData->cod_loc}}" target="_blank">                                             
-                                                {{$ListData->cod_item}}
+                                                    <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_model.php?={{$ListData->COD_ITEM}}&{{$ListData->COD_LOC}}" target="_blank">
+                                                        {{$ListData->COD_ITEM}}
                                                 </td>
                                                 <td>
-                                                    @if (app()->getLocale() =='zh_TW' && $ListData->dsc_allc == null )
-                                                    {{$ListData->nam_item}}
-                                                    @elseif (app()->getLocale() !='zh_TW' && $ListData->dsc_allc != null )
-                                                    {{$ListData->dsc_allc}}
-                                                    @elseif ($ListData->dsc_allc == null)
-                                                    {{$ListData->nam_item}}
-                                                    @else
-                                                    {{$ListData->dsc_alle}}
-                                                    @endif
+                                                    {{$ListData->NAM_ITEM}}
                                                 </td>
-                                                <td>{{$ListData->qty_stk}}</td>
+                                                <td>{{$ListData->QTY_STK}}</td>
 
                                                 <td>
-                                                    @if ($ListData->official_website2 == 'EOL' )
-                                                    {{$ListData->official_website2}}
+                                                    @if ($ListData->DSC_ITEM_EOL == null )
+                                                    {{$ListData->DSC_ITEM_EOL}}
                                                     @else ()
                                                     <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/EOL/{{$ListData->official_website2}}" target="_blank">
-                                                            {{$ListData->official_website2}}
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/EOL/{{$ListData->DSC_ITEM_EOL}}" target="_blank">
+                                                            {{$ListData->DSC_ITEM_EOL}}
                                                     </div>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @switch($ListData->cod_loc)
+                                                    @switch($ListData->COD_LOC)
                                                     @case('GO-001')
                                                     <p style="color:blue">內銷成品倉</p>
                                                     @break
@@ -81,14 +73,14 @@
                                                     @break
                                                     @case('AO-111')
                                                     <<p style="color:purple">內銷借品專用倉</p>
-                                                    @break
-                                                    @case('LL-000')
-                                                    <p style="color:red">內銷借品專用倉</p>
-                                                    @break
+                                                        @break
+                                                        @case('LL-000')
+                                                        <p style="color:red">內銷借品專用倉</p>
+                                                        @break
 
-                                                    @default
-                                                    <p></p>
-                                                    @endswitch
+                                                        @default
+                                                        <p></p>
+                                                        @endswitch
                                                 </td>
 
                                             </tr>
@@ -115,6 +107,7 @@
             [10, 25, 50, "All"]
         ],
         "info": true,
+        "order": [[3, "desc"]]
     })
 </script>
 

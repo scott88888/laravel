@@ -19,58 +19,55 @@ class MesModelList extends Authenticatable
         //原SQL語法使用了GROUP BY子句，它將結果集中的行分組，每個組僅顯示一行。但是，它將不同版本的fw_index視為不同的組，因此可能會遺漏某些版本的fw_index。
         //新版的GROUP BY是要求查詢都必須放進去，才能執行
         //調整後如下，順利執行
-
         $value = DB::select("SELECT 
-        fw_index.customer,
-        item_temp.COD_ITEM, 
-        item_temp.DSC_ITEM, 
-        item_temp.NAM_ITEM, 
-        item_temp.DAT_FILE, 
-        item_temp.DAT_USET, 
-        item_temp.DAT_SALED, 
-        eol_list.official_website2, 
-        fw_index.version,
-        fw_index.file_app_url, 
-        eol_list.model, 
-        tb_product.`is_enable`, 
-        tb_product.`urlTag`,
-        tb_product.`fileGroup` 
-    FROM item_temp 
-    LEFT JOIN 
-        (
-            SELECT 
-                tmp1.model_name, 
-                tmp1.fw_id, 
-                tmp1.customer, 
-                tmp1.version, 
-                tmp1.file_app_url 
-            FROM fw_index tmp1 
-            INNER JOIN 
-                (
-                    SELECT `model_name`, MAX(fw_id) AS fw_id 
-                    FROM fw_index 
-                    GROUP BY model_name
-                ) tmp2 
-            ON tmp1.model_name = tmp2.model_name AND tmp1.fw_id = tmp2.fw_id 
-        ) AS fw_index ON item_temp.COD_ITEM = fw_index.model_name 
-    LEFT JOIN eol_list ON item_temp.COD_ITEM = eol_list.model 
-    LEFT JOIN tb_product ON item_temp.COD_ITEM = tb_product.urlTag 
-    GROUP BY 
-        fw_index.customer,
-        item_temp.COD_ITEM, 
-        item_temp.DSC_ITEM, 
-        item_temp.NAM_ITEM, 
-        item_temp.DAT_FILE, 
-        item_temp.DAT_USET, 
-        item_temp.DAT_SALED, 
-        eol_list.official_website2, 
-        fw_index.version,
-        fw_index.file_app_url, 
-        eol_list.model, 
-        tb_product.`is_enable`, 
-        tb_product.`urlTag`,
-        tb_product.`fileGroup` 
-    ORDER BY `fw_index`.`fw_id` desc");
+                    fw_index.customer,
+                    item_temp.COD_ITEM,
+                    item_temp.DSC_ITEM,
+                    item_temp.NAM_ITEM,
+                    item_temp.DAT_FILE,
+                    item_temp.DAT_USET,
+                    item_temp.DAT_SALED,
+                    eol_list.official_website2,
+                    fw_index.version,
+                    fw_index.file_app_url,
+                    eol_list.model,
+                    tb_product.`is_enable`,
+                    tb_product.`urlTag`,
+                    tb_product.`fileGroup` 
+                FROM 
+                    item_temp 
+                LEFT JOIN 
+                    (
+                        SELECT 
+                            tmp1.model_name, 
+                            tmp1.fw_id, 
+                            tmp1.customer, 
+                            tmp1.version, 
+                            tmp1.file_app_url 
+                        FROM 
+                            fw_index tmp1, 
+                            (
+                                SELECT 
+                                    model_name, 
+                                    MAX(fw_id) AS fw_id 
+                                FROM 
+                                    fw_index 
+                                GROUP BY 
+                                    model_name
+                            ) tmp2 
+                        WHERE 
+                            tmp1.model_name = tmp2.model_name 
+                            AND tmp1.fw_id = tmp2.fw_id 
+                    ) AS fw_index ON item_temp.COD_ITEM = fw_index.model_name 
+                LEFT JOIN 
+                    eol_list ON item_temp.COD_ITEM = eol_list.model 
+                LEFT JOIN 
+                    tb_product ON item_temp.COD_ITEM = tb_product.urlTag 
+                GROUP BY 
+                    item_temp.COD_ITEM 
+                ORDER BY 
+                    `fw_index`.`fw_id` DESC
+                ");
         return $value;
     }
 
@@ -113,18 +110,29 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
+    // public static function getItemListData2()
+    // {
+    //     $value = DB::select("SELECT 
+    //     lcst_temp.cod_item,lcst_temp.nam_item,lcst_temp.dsc_allc,lcst_temp.dsc_alle,lcst_temp.cod_loc,lcst_temp.qty_stk,lcst_temp.ser_pcs, eol_list.official_website2 
+    //     FROM `lcst_temp` 
+    //     left JOIN eol_list on lcst_temp.COD_ITEM = eol_list.model 
+    //     where lcst_temp.cod_item not REGEXP '^[0-9]' and lcst_temp.cod_loc ='GO-001' or lcst_temp.cod_loc ='WO-003' or lcst_temp.cod_loc ='LL-000'");
+    //     return $value;
+    // }
+
+
     public static function getItemListData()
     {
-        $value = DB::select("SELECT 
-        lcst_temp.cod_item,lcst_temp.nam_item,lcst_temp.dsc_allc,lcst_temp.dsc_alle,lcst_temp.cod_loc,lcst_temp.qty_stk,lcst_temp.ser_pcs, eol_list.official_website2 
-        FROM `lcst_temp` 
-        left JOIN eol_list on lcst_temp.COD_ITEM = eol_list.model 
-        where lcst_temp.cod_item not REGEXP '^[0-9]' and lcst_temp.cod_loc ='GO-001' or lcst_temp.cod_loc ='WO-003' or lcst_temp.cod_loc ='LL-000'");
+        $value = DB::table('mes_lcst_item')
+            ->where('qty_stk', '!=', 0)
+            ->orderBy('qty_stk', 'asc')
+            ->get();
         return $value;
     }
 
     public static function getItemPartListData()
     {
+
         $value = DB::select("SELECT * FROM lcst_temp");
         return $value;
     }
@@ -175,7 +183,7 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
-    
+
     public static function getMesMfrList()
     {
         $value = DB::select("SELECT * ,datediff(`dat_rrtn`,now()) as date_gap FROM `mfr05` WHERE `cls_brow` <> 6  ORDER BY `dat_brow` DESC");
