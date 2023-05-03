@@ -152,9 +152,9 @@ class MesModelList extends Authenticatable
     public static function getMonProductionListAjax($type, $date)
     {
         if ($type == 'launchDate') {
-            $value = DB::select("SELECT * FROM order_this_month WHERE dat_begs LIKE '$date%' ORDER BY dat_begs ASC");
-        } else {
             $value = DB::select("SELECT * FROM order_this_month WHERE dat_bega LIKE '$date%' ORDER BY dat_bega ASC");
+        } else {
+            $value = DB::select("SELECT * FROM order_this_month WHERE dat_ends LIKE '$date%' ORDER BY dat_ends ASC");
         }
         return $value;
     }
