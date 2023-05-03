@@ -154,3 +154,51 @@ public static function getItemListData1()
         return $value;
     }
 }
+
+
+SELECT POLN.QTY_REQ ,           POLN.NUM_LINE ,           POLN.STS_LINE ,           POLN.COD_ITEMO ,           POLN.TYP_POLN ,           POLN.DAT_DELS ,           POLN.COD_ITEM ,           POLN.NUM_SALM,           POLN.LIN_SALG,           ITEM.CLS_PROD ,           ITEM.NAM_ITEM,           POHD.COD_CUST ,           POHD.NUM_PO ,           POHD.DAT_RFF ,           POHD.COD_EMPIN ,           POHD.COD_EMPSL ,           POHD.NUM_RFF ,           POHD.COD_DPT ,           POLN.QTY_DEL ,           POHD.DAT_KEYIN ,           POHD.DAT_TRN ,           POLN.MNY_UNIT ,           POHD.NUM_CNTL ,           POHD.POS_DEL ,           POLN.MNY_AMT ,           POLN.QTY_ATTN ,           POHD.REMARK ,           POLN.NUM_CASE ,           ITEM.NAM_ITEM ,           CUST.NAM_CUSTS ,           POHD.DAT_PO ,           POHD.COD_CONF ,           POHD.DAT_CONF ,           POHD.TIM_CONF ,           POHD.TYP_POHD,           POLN.QTY_REQD ,           POLN.QTY_CLDS ,           POLN.DAT_REQD ,           POLN.TYP_CLOSE,           POLN.PS1,           POLN.PS2,           POLN.EMP_REQD,           POHD.COD_DOLA,           POLN.COD_ANS,           POLN.COD_SIT,           POLN.CLS_ARMM,           POHD.NUM_RFF,           pohd.emp_trn,           poln.cod_unit,           pohd.tax_type,           pohd.rff_rate,           pohd.num_qut,           pohd.ser_qut,           poln.num_cstm,           poln.lin_cstm,           '' unit1,           0 qty1,           0 mny_unit1,           '' unit2,           0 qty2,           0 mny_unit2,           '' unit3,           0 qty3,           0 mny_unit3      FROM ITEM,           POLN,           POHD,           CUST     WHERE ( POHD.COD_CUST  = POLN.COD_CUST  ) and           ( POHD.NUM_PO  = POLN.NUM_PO  ) and           ( ITEM.COD_ITEM  = POLN.COD_ITEM  ) and           ( POHD.COD_CUST  = CUST.COD_CUST  )   
+
+
+
+select 
+POPS.NUM_PS,
+ITEM.NAM_ITEM,
+POPS.COD_ITEM,
+CLDS.DAT_BEGS,
+CLDS.DAT_BEGA,
+(TO_DATE(CLDS.DAT_BEGA, 'YYYYMMDD') - TO_DATE(CLDS.DAT_BEGS, 'YYYYMMDD')) AS DATA_GAP,
+CLDS.QTY_PCS,
+CLDS.STS_PCS,
+POPS.NUM_PO,
+POLN.STS_LINE,
+FROM CLDS
+LEFT JOIN 
+POPS.NUM_PS = CLDS.NUM_PS
+ITEM.COD_ITEM  = POP.COD_ITEM
+POPS.NUM_PO  = POLN.NUM_PO & ITEM.COD_ITEM  = POLN.COD_ITEM 
+
+SELECT 
+    POPS.NUM_PS,    
+    ITEM.NAM_ITEM AS NAM_ITEMS,
+    POPS.COD_ITEM,
+    CLDS.DAT_BEGS,
+    CLDS.DAT_BEGA,
+    (TO_DATE(CLDS.DAT_BEGA, 'YYYYMMDD') - TO_DATE(CLDS.DAT_BEGS, 'YYYYMMDD')) AS DATA_GAP,
+    CLDS.QTY_PCS,
+    CLDS.DAT_ENDS,
+    CLDS.STS_PCS,
+    CLDS.REMARK,
+    CLDS.REMARK2,
+    POPS.NUM_PO,
+    POLN.STS_LINE,
+    CLDS.PS6,
+    CLDS.PS5
+FROM CLDS
+LEFT JOIN POPS
+    ON CLDS.NUM_PS = POPS.NUM_PS
+LEFT JOIN ITEM
+ON ITEM.COD_ITEM  = POPS.COD_ITEM
+LEFT JOIN POLN
+ON POPS.NUM_PO  = POLN.NUM_PO AND ITEM.COD_ITEM  = POLN.COD_ITEM 
+WHERE  POPS.NUM_PS IS NOT NULL AND POPS.NUM_PS != '(Null)' AND CLDS.DAT_BEGS > '20220930'
+ORDER BY CLDS.DAT_BEGS ASC

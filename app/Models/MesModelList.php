@@ -19,54 +19,51 @@ class MesModelList extends Authenticatable
         //原SQL語法使用了GROUP BY子句，它將結果集中的行分組，每個組僅顯示一行。但是，它將不同版本的fw_index視為不同的組，因此可能會遺漏某些版本的fw_index。
         //新版的GROUP BY是要求查詢都必須放進去，才能執行
         //調整後如下，順利執行
-        $value = DB::select("SELECT 
-                    fw_index.customer,
-                    item_temp.COD_ITEM,
-                    item_temp.DSC_ITEM,
-                    item_temp.NAM_ITEM,
-                    item_temp.DAT_FILE,
-                    item_temp.DAT_USET,
-                    item_temp.DAT_SALED,
-                    eol_list.official_website2,
-                    fw_index.version,
-                    fw_index.file_app_url,
-                    eol_list.model,
-                    tb_product.`is_enable`,
-                    tb_product.`urlTag`,
-                    tb_product.`fileGroup` 
-                FROM 
-                    item_temp 
-                LEFT JOIN 
-                    (
-                        SELECT 
-                            tmp1.model_name, 
-                            tmp1.fw_id, 
-                            tmp1.customer, 
-                            tmp1.version, 
-                            tmp1.file_app_url 
-                        FROM 
-                            fw_index tmp1, 
-                            (
-                                SELECT 
-                                    model_name, 
-                                    MAX(fw_id) AS fw_id 
-                                FROM 
-                                    fw_index 
-                                GROUP BY 
-                                    model_name
-                            ) tmp2 
-                        WHERE 
-                            tmp1.model_name = tmp2.model_name 
-                            AND tmp1.fw_id = tmp2.fw_id 
-                    ) AS fw_index ON item_temp.COD_ITEM = fw_index.model_name 
-                LEFT JOIN 
-                    eol_list ON item_temp.COD_ITEM = eol_list.model 
-                LEFT JOIN 
-                    tb_product ON item_temp.COD_ITEM = tb_product.urlTag 
-                GROUP BY 
-                    item_temp.COD_ITEM 
-                ORDER BY 
-                    `fw_index`.`fw_id` DESC
+        $value = DB::select("SELECT
+        fw_index.customer,
+        item_temp.COD_ITEM,
+        item_temp.DSC_ITEM,
+        item_temp.NAM_ITEM,
+        item_temp.DAT_FILE,
+        item_temp.DAT_USET,
+        item_temp.DAT_SALED,
+        eol_list.official_website2,
+        fw_index.version,
+        fw_index.file_app_url,
+        eol_list.model,
+        tb_product.is_enable,
+        tb_product.urlTag,
+        tb_product.fileGroup
+    FROM
+        item_temp
+    LEFT JOIN (
+        SELECT
+            tmp1.model_name,
+            tmp1.fw_id,
+            tmp1.customer,
+            tmp1.version,
+            tmp1.file_app_url
+        FROM
+            fw_index tmp1,
+            (
+                SELECT
+                    model_name,
+                    MAX(fw_id) AS fw_id
+                FROM
+                    fw_index
+                GROUP BY
+                    model_name
+            ) tmp2
+        WHERE
+            tmp1.model_name = tmp2.model_name
+            AND tmp1.fw_id = tmp2.fw_id
+    ) AS fw_index ON item_temp.COD_ITEM = fw_index.model_name
+    LEFT JOIN eol_list ON item_temp.COD_ITEM = eol_list.model
+    LEFT JOIN tb_product ON item_temp.COD_ITEM = tb_product.urlTag
+    GROUP BY
+        item_temp.COD_ITEM
+    ORDER BY
+        fw_index.fw_id DESC
                 ");
         return $value;
     }

@@ -233,7 +233,11 @@
                                 return '<span style="color:red">' + data + '</span>';
                             }
                         case 11:
-                            return '<span style="color:#EE7700">' + data + '</span>';
+                            if (data === null) {
+                                return "";
+                            }else{
+                                return '<span style="color:#EE7700">' + data + '</span>';
+                            }
                         case 12:
                             if (data <= formattedDate) {
                                 return '<span style="color:red">' + data + '</span>';
@@ -285,14 +289,11 @@
                                 return data
                             }
                         case 15:
-                            var ecn = "ECN"
-                            if (data.indexOf(ecn) !== -1 ) {
-                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/' +data +'.pdf" target="_blank">' +data
-            
-                                
-                            } else{
-                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' +data +'.pdf" target="_blank">' +data                            }
-               
+                            if (data === null) {
+                                return '';
+                            }else {
+                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' +data +'.pdf" target="_blank">' +data        
+                            }
                         default:
                             return data;
                     }
