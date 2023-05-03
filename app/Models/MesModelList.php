@@ -136,7 +136,7 @@ class MesModelList extends Authenticatable
             ->get();
         return $value;
     }
-   
+
     public static function getKickoffListData()
     {
         $value = DB::select("SELECT * FROM `kickoff` where upload_date ='2022-10-07' order by kickoff_No desc");
@@ -168,7 +168,7 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
-    public static function getHistoryProductionQuantity()
+    public static function getHistoryProductionQuantity2()
     {
         $value = DB::select("SELECT `CLDS_COD_ITEM`,
         SUM(`QTY_PCS`) AS `TOTAL`,
@@ -180,6 +180,13 @@ class MesModelList extends Authenticatable
         FROM `ship`
         WHERE `CLDS_COD_ITEM` REGEXP '^(UFG|XHG|ZFR|UHG|ZHR|SG|SR|ZR|ZSR|Z2R|P2R|P2G|MR|MG|MD|ZMR|IPR|IPD|IPG|ZG|LB|LD|LR|FR|IPC|DB|PSR|IPS|Z5R|P5R|P5G|Z3R|P3R|P3G|PZD|VK|VN|AiP|CAM|CB|CC-|CG|CK|CM|DHD|DVR|ED|EL|ER|ES|EVR|EZ|F2R|FD|HL|IRS|NVR|PIH|AH|NAV|PS|NCS|AR2015E|ARR2010E|DB052E|AC1082|ACW1012|ARM5|PMH-PSU330|UHR|OM|PSW|AE-|P4|YK-|YC-|SV-|S7R|Z7R|P4R|36-|S8R|E5R|010-|DS-|BT|PRH|SD|KYW|NTS|P3C|BCR|P6R|VD022|Z6R|AH55|TV-)'
         GROUP BY `CLDS_COD_ITEM`");
+        return $value;
+    }
+    public static function getHistoryProductionQuantity()
+    {
+        $value = DB::table('mes_historical_oroduct_output')
+            ->orderBy('COD_ITEM', 'asc')
+            ->get();
         return $value;
     }
 

@@ -39,7 +39,7 @@
                                             @foreach ($MesCutsQuery as $ListData)
                                             <tr>  
                                                 <td>{{$ListData->COD_CUST}}</td>
-                                                <td>{{$ListData->NAM_CUSTS}}</td>
+                                                <td>{{$ListData->NAM_CUST}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

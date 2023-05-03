@@ -45,13 +45,13 @@
                                         <tr>
                                             <td>
                                                 <div>
-                                                    <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_resumemodel.php?={{$ListData->CLDS_COD_ITEM}}" target="_blank">{{$ListData->CLDS_COD_ITEM}}
+                                                    <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_resumemodel.php?={{$ListData->COD_ITEM}}" target="_blank">{{$ListData->COD_ITEM}}
                                                 </div>
                                             </td>                                      
-                                            <td>{{$ListData->MIN_NAM_ITEM}}</td>
-                                            <td>{{$ListData->mintime}}</td>
-                                            <td>{{$ListData->maxtime}}</td>
-                                            <td>{{$ListData->TOTAL}}</td>
+                                            <td>{{$ListData->NAM_ITEM}}</td>
+                                            <td>{{$ListData->MIN_CLDS_DAT_BEGA}}</td>
+                                            <td>{{$ListData->MAX_CLDS_DAT_BEGA}}</td>
+                                            <td>{{$ListData->SUM_CLDS_QTY_PCS}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

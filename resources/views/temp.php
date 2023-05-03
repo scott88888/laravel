@@ -1,204 +1,125 @@
-'{NUM_PS}',
-'{NUM_ORD}','{REMARK2}','{REMARK3}','{DAT_BEGS}','{DAT_BEGA}','{CLDS_COD_ITEM}','{QTY_PCS}','{NUM_PROD}','{SEQ_COMQ}','{SEQ_MITEM}','{COD_MITEM}','{PS1}','{PS2}','{PS3}','{SEQ_NO}','{COMPQ_COD_ITEM}','{SEQ_ITEM}','{PS4}','{PS5}','{PS6}','{NUM_RFF}','{NUM_REDO}','{LINE_PROD}','{DAT_DEL}','{PRODKEY}'
-
-
-
-NUM_PS = oracleReader["num_ps"].ToString();
-
-NUM_PS = oracleReader["NUM_PS"].ToString();
-NUM_ORD = oracleReader["NUM_ORD"].ToString();
-REMARK2 = oracleReader["REMARK2"].ToString();
-REMARK3 = oracleReader["REMARK3"].ToString();
-DAT_BEGS = oracleReader["DAT_BEGS"].ToString();
-DAT_BEGA = oracleReader["DAT_BEGA"].ToString();
-CLDS_COD_ITEM = oracleReader["CLDS_COD_ITEM"].ToString();
-QTY_PCS = oracleReader["QTY_PCS"].ToString();
-NUM_PROD = oracleReader["NUM_PROD"].ToString();
-SEQ_COMQ = oracleReader["SEQ_COMQ"].ToString();
-SEQ_MITEM = oracleReader["SEQ_MITEM"].ToString();
-COD_MITEM = oracleReader["COD_MITEM"].ToString();
-PS1 = oracleReader["PS1"].ToString();
-PS2 = oracleReader["PS2"].ToString();
-PS3 = oracleReader["PS3"].ToString();
-SEQ_NO = oracleReader["SEQ_NO"].ToString();
-COMPQ_COD_ITEM = oracleReader["COMPQ_COD_ITEM"].ToString();
-SEQ_ITEM = oracleReader["SEQ_ITEM"].ToString();
-PS4 = oracleReader["PS4"].ToString();
-PS5 = oracleReader["PS5"].ToString();
-PS6 = oracleReader["PS6"].ToString();
-NUM_RFF = oracleReader["NUM_RFF"].ToString();
-NUM_REDO = oracleReader["NUM_REDO"].ToString();
-LINE_PROD = oracleReader["LINE_PROD"].ToString();
-DAT_DEL = oracleReader["DAT_DEL"].ToString();
-PRODKEY = oracleReader["PRODKEY"].ToString();
-
-
-
-string insertSql = $"INSERT INTO MAC_QUERY (NUM_PS,NUM_ORD,REMARK2,REMARK3,DAT_BEGS,DAT_BEGA,CLDS_COD_ITEM,QTY_PCS,NUM_PROD,SEQ_COMQ,SEQ_MITEM,COD_MITEM,PS1,PS2,PS3,SEQ_NO,COMPQ_COD_ITEM,SEQ_ITEM,PS4,PS5,PS6,NUM_RFF,NUM_REDO,LINE_PROD,DAT_DEL,PRODKEY) VALUES ('{NUM_PS}','{NUM_ORD}','{REMARK2}','{REMARK3}','{DAT_BEGS}','{DAT_BEGA}','{CLDS_COD_ITEM}','{QTY_PCS}','{NUM_PROD}','{SEQ_COMQ}','{SEQ_MITEM}','{COD_MITEM}','{PS1}','{PS2}','{PS3}','{SEQ_NO}','{COMPQ_COD_ITEM}','{SEQ_ITEM}','{PS4}','{PS5}','{PS6}','{NUM_RFF}','{NUM_REDO}','{LINE_PROD}','{DAT_DEL}','{PRODKEY}')";
-
-
-
-INSERT INTO MAC_QUERY (NUM_PS,
-NUM_ORD,
-REMARK2,
-REMARK3,
-DAT_BEGS,
-DAT_BEGA,
-CLDS_COD_ITEM,
-QTY_PCS,
-NUM_PROD,
-SEQ_COMQ,
-SEQ_MITEM,
-COD_MITEM,
-PS1,
-PS2,
-PS3,
-SEQ_NO,
-COMPQ_COD_ITEM,
-SEQ_ITEM,
-PS4,
-PS5,
-PS6,
-NUM_RFF,
-NUM_REDO,
-LINE_PROD,
-DAT_DEL,
-PRODKEY) VALUES 
-('AA230412003'
-,'AA230412003'
-,'重工/美國參展'
-,'0801'
-'20230412'
-''
-'S8D4654EX30'
-'2'
-'AA230412003001'
-'000001'
-'2210004739'
-'S8D4654EX30'
-'AA2304120030001'
-''
-'N'
-'001'
-'S8D4654EX30'
-'2210004739'
-''
-'CAM:3.23IP 12.1.001.4120\r\n'
-''
-''
-''
-''
-''
-'')
-
-
+              
 SELECT 
-        cod_item,nam_item,dsc_allc,dsc_alle,cod_loc,qty_stk,ser_pcs, eol_list.official_website2 
-        FROM `lcst` 
-      
-        where cod_item not REGEXP '^[0-9]' and cod_loc ='GO-001' or cod_loc ='WO-003' or cod_loc ='LL-000'
-
-
-        SELECT 
-        cod_item,nam_item,dsc_allc,cod_loc,qty_stk,
-        FROM `lcst`       
-        where cod_loc ='AO-111' or cod_loc ='  GO-001' or cod_loc ='GO-003' or cod_loc ='LL-000' or cod_loc ='WO-003'
-
-
-        AO-111
-        GO-001
-        GO-003
-        LL-000
-        WO-003
-
-
-        SELECT * 
-        FROM lcst_temp
-WHERE (cod_loc ='AO-111' or cod_loc ='  GO-001' or cod_loc ='GO-003' or cod_loc ='LL-000' or cod_loc ='WO-003') AND qty_stk > 0
-
-
-
-SELECT  
-lcst.cod_item,
-lcst.cid_loc,
-lcst.unt_stk,
-lcst.qty_stk,
-item.cod_item,
-item.nam_item,
-item.dsc_item
-from lcst
-left join item on lcst.cod_item = item.cod_item,
-where lcst.cod_item not REGEXP '^[0-9]' and lcst.cod_loc ='GO-001' or lcst.cod_loc ='WO-003' or lcst.cod_loc ='LL-000'
-
-
-調整 mes_lcst_item 為成品  不含 cod_loc ='AO-111'
-調整 mes_lcst_XXX 為料件 cod_loc ='AO-111'
-
-
-
-class MesModelList extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
-public static function getItemListData1()
-    {
-        
-        // $value = DB::select("SELECT * FROM lcst");
-        $value = MesModelList::orderBy('qty_stk', 'asc')->get();
-        return $value;
-    }
-    public static function getItemListData2()
-    {
-        
-        // $value = DB::select("SELECT * FROM lcst");
-        $value = MesModelList::orderBy('qty_stk', 'asc')->get();
-        return $value;
-    }
-}
-
-
-SELECT POLN.QTY_REQ ,           POLN.NUM_LINE ,           POLN.STS_LINE ,           POLN.COD_ITEMO ,           POLN.TYP_POLN ,           POLN.DAT_DELS ,           POLN.COD_ITEM ,           POLN.NUM_SALM,           POLN.LIN_SALG,           ITEM.CLS_PROD ,           ITEM.NAM_ITEM,           POHD.COD_CUST ,           POHD.NUM_PO ,           POHD.DAT_RFF ,           POHD.COD_EMPIN ,           POHD.COD_EMPSL ,           POHD.NUM_RFF ,           POHD.COD_DPT ,           POLN.QTY_DEL ,           POHD.DAT_KEYIN ,           POHD.DAT_TRN ,           POLN.MNY_UNIT ,           POHD.NUM_CNTL ,           POHD.POS_DEL ,           POLN.MNY_AMT ,           POLN.QTY_ATTN ,           POHD.REMARK ,           POLN.NUM_CASE ,           ITEM.NAM_ITEM ,           CUST.NAM_CUSTS ,           POHD.DAT_PO ,           POHD.COD_CONF ,           POHD.DAT_CONF ,           POHD.TIM_CONF ,           POHD.TYP_POHD,           POLN.QTY_REQD ,           POLN.QTY_CLDS ,           POLN.DAT_REQD ,           POLN.TYP_CLOSE,           POLN.PS1,           POLN.PS2,           POLN.EMP_REQD,           POHD.COD_DOLA,           POLN.COD_ANS,           POLN.COD_SIT,           POLN.CLS_ARMM,           POHD.NUM_RFF,           pohd.emp_trn,           poln.cod_unit,           pohd.tax_type,           pohd.rff_rate,           pohd.num_qut,           pohd.ser_qut,           poln.num_cstm,           poln.lin_cstm,           '' unit1,           0 qty1,           0 mny_unit1,           '' unit2,           0 qty2,           0 mny_unit2,           '' unit3,           0 qty3,           0 mny_unit3      FROM ITEM,           POLN,           POHD,           CUST     WHERE ( POHD.COD_CUST  = POLN.COD_CUST  ) and           ( POHD.NUM_PO  = POLN.NUM_PO  ) and           ( ITEM.COD_ITEM  = POLN.COD_ITEM  ) and           ( POHD.COD_CUST  = CUST.COD_CUST  )   
-
-
-
-select 
-POPS.NUM_PS,
-ITEM.NAM_ITEM,
-POPS.COD_ITEM,
-CLDS.DAT_BEGS,
-CLDS.DAT_BEGA,
-(TO_DATE(CLDS.DAT_BEGA, 'YYYYMMDD') - TO_DATE(CLDS.DAT_BEGS, 'YYYYMMDD')) AS DATA_GAP,
-CLDS.QTY_PCS,
-CLDS.STS_PCS,
-POPS.NUM_PO,
-POLN.STS_LINE,
-FROM CLDS
-LEFT JOIN 
-POPS.NUM_PS = CLDS.NUM_PS
-ITEM.COD_ITEM  = POP.COD_ITEM
-POPS.NUM_PO  = POLN.NUM_PO & ITEM.COD_ITEM  = POLN.COD_ITEM 
-
-SELECT 
-    POPS.NUM_PS,    
-    ITEM.NAM_ITEM AS NAM_ITEMS,
-    POPS.COD_ITEM,
-    CLDS.DAT_BEGS,
-    CLDS.DAT_BEGA,
-    (TO_DATE(CLDS.DAT_BEGA, 'YYYYMMDD') - TO_DATE(CLDS.DAT_BEGS, 'YYYYMMDD')) AS DATA_GAP,
-    CLDS.QTY_PCS,
-    CLDS.DAT_ENDS,
-    CLDS.STS_PCS,
-    CLDS.REMARK,
-    CLDS.REMARK2,
-    POPS.NUM_PO,
-    POLN.STS_LINE,
-    CLDS.PS6,
-    CLDS.PS5
-FROM CLDS
-LEFT JOIN POPS
-    ON CLDS.NUM_PS = POPS.NUM_PS
-LEFT JOIN ITEM
-ON ITEM.COD_ITEM  = POPS.COD_ITEM
-LEFT JOIN POLN
-ON POPS.NUM_PO  = POLN.NUM_PO AND ITEM.COD_ITEM  = POLN.COD_ITEM 
-WHERE  POPS.NUM_PS IS NOT NULL AND POPS.NUM_PS != '(Null)' AND CLDS.DAT_BEGS > '20220930'
-ORDER BY CLDS.DAT_BEGS ASC
+    c.COD_ITEM, 
+    c.TOTAL, 
+    c.A, 
+    c.B, 
+    i.NAM_ITEM, 
+    m.minDELtime, 
+    m.maxDELtime
+FROM (
+    SELECT 
+        CLDS.COD_ITEM, 
+        SUM(CLDS.QTY_PCS) AS TOTAL, 
+        MAX(CLDS.DAT_BEGA) AS MAX_CLDS_DAT_BEGA, 
+        MIN(CLDS.DAT_BEGA) AS MIN_CLDS_DAT_BEGA, 
+    FROM CLDS
+    WHERE CLDS.COD_ITEM like 'UFG%'
+    or CLDS.COD_ITEM like 'XHG%'
+    or CLDS.COD_ITEM like 'ZFR%'
+    or CLDS.COD_ITEM like 'UHG%'
+    or CLDS.COD_ITEM like 'ZHR%'
+    or CLDS.COD_ITEM like 'SG%'
+    or CLDS.COD_ITEM like 'SR%'
+    or CLDS.COD_ITEM like 'ZR%'
+    or CLDS.COD_ITEM like 'ZSR%'
+    or CLDS.COD_ITEM like 'Z2R%'
+    or CLDS.COD_ITEM like 'P2R%'
+    or CLDS.COD_ITEM like 'P2G%'
+    or CLDS.COD_ITEM like 'MR%'
+    or CLDS.COD_ITEM like 'MG%'
+    or CLDS.COD_ITEM like 'MD%'
+    or CLDS.COD_ITEM like 'ZMR%'
+    or CLDS.COD_ITEM like 'IPR%'
+    or CLDS.COD_ITEM like 'IPD%'
+    or CLDS.COD_ITEM like 'IPG%'
+    or CLDS.COD_ITEM like 'ZG%'
+    or CLDS.COD_ITEM like 'LB%'
+    or CLDS.COD_ITEM like 'LD%'
+    or CLDS.COD_ITEM like 'LR%'
+    or CLDS.COD_ITEM like 'FR%'
+    or CLDS.COD_ITEM like 'IPC%'
+    or CLDS.COD_ITEM like 'DB%'
+    or CLDS.COD_ITEM like 'PSR%'
+    or CLDS.COD_ITEM like 'IPS%'
+    or CLDS.COD_ITEM like 'Z5R%'
+    or CLDS.COD_ITEM like 'P5R%'
+    or CLDS.COD_ITEM like 'P5G%'
+    or CLDS.COD_ITEM like 'Z3R%'
+    or CLDS.COD_ITEM like 'P3R%'
+    or CLDS.COD_ITEM like 'P3G%'
+    or CLDS.COD_ITEM like 'PZD%'
+    or CLDS.COD_ITEM like 'VK%'
+    or CLDS.COD_ITEM like 'VN%'
+    or CLDS.COD_ITEM like 'AiP%'
+    or CLDS.COD_ITEM like 'CAM%'
+    or CLDS.COD_ITEM like 'CB%'
+    or CLDS.COD_ITEM like 'CC-%'
+    or CLDS.COD_ITEM like 'CG%'
+    or CLDS.COD_ITEM like 'CK%'
+    or CLDS.COD_ITEM like 'CM%'
+    or CLDS.COD_ITEM like 'DHD%'
+    or CLDS.COD_ITEM like 'DVR%'
+    or CLDS.COD_ITEM like 'ED%'
+    or CLDS.COD_ITEM like 'EL%'
+    or CLDS.COD_ITEM like 'ER%'
+    or CLDS.COD_ITEM like 'ES%'
+    or CLDS.COD_ITEM like 'EVR%'
+    or CLDS.COD_ITEM like 'EZ%'
+    or CLDS.COD_ITEM like 'F2R%'
+    or CLDS.COD_ITEM like 'FD%'
+    or CLDS.COD_ITEM like 'FR%'
+    or CLDS.COD_ITEM like 'HL%'
+    or CLDS.COD_ITEM like 'IRS%'
+    or CLDS.COD_ITEM like 'NVR%'
+    or CLDS.COD_ITEM like 'PIH%'
+    or CLDS.COD_ITEM like 'AH%'
+    or CLDS.COD_ITEM like 'NAV%'
+    or CLDS.COD_ITEM like 'PS%'
+    or CLDS.COD_ITEM like 'NCS%'                         
+    or CLDS.COD_ITEM like 'AR2015E%'
+    or CLDS.COD_ITEM like 'ARR2010E%'
+    or CLDS.COD_ITEM like 'DB052E%'
+    or CLDS.COD_ITEM like 'AC1082%'
+    or CLDS.COD_ITEM like 'ACW1012%'
+    or CLDS.COD_ITEM like 'ARM5%'
+    or CLDS.COD_ITEM like 'PMH-PSU330%'    
+    or CLDS.COD_ITEM like 'UHR%'
+    or CLDS.COD_ITEM like 'OM%'
+    or CLDS.COD_ITEM like 'PSW%'
+    or CLDS.COD_ITEM like 'AE-%'
+    or CLDS.COD_ITEM like 'P4%'
+    or CLDS.COD_ITEM like 'YK-%'
+    or CLDS.COD_ITEM like 'YC-%'
+    or CLDS.COD_ITEM like 'SV-%'
+    or CLDS.COD_ITEM like 'S7R%'
+    or CLDS.COD_ITEM like 'Z7R%'
+    or CLDS.COD_ITEM like 'P4R%'
+    or CLDS.COD_ITEM like '36-%'
+    or CLDS.COD_ITEM like 'S8R%'
+    or CLDS.COD_ITEM like 'E5R%'
+    or CLDS.COD_ITEM like '010-%'
+    or CLDS.COD_ITEM like 'DS-%'
+    or CLDS.COD_ITEM like 'BT%'
+    or CLDS.COD_ITEM like 'PRH%'
+    or CLDS.COD_ITEM like 'SD%'
+    or CLDS.COD_ITEM like 'KYW%'
+    or CLDS.COD_ITEM like 'NTS%'
+    or CLDS.COD_ITEM like 'P3C%'
+    or CLDS.COD_ITEM like 'BCR%'
+    or CLDS.COD_ITEM like 'P6R%'
+    or CLDS.COD_ITEM like 'VD022%'
+    or CLDS.COD_ITEM like 'Z6R%'
+    or CLDS.COD_ITEM like 'AH55%'
+    or CLDS.COD_ITEM like 'TV-%' 
+    GROUP BY CLDS.COD_ITEM
+) c
+LEFT JOIN ITEM i ON c.COD_ITEM = i.COD_ITEM
+LEFT JOIN (
+    SELECT 
+        COD_ITEM, 
+        MIN(DAT_DEL) AS minDELtime, 
+        MAX(DAT_DEL) AS maxDELtime
+    FROM MSEQ
+    GROUP BY COD_ITEM
+) m ON c.COD_ITEM = m.COD_ITEM;
