@@ -179,8 +179,8 @@ class MesController extends BaseController
         // 獲取資料
         $MesRunCardList = MesModelList::getRunCardList($first_day, $last_day);
 
-        if ($date && $lastyear && $MesRunCardList) {
-            return view('mesRunCardList', compact('date', 'lastyear', 'MesRunCardList'));
+        if ($date && $lastyear) {
+            return view('mesRunCardList', compact('date', 'lastyear'));
         }
     }
 

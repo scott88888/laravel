@@ -285,13 +285,11 @@
                                 return data
                             }
                         case 15:
-                            var ecn = "ECN"
-                            if (data.indexOf(ecn) !== -1 ) {
-                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/' +data +'.pdf" target="_blank">' +data
-            
-                                
-                            } else{
-                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' +data +'.pdf" target="_blank">' +data                            }
+                            if (data === null) {
+                                return '';
+                            }else {
+                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' +data +'.pdf" target="_blank">' +data        
+                            }                               
                
                         default:
                             return data;
