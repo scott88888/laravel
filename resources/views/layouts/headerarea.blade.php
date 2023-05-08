@@ -40,8 +40,11 @@
                             <img class="avatar user-thumb" src="{{asset('images/author/avatar.png')}}" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown">name <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
-
-                                <a class="dropdown-item" href="#">Log Out</a>
+                                <form method="POST" class="dropdown-item" action="{{ route('logout') }}" x-data>
+                                    @csrf
+                                    <button type="submit" class="btn btn-rounded btn-primary mb-3">{{ __('Log Out') }}</button>
+                                   
+                                </form>
                             </div>
                         </div>
                     </div>

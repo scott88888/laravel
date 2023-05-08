@@ -4,11 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MesController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Middleware\AuthenticateMiddleware;
 
 //login
 Route::match(['get', 'post'], '/login2', [LoginController::class, 'login2']);
-Route::match(['get', 'post'], '/login', [LoginController::class, 'authenticate'])->name('login');
+
 
 //Dashboard
 Route::match(['get', 'post'], '/index', [DashboardController::class, 'dashboardLeader']);
@@ -47,3 +46,16 @@ Route::match(['get', 'post'], '/mesRMAListAjax', [MesController::class, 'mesRMAL
 Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
 Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+Route::get('/', function () {
+    return redirect()->route('login');
+})->middleware('guest');
