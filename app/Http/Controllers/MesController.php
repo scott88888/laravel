@@ -32,6 +32,7 @@ class MesController extends BaseController
     {
         //獲取資料
         $MesModelList = MesModelList::getModelListData();
+      
         if ($MesModelList) {
             return view('mesModelList', ['MesModelList' => $MesModelList]);
         }
@@ -296,6 +297,7 @@ class MesController extends BaseController
 
     public function mesBuyDelay()
     {
+        
         return view('mesBuyDelay');
     }
 
@@ -308,6 +310,8 @@ class MesController extends BaseController
         } else {
             return response()->json('nodata');
         }
+
+
     }
 
     public function mesECNList(Request $request)

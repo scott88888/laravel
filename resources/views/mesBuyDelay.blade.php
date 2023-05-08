@@ -66,20 +66,20 @@
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
-                                                <th>dat_buy</th>
-                                                <th>num_buy</th>
-                                                <th>nam_facts</th>
-                                                <th>dat_req</th>
-                                                <th>dat_por</th>
-                                                <th>date_gap</th>
-                                                <th>cod_item</th>
-                                                <th>unt_buy</th>
-                                                <th>qty_buy</th>
-                                                <th>qty_del</th>
-                                                <th>qty_back</th>
-                                                <th>qq</th>
-                                                <th>nam_items</th>
-                                                <th>dat_need</th>
+                                                <th>DAT_BUY</th>
+                                                <th>NUM_BUY</th>
+                                                <th>NAM_FACT</th>
+                                                <th>DAT_REQ</th>
+                                                <th>DAT_POR</th>
+                                                <th>DIFF_DAYS</th>
+                                                <th>COD_ITEM</th>
+                                                <th>UNT_BUY</th>
+                                                <th>QTY_BUY</th>
+                                                <th>QTY_DEL</th>
+                                                <th>QTY_BACK</th>
+                                                <th>UN_QTY</th>
+                                                <th>NAM_ITEM</th>
+                                                <th>DAT_NEED</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -122,46 +122,46 @@
         var table = $('#ListData').DataTable({
 
             columns: [{
-                "data": "dat_buy",
+                "data": "DAT_BUY",
                 "title": "採購日期"
             }, {
-                "data": "num_buy",
+                "data": "NUM_BUY",
                 "title": "採購單號"
             }, {
-                "data": "nam_facts",
+                "data": "NAM_FACT",
                 "title": "廠商"
             }, {
-                "data": "dat_req",
+                "data": "DAT_REQ",
                 "title": "預定到貨日"
             }, {
-                "data": "dat_por",
+                "data": "DAT_POR",
                 "title": "廠商回覆交期"
             }, {
-                "data": "date_gap",
+                "data": "DIFF_DAYS",
                 "title": "逾期天數"
             }, {
-                "data": "cod_item",
+                "data": "COD_ITEM",
                 "title": "料號"
             }, {
-                "data": "unt_buy",
+                "data": "UNT_BUY",
                 "title": "單位"
             }, {
-                "data": "qty_buy",
+                "data": "QTY_BUY",
                 "title": "數量"
             }, {
-                "data": "qty_del",
+                "data": "QTY_DEL",
                 "title": "已交數量"
             }, {
-                "data": "qty_back",
+                "data": "QTY_BACK",
                 "title": "退貨數"
             }, {
-                "data": "qq",
+                "data": "UN_QTY",
                 "title": "未交數量"
             }, {
-                "data": "nam_items",
+                "data": "NAM_ITEM",
                 "title": "產品名稱"
             }, {
-                "data": "dat_need",
+                "data": "DAT_NEED",
                 "title": "需求日"
             }, ],
             columnDefs: [{
@@ -201,7 +201,7 @@
                     // 將回應資料加入表格
                     table.rows.add(response);
                     // 重新繪製表格
-                    table.draw();
+                    table.order([0, 'desc']).draw();
                     $('#loading').hide();
                     // 處理 AJAX 請求成功後的回應
                     console.log(response);

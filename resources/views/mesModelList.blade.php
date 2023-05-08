@@ -47,49 +47,32 @@
                                             @foreach ($MesModelList as $ListData)
                                             <tr>
                                                 <td>
-                                                    @if ($ListData->customer === 'NoBrand' && app()->getLocale() ==='zh_TW')
-                                                    白牌
-                                                    @else
-                                                    {{$ListData->customer}}
-                                                    @endif
-                                                </td>
-                                                <td text-align="center" valign="center">
-                                                    @if ($ListData->is_enable != null & $ListData->urlTag != null & $ListData->fileGroup !=null)
-                                                    <div style="width:30%">
-                                                        <img src="{{ asset('images/icon/lilin.png') }}">
-                                                    </div>
-                                                    @endif
+                                               
                                                 </td>
                                                 <td>
-                                                    @if ($ListData->is_enable != null & $ListData->urlTag != null & $ListData->fileGroup !=null)
+                                               
+                                                </td>
+                                                <td>                                                   
                                                     <div>
                                                         <a href="https://www.meritlilin.com/index.php/tw/product/{{$ListData->COD_ITEM}}" target="_blank">{{$ListData->COD_ITEM}}
-                                                    </div>
-                                                    @endif
+                                                    </div>                                                   
                                                 </td>
                                                 <td>{{$ListData->DSC_ITEM}}</td>
                                                 <td>{{$ListData->NAM_ITEM}}</td>
                                                 <td>{{$ListData->DAT_FILE}}</td>
                                                 <td>{{$ListData->DAT_USET}}</td>
                                                 <td>{{$ListData->DAT_SALED}}</td>
-                                                <td>
-                                                    <!-- EOL-22-0005 用這個型號測試 -->
-                                                    @if ($ListData->official_website2 ==='EOL')
-                                                    {{$ListData->official_website2}}
-                                                    @else
+                                                <td>   
                                                     <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/EOL/{{$ListData->official_website2}}.pdf" target="_blank">{{$ListData->official_website2}}
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/EOL/{{$ListData->DSC_ITEM_EOL}}.pdf" target="_blank">{{$ListData->DSC_ITEM_EOL}}
                                                     </div>
-                                                    @endif
                                                 </td>
                                                 <td>
-                                                    @if ($ListData->version ==null || $ListData->version ==='not ready')
-                                                    <div color='red'>{{$ListData->version}}</div>
-                                                    @else
+                                                  
                                                     <div>
-                                                        {{$ListData->version}}
+                                                        {{$ListData->MAX_PS5}}
                                                     </div>
-                                                    @endif
+                                                   
                                                 </td>
                                             </tr>
                                             @endforeach
