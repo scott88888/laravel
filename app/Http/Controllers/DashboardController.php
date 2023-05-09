@@ -22,6 +22,7 @@ class DashboardController extends BaseController
         $MfrDashboard = DashboardModel::getMfrList();
         $ProductStockDashboard = DashboardModel::getProductStockList();
         $PartsStockDashboard = DashboardModel::getPartsStockList();
-        return view('dashboardLeader', compact('MfrDashboard', 'ProductStockDashboard', 'PartsStockDashboard'));
+        $BuyDelayDashboard = DashboardModel::getBuyDelayList();
+        return view('dashboardLeader', compact('MfrDashboard', 'ProductStockDashboard', 'PartsStockDashboard','BuyDelayDashboard'));
     }
 }
