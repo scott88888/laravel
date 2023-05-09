@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use DB;
+use Hash;
 use Illuminate\Http\Request;
 use App\Models\DashboardModel;
 
@@ -18,12 +18,10 @@ class DashboardController extends BaseController
         return view('Dashboard');
     }
     public function dashboardLeader(Request $request)
-    {
+    {       
         $MfrDashboard = DashboardModel::getMfrList();
         $ProductStockDashboard = DashboardModel::getProductStockList();
         $PartsStockDashboard = DashboardModel::getPartsStockList();
-        return view('dashboardLeader',compact('MfrDashboard', 'ProductStockDashboard','PartsStockDashboard'));
+        return view('dashboardLeader', compact('MfrDashboard', 'ProductStockDashboard', 'PartsStockDashboard'));
     }
-
-
 }
