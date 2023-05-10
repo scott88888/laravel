@@ -31,7 +31,7 @@
             @include('layouts/headerarea')
             <div class="row">
 
-                <div class="col-lg-4" style="padding: 2px;">
+                <div class="col-lg-4" style="padding: 2px 2px 2px 10px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
                             <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
@@ -71,8 +71,6 @@
     </div>
     @include('layouts/settings')
 </body>
-
-5157216838652503  863
 @include('layouts/footerjs')
 <Script>
     //排行榜
@@ -132,10 +130,14 @@
             minGridDistance: 30
         });
         xRenderer1.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            // rotation: 50,
+            // centerY: am5.p50,
+            // centerX: am5.p100,
+            // paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer1.grid.template.setAll({
@@ -207,10 +209,10 @@
             minGridDistance: 30
         });
         xRenderer2.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer2.grid.template.setAll({
@@ -281,10 +283,10 @@
             minGridDistance: 30
         });
         xRenderer3.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer3.grid.template.setAll({

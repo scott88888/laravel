@@ -5,10 +5,11 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MesController;
 use App\Http\Controllers\DashboardController;
 
-
-
-
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
+Route::fallback([LogoutController::class, 'perform']);
+
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
@@ -45,3 +46,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
 });
+
+

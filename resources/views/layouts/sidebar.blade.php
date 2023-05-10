@@ -11,7 +11,7 @@
                     <li id="dashBoard">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>儀表板</span></a>
                         <ul class="collapse">
-                            <li><a href="">戰情室</a></li>
+                            <!-- <li><a href="">戰情室</a></li> -->
                             <li id="dashboardLeaderBtn"><a href="dashboardLeader">排行榜</a></li>
                         </ul>
                     </li>
@@ -19,7 +19,7 @@
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>文件查詢/下載
                             </span></a>
                         <ul class="collapse">
-                            <li id="mesRepairProductsBtn"><a href="mesRepairProducts">維修不良查詢</a></li>
+                            <!-- <li id="mesRepairProductsBtn"><a href="mesRepairProducts">維修不良查詢</a></li> -->
                             <li id="mesUploadListBtn"><a href="mesUploadList">韌體下載查詢</a></li>
                             <li id="mesModelListBtn"><a href="mesModelList">產品型號查詢</a></li>
                             <li id="mesItemListBtn"><a href="mesItemList">成品庫存查詢</a></li>
@@ -41,20 +41,20 @@
                             <li id="mesRMAAnalysisBtn"><a href="mesRMAAnalysis">RMA不良原因查詢</a></li>
                         </ul>
                     </li>
-                    <li id="aiQuery">
+                    <!-- <li id="aiQuery">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-comments-smiley"></i><span>AI 權重查詢</span></a>
                         <ul class="collapse">
                             <li id="aiQuerySearch"><a href="fontawesome.html">AI 權重查詢</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="setup">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-table"></i>
                             <span>設定</span></a>
-                        <ul class="collapse">
+                        <!-- <ul class="collapse">
                             <li><a href="">1</a></li>
                             <li><a href="">2</a></li>
                             <li><a href="">3</a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                 </ul>
             </nav>
