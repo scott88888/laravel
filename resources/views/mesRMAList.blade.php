@@ -153,7 +153,7 @@
                 "data": "NAM_CUSTS",
                 "title": "客戶"
             }, {
-                "data": "COD_MODL",
+                "data": "COD_ITEM",
                 "title": "產品型號"
             }, {
                 "data": "NUM_SER",
@@ -171,7 +171,7 @@
                 "data": "STS_ONCA",
                 "title": "維修單狀況"
             }, {
-                "data": "date_gap",
+                "data": "DIFF_DAYS",
                 "title": "處理時間 (天)"
             }],columnDefs: [{
                 targets: [9], // 所在的 index（從 0 開始）

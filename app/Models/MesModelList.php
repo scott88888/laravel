@@ -288,18 +288,18 @@ class MesModelList extends Authenticatable
     }
     public static function getRMAListAjax($type, $search, $rangS, $rangE)
     {
-        if ($type == 'CustomerCode') {
-            $value = DB::select("SELECT *, DATEDIFF(`dat_acte`, DAT_ONCA) AS date_gap 
-            FROM `rma_analysis` 
-            WHERE `cod_cust` LIKE 'LBA1146B%' 
-            AND `num_ser` BETWEEN '$rangS%' AND '$rangE%' 
-            ORDER BY `num_ser`");
-        } elseif ($type == 'cod_modl') {
-            $value = DB::select("SELECT * ,datediff(`dat_acte`,DAT_ONCA) as date_gap FROM `rma_analysis` WHERE `$type`like'$search%'");
-        } else {
-            $value = DB::select("SELECT * ,datediff(`dat_acte`,DAT_ONCA) as date_gap FROM `rma_analysis` WHERE `$type`='$search'");
-        }
-        return $value;
+        // if ($type == 'CustomerCode') {
+        //     $value = DB::select("SELECT *, DATEDIFF(`dat_acte`, DAT_ONCA) AS date_gap 
+        //     FROM `rma_analysis` 
+        //     WHERE `cod_cust` LIKE 'LBA1146B%' 
+        //     AND `num_ser` BETWEEN '$rangS%' AND '$rangE%' 
+        //     ORDER BY `num_ser`");
+        // } elseif ($type == 'cod_modl') {
+        //     $value = DB::select("SELECT * ,datediff(`dat_acte`,DAT_ONCA) as date_gap FROM `rma_analysis` WHERE `$type`like'$search%'");
+        // } else {
+        //     $value = DB::select("SELECT * ,datediff(`dat_acte`,DAT_ONCA) as date_gap FROM `rma_analysis` WHERE `$type`='$search'");
+        // }
+        // return $value;
     }
     public static function getRMAAnalysisAjax($type, $search, $rangS, $rangE)
     {

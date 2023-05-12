@@ -330,18 +330,25 @@ class MesController extends BaseController
     }
     public function mesRMAListAjax(Request $request)
     {        
-        $searchtype = $request->input('searchtype');
-        $search = $request->input('search');
-        if ($searchtype && $searchtype =='CustomerCode' ) {
-            $rangS = $request->input('rangS');
-            $rangE = $request->input('rangE');
-            $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
-        }else{
-            $rangS = '';
-            $rangE = '';
-            $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
-        };
-        return response()->json($mesRMAListAjax);
+        // $searchtype = $request->input('searchtype');
+        // $search = $request->input('search');
+        // if ($searchtype && $searchtype =='CustomerCode' ) {
+        //     $rangS = $request->input('rangS');
+        //     $rangE = $request->input('rangE');
+        //     $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
+        // }else{
+        //     $rangS = '';
+        //     $rangE = '';
+        //     $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
+        // };
+        // return response()->json($mesRMAListAjax);
+        $value = DB::table('mes_rma_analysis')
+        ->orderBy('NUM_ONCA', 'asc')
+        ->get();
+       
+        return response()->json($value);
+
+       
     }
 
     public function mesRMAAnalysis(Request $request)

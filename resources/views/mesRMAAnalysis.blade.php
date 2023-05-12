@@ -100,7 +100,7 @@
                                         <th>NUM_ONCA</th>
                                         <th>NUM_MTRM</th>
                                         <th>NAM_CUSTS</th>
-                                        <th>COD_CUST</th>
+                                        <th>COD_ITEM</th>
                                         <th>NUM_SER</th>
                                         <th>DAT_ACTB</th>
                                         <th>DAT_ACTE</th>
@@ -171,7 +171,7 @@
                 "data": "NAM_CUSTS",
                 "title": "客戶"
             }, {
-                "data": "COD_CUST",
+                "data": "COD_ITEM",
                 "title": "產品型號"
             }, {
                 "data": "NUM_SER",
