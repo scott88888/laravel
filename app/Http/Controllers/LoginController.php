@@ -27,10 +27,7 @@ class LoginController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ])->withInput($request->only('email'));
     }
-    public function login2(Request $request)
-    {
-        return view('login');
-    }
+    
     
 
     

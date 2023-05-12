@@ -77,7 +77,7 @@
                                             <label>查詢內容</label>
                                             <input class="form-control form-control-sm" id="search">
                                         </div>
-                                        <div id="rang" class="form-group" >
+                                        <div id="rang" class="form-group">
                                             <label>出廠區間(開始/年月)</label>
                                             <input class="form-control form-control-sm" id="rangS" placeholder="EX:1901">
                                             <label>出廠區間(結束/年月)</label>
@@ -96,27 +96,25 @@
                                 <table id="ListData" class="display text-center" style="width:100%">
                                     <thead class="text-capitalize" style=" background: darkgrey;">
                                         <th>DAT_ONCA</th>
-                                        <th>TYPE</th>
+                                        <th>ONCA_IR</th>
                                         <th>NUM_ONCA</th>
                                         <th>NUM_MTRM</th>
                                         <th>NAM_CUSTS</th>
-                                        <th>COD_MODL</th>
+                                        <th>COD_ITEM</th>
                                         <th>NUM_SER</th>
-                                        <th>TYPITEMS</th>
                                         <th>DAT_ACTB</th>
                                         <th>DAT_ACTE</th>
-                                        <th>OUT_LIST1</th>
-                                        <th>DD</th>
-                                        <th>OUT_LIST2</th>
-                                        <th>OUT_LIST3</th>
+                                        <th>PS1_1</th>
+                                        <th>MTRM_PS</th>
+                                        <th>PS1_2</th>
+                                        <th>PS1_3</th>
                                         <th>OUT_LIST5</th>
                                         <th>EMP_ORD</th>
                                         <th>STS_ONCA</th>
-                                        <th>date_gap</th>
+                                        <th>DIFF_DAYS</th>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -151,16 +149,17 @@
 @include('layouts/footerjs')
 <script>
     $(document).ready(function() {
-        let Model;
+        let dateEnd;
+        let work_no;
         $('#loading').hide();
         $('#rang').hide();
         var table = $('#ListData').DataTable({
             responsive: true,
-            columns: [ {
+            columns: [{
                 "data": "DAT_ONCA",
                 "title": "報修日期	"
             }, {
-                "data": "TYPE",
+                "data": "ONCA_IR",
                 "title": "類別"
             }, {
                 "data": "NUM_ONCA",
@@ -172,14 +171,11 @@
                 "data": "NAM_CUSTS",
                 "title": "客戶"
             }, {
-                "data": "COD_MODL",
+                "data": "COD_ITEM",
                 "title": "產品型號"
             }, {
                 "data": "NUM_SER",
                 "title": "出廠序號"
-            }, {
-                "data": "TYPITEMS",
-                "title": "產品類別"
             }, {
                 "data": "DAT_ACTB",
                 "title": "實際開工"
@@ -187,19 +183,19 @@
                 "data": "DAT_ACTE",
                 "title": "實際完工"
             }, {
-                "data": "OUT_LIST1",
+                "data": "PS1_1",
                 "title": "故障原因"
             }, {
-                "data": "DD",
+                "data": "MTRM_PS",
                 "title": "零件料號"
             }, {
-                "data": "OUT_LIST2",
+                "data": "PS1_2",
                 "title": "檢測結果"
             }, {
-                "data": "OUT_LIST3",
+                "data": "PS1_3",
                 "title": "責任判定"
             }, {
-                "data": "OUT_LIST5",
+                "data": "PS1_4",
                 "title": "保固期"
             }, {
                 "data": "EMP_ORD",
@@ -208,42 +204,61 @@
                 "data": "STS_ONCA",
                 "title": "維修單狀況"
             }, {
-                "data": "date_gap",
+                "data": "DIFF_DAYS",
                 "title": "處理時間 (天)"
-            }],columnDefs: [{
-                targets: [16], // 所在的 index（從 0 開始）
+            }],
+            columnDefs: [{
+                targets: [8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
                 render: function(data, type, row, meta) {
-                    switch (meta.col) {                        
-                        case 16:
+                    switch (meta.col) {
+                        case 8:
+                            dateEnd = data;
+                            return data;
+                        case 12:
+                            work_no = data;
+                            if (data === '客戶') {
+                                return data;
+                            } else if (data === '廠商') {
+                                return data;
+                            } else {
+                                return '';
+                            }
+                        case 13:
+                            if (data === null) {
+                                return work_no;
+                            }
+                            return data;
+
+                        case 15:
                             if (data === '00') {
                                 return '<span style="color:red">' + '尚未處理' + '</span>';
                             } else if (data === '05') {
                                 return '<span style="color:blue">' + '已轉公文' + '</span>';
                             } else if (data == '07') {
-                                return '<span style="color:blue">' + '報價中'+ '</span>';
+                                return '<span style="color:blue">' + '報價中' + '</span>';
                             } else if (data === '10') {
-                                return '<span style="color:blue">' + '已確認'+ '</span>';
+                                return '<span style="color:blue">' + '已確認' + '</span>';
                             } else if (data === '15') {
-                                return '<span style="color:blue">' + '通知生產'+ '</span>';
+                                return '<span style="color:blue">' + '通知生產' + '</span>';
                             } else if (data === '20') {
-                                return '<span style="color:blue">' + '已派工'+ '</span>';
+                                return '<span style="color:blue">' + '已派工' + '</span>';
                             } else if (data === '25') {
-                                return '<span style="color:blue">' + '轉單'+ '</span>';
+                                return '<span style="color:blue">' + '轉單' + '</span>';
                             } else if (data === '30') {
-                                return '<span style="color:blue">' + '已完工'+ '</span>';
+                                return '<span style="color:blue">' + '已完工' + '</span>';
                             } else if (data === '35') {
-                                return '<span style="color:blue">' + '通知驗收'+ '</span>';
+                                return '<span style="color:blue">' + '通知驗收' + '</span>';
                             } else if (data === '40') {
-                                return '<span style="color:blue">' + '客戶驗收'+ '</span>';  
+                                return '<span style="color:blue">' + '客戶驗收' + '</span>';
                             } else if (data === '50') {
-                                return '<span style="color:blue">' + '已轉應收'+ '</span>';
+                                return '<span style="color:blue">' + '已轉應收' + '</span>';
                             } else if (data === '90') {
-                                return '<span style="color:blue">' + '撤銷'+ '</span>';
+                                return '<span style="color:blue">' + '撤銷' + '</span>';
                             } else if (data === '99') {
-                                return '<span style="color:blue">' + '結案'+ '</span>';
+                                return '<span style="color:blue">' + '結案' + '</span>';
                             } else {
                                 return data
-                            }
+                            }                        
                         default:
                             return data;
                     }
@@ -283,7 +298,7 @@
                     table.draw();
                     $('#loading').hide();
                     // 處理 AJAX 請求成功後的回應    
-                    console.log(response);               
+                    console.log(response);
                 },
                 error: function(xhr, status, error) {
                     // 處理 AJAX 請求失敗後的回應

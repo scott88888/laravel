@@ -10,6 +10,7 @@
     <script src="https://cdn.amcharts.com/lib/5/themes/Dark.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/plugins/exporting.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+
 </head>
 
 
@@ -30,7 +31,7 @@
             @include('layouts/headerarea')
             <div class="row">
 
-                <div class="col-lg-4" style="padding: 2px;">
+                <div class="col-lg-4" style="padding: 2px 2px 2px 10px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
                             <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
@@ -54,33 +55,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding: 2px;">
+            </div>
+            <!-- <div class="row">
+                <div class="col-lg-12" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
-                            <h4 class="header-title" style="text-align: center;">零件庫存排行榜</h4>
+                            <h4 class="header-title" style="text-align: center;">入料逾期明細表</h4>
                             <div id="chartdiv4" class="chartdiv"></div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-
+            </div> -->
         </div>
         @include('layouts/footer')
     </div>
     @include('layouts/settings')
 </body>
-
-
 @include('layouts/footerjs')
 <Script>
-    //借品排行榜
+    //排行榜
     var mfr = JSON.parse('@json($MfrDashboard)');
-
-
     var productStock = JSON.parse('@json($ProductStockDashboard)');
     var partsStock = JSON.parse('@json($PartsStockDashboard)');
-    console.log(productStock);
+    var BuyDelay = JSON.parse('@json($BuyDelayDashboard)');
+    
+    
+    console.log(BuyDelay);
     // 定義兩個不同的資料
 
     var data1 = [];
@@ -130,10 +130,14 @@
             minGridDistance: 30
         });
         xRenderer1.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            // rotation: 50,
+            // centerY: am5.p50,
+            // centerX: am5.p100,
+            // paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer1.grid.template.setAll({
@@ -171,7 +175,7 @@
             strokeOpacity: 0,
 
         });
-      
+
         series1.columns.template.adapters.add("fill", function(fill, target) {
             return chart1.get("colors").getIndex(series1.columns.indexOf(target));
         });
@@ -205,10 +209,10 @@
             minGridDistance: 30
         });
         xRenderer2.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer2.grid.template.setAll({
@@ -279,10 +283,10 @@
             minGridDistance: 30
         });
         xRenderer3.labels.template.setAll({
-            rotation: -90,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
         xRenderer3.grid.template.setAll({
@@ -313,12 +317,12 @@
                 labelText: "{valueY}"
             })
         }));
-    
+
         series3.columns.template.setAll({
             cornerRadiusTL: 5,
             cornerRadiusTR: 5,
             strokeOpacity: 0,
-            
+
         });
         series3.columns.template.adapters.add("fill", function(fill, target) {
             return chart3.get("colors").getIndex(series3.columns.indexOf(target));
@@ -335,66 +339,63 @@
         series3.appear(1000);
         chart3.appear(1000, 100);
 
-
+        //第四個圖表
         var root4 = am5.Root.new("chartdiv4");
         root4.setThemes([
             am5themes_Animated.new(root4)
         ]);
-        var chart4 = root4.container.children.push(am5percent.PieChart.new(root4, {
-            layout: root4.verticalLayout
-        }));
-        var series4 = chart4.series.push(am5percent.PieSeries.new(root4, {
-            valueField: "value",
-            categoryField: "category",
 
-        }));
-        series4.data.setAll([{
-                value: 10,
-                category: "One"
-            },
-            {
-                value: 9,
-                category: "Two"
-            },
-            {
-                value: 6,
-                category: "Three"
-            },
-            {
-                value: 5,
-                category: "Four"
-            },
-            {
-                value: 4,
-                category: "Five"
-            },
-            {
-                value: 3,
-                category: "Six"
-            },
-            {
-                value: 10,
-                category: "Seven"
+        var chart4 = root4.container.children.push(
+            am5percent.PieChart.new(root4, {
+                endAngle: 270
+            })
+        );
 
-            },
-        ]);
-        var legend4 = chart4.children.push(am5.Legend.new(root4, {
-            centerX: am5.percent(50),
-            x: am5.percent(50),
-            marginTop: 15,
-            marginBottom: 15
-        }));
+        var series4 = chart4.series.push(
+            am5percent.PieSeries.new(root4, {
+                valueField: "value",
+                categoryField: "category",
+                endAngle: 270,
 
-
-        series4.slices.template.setAll({
-            fillOpacity: 0.5,
-            stroke: am5.color(0xffffff),
-            strokeWidth: 2,
-            fill: am5.color(0xada3a),
+            })
+        );
+        // series4.get("colors").set("colors", [
+        //     am5.color(0x2ABB9B),
+        //     am5.color(0x00B16A),
+        //     am5.color(0x1E824C),
+        //     am5.color(0x26A65B),
+        //     am5.color(0x59ABE3)
+        // ]);
+        series4.states.create("hidden", {
+            endAngle: -90
         });
-        legend4.data.setAll(series4.dataItems);
+
+        series4.data.setAll([{
+            category: "Lithuania",
+            value: 501.9
+        }, {
+            category: "Czechia",
+            value: 301.9
+        }, {
+            category: "Ireland",
+            value: 201.1
+        }, {
+            category: "Germany",
+            value: 165.8
+        }, {
+            category: "Australia",
+            value: 139.9
+        }, {
+            category: "Austria",
+            value: 128.3
+        }, {
+            category: "UK",
+            value: 99
+        }]);
+
         series4.appear(1000, 100);
     });
 </script>
+
 
 </html>

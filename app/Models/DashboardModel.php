@@ -16,31 +16,52 @@ class DashboardModel extends Authenticatable
 
     public static function getMfrList()
     {
-        $value = DB::select("SELECT `cod_item`, SUM(`qty_brow`) as qty_brow
-        FROM `mfr05`
-        WHERE `cls_brow` <> 6 AND `dat_brow` BETWEEN '2022-10-01' AND '2022-10-31'
-        GROUP BY `cod_item`
-        ORDER BY qty_brow DESC LIMIT 10;");
+        $value = DB::table('mes_mfr05_view')
+            ->select('cod_item', DB::raw('SUM(qty_brow) as qty_brow'))
+            ->where('cls_brow', '<>', 6)
+            ->whereBetween('dat_brow', ['2023-01-01', '2023-10-31'])
+            ->groupBy('cod_item')
+            ->orderByDesc('qty_brow')
+            ->limit(10)
+            ->get();
         return $value;
     }
 
-    
+
     public static function getProductStockList()
     {
-        $value = DB::select("SELECT 
-        lcst_temp.cod_item,lcst_temp.nam_item,lcst_temp.dsc_allc,lcst_temp.dsc_alle,lcst_temp.cod_loc,lcst_temp.qty_stk,lcst_temp.ser_pcs, eol_list.official_website2 
-        FROM `lcst_temp` 
-        left JOIN eol_list on lcst_temp.COD_ITEM = eol_list.model 
-        where lcst_temp.cod_item not REGEXP '^[0-9]' and lcst_temp.cod_loc ='GO-001' or lcst_temp.cod_loc ='WO-003' or lcst_temp.cod_loc ='LL-000'
-        ORDER BY qty_stk DESC LIMIT 10;");
+        $value = DB::table('mes_lcst_item')
+            ->select('COD_ITEM AS cod_item', DB::raw('CAST(QTY_STK AS UNSIGNED) AS qty_stk'))
+            ->where('qty_stk', '>', 0)
+            ->orderBy(DB::raw('CAST(QTY_STK AS UNSIGNED)'), 'desc')
+            ->limit(10)
+            ->get();
+
+
+
         return $value;
     }
 
     public static function getPartsStockList()
     {
-        $value = DB::select("SELECT * FROM lcst_temp
-        ORDER BY qty_stk DESC LIMIT 10;");
+        $value = DB::table('mes_lcst_parts')
+            ->select('COD_ITEM AS cod_item', DB::raw('CAST(QTY_STK AS UNSIGNED) AS qty_stk'))
+            ->where('qty_stk', '>', 0)
+            ->orderBy(DB::raw('CAST(QTY_STK AS UNSIGNED)'), 'desc')
+            ->limit(10)
+            ->get();
         return $value;
     }
-   
+
+    public static function getBuyDelayList()
+    {
+        $value = DB::table('mes_purchase_overdue')
+            ->select('*')
+            ->whereNotNull('DAT_POR')
+            ->where('DIFF_DAYS', '>', 0)
+            ->where('DAT_REQ', '>', '20230101')
+            ->orderBy('UN_QTY', 'desc')
+            ->get();
+        return $value;
+    }
 }
