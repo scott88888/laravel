@@ -346,25 +346,34 @@ class MesController extends BaseController
 
     public function mesRMAAnalysis(Request $request)
     {
-        //獲取資料
+       
         return view('mesRMAAnalysis');
     }
     public function mesRMAAnalysisAjax(Request $request)
     {        
-
         
+        
+        $value = DB::table('mes_rma_analysis')
+        ->orderBy('NUM_ONCA', 'asc')
+        ->get();
+       
+        return response()->json($value);
 
-        $searchtype = $request->input('searchtype');
-        $search = $request->input('search');
-        if ($searchtype && $searchtype =='cod_cust' ) {
-            $rangS = $request->input('rangS');
-            $rangE = $request->input('rangE');
-            $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
-        }else{
-            $rangS = '';
-            $rangE = '';
-            $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
-        };
-        return response()->json($mesRMAAnalysisAjax);
+      
+        // $searchtype = $request->input('searchtype');
+        // $search = $request->input('search');
+        // if ($searchtype && $searchtype =='cod_cust' ) {
+        //     $rangS = $request->input('rangS');
+        //     $rangE = $request->input('rangE');
+        //     $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
+        // }else{
+        //     $rangS = '';
+        //     $rangE = '';
+        //     $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
+        // };
+        // return response()->json($mesRMAAnalysisAjax);
     }
+
+
+
 }
