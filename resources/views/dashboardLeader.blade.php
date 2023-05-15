@@ -30,7 +30,32 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="row">
-
+            <div class="col-lg-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0rem;">
+                            <h4 class="header-title" style="text-align: center;">去年度報修品排行榜</h4>
+                            <div id="chartdiv6" class="chartdiv"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0rem;">
+                            <h4 class="header-title" style="text-align: center;">上月報修品排行榜</h4>
+                            <div id="chartdiv4" class="chartdiv"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0rem;">
+                            <!-- <h4 class="header-title" style="text-align: center;">本月報修品排行榜 <span style="font-size: 12px;">更新時間</span></h4> -->
+                            <h4 class="header-title" style="text-align: center;">本月報修品排行榜</h4>
+                            <div id="chartdiv5" class="chartdiv"></div>
+                        </div>
+                    </div>
+                </div>
+               
                 <div class="col-lg-4" style="padding: 2px 2px 2px 10px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
@@ -55,6 +80,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <!-- <div class="row">
                 <div class="col-lg-12" style="padding: 2px;">
@@ -78,15 +104,19 @@
     var productStock = JSON.parse('@json($ProductStockDashboard)');
     var partsStock = JSON.parse('@json($PartsStockDashboard)');
     var BuyDelay = JSON.parse('@json($BuyDelayDashboard)');
-    
-    
+    var RMALastMon = JSON.parse('@json($RMALastMonDashboard)');
+    var RMAMon = JSON.parse('@json($RMAMonDashboard)');
+    var RMAYear = JSON.parse('@json($RMAYearDashboard)');
+
     console.log(BuyDelay);
     // 定義兩個不同的資料
 
     var data1 = [];
     var data2 = [];
     var data3 = [];
-
+    var data4 = [];
+    var data5 = [];
+    var data6 = [];
 
     for (let i = 0; i < mfr.length; i++) {
         data1.push({
@@ -111,6 +141,21 @@
     }
 
 
+    for (let i = 0; i < RMAMon.length; i++) {
+        data4.push({
+            item: RMALastMon[i].COD_ITEM,
+            value: RMALastMon[i].COD_ITEM_Count
+        });
+        data5.push({
+            item: RMAMon[i].COD_ITEM,
+            value: RMAMon[i].COD_ITEM_Count
+        });
+        data6.push({
+            item: RMAYear[i].COD_ITEM,
+            value: RMAYear[i].COD_ITEM_Count
+        });
+    }
+
     am5.ready(function() {
         // 第一個圖表
         var root1 = am5.Root.new("chartdiv1");
@@ -129,11 +174,8 @@
         var xRenderer1 = am5xy.AxisRendererX.new(root1, {
             minGridDistance: 30
         });
+        //字體傾斜
         xRenderer1.labels.template.setAll({
-            // rotation: 50,
-            // centerY: am5.p50,
-            // centerX: am5.p100,
-            // paddingRight: 15
             rotation: 50,
             centerY: am5.p100,
             centerX: am5.p200,
@@ -339,61 +381,229 @@
         series3.appear(1000);
         chart3.appear(1000, 100);
 
-        //第四個圖表
+        // 上月報修圖表開始
         var root4 = am5.Root.new("chartdiv4");
         root4.setThemes([
             am5themes_Animated.new(root4)
         ]);
-
-        var chart4 = root4.container.children.push(
-            am5percent.PieChart.new(root4, {
-                endAngle: 270
-            })
-        );
-
-        var series4 = chart4.series.push(
-            am5percent.PieSeries.new(root4, {
-                valueField: "value",
-                categoryField: "category",
-                endAngle: 270,
-
-            })
-        );
-        // series4.get("colors").set("colors", [
-        //     am5.color(0x2ABB9B),
-        //     am5.color(0x00B16A),
-        //     am5.color(0x1E824C),
-        //     am5.color(0x26A65B),
-        //     am5.color(0x59ABE3)
-        // ]);
-        series4.states.create("hidden", {
-            endAngle: -90
+        var chart4 = root4.container.children.push(am5xy.XYChart.new(root4, {
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true
+        }));
+        var cursor4 = chart4.set("cursor", am5xy.XYCursor.new(root4, {}));
+        cursor4.lineY.set("visible", false);
+        var xRenderer4 = am5xy.AxisRendererX.new(root4, {
+            minGridDistance: 30
+        });
+        xRenderer4.labels.template.setAll({
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
         });
 
-        series4.data.setAll([{
-            category: "Lithuania",
-            value: 501.9
-        }, {
-            category: "Czechia",
-            value: 301.9
-        }, {
-            category: "Ireland",
-            value: 201.1
-        }, {
-            category: "Germany",
-            value: 165.8
-        }, {
-            category: "Australia",
-            value: 139.9
-        }, {
-            category: "Austria",
-            value: 128.3
-        }, {
-            category: "UK",
-            value: 99
-        }]);
+        xRenderer4.grid.template.setAll({
+            location: 1
+        })
 
-        series4.appear(1000, 100);
+        var xAxis4 = chart4.xAxes.push(am5xy.CategoryAxis.new(root4, {
+            maxDeviation: 0.3,
+            categoryField: "item",
+            renderer: xRenderer4,
+            tooltip: am5.Tooltip.new(root4, {})
+        }));
+
+        var yAxis4 = chart4.yAxes.push(am5xy.ValueAxis.new(root4, {
+            maxDeviation: 0.3,
+            renderer: am5xy.AxisRendererY.new(root4, {
+                strokeOpacity: 0.1
+            })
+        }));
+        var series4 = chart4.series.push(am5xy.ColumnSeries.new(root4, {
+            name: "Series 4",
+            xAxis: xAxis4,
+            yAxis: yAxis4,
+            valueYField: "value",
+            sequencedInterpolation: true,
+            categoryXField: "item",
+            tooltip: am5.Tooltip.new(root4, {
+                labelText: "{valueY}"
+            })
+        }));
+
+        series4.columns.template.setAll({
+            cornerRadiusTL: 5,
+            cornerRadiusTR: 5,
+            strokeOpacity: 0,
+
+        });
+        series4.columns.template.adapters.add("fill", function(fill, target) {
+            return chart4.get("colors").getIndex(series4.columns.indexOf(target));
+        });
+
+        series4.columns.template.adapters.add("stroke", function(stroke, target) {
+            return chart4.get("colors").getIndex(series4.columns.indexOf(target));
+        });
+
+
+        xAxis4.data.setAll(data4);
+        series4.data.setAll(data4);
+
+        series4.appear(1000);
+        chart4.appear(1000, 100);
+        // 上月報修圖表結束
+
+        // 本月報修圖表
+        var root5 = am5.Root.new("chartdiv5");
+        root5.setThemes([
+            am5themes_Animated.new(root5)
+        ]);
+        var chart5 = root5.container.children.push(am5xy.XYChart.new(root5, {
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true
+        }));
+        var cursor5 = chart5.set("cursor", am5xy.XYCursor.new(root5, {}));
+        cursor5.lineY.set("visible", false);
+        var xRenderer5 = am5xy.AxisRendererX.new(root5, {
+            minGridDistance: 30
+        });
+        xRenderer5.labels.template.setAll({
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
+        });
+
+        xRenderer5.grid.template.setAll({
+            location: 1
+        })
+
+        var xAxis5 = chart5.xAxes.push(am5xy.CategoryAxis.new(root5, {
+            maxDeviation: 0.3,
+            categoryField: "item",
+            renderer: xRenderer5,
+            tooltip: am5.Tooltip.new(root5, {})
+        }));
+
+        var yAxis5 = chart5.yAxes.push(am5xy.ValueAxis.new(root5, {
+            maxDeviation: 0.3,
+            renderer: am5xy.AxisRendererY.new(root5, {
+                strokeOpacity: 0.1
+            })
+        }));
+        var series5 = chart5.series.push(am5xy.ColumnSeries.new(root5, {
+            name: "Series 5",
+            xAxis: xAxis5,
+            yAxis: yAxis5,
+            valueYField: "value",
+            sequencedInterpolation: true,
+            categoryXField: "item",
+            tooltip: am5.Tooltip.new(root5, {
+                labelText: "{valueY}"
+            })
+        }));
+
+        series5.columns.template.setAll({
+            cornerRadiusTL: 5,
+            cornerRadiusTR: 5,
+            strokeOpacity: 0,
+
+        });
+        series5.columns.template.adapters.add("fill", function(fill, target) {
+            return chart5.get("colors").getIndex(series5.columns.indexOf(target));
+        });
+
+        series5.columns.template.adapters.add("stroke", function(stroke, target) {
+            return chart5.get("colors").getIndex(series5.columns.indexOf(target));
+        });
+
+
+        xAxis5.data.setAll(data5);
+        series5.data.setAll(data5);
+
+        series5.appear(1000);
+        chart5.appear(1000, 100);
+        // 本月報修圖表結束
+        // 去年報修圖表開始
+        var root6 = am5.Root.new("chartdiv6");
+        root6.setThemes([
+            am5themes_Animated.new(root6)
+        ]);
+        var chart6 = root6.container.children.push(am5xy.XYChart.new(root6, {
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true
+        }));
+        var cursor6 = chart6.set("cursor", am5xy.XYCursor.new(root6, {}));
+        cursor6.lineY.set("visible", false);
+        var xRenderer6 = am5xy.AxisRendererX.new(root6, {
+            minGridDistance: 30
+        });
+        xRenderer6.labels.template.setAll({
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
+        });
+
+        xRenderer6.grid.template.setAll({
+            location: 1
+        })
+
+        var xAxis6 = chart6.xAxes.push(am5xy.CategoryAxis.new(root6, {
+            maxDeviation: 0.3,
+            categoryField: "item",
+            renderer: xRenderer6,
+            tooltip: am5.Tooltip.new(root6, {})
+        }));
+
+        var yAxis6 = chart6.yAxes.push(am5xy.ValueAxis.new(root6, {
+            maxDeviation: 0.3,
+            renderer: am5xy.AxisRendererY.new(root6, {
+                strokeOpacity: 0.1
+            })
+        }));
+        var series6 = chart6.series.push(am5xy.ColumnSeries.new(root6, {
+            name: "Series 6",
+            xAxis: xAxis6,
+            yAxis: yAxis6,
+            valueYField: "value",
+            sequencedInterpolation: true,
+            categoryXField: "item",
+            tooltip: am5.Tooltip.new(root6, {
+                labelText: "{valueY}"
+            })
+        }));
+
+        series6.columns.template.setAll({
+            cornerRadiusTL: 5,
+            cornerRadiusTR: 5,
+            strokeOpacity: 0,
+
+        });
+        series6.columns.template.adapters.add("fill", function(fill, target) {
+            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+        });
+
+        series6.columns.template.adapters.add("stroke", function(stroke, target) {
+            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+        });
+
+
+        xAxis6.data.setAll(data6);
+        series6.data.setAll(data6);
+
+        series6.appear(1000);
+        chart6.appear(1000, 100);
+        // 去年報修圖表結束
     });
 </script>
 

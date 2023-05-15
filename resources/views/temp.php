@@ -1,1 +1,74 @@
-INSERT INTO "mes_rma_analysis" ("DAT_ONCA", "NUM_ONCA", "NUM_MTRM", "COD_CUST", "NAM_CUSTS", "COD_ITEM", "COD_CUSTS", "NAM_ATTNS", "ADR_CUSTS", "NUM_SER", "CNT_ONCA", "ONCA_IR", "DSC_ONCA", "DAT_MTRD", "PS1", "MTRM_PS", "DAT_ACTB", "EMP_ORD", "HUR_REQ", "DAT_ACTE", "STS_ONCA", "RSN_BREAK1", "RSN_BREAK2", "RSN_BREAK3", "RSN_BREAK4", "RSN_BREAK5", "PS1_1", "PS1_2", "PS1_3", "PS1_4", "PS1_5") VALUES ('20220307', 'FA000231164', 'FB2204010001', 'LBA1146B', '中興', 'AH25A04', 'LBA1146B', '李榮貴', '台北市鄭州路139號6樓', '1905006049', '0', '1', '19/05', '20220401', '(20220401/G02/1)NO \A001 \B001', 'NO ', '20220401', 'G02', '0.3', '20220401', '50', 'A', 'B', 'C', 'E', NULL, '無故障', '測試正常', '客戶', '保固期內', NULL);
+// 去年報修圖表開始
+        var root6 = am5.Root.new("chartdiv6");
+        root6.setThemes([
+            am5themes_Animated.new(root6)
+        ]);
+        var chart6 = root6.container.children.push(am5xy.XYChart.new(root6, {
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX",
+            pinchZoomX: true
+        }));
+        var cursor6 = chart6.set("cursor", am5xy.XYCursor.new(root6, {}));
+        cursor6.lineY.set("visible", false);
+        var xRenderer6 = am5xy.AxisRendererX.new(root6, {
+            minGridDistance: 30
+        });
+        xRenderer6.labels.template.setAll({
+            rotation: 50,
+            centerY: am5.p100,
+            centerX: am5.p200,
+            paddingRight: 50
+        });
+
+        xRenderer6.grid.template.setAll({
+            location: 1
+        })
+
+        var xAxis6 = chart6.xAxes.push(am5xy.CategoryAxis.new(root6, {
+            maxDeviation: 0.3,
+            categoryField: "item",
+            renderer: xRenderer6,
+            tooltip: am5.Tooltip.new(root6, {})
+        }));
+
+        var yAxis6 = chart6.yAxes.push(am5xy.ValueAxis.new(root6, {
+            maxDeviation: 0.3,
+            renderer: am5xy.AxisRendererY.new(root6, {
+                strokeOpacity: 0.1
+            })
+        }));
+        var series6 = chart6.series.push(am5xy.ColumnSeries.new(root6, {
+            name: "Series 6",
+            xAxis: xAxis6,
+            yAxis: yAxis6,
+            valueYField: "value",
+            sequencedInterpolation: true,
+            categoryXField: "item",
+            tooltip: am5.Tooltip.new(root6, {
+                labelText: "{valueY}"
+            })
+        }));
+
+        series6.columns.template.setAll({
+            cornerRadiusTL: 5,
+            cornerRadiusTR: 5,
+            strokeOpacity: 0,
+
+        });
+        series6.columns.template.adapters.add("fill", function(fill, target) {
+            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+        });
+
+        series6.columns.template.adapters.add("stroke", function(stroke, target) {
+            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+        });
+
+
+        xAxis6.data.setAll(data6);
+        series6.data.setAll(data6);
+
+        series6.appear(1000);
+        chart6.appear(1000, 100);
+        // 去年報修圖表結束

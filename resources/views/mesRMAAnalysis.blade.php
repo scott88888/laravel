@@ -61,13 +61,13 @@
                                         <label class="col-form-label">查詢類型 </label>
                                         <select id="searchtype" class="form-control" style="padding: 0;">
                                             <option>select</option>
-                                            <option value="num_onca">報修單號</option>
+                                            <option value="NUM_ONCA">報修單號</option>
                                             <option value="DAT_ACTB">實際開工</option>
-                                            <option value="num_mtrm">派修單號</option>
-                                            <option value="cod_modl">產品型號</option>
-                                            <option value="num_ser">出廠序號</option>
-                                            <option value="DD">零件料號</option>
-                                            <option value="cod_cust">客戶代碼</option>
+                                            <option value="NUM_MTRM">派修單號</option>
+                                            <option value="COD_ITEM">產品型號</option>
+                                            <option value="NUM_SER">出廠序號</option>
+                                            <option value="MTRM_PS">零件料號</option>
+                                            <option value="COD_CUST">客戶代碼</option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,12 +77,12 @@
                                             <label>查詢內容</label>
                                             <input class="form-control form-control-sm" id="search">
                                         </div>
-                                        <div id="rang" class="form-group">
+                                        <!-- <div id="rang" class="form-group">
                                             <label>出廠區間(開始/年月)</label>
                                             <input class="form-control form-control-sm" id="rangS" placeholder="EX:1901">
                                             <label>出廠區間(結束/年月)</label>
                                             <input class="form-control form-control-sm" id="rangE" placeholder="EX:1903">
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                 </div>
@@ -208,9 +208,23 @@
                 "title": "處理時間 (天)"
             }],
             columnDefs: [{
-                targets: [8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
+                targets: [1, 8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
                 render: function(data, type, row, meta) {
                     switch (meta.col) {
+                        case 1:
+                            if (data === 1) {
+                                return '<span style="color:blue">' + '維修品' + '</span>';
+                            } else if (data === 2) {
+                                return '<span style="color:blue">' + '借品' + '</span>';
+                            } else if (data === 3) {
+                                return '<span style="color:blue">' + '借品專用' + '</span>';
+                            } else if (data === 4) {
+                                return '<span style="color:blue">' + '換品' + '</span>';
+                            } else if (data === 5) {
+                                return '<span style="color:red">' + '退貨' + '</span>';
+                            } else {
+                                return data
+                            }
                         case 8:
                             dateEnd = data;
                             return data;
@@ -224,11 +238,10 @@
                                 return '';
                             }
                         case 13:
-                            if (data === null) {
-                                return work_no;
-                            }
-                            return data;
-
+                            if (data === '客戶' ||  data === '廠商') {
+                                return '';
+                            } 
+                                return data;
                         case 15:
                             if (data === '00') {
                                 return '<span style="color:red">' + '尚未處理' + '</span>';
@@ -258,7 +271,7 @@
                                 return '<span style="color:blue">' + '結案' + '</span>';
                             } else {
                                 return data
-                            }                        
+                            }
                         default:
                             return data;
                     }
@@ -266,13 +279,13 @@
             }]
         });
 
-        $('#searchtype').on('change', function() {
-            if ($(this).val() == 'cod_cust') {
-                $('#rang').show();
-            } else {
-                $('#rang').hide();
-            }
-        });
+        // $('#searchtype').on('change', function() {
+        //     if ($(this).val() == 'cod_cust') {
+        //         $('#rang').show();
+        //     } else {
+        //         $('#rang').hide();
+        //     }
+        // });
         $('#submit').click(function() {
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();

@@ -15,7 +15,7 @@ class MesController extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
 
-    
+
     public function mesRepairProducts(Request $request)
     {
         //獲取資料
@@ -23,16 +23,15 @@ class MesController extends BaseController
         // if ($MesModelList) {
         //     return view('mesModelList', ['MesModelList' => $MesModelList]);
         // }
-        
-        return view('mesRepairProducts');
 
+        return view('mesRepairProducts');
     }
 
     public function mesModelList(Request $request)
     {
         //獲取資料
         $MesModelList = MesModelList::getModelListData();
-      
+
         if ($MesModelList) {
             return view('mesModelList', ['MesModelList' => $MesModelList]);
         }
@@ -164,7 +163,7 @@ class MesController extends BaseController
     {
 
         $MesMfrList = MesModelList::getMesMfrList();
-        if ($MesMfrList) {          
+        if ($MesMfrList) {
             return view('mesMfrList', ['MesMfrList' => $MesMfrList]);
         }
     }
@@ -297,7 +296,7 @@ class MesController extends BaseController
 
     public function mesBuyDelay()
     {
-        
+
         return view('mesBuyDelay');
     }
 
@@ -310,8 +309,6 @@ class MesController extends BaseController
         } else {
             return response()->json('nodata');
         }
-
-
     }
 
     public function mesECNList(Request $request)
@@ -329,58 +326,25 @@ class MesController extends BaseController
         return view('mesRMAList');
     }
     public function mesRMAListAjax(Request $request)
-    {        
-        // $searchtype = $request->input('searchtype');
-        // $search = $request->input('search');
-        // if ($searchtype && $searchtype =='CustomerCode' ) {
-        //     $rangS = $request->input('rangS');
-        //     $rangE = $request->input('rangE');
-        //     $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
-        // }else{
-        //     $rangS = '';
-        //     $rangE = '';
-        //     $mesRMAListAjax = MesModelList::getRMAListAjax($searchtype,$search,$rangS,$rangE);
-        // };
-        // return response()->json($mesRMAListAjax);
-        $value = DB::table('mes_rma_analysis')
-        ->orderBy('NUM_ONCA', 'asc')
-        ->get();
-       
-        return response()->json($value);
-
+    {
+        $searchtype = $request->input('searchtype');
+        $search = $request->input('search');
+        $mesRMAListAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
+        return response()->json($mesRMAListAjax);
        
     }
 
     public function mesRMAAnalysis(Request $request)
     {
-       
         return view('mesRMAAnalysis');
     }
     public function mesRMAAnalysisAjax(Request $request)
-    {        
-        
-        
-        $value = DB::table('mes_rma_analysis')
-        ->orderBy('NUM_ONCA', 'asc')
-        ->get();
-       
-        return response()->json($value);
+    {
+        $searchtype = $request->input('searchtype');
+        $search = $request->input('search');
+        $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
+        return response()->json($mesRMAAnalysisAjax);
 
-      
-        // $searchtype = $request->input('searchtype');
-        // $search = $request->input('search');
-        // if ($searchtype && $searchtype =='cod_cust' ) {
-        //     $rangS = $request->input('rangS');
-        //     $rangE = $request->input('rangE');
-        //     $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
-        // }else{
-        //     $rangS = '';
-        //     $rangE = '';
-        //     $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype,$search,$rangS,$rangE);
-        // };
-        // return response()->json($mesRMAAnalysisAjax);
+
     }
-
-
-
 }
