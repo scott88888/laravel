@@ -30,7 +30,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="row">
-            <div class="col-lg-4" style="padding: 2px;">
+                <div class="col-lg-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
                             <h4 class="header-title" style="text-align: center;">去年度報修品排行榜</h4>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="col-lg-4" style="padding: 2px 2px 2px 10px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0rem;">
@@ -440,15 +440,16 @@
             strokeOpacity: 0,
 
         });
+        var customColors4 = ["#D1DDDB", "#85B8CB", "#1D6A96"];
         series4.columns.template.adapters.add("fill", function(fill, target) {
-            return chart4.get("colors").getIndex(series4.columns.indexOf(target));
+            var index = series4.columns.indexOf(target);
+            return customColors4[index % customColors4.length];
         });
 
         series4.columns.template.adapters.add("stroke", function(stroke, target) {
-            return chart4.get("colors").getIndex(series4.columns.indexOf(target));
+            var index = series4.columns.indexOf(target);
+            return customColors4[index % customColors4.length];
         });
-
-
         xAxis4.data.setAll(data4);
         series4.data.setAll(data4);
 
@@ -515,12 +516,15 @@
             strokeOpacity: 0,
 
         });
+        var customColors5 = ["#FFD954", "#E4B660", "#F2AB39","#69491A"];
         series5.columns.template.adapters.add("fill", function(fill, target) {
-            return chart5.get("colors").getIndex(series5.columns.indexOf(target));
+            var index = series5.columns.indexOf(target);
+            return customColors5[index % customColors5.length];
         });
 
         series5.columns.template.adapters.add("stroke", function(stroke, target) {
-            return chart5.get("colors").getIndex(series5.columns.indexOf(target));
+            var index = series5.columns.indexOf(target);
+            return customColors5[index % customColors5.length];
         });
 
 
@@ -589,14 +593,16 @@
             strokeOpacity: 0,
 
         });
+        var customColors = ["#7BC5AE", "#028C6A", "#D1EDE1"];
         series6.columns.template.adapters.add("fill", function(fill, target) {
-            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+            var index = series6.columns.indexOf(target);
+            return customColors[index % customColors.length];
         });
 
         series6.columns.template.adapters.add("stroke", function(stroke, target) {
-            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
+            var index = series6.columns.indexOf(target);
+            return customColors[index % customColors.length];
         });
-
 
         xAxis6.data.setAll(data6);
         series6.data.setAll(data6);
