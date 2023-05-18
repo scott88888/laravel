@@ -1,74 +1,157 @@
-// 去年報修圖表開始
-        var root6 = am5.Root.new("chartdiv6");
-        root6.setThemes([
-            am5themes_Animated.new(root6)
-        ]);
-        var chart6 = root6.container.children.push(am5xy.XYChart.new(root6, {
-            panX: true,
-            panY: true,
-            wheelX: "panX",
-            wheelY: "zoomX",
-            pinchZoomX: true
-        }));
-        var cursor6 = chart6.set("cursor", am5xy.XYCursor.new(root6, {}));
-        cursor6.lineY.set("visible", false);
-        var xRenderer6 = am5xy.AxisRendererX.new(root6, {
-            minGridDistance: 30
-        });
-        xRenderer6.labels.template.setAll({
-            rotation: 50,
-            centerY: am5.p100,
-            centerX: am5.p200,
-            paddingRight: 50
-        });
-
-        xRenderer6.grid.template.setAll({
-            location: 1
-        })
-
-        var xAxis6 = chart6.xAxes.push(am5xy.CategoryAxis.new(root6, {
-            maxDeviation: 0.3,
-            categoryField: "item",
-            renderer: xRenderer6,
-            tooltip: am5.Tooltip.new(root6, {})
-        }));
-
-        var yAxis6 = chart6.yAxes.push(am5xy.ValueAxis.new(root6, {
-            maxDeviation: 0.3,
-            renderer: am5xy.AxisRendererY.new(root6, {
-                strokeOpacity: 0.1
-            })
-        }));
-        var series6 = chart6.series.push(am5xy.ColumnSeries.new(root6, {
-            name: "Series 6",
-            xAxis: xAxis6,
-            yAxis: yAxis6,
-            valueYField: "value",
-            sequencedInterpolation: true,
-            categoryXField: "item",
-            tooltip: am5.Tooltip.new(root6, {
-                labelText: "{valueY}"
-            })
-        }));
-
-        series6.columns.template.setAll({
-            cornerRadiusTL: 5,
-            cornerRadiusTR: 5,
-            strokeOpacity: 0,
-
-        });
-        series6.columns.template.adapters.add("fill", function(fill, target) {
-            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
-        });
-
-        series6.columns.template.adapters.add("stroke", function(stroke, target) {
-            return chart6.get("colors").getIndex(series6.columns.indexOf(target));
-        });
-
-
-        xAxis6.data.setAll(data6);
-        series6.data.setAll(data6);
-
-        series6.appear(1000);
-        chart6.appear(1000, 100);
-        // 去年報修圖表結束
+Insert into CLDS (NUM_PS
+COD_ITEM
+QTY_PCS
+QTY_STK
+COD_UNITP
+SER_PCS
+QTY_DEL
+DAT_BEGS
+DAT_ENDS
+DAT_QCS
+DAT_DELS
+DAT_BEGA
+DAT_ENDA
+DAT_QCA
+DAT_DELA
+QTY_PCSS
+QTY_QCA
+QTY_DELA
+COD_PRV
+COD_PCS
+STS_IRQ
+STS_PCS
+COD_KEYIN
+REMARK
+EMP_CONF
+DAT_CONF
+TYP_CLDS
+L_DOCM
+REMARK1
+REMARK2
+REMARK3
+EMP_CANL
+DAT_CANL
+DSC_CANL
+STR_ITEM
+DPT_PROD
+NUM_VER
+STR_GROUP
+STR_CLS1
+STR_CLS2
+STR_CLS3
+STR_CLS4
+STR_CLS5
+STR_CLS6
+STR_CLS7
+UNT_STK
+DAT_LAST
+EMP_LAST
+PRO_TAX
+DAT_VER
+QTY_UPLOD
+LST_UPLOD
+NUM_CASE
+CON_NUMC
+STT_CASE
+NEW_NUMPS
+PS4
+PS5
+PS6
+EMP_CHK
+CYC_SEND
+NUM_MERGE
+DPT_CTLTX
+ITEM_QC
+NUM_VTAX
+DAT_VTAX
+TO_CLDSSTT
+DAT_LSTBUY
+DAT_BUYPRC
+UID_BUYPRC
+MON_SYNC
+DAT_SYNC
+DAT_FSTLACK
+DTM_APS
+UID_APS
+GRP_ITMS
+NUM_MOD
+MCOD_ITMS
+MDSC_ITMS) values ('MA200420001'
+'98-VN168AY'
+300
+356
+'0801'
+null
+0
+'20200420'
+'20200710'
+'20200710'
+'20200710'
+'20200522'
+null
+'20200522'
+'20200525'
+300
+300
+0
+null
+'M'
+null
+'95'
+'A017'
+null
+'A017'
+'20200420'
+'03'
+null
+null
+null
+'0801'
+null
+null
+null
+'98-VN168AY'
+'0801'
+null
+null
+null
+null
+null
+null
+null
+null
+null
+'PC'
+'20200522'
+'A024'
+null
+null
+300
+'20200522'
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null);

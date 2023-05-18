@@ -81,6 +81,9 @@ switch (page) {
   case 'mesRMAAnalysis':
     $('#mesRMAAnalysisBtn').last().addClass("active");
     break;
+    case 'mesShipmentList':
+    $('#mesShipmentListBtn').last().addClass("active");
+    break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
 }

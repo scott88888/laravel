@@ -331,7 +331,6 @@ class MesController extends BaseController
         $search = $request->input('search');
         $mesRMAListAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
         return response()->json($mesRMAListAjax);
-       
     }
 
     public function mesRMAAnalysis(Request $request)
@@ -344,7 +343,42 @@ class MesController extends BaseController
         $search = $request->input('search');
         $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
         return response()->json($mesRMAAnalysisAjax);
+    }
+
+    public function mesShipmentListAjax(Request $request)
+    {
+        $searchtype = $request->input('searchtype');
+        $search = $request->input('search');
+        $rans = $request->input('rangS');
+        $rane = $request->input('rangE');
+        if ($searchtype == 'DAT_DEL') {
+            $value = DB::table('mes_deld_shipment')
+                ->whereBetween('DAT_DEL', [$rans, $rane])
+                ->orderBy('DAT_DEL', 'asc')
+                ->get();
+        } else {
+            $value = DB::table('mes_deld_shipment')
+                ->where($searchtype, 'like', $search . '%')
+                ->orderBy('DAT_DEL', 'asc')
+                ->get();
+        }
 
 
+        return response()->json($value);
+
+
+        //return view('mesShipmentList');
+    }
+
+    public function mesShipmentList(Request $request)
+    {
+        // $value = DB::table('mes_deld_shipment')
+        // ->where('DAT_DEL', 'like','202302%')
+        // ->orderBy('DAT_DEL', 'asc')
+        // ->get();
+        // return response()->json($value);
+
+
+        return view('mesShipmentList');
     }
 }

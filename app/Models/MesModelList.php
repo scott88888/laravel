@@ -296,6 +296,7 @@ class MesModelList extends Authenticatable
     }
     public static function getRMAAnalysisAjax($searchtype, $search)
     {
+        
         $value = DB::table('mes_rma_analysis')
         ->where($searchtype, 'like', $search.'%')
         ->orderBy('NUM_ONCA', 'asc')

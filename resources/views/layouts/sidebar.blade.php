@@ -39,6 +39,7 @@
                             <li id="mesECNListBtn"><a href="mesECNList">ECN查詢</a></li>
                             <li id="mesRMAListBtn"><a href="mesRMAList">RMA退貨授權查詢</a></li>
                             <li id="mesRMAAnalysisBtn"><a href="mesRMAAnalysis">RMA不良原因查詢</a></li>
+                            <li id="mesShipmentListBtn"><a href="mesShipmentList">出貨查詢</a></li>
                         </ul>
                     </li>
                     <!-- <li id="aiQuery">
