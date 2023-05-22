@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    <title>Document</title>
+    
     @include('layouts/head')
 </head>
 
@@ -154,6 +154,10 @@
         $('#loading').hide();
         $('#rang').hide();
         var table = $('#ListData').DataTable({
+            "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
             responsive: true,
             columns: [{
                 "data": "DAT_ONCA",

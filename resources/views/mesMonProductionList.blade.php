@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    <title>Document</title>
+
     @include('layouts/head')
 </head>
 
@@ -157,6 +157,10 @@
 
         $('#loading').hide();
         var table = $('#ListData').DataTable({
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
             columns: [{
                     "data": "remark2",
                     "title": "客戶"
@@ -223,7 +227,7 @@
                 },
             ],
             columnDefs: [{
-                targets: [7, 11, 12,13,14,15], // 所在的 index（從 0 開始）
+                targets: [7, 11, 12, 13, 14, 15], // 所在的 index（從 0 開始）
                 render: function(data, type, row, meta) {
                     switch (meta.col) {
                         case 7:
@@ -235,7 +239,7 @@
                         case 11:
                             if (data === null) {
                                 return "";
-                            }else{
+                            } else {
                                 return '<span style="color:#EE7700">' + data + '</span>';
                             }
                         case 12:
@@ -250,15 +254,15 @@
                             } else if (data === '90') {
                                 return '<span style="color:blue">' + '完工' + '</span>';
                             } else if (data == '95') {
-                                return '<span style="color:blue">' + '結案'+ '</span>';
+                                return '<span style="color:blue">' + '結案' + '</span>';
                             } else if (data === '99') {
-                                return '<span style="color:blue">' + '銷令'+ '</span>';
+                                return '<span style="color:blue">' + '銷令' + '</span>';
                             } else if (data === '10') {
-                                return '<span style="color:blue">' + '計畫中'+ '</span>';
+                                return '<span style="color:blue">' + '計畫中' + '</span>';
                             } else if (data === '00') {
-                                return '<span style="color:blue">' + '尚未處理'+ '</span>';
+                                return '<span style="color:blue">' + '尚未處理' + '</span>';
                             } else if (data === '20') {
-                                return '<span style="color:blue">' + '核定配料'+ '</span>';
+                                return '<span style="color:blue">' + '核定配料' + '</span>';
                             } else {
                                 return data
                             }
@@ -291,8 +295,8 @@
                         case 15:
                             if (data === null) {
                                 return '';
-                            }else {
-                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' +data +'.pdf" target="_blank">' +data        
+                            } else {
+                                return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' + data + '.pdf" target="_blank">' + data
                             }
                         default:
                             return data;
@@ -301,6 +305,8 @@
             }]
 
         });
+
+
         $('#launchDate').on('change', function() {
             var selectedValue = $(this).val();
             $('#loading').show();
@@ -360,4 +366,5 @@
         });
     });
 </script>
+
 </html>

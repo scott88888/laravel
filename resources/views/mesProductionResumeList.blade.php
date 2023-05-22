@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    <title>Document</title>
+    
     @include('layouts/head')
 </head>
 
@@ -141,6 +141,10 @@
 
         $('#loading').hide();
         var table = $('#ListData').DataTable({
+            "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
             columns: [{
                     "data": "NUM_PS",
                     "title": "工單"
@@ -209,18 +213,7 @@
                     'data': 'PS6',
                     "title": "倉位",
                 },
-            ],
-            // columnDefs: [{
-            //     targets: [16], // 所在的 index（從 0 開始）
-            //     render: function(data, type, row, meta) {
-            //         var ecn = "ECN"
-            //         if (data.indexOf(ecn) !== -1) {
-            //             return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/' + data + '.pdf" target="_blank">' + data
-            //         } else {
-            //             return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/ECN-' + data + '.pdf" target="_blank">' + data
-            //         }
-            //     }
-            // }]
+            ]
 
         });
 

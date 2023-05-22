@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    <title>Document</title>
+    
     @include('layouts/head')
 </head>
 
@@ -106,7 +106,10 @@
         let Model;
         let work_no;
         var table = $('#ListData').DataTable({
-
+            "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
             columns: [{
                 "data": "PART_NO",
                 "title": "零件料號"
