@@ -11,28 +11,6 @@
         $('#ListData').DataTable();
     });
 </script>
-<style>
-    #loading {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        background-color: rgba(255, 255, 255, 0.8);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        pointer-events: none;
-    }
-
-    #loading img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-</style>
 
 <body>
     <div id="preloader">
@@ -106,6 +84,7 @@
         let Model;
         let work_no;
         var table = $('#ListData').DataTable({
+            responsive: true,
             "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]

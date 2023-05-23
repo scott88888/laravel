@@ -87,6 +87,7 @@
             [10, 25, 50, "All"]
         ],
         "info": true,
+        responsive: true,
         "order": [[2, "desc"]]
     })
 </script>

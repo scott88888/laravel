@@ -28,5 +28,6 @@
 <link rel="stylesheet" href="{{ asset('/css/default-css.css') }}">
 <link rel="stylesheet" href="{{ asset('/css/styles.css') }}">
 <link rel="stylesheet" href="{{ asset('/css/responsive.css') }}">
+<link rel="stylesheet" href="{{ asset('/css/datatable.css') }}">
 <!-- modernizr css -->
 <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>

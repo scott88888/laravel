@@ -2,20 +2,16 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
 <script>
     $(document).ready(function() {
-        $('#dataTable3').DataTable();
+        $('#ListData').DataTable();
     });
 </script>
-<style>
-    #dataTable3 tr.child {
-        text-align: left;
-    }
-</style>
+
 
 <body>
     <div id="preloader">
@@ -33,7 +29,7 @@
                             <div class="card-body">
                                 <h4 class="header-title">ECN查詢</h4>
                                 <div class="data-tables datatable-dark">
-                                    <table id="dataTable3" class="display text-center" style="width:100%">
+                                    <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
                                                 <th class='hide_column'>ECR編號</th>
@@ -53,23 +49,23 @@
                                         <tbody>
                                             @foreach ($MesECNList as $ListData)
                                             <tr>
-                                                <td >
-                                                @if ($ListData->ecr_no == "x" || $ListData->ecr_no == "X" )
-                                                <div>{{$ListData->ecr_no}}</div>
-                                                @else 
+                                                <td>
+                                                    @if ($ListData->ecr_no == "x" || $ListData->ecr_no == "X" )
+                                                    <div>{{$ListData->ecr_no}}</div>
+                                                    @else
                                                     <div>
                                                         <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECR/{{$ListData->ecr_no}}" target="_blank">
-                                                        {{$ListData->ecr_no}}  
+                                                            {{$ListData->ecr_no}}
                                                     </div>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                @if ($ListData->ecn_no == "x" || $ListData->ecn_no == "X" )
-                                                {{$ListData->ecn_no}}
-                                                @else 
+                                                    @if ($ListData->ecn_no == "x" || $ListData->ecn_no == "X" )
+                                                    {{$ListData->ecn_no}}
+                                                    @else
                                                     <div>
                                                         <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/{{$ListData->ecn_no}}" target="_blank">
-                                                        {{$ListData->ecn_no}}  
+                                                            {{$ListData->ecn_no}}
                                                     </div>
                                                     @endif
                                                 </td>
@@ -99,5 +95,16 @@
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
-
+<script>
+    $(ListData).DataTable({
+        "autoWidth": false,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "info": true,
+        responsive: true,
+        "order": [[3, "desc"]]
+    })
+</script>
 </html>

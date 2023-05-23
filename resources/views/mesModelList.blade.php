@@ -8,7 +8,15 @@
 
 <script>
     $(document).ready(function() {
-        $('#ListData').DataTable();
+        $('#ListData').DataTable({
+            "autoWidth": false,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "info": true,
+        responsive: true,
+        });
     });
 </script>
 
@@ -31,8 +39,6 @@
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
-                                                <th>客戶</th>
-                                                <th>官網</th>
                                                 <th>產品型號</th>
                                                 <th>產品性質</th>
                                                 <th>產品名稱</th>
@@ -46,12 +52,6 @@
                                         <tbody>
                                             @foreach ($MesModelList as $ListData)
                                             <tr>
-                                                <td>
-                                               
-                                                </td>
-                                                <td>
-                                               
-                                                </td>
                                                 <td>                                                   
                                                     <div>
                                                         <a href="https://www.meritlilin.com/index.php/tw/product/{{$ListData->COD_ITEM}}" target="_blank">{{$ListData->COD_ITEM}}
@@ -91,13 +91,6 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    $(ListData).DataTable({
-        "autoWidth": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "info": true,
-    })
+   
 </script>
 </html>

@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-   
+
     @include('layouts/head')
 </head>
 
@@ -11,28 +11,7 @@
         $('#ListData').DataTable();
     });
 </script>
-<style>
-    #loading {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        background-color: rgba(255, 255, 255, 0.8);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        pointer-events: none;
-    }
 
-    #loading img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-</style>
 
 <body>
     <div id="preloader">
@@ -69,7 +48,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-row">                                    
+                                <div class="form-row">
                                     <div class="col-md-3 mb-3">
                                         <label>查詢類型(1)</label>
                                         <div class="input-group">
@@ -154,9 +133,9 @@
         $('#loading').hide();
         var table = $('#ListData').DataTable({
             "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
             responsive: true,
             columns: [{
                 "data": "NUM_PS",
@@ -254,7 +233,7 @@
                     table.rows.add(response);
                     // 重新繪製表格
                     table.draw();
-                    $('#loading').hide();                   
+                    $('#loading').hide();
                     // 處理 AJAX 請求成功後的回應
                 },
                 error: function(xhr, status, error) {

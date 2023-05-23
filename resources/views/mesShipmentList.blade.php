@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
@@ -11,32 +11,7 @@
         $('#ListData').DataTable();
     });
 </script>
-<style>
-    #loading {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        background-color: rgba(255, 255, 255, 0.8);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        pointer-events: none;
-    }
 
-    #loading img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    #ListData tr.child {
-        text-align: left;
-    }
-</style>
 
 <body>
     <div id="preloader">
@@ -68,22 +43,33 @@
                                             <option value="DAT_DEL">出貨日期</option>
                                         </select>
                                     </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <div id="rang" class="form-group">
+
+
+                                            <div>
+                                                <button id="today" class="btn">當日</button>
+                                                <button id="lastday" class="btn">昨日</button>
+                                                <button id="7day" class="btn">7天</button>
+                                                <button id="30day" class="btn">30天</button>
+                                            </div>
+                                            <label>出貨區間(開始/年月)</label>
+                                            <input class="form-control form-control" id="rangS" placeholder="EX:20220103">
+                                            <label>出貨區間(結束/年月)</label>
+                                            <input class="form-control form-control" id="rangE" placeholder="EX:20220105">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="form-row" id="searchBox">
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label>查詢內容</label>
                                             <input class="form-control form-control-sm" id="search">
                                         </div>
-                                        <div id="rang" class="form-group">
-                                            <label>出貨區間(開始/年月)</label>
-                                            <input class="form-control form-control-sm" id="rangS" placeholder="EX:20220103">
-                                            <label>出貨區間(結束/年月)</label>
-                                            <input class="form-control form-control-sm" id="rangE" placeholder="EX:20220105">
-                                        </div>
                                     </div>
-
                                 </div>
+
                                 <div class="form-row col-md-6 mb-3">
                                     <div class="col">
                                         <button id="submit" class="btn btn-primary">查詢</button>
@@ -136,9 +122,9 @@
         $('#rang').hide();
         var table = $('#ListData').DataTable({
             "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
             responsive: true,
             columns: [{
                 "data": "DAT_DEL",
@@ -173,10 +159,10 @@
         $('#searchtype').on('change', function() {
             if ($(this).val() == 'DAT_DEL') {
                 $('#rang').show();
-                $('#search').hide();
+                $('#searchBox').hide();
 
             } else {
-                $('#search').show();
+                $('#searchBox').show();
                 $('#rang').hide();
             }
         });
@@ -216,8 +202,42 @@
             });
 
         });
+        $('#today').click(function() {
+            setDateRange(0);
+        });
+        $('#lastday').click(function() {
+            setDateRange(1);
+        });
+        $('#7day').click(function() {
+            setDateRange(7);
+        });
 
+        $('#30day').click(function() {
+            setDateRange(30);
+        });
     });
+
+    function setDateRange(days) {
+        var today = new Date();
+        var startDate = new Date(today);
+        var endDate = new Date(today);
+
+        startDate.setDate(startDate.getDate() - days);
+
+        var startFormatted = formatDate(startDate);
+        var endFormatted = formatDate(endDate);
+
+        $('#rangS').val(startFormatted);
+        $('#rangE').val(endFormatted);
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+
+        return year + month + day;
+    }
 </script>
 
 </html>

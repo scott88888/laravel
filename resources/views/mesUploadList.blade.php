@@ -2,25 +2,16 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
 <script>
     $(document).ready(function() {
-        $('#dataTable3').DataTable();
+        $('#ListData').DataTable();
     });
-
-    
 </script>
-<style>
 
-#dataTable3 tr.child {
-    text-align: left;
-}
-
-    
-</style>
 <body>
     <div id="preloader">
         <div class="loader"></div>
@@ -37,8 +28,8 @@
                             <div class="card-body">
                                 <h4 class="header-title">韌體下載查詢</h4>
                                 <div class="data-tables datatable-dark">
-                                    <table id="dataTable3" class="display text-center" style="width:100%">
-                                        <thead class="text-capitalize" style=" background: darkgrey;">                               
+                                    <table id="ListData" class="display text-center" style="width:100%">
+                                        <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
                                                 <th class='hide_column'>ID</th>
                                                 <th>客戶類別</th>
@@ -137,17 +128,17 @@
                                                     @if ($ListData->Remark != null)
                                                     <div>
                                                         <a href="{{$ListData->Remark}}" target="_blank">
-                                                        <i class='ti-link'></i>
+                                                            <i class='ti-link'></i>
                                                     </div>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                @if ($ListData->upload_date2 != '0000-00-00 00:00:00')
+                                                    @if ($ListData->upload_date2 != '0000-00-00 00:00:00')
                                                     <div>
-                                                    {{$ListData->upload_date2}}
+                                                        {{$ListData->upload_date2}}
                                                     </div>
                                                     @endif
-                                                </td>                                               
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -164,5 +155,15 @@
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
-
+<Script>
+        $(ListData).DataTable({
+        "autoWidth": false,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        responsive: true,
+        "info": true,
+    })
+</Script>
 </html>
