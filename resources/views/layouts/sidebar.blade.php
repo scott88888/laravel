@@ -48,14 +48,12 @@
                             <li id="aiQuerySearch"><a href="fontawesome.html">AI 權重查詢</a></li>
                         </ul>
                     </li> -->
-                    <li class="setup">
+                    <li id="setup" class="setup">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-table"></i>
                             <span>設定</span></a>
-                        <!-- <ul class="collapse">
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                        </ul> -->
+                        <ul class="collapse">
+                            <li id="updatePasswordBtn"><a href="{{ route('password.update') }}">修改密碼</a></li>
+                        </ul>
                     </li>
                 </ul>
             </nav>

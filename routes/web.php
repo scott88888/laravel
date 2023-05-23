@@ -4,16 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PasswordController;
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
 
-
-
-
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
+    //密碼
+    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+    Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     //MES
     Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);

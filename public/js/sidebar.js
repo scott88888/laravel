@@ -7,6 +7,7 @@ if (prefix == "mes") {
   $('#documentSearch a:first-child').attr('aria-expanded', true);
   $('#documentSearch ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
   $('#dashBoard').removeClass('active');
+  $('#setup').removeClass('active');
 
 };
 if (prefix == "das") {
@@ -14,6 +15,15 @@ if (prefix == "das") {
   $('#dashBoard a:first-child').attr('aria-expanded', true);
   $('#dashBoard ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
   $('#documentSearch').removeClass('active');
+  $('#setup').removeClass('active');
+
+};
+if (prefix == "upd") {
+  $('#setup').last().addClass("active");
+  $('#setup a:first-child').attr('aria-expanded', true);
+  $('#setup ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#documentSearch').removeClass('active');
+  $('#dashBoard').removeClass('active');
 
 };
 
@@ -81,8 +91,11 @@ switch (page) {
   case 'mesRMAAnalysis':
     $('#mesRMAAnalysisBtn').last().addClass("active");
     break;
-    case 'mesShipmentList':
+  case 'mesShipmentList':
     $('#mesShipmentListBtn').last().addClass("active");
+    break;
+  case 'update':
+    $('#updatePasswordBtn').last().addClass("active");
     break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
