@@ -23,9 +23,11 @@
                             <div class="card-header">{{ __('Update Password') }}</div>
 
                             <div class="card-body">
+                                @if(session('success'))
                                 <div class="alert alert-success">
                                     {{ session('success') }}
                                 </div>
+                                @endif
                                 <form method="POST" action="{{ route('password.update') }}">
                                     @csrf
                                     @method('PUT')
