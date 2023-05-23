@@ -14,7 +14,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
     //密碼
-    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
+    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update2');
     Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     //MES

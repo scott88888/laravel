@@ -13,15 +13,12 @@ class PasswordController extends Controller
 {
     public function showUpdateForm()
     {
-        echo 123;
-        
         return view('password.update');
     }
 
     public function update(Request $request)
     {
-        echo 1234;
-        
+       
         $request->validate([
             'current_password' => 'required',
             'password' => 'required|confirmed|min:4',
