@@ -361,7 +361,7 @@ class MesController extends BaseController
                 ->get();
         } else {
             $value = DB::table('mes_deld_shipment')
-                ->where($searchtype, 'like', $search . '%')
+                ->where($searchtype, 'like','%'. $search . '%')
                 ->orderBy('DAT_DEL', 'asc')
                 ->get();
         }

@@ -51,6 +51,7 @@
                                             <option value="NAM_ITEMS">品名</option>
                                             <option value="NUM_DEL">出貨單號</option>
                                             <option value="NUM_PO">訂單編號</option>
+                                            <option value="COD_ITEM">料號</option>                                            
                                             <option value="DAT_DEL">出貨日期</option>
                                         </select>
                                     </div>
@@ -106,8 +107,7 @@
                                         <th id="col1">NAM_ITEMS</th>
                                         <th>NUM_DEL</th>
                                         <th>NUM_PO</th>
-                                        <th>COD_ITEM</th>
-                                        <th>DAT_TCKET</th>
+                                        <th>COD_ITEM</th>                                        
                                         <th>QTY_DEL</th>
                                     </thead>
                                     <tbody>
@@ -118,8 +118,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td></td>                                            
                                             <td></td>
                                         </tr>
                                     </tbody>
@@ -171,9 +170,6 @@
         }, {
             "data": "COD_ITEM",
             "title": "料號"
-        }, {
-            "data": "DAT_TCKET",
-            "title": "預定出貨日"
         }, {
             "data": "QTY_DEL",
             "title": "數量"
