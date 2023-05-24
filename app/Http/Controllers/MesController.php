@@ -31,7 +31,6 @@ class MesController extends BaseController
     {
         //獲取資料
         $MesModelList = MesModelList::getModelListData();
-
         if ($MesModelList) {
             return view('mesModelList', ['MesModelList' => $MesModelList]);
         }
@@ -39,11 +38,15 @@ class MesController extends BaseController
 
     public function mesUploadList(Request $request)
     {
-        //獲取資料
-        $MesUploadList = MesModelList::getUploadListData();
-        if ($MesUploadList) {
-            return view('mesUploadList', ['MesUploadList' => $MesUploadList]);
+        
+        
+        if ($request->submit == 'getlist') {
+            $MesUploadList = MesModelList::getUploadListData();
+        }else {
+            $MesUploadList =[] ;
         }
+        return view('mesUploadList', ['MesUploadList' => $MesUploadList]);
+
     }
 
     public function mesItemList(Request $request)

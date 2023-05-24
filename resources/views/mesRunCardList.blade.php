@@ -24,10 +24,10 @@
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
-            <div class="main-content-inner">
+            <div class="main5">
                 <div class="row">
                     <!-- Dark table start -->
-                    <div class="col-12 mt-5">
+                    <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">生產流程卡查詢</h4>

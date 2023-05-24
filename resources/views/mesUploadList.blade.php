@@ -20,13 +20,20 @@
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
-            <div class="main-content-inner">
+            <div class="main5">
                 <div class="row">
                     <!-- Dark table start -->
-                    <div class="col-12 mt-5">
+                    <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">韌體下載查詢</h4>
+                                <div class="form-row col-md-6 mb-3">
+                                    <form action="./mesUploadList" method="GET">
+                                        <div class="col">
+                                            <button name="submit" class="btn btn-primary" value="getlist">取得資料</button>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
@@ -156,7 +163,7 @@
 </body>
 @include('layouts/footerjs')
 <Script>
-        $(ListData).DataTable({
+    $(ListData).DataTable({
         "autoWidth": false,
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -166,4 +173,5 @@
         "info": true,
     })
 </Script>
+
 </html>

@@ -21,9 +21,9 @@
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
-            <div class="main-content-inner">
+            <div class="main5">
                 <div class="row">
-                    <div class="col-12 mt-5">
+                    <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">借品未歸還一覽表</h4>
