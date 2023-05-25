@@ -45,10 +45,7 @@
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="validationCustom04">查詢內容</label>
-                                        <input id="search" type="text" class="form-control" placeholder="" required="">
-                                        <div class="invalid-feedback">
-                                            Please provide a valid state.
-                                        </div>
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">                                   
                                     </div>
                                     <div class="col-md-1">
                                         <label for="validationCustom04">快查</label>

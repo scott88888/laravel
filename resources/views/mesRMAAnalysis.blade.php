@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
@@ -25,15 +25,14 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="main5">
-                <div class="row">
-                    <!-- Dark table start -->
-                    <div class="col-12 mt-1">
+                <div class="row" style="margin: 0;">
+                    <div class="col-12 mt-1" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">RMA退貨授權查詢</h4>
                                 <div class="form-row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="col-form-label">查詢類型 </label>
+                                        <label class="col-form-label" style="padding: 8px;">查詢類型 </label>
                                         <select id="searchtype" class="form-control" style="padding: 0;">
                                             <option>select</option>
                                             <option value="NUM_ONCA">報修單號</option>
@@ -52,14 +51,7 @@
                                             <label>查詢內容</label>
                                             <input class="form-control form-control-sm" id="search">
                                         </div>
-                                        <!-- <div id="rang" class="form-group">
-                                            <label>出廠區間(開始/年月)</label>
-                                            <input class="form-control form-control-sm" id="rangS" placeholder="EX:1901">
-                                            <label>出廠區間(結束/年月)</label>
-                                            <input class="form-control form-control-sm" id="rangE" placeholder="EX:1903">
-                                        </div> -->
                                     </div>
-
                                 </div>
                                 <div class="form-row col-md-6 mb-3">
                                     <div class="col">
@@ -123,148 +115,160 @@
 </body>
 @include('layouts/footerjs')
 <script>
+    var table;
     $(document).ready(function() {
         let dateEnd;
         let work_no;
         $('#loading').hide();
         $('#rang').hide();
-        var table = $('#ListData').DataTable({
-            "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-            responsive: true,
-            columns: [{
-                "data": "DAT_ONCA",
-                "title": "報修日期	"
-            }, {
-                "data": "ONCA_IR",
-                "title": "類別"
-            }, {
-                "data": "NUM_ONCA",
-                "title": "報修單號"
-            }, {
-                "data": "NUM_MTRM",
-                "title": "派修單號"
-            }, {
-                "data": "NAM_CUSTS",
-                "title": "客戶"
-            }, {
-                "data": "COD_ITEM",
-                "title": "產品型號"
-            }, {
-                "data": "NUM_SER",
-                "title": "出廠序號"
-            }, {
-                "data": "DAT_ACTB",
-                "title": "實際開工"
-            }, {
-                "data": "DAT_ACTE",
-                "title": "實際完工"
-            }, {
-                "data": "PS1_1",
-                "title": "故障原因"
-            }, {
-                "data": "MTRM_PS",
-                "title": "零件料號"
-            }, {
-                "data": "PS1_2",
-                "title": "檢測結果"
-            }, {
-                "data": "PS1_3",
-                "title": "責任判定"
-            }, {
-                "data": "PS1_4",
-                "title": "保固期"
-            }, {
-                "data": "EMP_ORD",
-                "title": "維修人員"
-            }, {
-                "data": "STS_ONCA",
-                "title": "維修單狀況"
-            }, {
-                "data": "DIFF_DAYS",
-                "title": "處理時間 (天)"
-            }],
+
+        table = $('#ListData').DataTable({
+            ...tableConfig,
             columnDefs: [{
-                targets: [1, 8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
-                render: function(data, type, row, meta) {
-                    switch (meta.col) {
-                        case 1:
-                            if (data === 1) {
-                                return '<span style="color:blue">' + '維修品' + '</span>';
-                            } else if (data === 2) {
-                                return '<span style="color:blue">' + '借品' + '</span>';
-                            } else if (data === 3) {
-                                return '<span style="color:blue">' + '借品專用' + '</span>';
-                            } else if (data === 4) {
-                                return '<span style="color:blue">' + '換品' + '</span>';
-                            } else if (data === 5) {
-                                return '<span style="color:red">' + '退貨' + '</span>';
-                            } else {
-                                return data
-                            }
-                        case 8:
-                            dateEnd = data;
-                            return data;
-                        case 12:
-                            work_no = data;
-                            if (data === '客戶') {
+                    targets: [0], // 所在的 index（從 0 開始）
+                    data: "DAT_ONCA",
+                    title: "報修日期"
+                },
+                {
+                    targets: [1], // 所在的 index（從 0 開始）
+                    data: "ONCA_IR",
+                    title: "類別",
+                },
+                {
+                    targets: [2], // 所在的 index（從 0 開始）
+                    data: "NUM_ONCA",
+                    title: "報修單號"
+                },
+                {
+                    targets: [3], // 所在的 index（從 0 開始）
+                    data: "NUM_MTRM",
+                    title: "派修單號"
+                },
+                {
+                    targets: [4], // 所在的 index（從 0 開始）
+                    data: "NAM_CUSTS",
+                    title: "客戶"
+                },
+                {
+                    targets: [5], // 所在的 index（從 0 開始）
+                    data: "COD_ITEM",
+                    title: "產品型號"
+                },
+                {
+                    targets: [6], // 所在的 index（從 0 開始）
+                    data: "NUM_SER",
+                    title: "出廠序號"
+                },
+                {
+                    targets: [7], // 所在的 index（從 0 開始）
+                    data: "DAT_ACTB",
+                    title: "實際開工"
+                },
+                {
+                    targets: [8], // 所在的 index（從 0 開始）
+                    data: "DAT_ACTE",
+                    title: "實際完工"
+                },
+                {
+                    targets: [9], // 所在的 index（從 0 開始）
+                    data: "PS1_1",
+                    title: "故障原因",
+                },
+                {
+                    targets: [10], // 所在的 index（從 0 開始）
+                    data: "MTRM_PS",
+                    title: "零件料號",
+                },
+                {
+                    targets: [11], // 所在的 index（從 0 開始）
+                    data: "PS1_2",
+                    title: "檢測結果",
+                },
+                {
+                    targets: [12], // 所在的 index（從 0 開始）
+                    data: "PS1_3",
+                    title: "責任判定",
+                },
+                {
+                    targets: [13], // 所在的 index（從 0 開始）
+                    data: "PS1_4",
+                    title: "保固期",
+                },
+                {
+                    targets: [14], // 所在的 index（從 0 開始）
+                    data: "EMP_ORD",
+                    title: "維修人員",
+                },
+                {
+                    targets: [15], // 所在的 index（從 0 開始）
+                    data: "STS_ONCA",
+                    title: "維修單狀況",
+                },
+                {
+                    targets: [16], // 所在的 index（從 0 開始）
+                    data: "DIFF_DAYS",
+                    title: "處理時間 (天)",
+
+                }, {
+                    targets: [1, 8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
+                    render: function(data, type, row, meta) {
+                        switch (meta.col) {
+                            case 1:
+
+                            case 8:
+                                dateEnd = data;
                                 return data;
-                            } else if (data === '廠商') {
+                            case 12:
+                                work_no = data;
+                                if (data === '客戶') {
+                                    return data;
+                                } else if (data === '廠商') {
+                                    return data;
+                                } else {
+                                    return '';
+                                }
+                            case 13:
+                                if (data === '客戶' || data === '廠商') {
+                                    return '';
+                                }
                                 return data;
-                            } else {
-                                return '';
-                            }
-                        case 13:
-                            if (data === '客戶' ||  data === '廠商') {
-                                return '';
-                            } 
+                            case 15:
+                                if (data === '00') {
+                                    return '<span style="color:red">' + '尚未處理' + '</span>';
+                                } else if (data === '05') {
+                                    return '<span style="color:blue">' + '已轉公文' + '</span>';
+                                } else if (data == '07') {
+                                    return '<span style="color:blue">' + '報價中' + '</span>';
+                                } else if (data === '10') {
+                                    return '<span style="color:blue">' + '已確認' + '</span>';
+                                } else if (data === '15') {
+                                    return '<span style="color:blue">' + '通知生產' + '</span>';
+                                } else if (data === '20') {
+                                    return '<span style="color:blue">' + '已派工' + '</span>';
+                                } else if (data === '25') {
+                                    return '<span style="color:blue">' + '轉單' + '</span>';
+                                } else if (data === '30') {
+                                    return '<span style="color:blue">' + '已完工' + '</span>';
+                                } else if (data === '35') {
+                                    return '<span style="color:blue">' + '通知驗收' + '</span>';
+                                } else if (data === '40') {
+                                    return '<span style="color:blue">' + '客戶驗收' + '</span>';
+                                } else if (data === '50') {
+                                    return '<span style="color:blue">' + '已轉應收' + '</span>';
+                                } else if (data === '90') {
+                                    return '<span style="color:blue">' + '撤銷' + '</span>';
+                                } else if (data === '99') {
+                                    return '<span style="color:blue">' + '結案' + '</span>';
+                                } else {
+                                    return data
+                                }
+                            default:
                                 return data;
-                        case 15:
-                            if (data === '00') {
-                                return '<span style="color:red">' + '尚未處理' + '</span>';
-                            } else if (data === '05') {
-                                return '<span style="color:blue">' + '已轉公文' + '</span>';
-                            } else if (data == '07') {
-                                return '<span style="color:blue">' + '報價中' + '</span>';
-                            } else if (data === '10') {
-                                return '<span style="color:blue">' + '已確認' + '</span>';
-                            } else if (data === '15') {
-                                return '<span style="color:blue">' + '通知生產' + '</span>';
-                            } else if (data === '20') {
-                                return '<span style="color:blue">' + '已派工' + '</span>';
-                            } else if (data === '25') {
-                                return '<span style="color:blue">' + '轉單' + '</span>';
-                            } else if (data === '30') {
-                                return '<span style="color:blue">' + '已完工' + '</span>';
-                            } else if (data === '35') {
-                                return '<span style="color:blue">' + '通知驗收' + '</span>';
-                            } else if (data === '40') {
-                                return '<span style="color:blue">' + '客戶驗收' + '</span>';
-                            } else if (data === '50') {
-                                return '<span style="color:blue">' + '已轉應收' + '</span>';
-                            } else if (data === '90') {
-                                return '<span style="color:blue">' + '撤銷' + '</span>';
-                            } else if (data === '99') {
-                                return '<span style="color:blue">' + '結案' + '</span>';
-                            } else {
-                                return data
-                            }
-                        default:
-                            return data;
+                        }
                     }
                 }
-            }]
+            ]
         });
-
-        // $('#searchtype').on('change', function() {
-        //     if ($(this).val() == 'cod_cust') {
-        //         $('#rang').show();
-        //     } else {
-        //         $('#rang').hide();
-        //     }
-        // });
         $('#submit').click(function() {
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();

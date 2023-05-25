@@ -354,34 +354,12 @@ class MesController extends BaseController
         $search = $request->input('search');
         $rans = $request->input('rangS');
         $rane = $request->input('rangE');
-        if ($searchtype == 'DAT_DEL') {
-            $value = DB::table('mes_deld_shipment')
-                ->whereBetween('DAT_DEL', [$rans, $rane])
-                ->orderBy('DAT_DEL', 'asc')
-                ->get();
-        } else {
-            $value = DB::table('mes_deld_shipment')
-                ->where($searchtype, 'like','%'. $search . '%')
-                ->orderBy('DAT_DEL', 'asc')
-                ->get();
-        }
-
-
-        return response()->json($value);
-
-
-        //return view('mesShipmentList');
+        $mesShipmentListAjax = MesModelList::getShipmentListAjax($searchtype, $search,$rans,$rane);
+        return response()->json($mesShipmentListAjax);
     }
 
     public function mesShipmentList(Request $request)
     {
-        // $value = DB::table('mes_deld_shipment')
-        // ->where('DAT_DEL', 'like','202302%')
-        // ->orderBy('DAT_DEL', 'asc')
-        // ->get();
-        // return response()->json($value);
-
-
         return view('mesShipmentList');
     }
 }

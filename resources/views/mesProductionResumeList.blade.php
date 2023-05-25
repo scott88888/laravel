@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
@@ -25,36 +25,33 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="main5">
-                <div class="row">
-                    <!-- Dark table start -->
-                    <div class="col-12 mt-1">
+                <div class="row" style="margin: 0;">
+                    <div class="col-12 mt-1" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">生產履歷查詢</h4>
-                                <div class="col-md-4 mb-3">
-                                    <div class="form-group">
-                                        <label>查詢內容</label>
-                                        <input class="form-control form-control-sm" id="search">
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="col-form-label">查詢類型 </label>
-                                    <select id="searchtype" class="form-control" style="padding: 0;">
-                                        <option>select</option>
+                                <h4 class="header-title">生產履歷查詢</h4>                               
+                                <div class="form-row">
+                                <div class="col-md-2 mb-3">
+                                    <label class="col-form-label" style="padding-top: 0;">查詢類型 </label>
+                                    <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option>選擇</option>
                                         <option value="SEQ_ITEM">零件序號查詢</option>
                                         <option value="SEQ_MITEM">出廠序號查詢</option>
                                         <option value="PS2">MAC查詢</option>
-                                        <option value="PS5">韌體版本 (ex: 4.2.92.7739)</option>
+                                        <option value="PS5">韌體版本 (ex: 4.2.92.71)</option>
                                         <option value="CLDS_COD_ITEM">產品型號查詢</option>
-                                        <option value="NUM_PS">工單</option>
+                                        <option value="NUM_PS">工單 (ex:GA200102026)</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="col-md-2 my-1">
-                                        <button id="submit" class="btn btn-primary">查詢</button>
-                                    </div>
+                                <div class="col-md-2 mb-3" id="searchBox">
+                                    <label for="validationCustom04">查詢內容</label>
+                                    <input id="search" type="text" class="form-control" placeholder="" required="">
                                 </div>
-
+                                <div class="col-2">
+                                        <label for="">查詢</label>
+                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
+                                    </div>
+                            </div>
                             </div>
                             <div class="data-tables datatable-dark">
                                 <table id="ListData" class="display text-center" style="width:100%">
@@ -115,84 +112,96 @@
 @include('layouts/footerjs')
 
 <script>
+    var table;
     $(document).ready(function() {
-
-
         $('#loading').hide();
-        var table = $('#ListData').DataTable({
-            "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
-            columns: [{
-                    "data": "NUM_PS",
-                    "title": "工單"
+        table = $('#ListData').DataTable({
+            ...tableConfig,
+            columnDefs: [{
+                    targets: [0],
+                    data: "NUM_PS",
+                    title: "工單"
                 },
                 {
-                    'data': 'NUM_ORD',
-                    "title": "工令"
+                    targets: [1],
+                    data: 'NUM_ORD',
+                    title: "工令"
                 },
                 {
-                    'data': 'REMARK2',
-                    "title": "客戶",
+                    targets: [2],
+                    data: 'REMARK2',
+                    title: "客戶",
                 },
                 {
-                    'data': 'DAT_BEGS',
-                    "title": "計畫日",
+                    targets: [3],
+                    data: 'DAT_BEGS',
+                    title: "計畫日",
                 },
                 {
-                    'data': 'DAT_BEGA',
-                    "title": "上線日",
+                    targets: [4],
+                    data: 'DAT_BEGA',
+                    title: "上線日",
                 },
                 {
-                    'data': 'DAT_DEL',
-                    "title": "交貨日",
+                    targets: [5],
+                    data: 'DAT_DEL',
+                    title: "交貨日",
                 },
                 {
-                    'data': 'QTY_PCS',
-                    "title": "數量",
+                    targets: [6],
+                    data: 'QTY_PCS',
+                    title: "數量",
                 },
                 {
-                    'data': 'CLDS_COD_ITEM',
-                    "title": "產品型號",
+                    targets: [7],
+                    data: 'CLDS_COD_ITEM',
+                    title: "產品型號",
                 },
                 {
-                    'data': 'SEQ_MITEM',
-                    "title": "出廠序號",
+                    targets: [8],
+                    data: 'SEQ_MITEM',
+                    title: "出廠序號",
                 },
                 {
-                    'data': 'PS1',
-                    "title": "流程卡號",
+                    targets: [9],
+                    data: 'PS1',
+                    title: "流程卡號",
                 },
                 {
-                    'data': 'PS2',
-                    "title": "MAC",
+                    targets: [10],
+                    data: 'PS2',
+                    title: "MAC",
                 },
                 {
-                    'data': 'PS3',
-                    "title": "維修",
+                    targets: [11],
+                    data: 'PS3',
+                    title: "維修",
                 },
                 {
-                    'data': 'SEQ_NO',
-                    "title": "流水號",
+                    targets: [12],
+                    data: 'SEQ_NO',
+                    title: "流水號",
                 },
                 {
-                    'data': 'COMPQ_COD_ITEM',
-                    "title": "零件料號",
+                    targets: [13],
+                    data: 'COMPQ_COD_ITEM',
+                    title: "零件料號",
                 },
                 {
-                    'data': 'SEQ_ITEM',
-                    "title": "零件序號",
+                    targets: [14],
+                    data: 'SEQ_ITEM',
+                    title: "零件序號",
                 },
                 {
-                    'data': 'PS5',
-                    "title": "韌體版本",
+                    targets: [15],
+                    data: 'PS5',
+                    title: "韌體版本",
                 },
                 {
-                    'data': 'PS6',
-                    "title": "倉位",
-                },
+                    targets: [16],
+                    data: 'PS6',
+                    title: "倉位",
+                }
             ]
 
         });

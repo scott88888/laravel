@@ -164,11 +164,10 @@ class MesModelList extends Authenticatable
     }
     public static function getProductionResumeListAjax($search, $searchtype)
     {
-        if ($searchtype == 'PS5') {
-            $value = DB::select("SELECT * FROM `mac_query` WHERE `$searchtype` like '$search%'");
-        } else {
-            $value = DB::select("SELECT * FROM `mac_query` WHERE `$searchtype` like '$search'");
-        }
+        $value = DB::table('mac_query')
+            ->where($searchtype, 'like', '%' . $search . '%')
+            ->orderBy('NUM_PS', 'asc')
+            ->get();
         return $value;
     }
     public static function getHistoryProductionQuantity()
@@ -275,8 +274,8 @@ class MesModelList extends Authenticatable
                 ->get();
         } else {
             $value = DB::table('mes_purchase_overdue')
-                ->whereNull('DAT_POR')          
-                ->orderBy('DAT_BUY', 'desc')    
+                ->whereNull('DAT_POR')
+                ->orderBy('DAT_BUY', 'desc')
                 ->get();
         }
         return $value;
@@ -289,18 +288,35 @@ class MesModelList extends Authenticatable
     public static function getRMAListAjax($searchtype, $search)
     {
         $value = DB::table('mes_rma_analysis')
-        ->where($searchtype, 'like', $search.'%')
-        ->orderBy('NUM_ONCA', 'asc')
-        ->get();
+            ->where($searchtype, 'like', $search . '%')
+            ->orderBy('NUM_ONCA', 'asc')
+            ->get();
         return $value;
     }
     public static function getRMAAnalysisAjax($searchtype, $search)
     {
-        
+
         $value = DB::table('mes_rma_analysis')
-        ->where($searchtype, 'like', $search.'%')
-        ->orderBy('NUM_ONCA', 'asc')
-        ->get();
+            ->where($searchtype, 'like', $search . '%')
+            ->orderBy('NUM_ONCA', 'asc')
+            ->get();
+        return $value;
+    }
+
+    public static function getShipmentListAjax($searchtype, $search,$rans,$rane)
+    {
+        
+        if ($searchtype == 'DAT_DEL') {
+            $value = DB::table('mes_deld_shipment')
+                ->whereBetween('DAT_DEL', [$rans, $rane])
+                ->orderBy('DAT_DEL', 'asc')
+                ->get();
+        } else {
+            $value = DB::table('mes_deld_shipment')
+                ->where($searchtype, 'like','%'. $search . '%')
+                ->orderBy('DAT_DEL', 'asc')
+                ->get();
+        }
         return $value;
     }
 }
