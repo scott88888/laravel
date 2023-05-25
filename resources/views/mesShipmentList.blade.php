@@ -11,18 +11,6 @@
         $('#ListData').DataTable();
     });
 </script>
-<style>
-    /* .dt-button.buttons-csv.buttons-html5 {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    padding: 0.5rem 1rem;
-    border: 1px solid #3b3b3b;
-    border-radius: 8px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#6e6e6e), to(#3b3b3b));
-    color: #ffffff;
-} */
-</style>
 
 <body>
     <div id="preloader">
@@ -51,7 +39,7 @@
                                             <option value="NAM_ITEMS">品名</option>
                                             <option value="NUM_DEL">出貨單號</option>
                                             <option value="NUM_PO">訂單編號</option>
-                                            <option value="COD_ITEM">料號</option>                                            
+                                            <option value="COD_ITEM">料號</option>
                                             <option value="DAT_DEL">出貨日期</option>
                                         </select>
                                     </div>
@@ -107,7 +95,7 @@
                                         <th id="col1">NAM_ITEMS</th>
                                         <th>NUM_DEL</th>
                                         <th>NUM_PO</th>
-                                        <th>COD_ITEM</th>                                        
+                                        <th>COD_ITEM</th>
                                         <th>QTY_DEL</th>
                                     </thead>
                                     <tbody>
@@ -118,7 +106,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>                                            
+                                            <td></td>
                                             <td></td>
                                         </tr>
                                     </tbody>
@@ -136,45 +124,53 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    var table = $('#ListData').DataTable({
-        language: {
-            search: 'Filter' // 將搜尋文字改為中文
-        },
-
-        lengthMenu: [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
-        columns: [{
-            "data": "DAT_DEL",
-            "title": "出貨日期"
-        }, {
-            "data": "NAM_CUSTS",
-            "title": "客戶名稱"
-        }, {
-            "data": "NUM_CUST",
-            "title": "客戶代號"
-        }, {
-            "data": "NAM_ITEMS",
-            "title": "品名"
-        }, {
-            "data": "NUM_DEL",
-            "title": "出貨單號"
-        }, {
-            "data": "NUM_PO",
-            "title": "訂單編號"
-        }, {
-            "data": "COD_ITEM",
-            "title": "料號"
-        }, {
-            "data": "QTY_DEL",
-            "title": "數量"
-        }]
-    });
-
+    var table;
     $(document).ready(function() {
-        let Model;
+
+        table = $('#ListData').DataTable({
+            ...tableConfig,
+            columnDefs: [{
+                    "data": "DAT_DEL",
+                    "targets": 0,
+                    "title": "出貨日期"
+                },
+                {
+                    "data": "NAM_CUSTS",
+                    "targets": 1,
+                    "title": "客戶名稱"
+                },
+                {
+                    "data": "NUM_CUST",
+                    "targets": 2,
+                    "title": "客戶代號"
+                },
+                {
+                    "data": "NAM_ITEMS",
+                    "targets": 3,
+                    "title": "品名"
+                },
+                {
+                    "data": "NUM_DEL",
+                    "targets": 4,
+                    "title": "出貨單號"
+                },
+                {
+                    "data": "NUM_PO",
+                    "targets": 5,
+                    "title": "訂單編號"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 6,
+                    "title": "料號"
+                },
+                {
+                    "data": "QTY_DEL",
+                    "targets": 7,
+                    "title": "數量"
+                }
+            ]
+        });
         $('#loading').hide();
         $('#rang').hide();
         $('#dateS').hide();

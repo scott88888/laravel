@@ -8,7 +8,7 @@ use App\Http\Controllers\PasswordController;
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
-
+Route::view('/temp', 'temp');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
