@@ -5,10 +5,13 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\FileController;
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
 Route::view('/temp', 'temp');
+Route::match(['get', 'post'], '/file/upload', [FileController::class, 'upload'])->name('file.upload');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 

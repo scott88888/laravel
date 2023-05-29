@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>DataTables Example</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/dropzone.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/dropzone.js"></script>
 </head>
+
 <body>
-    <table id="myTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-            </tr>
-        </thead>
-    </table>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.flash.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-
-  
-
+    <div id="app">
+        <form action="{{ route('file.upload') }}" class="dropzone" id="myDropzone" enctype="multipart/form-data">
+            @csrf
+            <div class="fallback">
+                <input type="file" name="file" id="fileInput">
+            </div>
+        </form>
+    </div>
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'csv', 'excel', 'pdf', 'copy', 'print'
-                ]
-            });
+        new Vue({
+            el: '#app',
+            mounted() {
+                Dropzone.options.myDropzone = {
+                    paramName: "file",
+                    maxFiles: 1, // 只允許上傳一個檔案
+                    maxFilesize: 10000,
+                    acceptedFiles: '.zip', // 只接受 .zip 檔案
+                    init: function() {
+                        this.on("success", function(file, response) {
+                            console.log(response);
+                        });
+                        this.on("error", function(file, response) {
+                            console.log(response);
+                        });
+                    }
+                };
+            }
         });
     </script>
 </body>
+
 </html>
