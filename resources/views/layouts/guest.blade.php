@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="icon" type="image/png" href="{{ asset('images/icon/lilinlogo.png') }}">
-        <link rel="stylesheet" href="{{ asset('css/family_figtree.css') }}">
+
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
