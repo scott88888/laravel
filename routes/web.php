@@ -12,9 +12,8 @@ Route::fallback([LogoutController::class, 'perform']);
 Route::view('/temp', 'temp');
 Route::match(['get', 'post'], '/file/upload', [FileController::class, 'upload'])->name('file.upload');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
     //密碼
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update2');
@@ -53,13 +52,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
-    
-
-
-
-
-
-
 });
 
 
