@@ -133,14 +133,14 @@
                         </div>
                         <form id="uploadForm" enctype="multipart/form-data">
                             <input type="file" name="file" id="fileInput">
-                            <button type="button" onclick="uploadFile()">上传文件</button>
+                            <button type="button" onclick="uploadFile()">上傳文件</button>
                         </form>
 
                         <div id="progressBar">
                             <div id="progressBarFill"></div>
                         </div>
 
-                        <div id="loading" style="display: none;">加载中...</div>
+                        <div id="loading" style="display: none;">傳...</div>
                     </div>
 
                 </div>
@@ -189,7 +189,7 @@
             error: function(xhr, status, error) {
                 console.log(error);
                 console.log(status);
-                console.log('上传失败');
+                console.log('上傳失敗');
                 $('#loading').hide();
             }
         });
