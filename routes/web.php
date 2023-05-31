@@ -6,19 +6,18 @@ use App\Http\Controllers\MesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\SetupController;
+
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
 Route::view('/temp', 'temp');
-Route::match(['get', 'post'], '/file/upload', [FileController::class, 'upload'])->name('file.upload');
+Route::post('/upload', [FileController::class, 'uploadFile']);
 
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
-    //密碼
-    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update2');
-    Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-    Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+
     //MES
     Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);
@@ -52,6 +51,15 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
+    //檔案管理
+    Route::match(['get', 'post'], '/fileFirmwareUpload', [FileController::class, 'fileFirmwareUpload']);
+    //設定
+    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update2');
+    Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+    Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+
+    Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog']);
+    
 });
 
 

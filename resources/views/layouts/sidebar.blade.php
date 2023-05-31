@@ -48,11 +48,19 @@
                             <li id="aiQuerySearch"><a href="fontawesome.html">AI 權重查詢</a></li>
                         </ul>
                     </li> -->
-                    <li id="setup" class="setup">
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-table"></i>
+                    <li id="fileCenter">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-folder"></i>
+                            <span>檔案管理</span></a>
+                        <ul class="collapse">
+                            <li id="fileFirmwareUploadBtn"><a href="fileFirmwareUpload">韌體上傳</a></li>                            
+                        </ul>
+                    </li>
+                    <li id="setup">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
                             <span>設定</span></a>
                         <ul class="collapse">
                             <li id="updatePasswordBtn"><a href="{{ route('password.update') }}">修改密碼</a></li>
+                            <!-- <li id="userLoginLogBtn"><a href="userLoginLog">登入紀錄</a></li> -->
                         </ul>
                     </li>
                 </ul>

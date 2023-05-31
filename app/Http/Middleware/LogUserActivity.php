@@ -14,10 +14,10 @@ class LogUserActivity
 
         if (Auth::check()) {
             $user = Auth::user();
-            $url = $request->path(); // 获取当前页面的名称
-            $time = now(); // 获取当前时间
+            $url = $request->path(); 
+            $time = now(); 
 
-            // 将日志信息写入数据库
+            
             DB::table('mes_loginlog')->insert([
                 'id' => '',
                 'user_name' => $user->name,                
