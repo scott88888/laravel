@@ -51,9 +51,9 @@
                                 <h4 class="header-title">韌體上傳</h4>
                                 <div class="form-row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">客戶類別<span style="color: red;">*必填</span> </label>
+                                        <label class="col-form-label" style="padding-top: 0;">客戶類別 </label>
                                         <select id="searchClientType" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="">選擇</option>
+                                            <option>選擇</option>
                                             <option value="LILIN">LILIN</option>
                                             <option value="NoBrand">No Brand</option>
                                             <option value="OEM-Brand">OEM-Brand</option>
@@ -65,9 +65,9 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">產品類型<span style="color: red;">*必填</span></label>
+                                        <label class="col-form-label" style="padding-top: 0;">產品類型 </label>
                                         <select id="searChproductType" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="">選擇</option>
+                                            <option>選擇</option>
                                             <option value="IPCAM">IPCAM</option>
                                             <option value="SpeedDome">SpeedDome</option>
                                             <option value="NVR">NVR</option>
@@ -81,53 +81,53 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">利凌版本<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">利凌版本</label>
                                         <input id="lilinVersion" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">MOD<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">MOD</label>
                                         <input id="MOD" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">產品名稱<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">產品名稱</label>
                                         <input id="productName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">客戶名稱<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">客戶名稱</label>
                                         <input id="customerName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">客戶型號<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">客戶型號</label>
                                         <input id="customerType" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="lensMCU" class="fa fa-camera">鏡頭MCU</label>
-                                        <input id="lensMCU" type="text" class="form-control" placeholder="" required="">
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="lensISP" class="fa fa-camera">鏡頭ISP</label>
-                                        <input id="lensISP" type="text" class="form-control" placeholder="" required="">
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="rescueVersion" class="fa fa-wrench">救援檔案版本</label>
-                                        <input id="rescueVersion" type="text" class="form-control" placeholder="" required="">
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="AI_Version" class="fa fa-wrench">AI 版本</label>
-                                        <input id="AI_Version" type="text" class="form-control" placeholder="" required="">
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6 mb-3" id="searchBox">
                                         <label for="inspectionForm" class="fa fa-calendar-minus-o">送驗需求單</label>
-                                        <input id="inspectionForm" type="text" class="form-control" placeholder="" required="">
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-row" style="padding-left: 26px;">
+                            <div class="form-row">
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-upload">韌體(OS)</span>
                                     <form id="firmwareOSForm" enctype="multipart/form-data">
@@ -157,7 +157,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="form-row" style="padding-left: 26px;">
+                            <div class="form-row">
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-upload">其他檔案</span>
                                     <form id="otherUploadForm" enctype="multipart/form-data">
@@ -187,17 +187,6 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                                <button type="button" id="submit" class="btn btn-primary btn-block">
-                                    <li class="fa fa-cloud-upload"></li> 儲存
-                                </button>
-                                <button type="button" id="submitOK" class="btn btn-flat btn-outline-success">
-                                    <li class="fa fa-cloud-upload"></li> 儲存成功
-                                </button>
-                            </div>
-                            <div class="0" style="margin: 2% 25%;width: 50%;">
-
-                            </div>
                             <div id="progressBar">
                                 <div id="progressBarFill"></div>
                             </div>
@@ -216,70 +205,6 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    $(document).ready(function() {
-        $('#submitOK').hide();
-    });
-    $('#submit').click(function() {
-        var searchClientType = $('#searchClientType').val();
-        var searChproductType = $('#searChproductType').val();
-        var lilinVersion = $('#lilinVersion').val();
-        var MOD = $('#MOD').val();
-        var productName = $('#productName').val();
-        var customerName = $('#customerName').val();
-        var customerType = $('#customerType').val();
-        var lensMCU = $('#lensMCU').val();
-        var lensISP = $('#lensISP').val();
-        var rescueVersion = $('#rescueVersion').val();
-        var AI_Version = $('#AI_Version').val();
-        var inspectionForm = $('#inspectionForm').val();
-        if (!searchClientType || !searChproductType || lilinVersion || MOD || productName || customerName || customerType) {
-            alert("請確認*必填資料");
-        } else {
-            $.ajax({
-                url: 'fileFirmwareUploadAjax',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    searchClientType: searchClientType,
-                    searChproductType: searChproductType,
-                    lilinVersion: lilinVersion,
-                    MOD: MOD,
-                    productName: productName,
-                    customerName: customerName,
-                    customerType: customerType,
-                    lensMCU: lensMCU,
-                    lensISP: lensISP,
-                    rescueVersion: rescueVersion,
-                    AI_Version: AI_Version,
-                    inspectionForm: inspectionForm
-                },
-                success: function(response) {
-                    $('#searchClientType').prop('disabled', true);
-                    $('#searChproductType').prop('disabled', true);
-                    $('#lilinVersion').prop('disabled', true);
-                    $('#MOD').prop('disabled', true);
-                    $('#productName').prop('disabled', true);
-                    $('#customerName').prop('disabled', true);
-                    $('#customerType').prop('disabled', true);
-                    $('#lensMCU').prop('disabled', true);
-                    $('#lensISP').prop('disabled', true);
-                    $('#rescueVersion').prop('disabled', true);
-                    $('#AI_Version').prop('disabled', true);
-                    $('#inspectionForm').prop('disabled', true);
-                    $('#submit').hide();
-                    $('#submitOK').show();
-                },
-                error: function(xhr, status, error) {
-                    // 處理 AJAX 請求失敗後的回應
-                    console.log('no');
-
-                }
-            });
-        }
-
-    });
-
-
     function updateFileName(input, labelId) {
         var fileName = input.files[0].name;
         var label = document.getElementById(labelId);
@@ -287,68 +212,55 @@
     }
 
     function uploadFile(type) {
-        var searchClientType = $('#searchClientType').val();
-        var searChproductType = $('#searChproductType').val();
-        var lilinVersion = $('#lilinVersion').val();
-        var MOD = $('#MOD').val();
-        var productName = $('#productName').val();
-        var customerName = $('#customerName').val();
-        var customerType = $('#customerType').val();
-        if (!searchClientType || !searChproductType || lilinVersion || MOD || productName || customerName || customerType) {
-            alert("請確認*必填資料");
-        } else {
-            var fileInput, formId;
-            if (type === 'firmwareOS') {
-                fileInput = document.getElementById('firmwareOSInput');
-                formId = 'firmwareOSForm';
-            } else if (type === 'firmwareAPP') {
-                fileInput = document.getElementById('firmwareAPPInput');
-                formId = 'firmwareAPPForm';
-            } else if (type === 'report') {
-                fileInput = document.getElementById('reportFileInput');
-                formId = 'reportUploadForm';
-            } else if (type === 'other') {
-                fileInput = document.getElementById('otherFileInput');
-                formId = 'otherUploadForm';
-            }
-            var file = fileInput.files[0];
-            var formData = new FormData();
-            formData.append('file', file);
-            $('#loading').show();
-            $.ajax({
-                url: "{{ asset('fileupload') }}",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener('progress', function(e) {
-                        if (e.lengthComputable) {
-                            var progressPercent = Math.round((e.loaded / e.total) * 100);
-                            $('#progressBarFill').css('width', progressPercent + '%');
-                        }
-                    });
-                    return xhr;
-                },
-                success: function(response) {
-                    console.log(response.message);
-                    console.log(response.path);
-                    $('#loading').hide();
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                    console.log(status);
-                    console.log('上傳失敗');
-                    $('#loading').hide();
-                }
-            });
+        var fileInput, formId;
+        if (type === 'firmwareOS') {
+            fileInput = document.getElementById('firmwareOSInput');
+            formId = 'firmwareOSForm';
+        } else if (type === 'firmwareAPP') {
+            fileInput = document.getElementById('firmwareAPPInput');
+            formId = 'firmwareAPPForm';
+        } else if (type === 'report') {
+            fileInput = document.getElementById('reportFileInput');
+            formId = 'reportUploadForm';
+        } else if (type === 'other') {
+            fileInput = document.getElementById('otherFileInput');
+            formId = 'otherUploadForm';
         }
-
-
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+        $('#loading').show();
+        $.ajax({
+            url: "{{ asset('fileupload') }}",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        var progressPercent = Math.round((e.loaded / e.total) * 100);
+                        $('#progressBarFill').css('width', progressPercent + '%');
+                    }
+                });
+                return xhr;
+            },
+            success: function(response) {
+                console.log(response.message);
+                console.log(response.path);
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                console.log(status);
+                console.log('上傳失敗');
+                $('#loading').hide();
+            }
+        });
     }
 </script>
 

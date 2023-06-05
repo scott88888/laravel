@@ -66,7 +66,6 @@ class DashboardModel extends Authenticatable
     }
     public static function getRMAMonList($search)
     {
-
         $value = DB::table('mes_rma_analysis')
         ->select('COD_ITEM', DB::raw('COUNT(*) AS COD_ITEM_Count'))
         ->where('DAT_ONCA', 'LIKE', $search.'%')
@@ -75,8 +74,5 @@ class DashboardModel extends Authenticatable
         ->limit(10)
         ->get();
         return $value;
-
-
-       
     }
 }

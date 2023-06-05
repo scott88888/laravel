@@ -9,10 +9,12 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\SetupController;
 
 
+
+
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
 Route::view('/temp', 'temp');
-Route::post('/upload', [FileController::class, 'uploadFile']);
+
 
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
@@ -53,13 +55,14 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
     //檔案管理
     Route::match(['get', 'post'], '/fileFirmwareUpload', [FileController::class, 'fileFirmwareUpload']);
+    Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
+    Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
+    Route::post('/fileupload', [FileController::class, 'uploadFile']);
+
     //設定
-    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update2');
+    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
     Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
 
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog']);
-    
 });
-
-

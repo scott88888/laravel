@@ -7,6 +7,7 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+            'timezone' => 'Asia/Taipei',
             'throw' => false,
         ],
 
