@@ -7,9 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/dropzone.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/dropzone.js"></script>
 </head>
 
 <script>
@@ -79,25 +76,27 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-row">
-                                    <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">利凌版本<span style="color: red;">*必填</span></label>
-                                        <input id="lilinVersion" type="text" class="form-control" placeholder="" required="">
-                                    </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="validationCustom04">MOD<span style="color: red;">*必填</span></label>
                                         <input id="MOD" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">產品名稱<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">利凌版本<span style="color: red;"></span></label>
+                                        <input id="lilinVersion" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+
+                                    <div class="col-md-2 mb-3" id="searchBox">
+                                        <label for="validationCustom04">產品名稱<span style="color: red;"></span></label>
                                         <input id="productName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">客戶名稱<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">客戶名稱<span style="color: red;"></span></label>
                                         <input id="customerName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="validationCustom04">客戶型號<span style="color: red;">*必填</span></label>
+                                        <label for="validationCustom04">客戶型號<span style="color: red;"></span></label>
                                         <input id="customerType" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
@@ -130,6 +129,7 @@
                             <div class="form-row" style="padding-left: 26px;">
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-upload">韌體(OS)</span>
+                                    <input id="firmwareOS_Name" style="display: none;">
                                     <form id="firmwareOSForm" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
@@ -144,6 +144,7 @@
                                 </div>
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-upload">韌體(應用程式)</span>
+                                    <input id="firmwareAPP_Name" style="display: none;">
                                     <form id="firmwareAPPForm" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
@@ -155,11 +156,13 @@
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                             <div class="form-row" style="padding-left: 26px;">
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-upload">其他檔案</span>
+                                    <input id="checkReport_Name" style="display: none;">
                                     <form id="otherUploadForm" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
@@ -167,13 +170,14 @@
                                                 <label class="custom-file-label" id="otherFiles">Choose file</label>
                                             </div>
                                             <div class="input-group-append">
-                                                <button class="input-group-text" type="button" onclick="uploadFile('other')">Upload</button>
+                                                <button class="input-group-text" type="button" onclick="uploadFile('otherFiles')">Upload</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="col-5" style="padding:0, 1rem;">
                                     <span class="ti-clipboard">驗證報告</span>
+                                    <input id="otherFiles_Name" style="display: none;">
                                     <form id="reportUploadForm" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
@@ -181,7 +185,7 @@
                                                 <label class="custom-file-label" id="checkReport">Choose file</label>
                                             </div>
                                             <div class="input-group-append">
-                                                <button class="input-group-text" type="button" onclick="uploadFile('report')">Upload</button>
+                                                <button class="input-group-text" type="button" onclick="uploadFile('checkReport')">Upload</button>
                                             </div>
                                         </div>
                                     </form>
@@ -232,7 +236,12 @@
         var rescueVersion = $('#rescueVersion').val();
         var AI_Version = $('#AI_Version').val();
         var inspectionForm = $('#inspectionForm').val();
-        if (!searchClientType || !searChproductType || lilinVersion || MOD || productName || customerName || customerType) {
+        var firmwareOS_Name = $('#firmwareOS_Name').val();
+        var firmwareAPP_Name = $('#firmwareAPP_Name').val();
+        var checkReport_Name = $('#checkReport_Name').val();
+        var otherFiles_Name = $('#otherFiles_Name').val();
+
+        if (!searchClientType || !searChproductType || !lilinVersion || !MOD || !productName || !customerName || !customerType) {
             alert("請確認*必填資料");
         } else {
             $.ajax({
@@ -251,7 +260,11 @@
                     lensISP: lensISP,
                     rescueVersion: rescueVersion,
                     AI_Version: AI_Version,
-                    inspectionForm: inspectionForm
+                    inspectionForm: inspectionForm,
+                    firmwareOS_Name: firmwareOS_Name,
+                    firmwareAPP_Name: firmwareAPP_Name,
+                    checkReport_Name: checkReport_Name,
+                    otherFiles_Name: otherFiles_Name
                 },
                 success: function(response) {
                     $('#searchClientType').prop('disabled', true);
@@ -286,6 +299,12 @@
         label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
     }
 
+    function updateFileStatus(input, labelId) {
+        var fileName = input.files[0].name;
+        var label = document.getElementById(labelId);
+        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
+    }
+
     function uploadFile(type) {
         var searchClientType = $('#searchClientType').val();
         var searChproductType = $('#searChproductType').val();
@@ -294,8 +313,9 @@
         var productName = $('#productName').val();
         var customerName = $('#customerName').val();
         var customerType = $('#customerType').val();
-        if (!searchClientType || !searChproductType || lilinVersion || MOD || productName || customerName || customerType) {
-            alert("請確認*必填資料");
+
+        if (!searchClientType) {
+            alert("請確認*必填資料，才能上傳檔案");
         } else {
             var fileInput, formId;
             if (type === 'firmwareOS') {
@@ -304,16 +324,21 @@
             } else if (type === 'firmwareAPP') {
                 fileInput = document.getElementById('firmwareAPPInput');
                 formId = 'firmwareAPPForm';
-            } else if (type === 'report') {
+            } else if (type === 'checkReport') {
                 fileInput = document.getElementById('reportFileInput');
                 formId = 'reportUploadForm';
-            } else if (type === 'other') {
+            } else if (type === 'otherFiles') {
                 fileInput = document.getElementById('otherFileInput');
                 formId = 'otherUploadForm';
             }
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('file', file);
+            formData.append('searchClientType', searchClientType);
+            formData.append('lilinVersion', lilinVersion);
+            formData.append('MOD', MOD);
+            formData.append('productName', productName);
+            formData.append('customerType', customerType);
             $('#loading').show();
             $.ajax({
                 url: "{{ asset('fileupload') }}",
@@ -336,13 +361,20 @@
                 },
                 success: function(response) {
                     console.log(response.message);
-                    console.log(response.path);
+                    console.log(response.filename);
+                    $('#' + type + '_Name').val(response.filename).hide();
+                    var label = document.getElementById(type);
+                    label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
+                    console.log(response.filesize);
+                    console.log(type);
                     $('#loading').hide();
+
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
                     console.log(status);
-                    console.log('上傳失敗');
+                    var label = document.getElementById(type);
+                    label.innerHTML = "<span style='color: red;'>" + response.filename + " (上傳失敗)</span>";
                     $('#loading').hide();
                 }
             });
