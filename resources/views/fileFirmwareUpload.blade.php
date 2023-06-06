@@ -181,7 +181,7 @@
                                     <form id="reportUploadForm" enctype="multipart/form-data">
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="reportFileInput" id="reportFileInput" accept=".zip,.rar" onchange="updateFileName(this,'checkReport')">
+                                                <input type="file" class="custom-file-input" name="reportFileInput" id="reportFileInput" accept=".pdf" onchange="updateFileName(this,'checkReport')">
                                                 <label class="custom-file-label" id="checkReport">Choose file</label>
                                             </div>
                                             <div class="input-group-append">
