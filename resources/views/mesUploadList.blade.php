@@ -171,6 +171,14 @@
         ],
         responsive: true,
         "info": true,
+        "order": [
+            [0, "desc"]
+        ],
+        "columnDefs": [{                
+                "targets": "_all",
+                "className": "dt-center",
+            } // 所有列居中显示
+        ]
     })
 </Script>
 

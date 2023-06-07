@@ -12,7 +12,6 @@
     });
 </script>
 
-
 <body>
     <div id="preloader">
         <div class="loader"></div>
@@ -104,7 +103,15 @@
         ],
         "info": true,
         responsive: true,
-        "order": [[3, "desc"]]
-    })
+        "order": [
+            [1, "desc"]
+        ],
+        "columnDefs": [{                
+                "targets": "_all",
+                "className": "dt-center",
+            } // 所有列居中显示
+        ]
+    });
 </script>
+
 </html>
