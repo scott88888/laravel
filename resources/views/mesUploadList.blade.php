@@ -76,7 +76,7 @@
                                                 <td>{{$ListData->customer_oem}}</td>
                                                 <td>{{$ListData->version}}</td>
                                                 <td>
-                                                    @if ($ListData->file_kernel != null)
+                                                    @if ($ListData->file_kernel_url != null)
                                                     <div>
                                                         <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_kernel_url}}" target="_blank">
                                                             <img src="{{ asset('images/icon/Backup_Blue_64x64px.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_kernel_url}}">
@@ -84,7 +84,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($ListData->file_app != null)
+                                                    @if ($ListData->file_app_url != null)
                                                     <div>
                                                         <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_app_url}}" target="_blank">
                                                             <img src="{{ asset('images/icon/Backup_Blue_64x64px.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_app_url}}">
@@ -92,7 +92,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($ListData->file_note_pdf != null)
+                                                    @if ($ListData->file_note_pdf_url != null)
                                                     <div>
                                                         <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_note_pdf_url}}" target="_blank">
                                                             <img src="{{ asset('images/icon/pdf_download.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_note_pdf_url}}">

@@ -297,6 +297,7 @@
                     $('#inspectionForm').prop('disabled', true);
                     $('#submit').hide();
                     $('#submitOK').show();
+                    $('.input-group-text').addClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // 處理 AJAX 請求失敗後的回應
@@ -383,7 +384,7 @@
                     label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
                     // console.log(response.filesize);
                     // console.log(type);
-                    $('.input-group-text').addClass('d-none');
+                    
                     $('#loading').hide();
 
                 },
