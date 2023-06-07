@@ -206,7 +206,7 @@
                                 <div id="progressBarFill"></div>
                             </div>
 
-                            <div id="loading" style="display: none;">上傳中...</div>
+                            <div id="loading" style="display: none;">上傳中...請勿重整頁面</div>
                         </div>
 
                     </div>
@@ -241,9 +241,25 @@
         var checkReport_Name = $('#checkReport_Name').val();
         var otherFiles_Name = $('#otherFiles_Name').val();
 
-        if (!searchClientType || !searChproductType || !lilinVersion || !MOD || !productName || !customerName || !customerType) {
+
+        var labels = $('#firmwareOS, #firmwareAPP, #otherFiles, #checkReport');
+        var containsNotUploaded = false;
+        labels.each(function() {
+            var label = $(this);
+            var text = label.text();
+            if (text.includes("尚未上傳")) {
+                containsNotUploaded = true;
+                console.log(label.attr('id') + " 包含 '尚未上傳'");
+                return false;
+            }
+        });
+
+        if (containsNotUploaded) {            
+            alert("有文件尚未上傳");
+        } else if (!searchClientType || !searChproductType || !MOD) {
             alert("請確認*必填資料");
         } else {
+
             $.ajax({
                 url: 'fileFirmwareUploadAjax',
                 type: 'GET',
@@ -314,7 +330,7 @@
         var customerName = $('#customerName').val();
         var customerType = $('#customerType').val();
 
-        if (!searchClientType) {
+        if (!searchClientType || !searChproductType || !MOD) {
             alert("請確認*必填資料，才能上傳檔案");
         } else {
             var fileInput, formId;
@@ -365,8 +381,9 @@
                     $('#' + type + '_Name').val(response.filename).hide();
                     var label = document.getElementById(type);
                     label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
-                    console.log(response.filesize);
-                    console.log(type);
+                    // console.log(response.filesize);
+                    // console.log(type);
+                    $('.input-group-text').addClass('d-none');
                     $('#loading').hide();
 
                 },
@@ -374,7 +391,7 @@
                     console.log(error);
                     console.log(status);
                     var label = document.getElementById(type);
-                    label.innerHTML = "<span style='color: red;'>" + response.filename + " (上傳失敗)</span>";
+                    label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
                     $('#loading').hide();
                 }
             });
