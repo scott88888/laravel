@@ -11,175 +11,406 @@
         $('#ListData').DataTable();
     });
 </script>
+<style>
+    .backup-icon {
+        display: none;
+    }
+</style>
 
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
+    <div id="loading">
+        <img src="{{ asset('images/icon/loading.gif') }}" alt="Loading...">
+    </div>
     <div class="page-container">
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
-            <div class="main5">
-                <div class="row">
+            <div>
+                <div class="row" style="margin: 0;">
                     <!-- Dark table start -->
-                    <div class="col-12 mt-1">
+                    <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">韌體下載查詢</h4>
-                                <div class="form-row col-md-6 mb-3">
-                                    <form action="./mesUploadList" method="GET">
-                                        <div class="col">
-                                            <button name="submit" class="btn btn-primary" value="getlist">取得資料</button>
+                                <div class="form-row">
+                                    <div class="col-md-1 mb-3">
+                                        <label class="col-form-label" style="padding-top: 0;">查詢類型 </label>
+                                        <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option>選擇</option>
+                                            <option value="fw_id">ID</option>
+                                            <option value="model_customer">MOD</option>
+                                            <option value="version">版本</option>
+                                            <option value="upload_date">上傳時間</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3" id="searchBox">
+                                        <label for="validationCustom04">查詢內容</label>
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+                                    <div class="col-md-2" id="dateS">
+                                        <div class="form-group">
+                                            <label for="example-date-input" style="padding-top: 0;" class="col-form-label">上傳時間(起)</label>
+                                            <input class="form-control" type="date" value="" id="rangS">
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div class="col-md-2" id="dateE">
+                                        <div class="form-group">
+                                            <label for="example-date-input" style="padding-top: 0;" class="col-form-label">上傳時間(迄)</label>
+                                            <input class="form-control" type="date" value="" id="rangE">
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="">查詢</label>
+                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
+                                    </div>
                                 </div>
-                                <div class="data-tables datatable-dark">
-                                    <table id="ListData" class="display text-center" style="width:100%">
-                                        <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>
-                                                <th class='hide_column'>ID</th>
-                                                <th>客戶類別</th>
-                                                <th>MOD</th>
-                                                <th>客戶型號</th>
-                                                <th>產品類型</th>
-                                                <th>LILIN名稱</th>
-                                                <th>客戶名稱</th>
-                                                <th>版本</th>
-                                                <th>韌體(OS)</th>
-                                                <th>韌體(應用程式)</th>
-                                                <th>發行文件</th>
-                                                <th>官網下載</th>
-                                                <th>驗證報告</th>
-                                                <th>其他檔案</th>
-                                                <th>迴轉台</th>
-                                                <th>鏡頭MCU</th>
-                                                <th>鏡頭ISP</th>
-                                                <th>Event I/O</th>
-                                                <th>救援檔案版本</th>
-                                                <th>AI版本</th>
-                                                <th>韌體上傳時間</th>
-                                                <th>韌體上傳人員</th>
-                                                <th>送驗需求單</th>
-                                                <th>發行通知上傳時間</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($MesUploadList as $ListData)
-                                            <tr>
-                                                <td class="hide_column">{{$ListData->fw_id}}</td>
-                                                <td>{{$ListData->customer}}</td>
-                                                <td>{{$ListData->model_no}}</td>
-                                                <td>{{$ListData->model_customer}}</td>
-                                                <td>{{$ListData->product_type}}</td>
-                                                <td>{{$ListData->model_name}}</td>
-                                                <td>{{$ListData->customer_oem}}</td>
-                                                <td>{{$ListData->version}}</td>
-                                                <td>
-                                                    @if ($ListData->file_kernel_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_kernel_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/Backup_Blue_64x64px.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_kernel_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->file_app_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_app_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/Backup_Blue_64x64px.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_app_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->file_note_pdf_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_note_pdf_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/pdf_download.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_note_pdf_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->ow_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->ow_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/zip_ow.png')}}" style="width: 1.5rem;" alt="{{$ListData->ow_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->file_report_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_report_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/QA_report.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_report_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->file_other_url != null)
-                                                    <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/{{$ListData->file_other_url}}" target="_blank">
-                                                            <img src="{{ asset('images/icon/zip.png')}}" style="width: 1.5rem;" alt="{{$ListData->file_other_url}}">
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>{{$ListData->pantilt_ver}}</td>
-                                                <td>{{$ListData->lens_ver}}</td>
-                                                <td>{{$ListData->lens_parameter}}</td>
-                                                <td>{{$ListData->p_ver}}</td>
-                                                <td>{{$ListData->recovery_ver}}</td>
-                                                <td>{{$ListData->ai_ver}}</td>
-                                                <td>{{$ListData->upload_date}}</td>
-                                                <td>{{$ListData->upload_man}}</td>
-                                                <td>
-                                                    @if ($ListData->Remark != null)
-                                                    <div>
-                                                        <a href="{{$ListData->Remark}}" target="_blank">
-                                                            <i class='ti-link'></i>
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($ListData->upload_date2 != '0000-00-00 00:00:00')
-                                                    <div>
-                                                        {{$ListData->upload_date2}}
-                                                    </div>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                <div class="form-row col-md-12 mb-3">
+                                    <div class="col-md-1">
+                                        <label>快速查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button id="3ds" class="btn btn-primary">3天</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label style="color: white;">快查</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button id="30ds" class="btn btn-primary">30天</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label style="color: white;">快查</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button id="all" class="btn btn-primary" value="getlist">取得全部資料</button>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="data-tables datatable-dark">
+                                <table id="ListData" class="display text-center" style="width:100%">
+                                    <thead class="text-capitalize" style=" background: darkgrey;">
+                                        <tr>
+                                            <th>fw_id</th>
+                                            <th>customer</th>
+                                            <th>model_no</th>
+                                            <th>model_customer</th>
+                                            <th>product_type</th>
+                                            <th>model_name</th>
+                                            <th>customer_oem</th>
+                                            <th>version</th>
+                                            <th>file_kernel_url</th>
+                                            <th>file_app_url</th>
+                                            <th>file_note_pdf_url</th>
+                                            <th>file_report_url</th>
+                                            <th>file_other_url</th>
+                                            <th>pantilt_ver</th>
+                                            <th>lens_ver</th>
+                                            <th>lens_parameter</th>
+                                            <th>p_ver</th>
+                                            <th>ai_ver</th>
+                                            <th>upload_date</th>
+                                            <th>upload_man</th>
+                                            <th>Remark</th>
+                                            <th>upload_date2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('layouts/footer')
+    </div>
+    @include('layouts/footer')
     </div>
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
 <Script>
-    $(ListData).DataTable({
-        "autoWidth": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
-        "info": true,
-        "order": [
-            [0, "desc"]
-        ],
-        "columnDefs": [{                
-                "targets": "_all",
-                "className": "dt-center",
-            } // 所有列居中显示
-        ]
-    })
+    var table;
+    let Backup_icon = '<img src=' + '{{ asset("images/icon/Backup_Blue_64x64px.png")}} style="width: 1.5rem;"">';
+    let pdf_icon = '<img src=' + '{{ asset("images/icon/pdf_download.png")}} style="width: 1.5rem;"">';
+
+
+    $(document).ready(function() {
+
+        table = $('#ListData').DataTable({
+            ...tableConfig,
+
+            columnDefs: [{
+                    "targets": "_all",
+                    "className": "dt-center"
+                },
+                {
+                    "data": "fw_id",
+                    "targets": 0,
+                    "title": "ID"
+                },
+                {
+                    "data": "customer",
+                    "targets": 1,
+                    "title": "客戶類別"
+                },
+                {
+                    "data": "model_no",
+                    "targets": 2,
+                    "title": "MOD"
+                },
+                {
+                    "data": "model_customer",
+                    "targets": 3,
+                    "title": "客戶型號"
+                },
+                {
+                    "data": "product_type",
+                    "targets": 4,
+                    "title": "產品類型"
+                },
+                {
+                    "data": "model_name",
+                    "targets": 5,
+                    "title": "LILIN名稱"
+                },
+                {
+                    "data": "customer_oem",
+                    "targets": 6,
+                    "title": "客戶名稱"
+                },
+                {
+                    "data": "version",
+                    "targets": 7,
+                    "title": "版本"
+                },
+                {
+                    "data": "file_kernel_url",
+                    "targets": 8,
+                    "title": "韌體"
+                },
+                {
+                    "data": "file_app_url",
+                    "targets": 9,
+                    "title": "韌體"
+                },
+                {
+                    "data": "file_note_pdf_url",
+                    "targets": 10,
+                    "title": "發行文件"
+                },
+                {
+                    "data": "file_report_url",
+                    "targets": 11,
+                    "title": "驗證報告"
+                },
+                {
+                    "data": "file_other_url",
+                    "targets": 12,
+                    "title": "其他檔案"
+                },
+                {
+                    "data": "pantilt_ver",
+                    "targets": 13,
+                    "title": "迴轉台"
+                },
+                {
+                    "data": "lens_ver",
+                    "targets": 14,
+                    "title": "鏡頭MCU"
+                },
+                {
+                    "data": "lens_parameter",
+                    "targets": 15,
+                    "title": "鏡頭ISP"
+                },
+                {
+                    "data": "p_ver",
+                    "targets": 16,
+                    "title": "Event"
+                },
+                {
+                    "data": "ai_ver",
+                    "targets": 17,
+                    "title": "AI版本"
+                },
+                {
+                    "data": "upload_date",
+                    "targets": 18,
+                    "title": "韌體上傳時間"
+                },
+                {
+                    "data": "upload_man",
+                    "targets": 19,
+                    "title": "韌體上傳人員"
+                },
+                {
+                    "data": "Remark",
+                    "targets": 20,
+                    "title": "送驗需求單"
+                },
+                {
+                    "data": "upload_date2",
+                    "targets": 21,
+                    "title": "發行通知上傳時間"
+                }, {
+                    targets: [8, 9, 10, 11, 12, 20], // 所在的 index（從 0 開始）
+                    render: function(data, type, row, meta) {
+                        switch (meta.col) {
+
+                            case 8:
+                                if (data != null) {
+                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+                            case 9:
+                                if (data != null) {
+                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+                            case 10:
+                                if (data != null) {
+                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+                            case 11:
+                                if (data != null) {
+                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+                            case 12:
+                                if (data != null) {
+                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+                            case 20:
+                                if (data != null) {
+                                    return '<a href="' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                } else {
+                                    return '';
+                                }
+
+                            default:
+                                return data;
+                        }
+                    }
+                }
+            ]
+        });
+        $('#loading').hide();
+        $('#rang').hide();
+        $('#dateS').hide();
+        $('#dateE').hide();
+        $('#searchtype').on('change', function() {
+            if ($(this).val() == 'upload_date') {
+                $('#rang').show();
+                $('#dateS').show();
+                $('#dateE').show();
+                $('#searchBox').hide();
+
+            } else {
+                $('#dateS').hide();
+                $('#dateE').hide();
+                $('#rang').hide();
+                $('#searchBox').show();
+            }
+        });
+        setButtonClickEvent(3);
+        setButtonClickEvent(30);
+        $('#submit').click(function() {
+            var search = $('#search').val();
+            var searchtype = $('#searchtype').val();
+            var rangS = $('#rangS').val().replace(/-/g, '');
+            var rangE = $('#rangE').val().replace(/-/g, '');
+            loadData(search, searchtype, rangS, rangE);
+        });
+
+    });
+
+    function loadData(search, searchtype, rangS, rangE) {
+        $('#loading').show();
+        $.ajax({
+            url: 'mesUploadListAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                search: search,
+                searchtype: searchtype,
+                rangS: rangS,
+                rangE: rangE
+            },
+            success: function(response) {
+                table.clear().rows.add(response).draw();
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+                console.log('no data');
+                $('#loading').hide();
+            }
+        });
+    }
+
+    function setButtonClickEvent(days) {
+        $('#' + days + 'ds').click(function() {
+            var dateRange = setDateRange(days);
+            var search = $('#search').val();
+            var searchtype = 'upload_date';
+            var rangS = dateRange.startFormatted;
+            var rangE = dateRange.endFormatted;
+            loadData(search, searchtype, rangS, rangE);
+        });
+    }
+
+    function setDateRange(days) {
+        var today = new Date();
+        var startDate = new Date(today);
+        var endDate = new Date(today);
+        startDate.setDate(startDate.getDate() - days);
+        var startFormatted = formatDate(startDate);
+        var endFormatted = formatDate(endDate);
+        return {
+            startFormatted: startFormatted,
+            endFormatted: endFormatted
+        };
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        return year + month + day;
+    }
 </Script>
 
 </html>

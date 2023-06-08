@@ -38,16 +38,39 @@ class MesController extends BaseController
 
     public function mesUploadList(Request $request)
     {
+        return view('mesUploadList');
+    }
+
+    public function mesUploadListAjax(Request $request)
+    {
         
-        
-        if ($request->submit == 'getlist') {
-            $MesUploadList = MesModelList::getUploadListData();
-        }else {
-            $MesUploadList =[] ;
+        $searchtype = $request->input('searchtype');
+        $search = $request->input('search');
+        $rans = date('Y-m-d', strtotime($request->input('rangS')));
+        $rane = date('Y-m-d', strtotime($request->input('rangE')+1));
+        if ($searchtype == 'upload_date') {
+            $mesUploadListAjax = DB::table('fw_index')
+                ->whereBetween('upload_date', [DB::raw("'$rans'"), DB::raw("'$rane'")])
+                ->orderBy('fw_id', 'asc')
+                ->get();
+        } else {
+            $mesUploadListAjax = DB::table('fw_index')
+                ->where($searchtype, 'like','%'. $search . '%')
+                ->orderBy('fw_id', 'asc')
+                ->get();
         }
-        return view('mesUploadList', ['MesUploadList' => $MesUploadList]);
+
+
+
+
+
+
+
+        return response()->json($mesUploadListAjax);
 
     }
+
+
 
     public function mesItemList(Request $request)
     {
