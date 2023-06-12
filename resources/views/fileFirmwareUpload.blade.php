@@ -108,22 +108,16 @@
                                     <div class="col-md-2 mb-3">
                                         <label for="lensISP" class="fa fa-camera">鏡頭ISP</label>
                                         <input id="lensISP" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-md-2 mb-3">
-                                        <label for="rescueVersion" class="fa fa-wrench">救援檔案版本</label>
-                                        <input id="rescueVersion" type="text" class="form-control" placeholder="" required="">
-                                    </div>
+                                    </div>                                    
                                     <div class="col-md-2 mb-3">
                                         <label for="AI_Version" class="fa fa-wrench">AI 版本</label>
                                         <input id="AI_Version" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label for="inspectionForm" class="fa fa-calendar-minus-o">送驗需求單</label>
                                         <input id="inspectionForm" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                </div>
+                                </div>                               
                             </div>
 
                             <div class="form-row" style="padding-left: 26px;">
@@ -233,9 +227,7 @@
         var customerType = $('#customerType').val();
         var lensMCU = $('#lensMCU').val();
         var lensISP = $('#lensISP').val();
-        var rescueVersion = $('#rescueVersion').val();
         var AI_Version = $('#AI_Version').val();
-        var inspectionForm = $('#inspectionForm').val();
         var firmwareOS_Name = $('#firmwareOS_Name').val();
         var firmwareAPP_Name = $('#firmwareAPP_Name').val();
         var checkReport_Name = $('#checkReport_Name').val();
@@ -273,10 +265,8 @@
                     customerName: customerName,
                     customerType: customerType,
                     lensMCU: lensMCU,
-                    lensISP: lensISP,
-                    rescueVersion: rescueVersion,
-                    AI_Version: AI_Version,
-                    inspectionForm: inspectionForm,
+                    lensISP: lensISP,                
+                    AI_Version: AI_Version,                  
                     firmwareOS_Name: firmwareOS_Name,
                     firmwareAPP_Name: firmwareAPP_Name,
                     checkReport_Name: checkReport_Name,
@@ -291,10 +281,8 @@
                     $('#customerName').prop('disabled', true);
                     $('#customerType').prop('disabled', true);
                     $('#lensMCU').prop('disabled', true);
-                    $('#lensISP').prop('disabled', true);
-                    $('#rescueVersion').prop('disabled', true);
-                    $('#AI_Version').prop('disabled', true);
-                    $('#inspectionForm').prop('disabled', true);
+                    $('#lensISP').prop('disabled', true);                   
+                    $('#AI_Version').prop('disabled', true);                    
                     $('#submit').hide();
                     $('#submitOK').show();
                     $('.input-group-text').addClass('d-none');

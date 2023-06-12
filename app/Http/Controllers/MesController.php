@@ -43,11 +43,11 @@ class MesController extends BaseController
 
     public function mesUploadListAjax(Request $request)
     {
-        
+
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');
         $rans = date('Y-m-d', strtotime($request->input('rangS')));
-        $rane = date('Y-m-d', strtotime($request->input('rangE')+1));
+        $rane = date('Y-m-d', strtotime($request->input('rangE') + 1));
         if ($searchtype == 'upload_date') {
             $mesUploadListAjax = DB::table('fw_index')
                 ->whereBetween('upload_date', [DB::raw("'$rans'"), DB::raw("'$rane'")])
@@ -55,23 +55,24 @@ class MesController extends BaseController
                 ->get();
         } else {
             $mesUploadListAjax = DB::table('fw_index')
-                ->where($searchtype, 'like','%'. $search . '%')
+                ->where($searchtype, 'like', '%' . $search . '%')
                 ->orderBy('fw_id', 'asc')
                 ->get();
         }
-
-
-
-
-
-
-
         return response()->json($mesUploadListAjax);
-
     }
 
 
-
+    public function editFirmware (Request $request)
+    {
+        
+        $editFirmware = DB::table('fw_index')
+                ->where('fw_id', $request->id)                
+                ->get();
+        
+                
+        return view('editFirmware', ['editFirmware' => $editFirmware]);
+    }
     public function mesItemList(Request $request)
     {
         //獲取資料
@@ -377,7 +378,7 @@ class MesController extends BaseController
         $search = $request->input('search');
         $rans = $request->input('rangS');
         $rane = $request->input('rangE');
-        $mesShipmentListAjax = MesModelList::getShipmentListAjax($searchtype, $search,$rans,$rane);
+        $mesShipmentListAjax = MesModelList::getShipmentListAjax($searchtype, $search, $rans, $rane);
         return response()->json($mesShipmentListAjax);
     }
 
@@ -385,5 +386,4 @@ class MesController extends BaseController
     {
         return view('mesShipmentList');
     }
-
 }

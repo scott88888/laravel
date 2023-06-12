@@ -25,6 +25,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);
     Route::match(['get', 'post'], '/mesUploadList', [MesController::class, 'mesUploadList']);
     Route::match(['get', 'post'], '/mesUploadListAjax', [MesController::class, 'mesUploadListAjax']);
+    
+    Route::match(['get', 'post'], '/editFirmware', [MesController::class, 'editFirmware']);
+
     Route::match(['get', 'post'], '/mesItemList', [MesController::class, 'mesItemList']);
     Route::match(['get', 'post'], '/mesItemPartList', [MesController::class, 'mesItemPartList']);
     Route::match(['get', 'post'], '/mesKickoffList', [MesController::class, 'mesKickoffList']);

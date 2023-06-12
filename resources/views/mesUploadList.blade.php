@@ -62,12 +62,7 @@
                                             <input class="form-control" type="date" value="" id="rangE">
                                         </div>
                                     </div>
-                                    <div class="col-2">
-                                        <label for="">查詢</label>
-                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
-                                    </div>
-                                </div>
-                                <div class="form-row col-md-12 mb-3">
+                                   
                                     <div class="col-md-1">
                                         <label>快速查詢</label>
                                         <div class="col" style="text-align: center;">
@@ -83,64 +78,72 @@
                                     <div class="col-md-1">
                                         <label style="color: white;">快查</label>
                                         <div class="col" style="text-align: center;">
-                                            <button id="all" class="btn btn-primary" value="getlist">取得全部資料</button>
+                                            <button id="allds" class="btn btn-primary" value="getlist">取得全部資料</button>
+                                        </div>
+                                    </div>
+                                     <div class="col-2" style="margin-left: 1rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="data-tables datatable-dark">
                                 <table id="ListData" class="display text-center" style="width:100%">
                                     <thead class="text-capitalize" style=" background: darkgrey;">
                                         <tr>
-                                            <th>fw_id</th>
-                                            <th>customer</th>
-                                            <th>model_no</th>
-                                            <th>model_customer</th>
-                                            <th>product_type</th>
-                                            <th>model_name</th>
-                                            <th>customer_oem</th>
-                                            <th>version</th>
-                                            <th>file_kernel_url</th>
-                                            <th>file_app_url</th>
-                                            <th>file_note_pdf_url</th>
-                                            <th>file_report_url</th>
-                                            <th>file_other_url</th>
-                                            <th>pantilt_ver</th>
-                                            <th>lens_ver</th>
-                                            <th>lens_parameter</th>
-                                            <th>p_ver</th>
-                                            <th>ai_ver</th>
-                                            <th>upload_date</th>
-                                            <th>upload_man</th>
-                                            <th>Remark</th>
-                                            <th>upload_date2</th>
+
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
+                                           <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
 
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tbody>
                                 </table>
                             </div>
@@ -163,6 +166,8 @@
 
     $(document).ready(function() {
 
+
+
         table = $('#ListData').DataTable({
             ...tableConfig,
 
@@ -173,7 +178,8 @@
                 {
                     "data": "fw_id",
                     "targets": 0,
-                    "title": "ID"
+                    "title": "ID",
+
                 },
                 {
                     "data": "customer",
@@ -279,11 +285,14 @@
                     "data": "upload_date2",
                     "targets": 21,
                     "title": "發行通知上傳時間"
-                }, {
-                    targets: [8, 9, 10, 11, 12, 20], // 所在的 index（從 0 開始）
+                },
+
+                {
+                    targets: [0,8, 9, 10, 11, 12, 20], // 所在的 index（從 0 開始）
                     render: function(data, type, row, meta) {
                         switch (meta.col) {
-
+                            case 0:
+                                return  '<a href="{{ asset("/editFirmware?id=") }}'+ data +'"  target="_blank">' + data + '</a>';
                             case 8:
                                 if (data != null) {
                                     return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
@@ -297,7 +306,7 @@
                                     return '';
                                 }
                             case 10:
-                                if (data != null) {
+                                if (data == null) {
                                     return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
                                 } else {
                                     return '';
@@ -316,7 +325,7 @@
                                 }
                             case 20:
                                 if (data != null) {
-                                    return '<a href="' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                    return '<a href="' + data + '" target="_blank"><i class="fa fa-link" style="font-size: large;color: blue;"></i></a>';
                                 } else {
                                     return '';
                                 }
@@ -328,6 +337,7 @@
                 }
             ]
         });
+
         $('#loading').hide();
         $('#rang').hide();
         $('#dateS').hide();
@@ -346,8 +356,17 @@
                 $('#searchBox').show();
             }
         });
+        loadData('fw_id', 9999999, '', '');
         setButtonClickEvent(3);
         setButtonClickEvent(30);
+        $('#allds').click(function() {
+            var search = $('#search').val();
+            var searchtype = 'upload_date';
+            var rangS = 00000000;
+            var today = new Date();
+            var rangE = formatDate(new Date(today));
+            loadData(search, searchtype, rangS, rangE);
+        });
         $('#submit').click(function() {
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();
@@ -376,6 +395,7 @@
             },
             error: function(xhr, status, error) {
                 console.log('no data');
+                table.clear();
                 $('#loading').hide();
             }
         });

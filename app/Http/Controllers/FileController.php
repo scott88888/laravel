@@ -22,36 +22,40 @@ class FileController extends Controller
 
     public function fileFirmwareUploadAjax(Request $request)
     {
-            $dbInserturl =  $file_kernel_url = $request->input('MOD') . '_' .$request->input('productName') . '_' .$request->input('lilinVersion') . '_' .$request->input('customerType') . '_' .$request->input('searchClientType');
-            $firmwareOS_Name = $request->input('firmwareOS_Name');
-            $firmwareAPP_Name = $request->input('firmwareAPP_Name');
-            $checkReport_Name = $request->input('checkReport_Name');
-            $otherFiles_Name = $request->input('otherFiles_Name');
 
-            if ($firmwareOS_Name == null) {
-                $file_kernel_url = null;
-            }else{
-                $file_kernel_url = 'upload/'.$dbInserturl.'/'.$firmwareOS_Name; 
-            }
-            
-            if ($firmwareAPP_Name == null) {
-                $file_app_url = null;
-            }else{
-                $file_app_url = 'upload/'.$dbInserturl.'/'.$firmwareAPP_Name; 
-            }
-            
-            if ($checkReport_Name == null) {
-                $file_report_url = null;
-            }else{
-                $file_report_url = 'upload/'.$dbInserturl.'/'.$checkReport_Name; 
-            }
-            
-            if ($otherFiles_Name == null) {
-                $file_other_url = null;
-            }else{
-                $file_other_url = 'upload/'.$dbInserturl.'/'.$otherFiles_Name; 
-            }
+
+        $dbInserturl =  $file_kernel_url = $request->input('MOD') . '_' . $request->input('productName') . '_' . $request->input('lilinVersion') . '_' . $request->input('customerType') . '_' . $request->input('searchClientType');
+        $firmwareOS_Name = $request->input('firmwareOS_Name');
+        $firmwareAPP_Name = $request->input('firmwareAPP_Name');
+        $checkReport_Name = $request->input('checkReport_Name');
+        $otherFiles_Name = $request->input('otherFiles_Name');
+
+        if ($firmwareOS_Name == null) {
+            $file_kernel_url = null;
+        } else {
+            $file_kernel_url = 'upload/' . $dbInserturl . '/' . $firmwareOS_Name;
+        }
+
+        if ($firmwareAPP_Name == null) {
+            $file_app_url = null;
+        } else {
+            $file_app_url = 'upload/' . $dbInserturl . '/' . $firmwareAPP_Name;
+        }
+
+        if ($checkReport_Name == null) {
+            $file_report_url = null;
+        } else {
+            $file_report_url = 'upload/' . $dbInserturl . '/' . $checkReport_Name;
+        }
+
+        if ($otherFiles_Name == null) {
+            $file_other_url = null;
+        } else {
+            $file_other_url = 'upload/' . $dbInserturl . '/' . $otherFiles_Name;
+        }
+
         $data = [
+            'fw_id' => $request->input('fw_id'),
             'username' => Auth::user()->employee_id,
             'searchClientType' => $request->input('searchClientType'),
             'searChproductType' => $request->input('searChproductType'),
@@ -62,17 +66,20 @@ class FileController extends Controller
             'customerType' => $request->input('customerType'),
             'lensMCU' => $request->input('lensMCU'),
             'lensISP' => $request->input('lensISP'),
-            'rescueVersion' => $request->input('rescueVersion'),
             'AI_Version' => $request->input('AI_Version'),
             'inspectionForm' => $request->input('inspectionForm'),
             'dbInserturl' =>  $dbInserturl,
             'upload_date' => date('Y-m-d H:i:s'),
             'file_kernel_url' => $file_kernel_url,
-            'file_app_url'=>$file_app_url,
-            'file_report_url'=>$file_report_url,
-            'file_other_url'=>$file_other_url,
+            'file_app_url' => $file_app_url,
+            'file_report_url' => $file_report_url,
+            'file_other_url' => $file_other_url,
         ];
-        $value = FileModel::fwindexInsert($data);
+        if ($request->input('fw_id') > 0) {
+            $value = FileModel::fwindexUpdate($data);
+        } else {
+            $value = FileModel::fwindexInsert($data);
+        }
         return response()->json($value);
     }
 
@@ -86,7 +93,7 @@ class FileController extends Controller
         // 調用建立目錄函數
 
         // 上傳檔案的目標路徑和檔名，大小
-        $directory = $request->input('MOD') . '_' .$request->input('productName') . '_' .$request->input('lilinVersion') . '_' .$request->input('customerType') . '_' .$request->input('searchClientType');
+        $directory = $request->input('MOD') . '_' . $request->input('productName') . '_' . $request->input('lilinVersion') . '_' . $request->input('customerType') . '_' . $request->input('searchClientType');
         //$directory = 'aaa';
 
         $ftpFilename = "test" . $_FILES['file']['name'];

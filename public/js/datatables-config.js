@@ -18,5 +18,7 @@ var tableConfig = {
         [10, 25, 50, -1],
         [10, 25, 50, "All"]
     ],
-    responsive: true
+    responsive: true,
+    order:[0, "desc"],
+   
 };
