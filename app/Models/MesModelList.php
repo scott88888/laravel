@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use DB;
+use Carbon\Carbon;
 
 class MesModelList extends Authenticatable
 {
@@ -111,15 +112,6 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
-    // public static function getItemListData2()
-    // {
-    //     $value = DB::select("SELECT 
-    //     lcst_temp.cod_item,lcst_temp.nam_item,lcst_temp.dsc_allc,lcst_temp.dsc_alle,lcst_temp.cod_loc,lcst_temp.qty_stk,lcst_temp.ser_pcs, eol_list.official_website2 
-    //     FROM `lcst_temp` 
-    //     left JOIN eol_list on lcst_temp.COD_ITEM = eol_list.model 
-    //     where lcst_temp.cod_item not REGEXP '^[0-9]' and lcst_temp.cod_loc ='GO-001' or lcst_temp.cod_loc ='WO-003' or lcst_temp.cod_loc ='LL-000'");
-    //     return $value;
-    // }
 
 
     public static function getItemListData()
@@ -303,9 +295,9 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
-    public static function getShipmentListAjax($searchtype, $search,$rans,$rane)
+    public static function getShipmentListAjax($searchtype, $search, $rans, $rane)
     {
-        
+
         if ($searchtype == 'DAT_DEL') {
             $value = DB::table('mes_deld_shipment')
                 ->whereBetween('DAT_DEL', [$rans, $rane])
@@ -313,10 +305,23 @@ class MesModelList extends Authenticatable
                 ->get();
         } else {
             $value = DB::table('mes_deld_shipment')
-                ->where($searchtype, 'like','%'. $search . '%')
+                ->where($searchtype, 'like', '%' . $search . '%')
                 ->orderBy('DAT_DEL', 'asc')
                 ->get();
         }
+        return $value;
+    }
+
+    public static function insertDelFile($directory,$data)
+    {
+
+        $del_time = Carbon::now();
+        $value = DB::table('mes_del_file')->insert([
+            'id' => '',
+            'file_url' => $directory,
+            'model' =>  $data[0]->model_customer,
+            'del_time' => $del_time
+        ]);
         return $value;
     }
 }

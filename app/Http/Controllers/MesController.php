@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
 
+
 use DB;
 use Illuminate\Http\Request;
 
@@ -18,11 +19,6 @@ class MesController extends BaseController
 
     public function mesRepairProducts(Request $request)
     {
-        //獲取資料
-        // $MesModelList = MesModelList::getModelListData();
-        // if ($MesModelList) {
-        //     return view('mesModelList', ['MesModelList' => $MesModelList]);
-        // }
 
         return view('mesRepairProducts');
     }
@@ -63,16 +59,52 @@ class MesController extends BaseController
     }
 
 
-    public function editFirmware (Request $request)
+    public function editFirmware(Request $request)
     {
-        
+
         $editFirmware = DB::table('fw_index')
-                ->where('fw_id', $request->id)                
-                ->get();
-        
-                
+            ->where('fw_id', $request->id)
+            ->get();
+
+
         return view('editFirmware', ['editFirmware' => $editFirmware]);
     }
+
+    public function delFirmwareAjax(Request $request)
+    {
+        $data = DB::table('fw_index')
+            ->where('fw_id', $request->input('fw_id'))
+            ->get();
+        $directory = $data[0]->model_no . '_' . $data[0]->model_name . '_' . $data[0]->version . '_' . $data[0]->model_customer . '_' . $data[0]->customer;
+        $insertDelFile = MesModelList::insertDelFile($directory,$data);
+        //建立bat檔案 
+        if ($insertDelFile) {
+            $this->createBAT();
+        }
+        //刪除資料
+        $delfw_id = DB::table('fw_index')->where('fw_id', $request->input('fw_id'))->delete();
+        if ($delfw_id) {
+            return response()->json(['message' => '删除成功']);
+        } else {
+            return response()->json(status: 400);
+        }
+    }
+
+    function createBAT()
+    {
+        $delurl = DB::table('mes_del_file')
+            ->whereDate('del_time', today())
+            ->get();
+        $batchContent = '@echo off' . PHP_EOL;
+
+        foreach ($delurl as $key => $value) {
+            $batchContent .= 'rd /s /q "Z:/www/MES/lilin/upload/' . $value->file_url . '"' . PHP_EOL;
+        }
+        $batchContent .= 'echo. > "' . public_path('file.bat') . '"';
+        $batchFilePath = public_path('file.bat');
+        file_put_contents($batchFilePath, $batchContent);
+    }
+
     public function mesItemList(Request $request)
     {
         //獲取資料

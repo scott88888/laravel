@@ -40,6 +40,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div>
+
                 <div class="row" style="margin: 0;">
                     <!-- Dark table start -->
                     <div class="col-12" style="padding: 8px;">
@@ -195,28 +196,71 @@
                         </div>
 
                         <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                            <button type="button" id="edit" class="btn btn-info btn-block">
-                                <li class="fa fa-cloud-upload"></li> 修改
-                            </button>
-                            <button type="button" id="submit" class="btn btn-primary btn-block">
-                                <li class="fa fa-cloud-upload"></li> 儲存
-                            </button>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <button type="submit" id="delBtn" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">
+                                        <li class="fa fa-cloud-upload"></li> 刪除
+                                    </button>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <button type="button" id="edit" class="btn btn-info btn-block">
+                                        <li class="fa fa-cloud-upload"></li> 修改
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <button type="button" id="cancel" class="btn btn-secondary  btn-block">
+                                        <li class="fa fa-cloud-upload"></li> 取消修改
+                                    </button>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <button type="button" id="submit" class="btn btn-primary btn-block">
+                                        <li class="fa fa-cloud-upload"></li> 儲存
+                                    </button>
+                                </div>
+                            </div>
+
                             <button type="button" id="submitOK" class="btn btn-flat btn-outline-success">
-                                <li class="fa fa-cloud-upload"></li> 儲存成功
+                                <li class="fa fa-cloud-upload"></li> 儲存成功，關閉此頁面
+                            </button>
+                            <button type="button" id="delOK" class="btn btn-flat btn-outline-success">
+                                <li class="fa fa-cloud-upload"></li> 刪除成功，關閉此頁面
                             </button>
                         </div>
 
                         <div id="progressBar">
                             <div id="progressBarFill"></div>
                         </div>
-
                         <div id="loading" style="display: none;">上傳中...請勿重整頁面</div>
                         @endforeach
                     </div>
+                </div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">刪除確認</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal">確認刪除</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
     </div>
     @include('layouts/footer')
@@ -227,6 +271,8 @@
 <script>
     $(document).ready(function() {
         $('#submitOK').hide();
+        $('#cancel').hide();
+        $('#delOK').hide();
         disabled()
     });
     $('#submit').click(function() {
@@ -297,9 +343,8 @@
                     $('#submitOK').show();
                     console.log(response);
                     disabled();
-                    var message = "儲存成功";
-                    var alertElement = $('<div class="alert alert-success">' + message + '</div>');
-                    $('#message').append(alertElement);
+                    $('#cancel').hide();
+                    alert('儲存成功');
                 },
                 error: function(xhr, status, error) {
                     // 處理 AJAX 請求失敗後的回應
@@ -316,6 +361,30 @@
         var alertElement = $('<div class="alert alert-warning">' + message + '</div>');
         $('#message').append(alertElement);
 
+    });
+    $('#delete').click(function() {
+
+        var fw_id = $('#fw_id').val();
+        $.ajax({
+            url: "{{ asset('delFirmwareAjax') }}",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                fw_id: fw_id
+            },
+            success: function(response) {
+                $('#delOK').show();
+                disabled();
+                $('#delBtn').hide();
+                $('#edit').hide();
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // 處理 AJAX 請求失敗後的回應
+                console.log('no');
+            }
+        });
     });
 
     function disabled() {
@@ -334,6 +403,8 @@
         $('#submit').hide();
         $('.input-group-text').addClass('d-none');
         $('#firmwareAPPInput').prop('disabled', true);
+
+
     }
 
     function showInput() {
@@ -350,7 +421,9 @@
         $('#AI_Version').prop('disabled', false);
         $('#inspectionForm').prop('disabled', false);
         $('#edit').hide();
+        $('#delBtn').hide();
         $('#submit').show();
+        $('#cancel').show();
         $('.input-group-text').removeClass('d-none');
         $('#firmwareAPPInput').prop('disabled', false);
     }
@@ -444,6 +517,15 @@
 
 
     }
+
+    function closePage() {
+        window.close(); // 關閉當前窗口
+    }
+
+    // 關閉當前窗口
+    document.getElementById('cancel').addEventListener('click', closePage);
+    document.getElementById('submitOK').addEventListener('click', closePage);
+    document.getElementById('delOK').addEventListener('click', closePage);
 </script>
 
 </html>

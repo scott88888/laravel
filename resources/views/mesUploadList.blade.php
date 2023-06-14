@@ -356,7 +356,6 @@
                 $('#searchBox').show();
             }
         });
-        loadData('fw_id', 9999999, '', '');
         setButtonClickEvent(3);
         setButtonClickEvent(30);
         $('#allds').click(function() {
