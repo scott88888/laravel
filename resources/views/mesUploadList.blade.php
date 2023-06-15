@@ -41,7 +41,8 @@
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option>選擇</option>
                                             <option value="fw_id">ID</option>
-                                            <option value="model_customer">MOD</option>
+                                            <option value="model_no">MOD</option>
+                                            <option value="model_customer">客戶型號</option>
                                             <option value="version">版本</option>
                                             <option value="upload_date">上傳時間</option>
                                         </select>
@@ -81,7 +82,7 @@
                                             <button id="allds" class="btn btn-primary" value="getlist">取得全部資料</button>
                                         </div>
                                     </div>
-                                     <div class="col-2" style="margin-left: 1rem;">
+                                     <div class="col-2" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
                                         <div class="col" style="text-align: center;">
                                         <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
