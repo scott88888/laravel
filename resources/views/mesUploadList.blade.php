@@ -63,7 +63,6 @@
                                             <input class="form-control" type="date" value="" id="rangE">
                                         </div>
                                     </div>
-                                   
                                     <div class="col-md-1">
                                         <label>快速查詢</label>
                                         <div class="col" style="text-align: center;">
@@ -89,14 +88,12 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="data-tables datatable-dark">
                                 <table id="ListData" class="display text-center" style="width:100%">
                                     <thead class="text-capitalize" style=" background: darkgrey;">
                                         <tr>
-
                                            <th></th>
                                            <th></th>
                                            <th></th>
@@ -122,7 +119,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -163,15 +159,9 @@
     var table;
     let Backup_icon = '<img src=' + '{{ asset("images/icon/Backup_Blue_64x64px.png")}} style="width: 1.5rem;"">';
     let pdf_icon = '<img src=' + '{{ asset("images/icon/pdf_download.png")}} style="width: 1.5rem;"">';
-
-
     $(document).ready(function() {
-
-
-
         table = $('#ListData').DataTable({
             ...tableConfig,
-
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
@@ -180,7 +170,6 @@
                     "data": "fw_id",
                     "targets": 0,
                     "title": "ID",
-
                 },
                 {
                     "data": "customer",
@@ -220,12 +209,12 @@
                 {
                     "data": "file_kernel_url",
                     "targets": 8,
-                    "title": "韌體"
+                    "title": "韌體OS"
                 },
                 {
                     "data": "file_app_url",
                     "targets": 9,
-                    "title": "韌體"
+                    "title": "韌體執行檔"
                 },
                 {
                     "data": "file_note_pdf_url",

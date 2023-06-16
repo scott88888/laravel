@@ -30,8 +30,7 @@
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>
-                                                <th>官網</th>
+                                            <tr>                                                
                                                 <th>產品型號</th>
                                                 <th>產品敘述</th>
                                                 <th>庫存</th>
@@ -42,7 +41,7 @@
                                         <tbody>
                                             @foreach ($MesItemList as $ListData)
                                             <tr>
-                                                <td></td>
+                                                
                                                 <td>
                                                     <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_model.php?={{$ListData->COD_ITEM}}&{{$ListData->COD_LOC}}" target="_blank">
                                                         {{$ListData->COD_ITEM}}
@@ -101,7 +100,8 @@
 @include('layouts/footerjs')
 <script>
     $(ListData).DataTable({
-        ...tableConfig
+        ...tableConfig,
+        "order": [[0, "desc"]]
     })
 </script>
 

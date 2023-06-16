@@ -127,6 +127,16 @@
                                     <input id="inspectionForm" type="text" class="form-control" value="{{ $firmware->Remark }}">
                                 </div>
                             </div>
+                            <div class="form-row" id="speedDome_input">
+                                <div class="col-md-2 mb-3">
+                                    <label for="validationCustom04">迴轉台<span style="color: red;"></span></label>
+                                    <input id="PanTilt_ver" type="text" class="form-control" value="{{ $firmware->pantilt_ver }}">
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label for="validationCustom04">Event I/O<span style="color: red;"></span></label>
+                                    <input id="P_ver" type="text" class="form-control" value="{{ $firmware->p_ver }}">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-row" style="padding-left: 26px;">
@@ -165,12 +175,12 @@
                         <div class="form-row" style="padding-left: 26px;">
                             <div class="col-5" style="padding:0, 1rem;">
                                 <span class="ti-upload">其他檔案</span>
-                                <input id="checkReport_Name" style="display: none;">
+                                <input id="otherFiles_Name" style="display: none;">
                                 <form id="otherUploadForm" enctype="multipart/form-data">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" name="otherFileInput" id="otherFileInput" accept=".zip,.rar" onchange="updateFileName(this,'otherFiles')">
-                                            <label class="custom-file-label" id="otherFiles">{{$firmware->file_report_url}}</label>
+                                            <label class="custom-file-label" id="otherFiles">{{$firmware->file_other_url}}</label>
                                         </div>
                                         <div class="input-group-append">
                                             <button class="input-group-text" type="button" onclick="uploadFile('otherFiles')">Upload</button>
@@ -180,12 +190,12 @@
                             </div>
                             <div class="col-5" style="padding:0, 1rem;">
                                 <span class="ti-clipboard">驗證報告</span>
-                                <input id="otherFiles_Name" style="display: none;">
+                                <input id="checkReport_Name" style="display: none;">
                                 <form id="reportUploadForm" enctype="multipart/form-data">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" name="reportFileInput" id="reportFileInput" accept=".pdf" onchange="updateFileName(this,'checkReport')">
-                                            <label class="custom-file-label" id="checkReport">{{$firmware->file_other_url}}</label>
+                                            <label class="custom-file-label" id="checkReport">{{$firmware->file_report_url}}</label>
                                         </div>
                                         <div class="input-group-append">
                                             <button class="input-group-text" type="button" onclick="uploadFile('checkReport')">Upload</button>
@@ -293,6 +303,8 @@
         var firmwareAPP_Name = $('#firmwareAPP_Name').val();
         var checkReport_Name = $('#checkReport_Name').val();
         var otherFiles_Name = $('#otherFiles_Name').val();
+        var PanTilt_ver = $('#PanTilt_ver').val();
+        var P_ver = $('#P_ver').val();
         var labels = $('#firmwareOS, #firmwareAPP, #otherFiles, #checkReport');
         var containsNotUploaded = false;
         labels.each(function() {
@@ -337,12 +349,15 @@
                     firmwareOS_Name: firmwareOS_Name,
                     firmwareAPP_Name: firmwareAPP_Name,
                     checkReport_Name: checkReport_Name,
-                    otherFiles_Name: otherFiles_Name
+                    otherFiles_Name: otherFiles_Name,
+                    PanTilt_ver: PanTilt_ver,
+                    P_ver: P_ver
                 },
                 success: function(response) {
                     $('#submitOK').show();
                     console.log(response);
                     disabled();
+                    $('input').prop('disabled', true);
                     $('#cancel').hide();
                     alert('儲存成功');
                 },

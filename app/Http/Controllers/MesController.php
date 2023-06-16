@@ -39,7 +39,6 @@ class MesController extends BaseController
 
     public function mesUploadListAjax(Request $request)
     {
-
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');
         $rans = date('Y-m-d', strtotime($request->input('rangS')));

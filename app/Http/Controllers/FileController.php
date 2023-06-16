@@ -74,13 +74,15 @@ class FileController extends Controller
             'file_app_url' => $file_app_url,
             'file_report_url' => $file_report_url,
             'file_other_url' => $file_other_url,
+            'PanTilt_ver' =>  $request->input('PanTilt_ver'),
+            'P_ver' =>  $request->input('P_ver')
         ];
         if ($request->input('fw_id') > 0) {
             $value = FileModel::fwindexUpdate($data);
         } else {
             $value = FileModel::fwindexInsert($data);
         }
-        return response()->json($value);
+        return response()->json($request->input('PanTilt_ver'));
     }
 
     public function uploadFile(Request $request)
@@ -96,7 +98,7 @@ class FileController extends Controller
         $directory = $request->input('MOD') . '_' . $request->input('productName') . '_' . $request->input('lilinVersion') . '_' . $request->input('customerType') . '_' . $request->input('searchClientType');
         //$directory = 'aaa';
 
-        $ftpFilename = "test" . $_FILES['file']['name'];
+        $ftpFilename = $_FILES['file']['name'];
         $ftpFilename = urlencode($ftpFilename);
 
         $filesize = $_FILES['file']['size'];

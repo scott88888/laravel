@@ -78,26 +78,37 @@
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3">
                                         <label for="validationCustom04">MOD<span style="color: red;">*必填</span></label>
                                         <input id="MOD" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3">
                                         <label for="validationCustom04">利凌版本<span style="color: red;"></span></label>
                                         <input id="lilinVersion" type="text" class="form-control" placeholder="" required="">
                                     </div>
 
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3">
                                         <label for="validationCustom04">產品名稱<span style="color: red;"></span></label>
                                         <input id="productName" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3">
                                         <label for="validationCustom04">客戶名稱<span style="color: red;"></span></label>
                                         <input id="customerName" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3">
                                         <label for="validationCustom04">客戶型號<span style="color: red;"></span></label>
                                         <input id="customerType" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+
+                                </div>
+                                <div class="form-row" id="speedDome_input">
+                                    <div class="col-md-2 mb-3">
+                                        <label for="validationCustom04">迴轉台<span style="color: red;"></span></label>
+                                        <input id="PanTilt_ver" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="validationCustom04">Event I/O<span style="color: red;"></span></label>
+                                        <input id="P_ver" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -108,7 +119,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label for="lensISP" class="fa fa-camera">鏡頭ISP</label>
                                         <input id="lensISP" type="text" class="form-control" placeholder="" required="">
-                                    </div>                                    
+                                    </div>
                                     <div class="col-md-2 mb-3">
                                         <label for="AI_Version" class="fa fa-wrench">AI 版本</label>
                                         <input id="AI_Version" type="text" class="form-control" placeholder="" required="">
@@ -117,7 +128,9 @@
                                         <label for="inspectionForm" class="fa fa-calendar-minus-o">送驗需求單</label>
                                         <input id="inspectionForm" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                </div>                               
+                                </div>
+
+
                             </div>
 
                             <div class="form-row" style="padding-left: 26px;">
@@ -189,8 +202,8 @@
                                 <button type="button" id="submit" class="btn btn-primary btn-block">
                                     <li class="fa fa-cloud-upload"></li> 儲存
                                 </button>
-                                <button type="button" id="submitOK" class="btn btn-flat btn-outline-success">
-                                    <li class="fa fa-cloud-upload"></li> 儲存成功
+                                <button type="button" id="submitOK" class="btn btn-flat btn-outline-success" onclick="location.reload()">
+                                    <li class="fa fa-cloud-upload"></li> 儲存成功，新增下一筆
                                 </button>
                             </div>
                             <div class="0" style="margin: 2% 25%;width: 50%;">
@@ -216,6 +229,7 @@
 <script>
     $(document).ready(function() {
         $('#submitOK').hide();
+        $('#speedDome_input').hide();
     });
     $('#submit').click(function() {
         var searchClientType = $('#searchClientType').val();
@@ -232,6 +246,8 @@
         var firmwareAPP_Name = $('#firmwareAPP_Name').val();
         var checkReport_Name = $('#checkReport_Name').val();
         var otherFiles_Name = $('#otherFiles_Name').val();
+        var PanTilt_ver = $('#PanTilt_ver').val();
+        var P_ver = $('#P_ver').val();
 
 
         var labels = $('#firmwareOS, #firmwareAPP, #otherFiles, #checkReport');
@@ -246,7 +262,7 @@
             }
         });
 
-        if (containsNotUploaded) {            
+        if (containsNotUploaded) {
             alert("有文件尚未上傳");
         } else if (!searchClientType || !searChproductType || !MOD) {
             alert("請確認*必填資料");
@@ -265,27 +281,24 @@
                     customerName: customerName,
                     customerType: customerType,
                     lensMCU: lensMCU,
-                    lensISP: lensISP,                
-                    AI_Version: AI_Version,                  
+                    lensISP: lensISP,
+                    AI_Version: AI_Version,
                     firmwareOS_Name: firmwareOS_Name,
                     firmwareAPP_Name: firmwareAPP_Name,
                     checkReport_Name: checkReport_Name,
-                    otherFiles_Name: otherFiles_Name
+                    otherFiles_Name: otherFiles_Name,
+                    PanTilt_ver: PanTilt_ver,
+                    P_ver: P_ver
                 },
                 success: function(response) {
                     $('#searchClientType').prop('disabled', true);
                     $('#searChproductType').prop('disabled', true);
-                    $('#lilinVersion').prop('disabled', true);
-                    $('#MOD').prop('disabled', true);
-                    $('#productName').prop('disabled', true);
-                    $('#customerName').prop('disabled', true);
-                    $('#customerType').prop('disabled', true);
-                    $('#lensMCU').prop('disabled', true);
-                    $('#lensISP').prop('disabled', true);                   
-                    $('#AI_Version').prop('disabled', true);                    
+                    $('input').prop('disabled', true);
                     $('#submit').hide();
                     $('#submitOK').show();
                     $('.input-group-text').addClass('d-none');
+                    
+                     console.log(response);
                 },
                 error: function(xhr, status, error) {
                     // 處理 AJAX 請求失敗後的回應
@@ -296,7 +309,16 @@
         }
 
     });
+    $('#searChproductType').on('change', function() {
+        if ($(this).val() == 'SpeedDome') {
 
+            $('#speedDome_input').show();
+
+        } else {
+            $('#speedDome_input').hide();
+
+        }
+    });
 
     function updateFileName(input, labelId) {
         var fileName = input.files[0].name;
@@ -372,7 +394,7 @@
                     label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
                     // console.log(response.filesize);
                     // console.log(type);
-                    
+
                     $('#loading').hide();
 
                 },
