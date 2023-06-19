@@ -182,7 +182,7 @@ class MesModelList extends Authenticatable
         if ($first_day && $last_day) {
             $value = DB::select("SELECT `PS1`, `NUM_PS`, `work_no`, `COD_MITEM`, `SEQ_MITEM`, `PS2`, `version`, `PS3`, `P2PKey`, `LPR_Key`, `COD_ITEM`, `SEQ_ITEM`, `SEQ_NO`, `startTime`, `productionLine`, `operation`
             FROM `runcard`
-            WHERE `startTime` BETWEEN '$first_day' AND '$last_day';");
+            WHERE `startTime` BETWEEN '$first_day' AND '$last_day'");
         }
 
         return $value;
