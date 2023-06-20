@@ -25,7 +25,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
 
-            <div class="col-lg-6" style="padding: 2px;">
+            <div class="col-lg-4" style="padding: 2px;">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
@@ -35,34 +35,25 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12" style="padding: 2px;">
-            <span style="font-size: large;">今日工單生產狀況 (條碼回報)</span>
-                <table id="ListData" class="display text-center" style="width:100%">
-                    <thead class="text-capitalize" style=" background: darkgrey;">
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+            <div class="col-4" style="padding: 2px;">
+                <div style="text-align: center;">
+                    <span style="font-size: large;text-align: center;">今日工單生產狀況 (條碼回報)</span>
+                </div>
+                <table id="ListData" class="display text-center " style="width:100%">
+
+                    <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">
+                        <th style="text-align: center;"></th>
+                        <th style="text-align: center;"></th>
+                        <th style="text-align: center;"></th>
+                        <th style="text-align: center;"></th>
                     </thead>
                     <tbody>
-                    @foreach ($productionStatus as $status)
+                        @foreach ($productionStatus as $status)
                         <tr>
-                            <td>{{ $status->NUM_PS }}</td>
                             <td>{{ $status->remark2 }}</td>
-                            <td>{{ $status->num_po }}</td>
                             <td>{{ $status->qty_pcs }}</td>
                             <td>{{ $status->count }}</td>
                             <td>{{ $status->COD_MITEM }}</td>
-                            <td>{{ $status->version }}</td>
-                            <td>{{ $status->startTime }}</td>
-                            <td>{{ $status->productionLine }}</td>
-                            <td>{{ $status->operation }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -84,56 +75,30 @@
     var table;
     $(document).ready(function() {
         table = $('#ListData').DataTable({
-            ...tableConfig,
+            searching: false, // 取消搜尋欄位
+            lengthChange: false, // 取消顯示數量   
+            paging: false, // 取消頁數顯示
+            info: false, // 取消總計項數顯示    
             columnDefs: [{
                     targets: [0], // 所在的 index（從 0 開始）
-                    data: "DAT_ONCA",
-                    title: "工單"
-                },
-                {
-                    targets: [1], // 所在的 index（從 0 開始）
-                    data: "NUM_ONCA",
+                    data: "remark2",
                     title: "客戶"
                 },
+
                 {
-                    targets: [2], // 所在的 index（從 0 開始）
-                    data: "NUM_MTRM",
-                    title: "訂單號碼"
-                },
-                {
-                    targets: [3], // 所在的 index（從 0 開始）
-                    data: "NAM_CUSTS",
+                    targets: [1], // 所在的 index（從 0 開始）
+                    data: "qty_pcs",
                     title: "訂單數量"
                 },
                 {
-                    targets: [4], // 所在的 index（從 0 開始）
-                    data: "COD_ITEM",
+                    targets: [2], // 所在的 index（從 0 開始）
+                    data: "count",
                     title: "已回報數量"
                 },
                 {
-                    targets: [5], // 所在的 index（從 0 開始）
-                    data: "NUM_SER",
+                    targets: [3], // 所在的 index（從 0 開始）
+                    data: "COD_MITEM",
                     title: "產品型號"
-                },
-                {
-                    targets: [6], // 所在的 index（從 0 開始）
-                    data: "DAT_ACTB",
-                    title: "韌體版本"
-                },
-                {
-                    targets: [7], // 所在的 index（從 0 開始）
-                    data: "DAT_ACTE",
-                    title: "回報日期"
-                },
-                {
-                    targets: [8], // 所在的 index（從 0 開始）
-                    data: "EMP_ORD",
-                    title: "線別"
-                },
-                {
-                    targets: [9], // 所在的 index（從 0 開始）
-                    data: "operation",
-                    title: "製程代號"
                 }
             ]
         });
