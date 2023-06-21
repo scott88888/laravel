@@ -107,7 +107,7 @@
             </div>
             <div class="main-content-inner" id="badTable">
                 <div class="row">
-                    <div class="col-lg-6 mt-5">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-align: center;">不良原因</h4>
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 mt-5">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-align: center;">不良零件</h4>
