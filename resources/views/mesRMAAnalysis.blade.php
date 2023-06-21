@@ -29,79 +29,131 @@
                     <div class="col-12 mt-1" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">RMA退貨授權查詢</h4>
+                                <h4 class="header-title">RMA不良原因查詢</h4>
                                 <div class="form-row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="col-form-label" style="padding: 8px;">查詢類型 </label>
-                                        <select id="searchtype" class="form-control" style="padding: 0;">
-                                            <option>select</option>
-                                            <option value="NUM_ONCA">報修單號</option>
-                                            <option value="DAT_ACTB">實際開工</option>
+                                    <div class="col-md-2 mb-3">
+                                        <label class="col-form-label" style="padding-top: 0;">查詢類型 </label>
+                                        <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="COD_ITEM" selected>產品型號</option>
                                             <option value="NUM_MTRM">派修單號</option>
-                                            <option value="COD_ITEM">產品型號</option>
                                             <option value="NUM_SER">出廠序號</option>
                                             <option value="MTRM_PS">零件料號</option>
                                             <option value="COD_CUST">客戶代碼</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <div class="form-group">
                                             <label>查詢內容</label>
-                                            <input class="form-control form-control-sm" id="search">
+                                            <input class="form-control" id="search">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-row col-md-6 mb-3">
-                                    <div class="col">
-                                        <button id="submit" class="btn btn-primary">查詢</button>
+                                    <div class="col-2">
+                                        <label for="">查詢</label>
+                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
+                                    </div>
+                                    <div class="col-2">
+                                        <label style="color:white;">查詢</label>
+                                        <button type="button" id="badPart" class="btn btn-primary btn-block">不良零件/不良原因</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="data-tables datatable-dark">
-                                <table id="ListData" class="display text-center" style="width:100%">
-                                    <thead class="text-capitalize" style=" background: darkgrey;">
-                                        <th>DAT_ONCA</th>
-                                        <th>ONCA_IR</th>
-                                        <th>NUM_ONCA</th>
-                                        <th>NUM_MTRM</th>
-                                        <th>NAM_CUSTS</th>
-                                        <th>COD_ITEM</th>
-                                        <th>NUM_SER</th>
-                                        <th>DAT_ACTB</th>
-                                        <th>DAT_ACTE</th>
-                                        <th>PS1_1</th>
-                                        <th>MTRM_PS</th>
-                                        <th>PS1_2</th>
-                                        <th>PS1_3</th>
-                                        <th>OUT_LIST5</th>
-                                        <th>EMP_ORD</th>
-                                        <th>STS_ONCA</th>
-                                        <th>DIFF_DAYS</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        </div>
+                        <div class="data-tables datatable-dark" id="hidetable">
+                            <table id="ListData" class="display text-center" style="width:100%">
+                                <thead class="text-capitalize" style=" background: darkgrey;">
+                                    <th>DAT_ONCA</th>
+                                    <th>ONCA_IR</th>
+                                    <th>NUM_ONCA</th>
+                                    <th>NUM_MTRM</th>
+                                    <th>NAM_CUSTS</th>
+                                    <th>COD_ITEM</th>
+                                    <th>NUM_SER</th>
+                                    <th>DAT_ACTB</th>
+                                    <th>DAT_ACTE</th>
+                                    <th>PS1_1</th>
+                                    <th>MTRM_PS</th>
+                                    <th>PS1_2</th>
+                                    <th>PS1_3</th>
+                                    <th>OUT_LIST5</th>
+                                    <th>EMP_ORD</th>
+                                    <th>STS_ONCA</th>
+                                    <th>DIFF_DAYS</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content-inner" id="badTable">
+                <div class="row">
+                    <div class="col-lg-6 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title" style="text-align: center;">不良原因</h4>
+                                <div class="single-table">
+                                    <div class="table-responsive">
+                                        <table class="table text-center" id="badReasonTable">
+                                            <thead class="text-uppercase bg-dark">
+                                                <tr class="text-white">
+                                                    <th scope="col">不良原因</th>
+                                                    <th scope="col">次數</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title" style="text-align: center;">不良零件</h4>
+                                <div class="single-table">
+                                    <div class="table-responsive">
+                                        <table class="table text-center" id="badPartTable">
+                                            <thead class="text-uppercase bg-dark">
+                                                <tr class="text-white">
+                                                    <th scope="col">不良零件</th>
+                                                    <th scope="col">次數</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,7 +162,6 @@
         </div>
     </div>
     @include('layouts/footer')
-    </div>
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
@@ -121,7 +172,8 @@
         let work_no;
         $('#loading').hide();
         $('#rang').hide();
-
+        $("#badTable").css("display", "none");
+        $("#hidetable").css("display", "none");
         table = $('#ListData').DataTable({
             ...tableConfig,
             columnDefs: [{
@@ -270,6 +322,8 @@
             ]
         });
         $('#submit').click(function() {
+            $("#hidetable").css("display", "block");
+            $("#badTable").css("display", "none");
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();
             var rangS = $('#rangS').val();
@@ -304,7 +358,79 @@
             });
 
         });
+        $('#badPart').click(function() {
+            $("#hidetable").css("display", "none");
+            $("#badTable").css("display", "block");
+            var search = $('#search').val();
+            var searchtype = $('#searchtype').val();
+            $('#loading').show();
+            $.ajax({
+                url: 'mesRMAbadPartAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    search: search,
+                    searchtype: searchtype
+                },
+                success: function(response) {
+                    $('#loading').hide();
 
+                    var badPartData = response.badPart;
+                    var badReasonData = response.badReason;
+
+                    // 清空表格内容
+                    var badPartTable = $('#badPartTable');
+                    badPartTable.empty();
+
+                    // 创建并添加 badPartTable 的 thead
+                    var badPartThead = $('<thead class="text-uppercase bg-dark">');
+                    var badPartHeaderRow = $('<tr class="text-white">');
+                    var badPartReasonHeader = $('<th scope="col">').text('不良零件');
+                    var badPartCountHeader = $('<th scope="col">').text('次數');
+                    badPartHeaderRow.append(badPartReasonHeader, badPartCountHeader);
+                    badPartThead.append(badPartHeaderRow);
+                    badPartTable.append(badPartThead);
+
+                    // 生成 badPartTable 的表格内容
+                    badPartData.forEach(function(row) {
+                        var newRow = $('<tr>');
+                        var partCell = $('<td>').text(row.part);
+                        newRow.append(partCell);
+                        var countCell = $('<td>').text(row.count);
+                        newRow.append(countCell);
+                        badPartTable.append(newRow);
+                    });
+
+                    // 清空表格内容
+                    var badReasonTable = $('#badReasonTable');
+                    badReasonTable.empty();
+
+                    // 创建并添加 badReasonTable 的 thead
+                    var badReasonThead = $('<thead class="text-uppercase bg-dark">');
+                    var badReasonHeaderRow = $('<tr class="text-white">');
+                    var badReasonReasonHeader = $('<th scope="col">').text('不良原因');
+                    var badReasonCountHeader = $('<th scope="col">').text('次數');
+                    badReasonHeaderRow.append(badReasonReasonHeader, badReasonCountHeader);
+                    badReasonThead.append(badReasonHeaderRow);
+                    badReasonTable.append(badReasonThead);
+
+                    // 生成 badReasonTable 的表格内容
+                    badReasonData.forEach(function(row) {
+                        var newRow = $('<tr>');
+                        var reasonCell = $('<td>').text(row.reason);
+                        newRow.append(reasonCell);
+                        var countCell = $('<td>').text(row.count);
+                        newRow.append(countCell);
+                        badReasonTable.append(newRow);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+
+        });
     });
 </script>
 

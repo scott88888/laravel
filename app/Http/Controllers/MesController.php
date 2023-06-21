@@ -75,7 +75,7 @@ class MesController extends BaseController
             ->where('fw_id', $request->input('fw_id'))
             ->get();
         $directory = $data[0]->model_no . '_' . $data[0]->model_name . '_' . $data[0]->version . '_' . $data[0]->model_customer . '_' . $data[0]->customer;
-        $insertDelFile = MesModelList::insertDelFile($directory,$data);
+        $insertDelFile = MesModelList::insertDelFile($directory, $data);
         //建立bat檔案 
         if ($insertDelFile) {
             $this->createBAT();
@@ -401,6 +401,33 @@ class MesController extends BaseController
         $search = $request->input('search');
         $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
         return response()->json($mesRMAAnalysisAjax);
+    }
+    public function mesRMAbadPartAjax(Request $request)
+    {
+        $searchtype = $request->input('searchtype');
+        $search = $request->input('search');
+        $mesRMAbadPartAjax = DB::table('mes_rma_analysis')
+            ->select('MTRM_PS AS part', DB::raw('COUNT(MTRM_PS) AS count'))
+            ->where($searchtype, 'like', '%' . $search . '%')
+            
+            ->groupBy('MTRM_PS')
+            ->orderByDesc('count')
+            ->take(10)
+            ->get();
+
+        $mesRMAbadReasonAjax = DB::table('mes_rma_analysis')
+            ->select('PS1_1 AS reason', DB::raw('COUNT(PS1_1) AS count'))
+            ->where($searchtype, 'like', '%' . $search . '%')
+            ->groupBy('PS1_1')
+            ->orderByDesc('count')
+            ->take(10)
+            ->get();
+        $response = [
+            'badPart' => $mesRMAbadPartAjax,
+            'badReason' => $mesRMAbadReasonAjax
+        ];
+
+        return response()->json($response);
     }
 
     public function mesShipmentListAjax(Request $request)

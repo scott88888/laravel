@@ -55,6 +55,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAListAjax', [MesController::class, 'mesRMAListAjax']);
     Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
+    Route::match(['get', 'post'], '/mesRMAbadPartAjax', [MesController::class, 'mesRMAbadPartAjax']);
+
+    
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
     //檔案管理

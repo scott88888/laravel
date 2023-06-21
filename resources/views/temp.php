@@ -1,51 +1,36 @@
-<DOCTYPE html>
-<html lang={{ app()->getLocale() }}>
+command.Parameters.AddWithValue("@DAT_ONCA",DAT_ONCA.ToString()); 
+command.Parameters.AddWithValue("@NUM_ONCA",NUM_ONCA.ToString()); 
+command.Parameters.AddWithValue("@NUM_MTRM",NUM_MTRM.ToString()); 
+command.Parameters.AddWithValue("@COD_CUST",COD_CUST.ToString()); 
+command.Parameters.AddWithValue("@NAM_CUSTS",NAM_CUSTS.ToString()); 
+command.Parameters.AddWithValue("@COD_ITEM",COD_ITEM.ToString()); 
+command.Parameters.AddWithValue("@COD_CUSTS",COD_CUSTS.ToString()); 
+command.Parameters.AddWithValue("@NAM_ATTNS",NAM_ATTNS.ToString()); 
+command.Parameters.AddWithValue("@ADR_CUSTS",ADR_CUSTS.ToString()); 
+command.Parameters.AddWithValue("@NUM_SER",NUM_SER.ToString()); 
+command.Parameters.AddWithValue("@CNT_ONCA",CNT_ONCA.ToString()); 
+command.Parameters.AddWithValue("@ONCA_IR",ONCA_IR.ToString()); 
+command.Parameters.AddWithValue("@DSC_ONCA",DSC_ONCA.ToString()); 
+command.Parameters.AddWithValue("@DAT_MTRD",DAT_MTRD.ToString()); 
+command.Parameters.AddWithValue("@PS1",PS1.ToString()); 
+command.Parameters.AddWithValue("@MTRM_PS",MTRM_PS.ToString()); 
+command.Parameters.AddWithValue("@PS_A",PS_A.ToString()); 
+command.Parameters.AddWithValue("@PS_B",PS_B.ToString()); 
+command.Parameters.AddWithValue("@DAT_ACTB",DAT_ACTB.ToString()); 
+command.Parameters.AddWithValue("@EMP_ORD",EMP_ORD.ToString()); 
+command.Parameters.AddWithValue("@HUR_REQ",HUR_REQ.ToString()); 
+command.Parameters.AddWithValue("@DAT_ACTE",DAT_ACTE.ToString()); 
+command.Parameters.AddWithValue("@STS_ONCA",STS_ONCA.ToString()); 
+command.Parameters.AddWithValue("@RSN_BREAK1",RSN_BREAK1.ToString()); 
+command.Parameters.AddWithValue("@RSN_BREAK2",RSN_BREAK2.ToString()); 
+command.Parameters.AddWithValue("@RSN_BREAK3",RSN_BREAK3.ToString()); 
+command.Parameters.AddWithValue("@RSN_BREAK4",RSN_BREAK4.ToString()); 
+command.Parameters.AddWithValue("@RSN_BREAK5",RSN_BREAK5.ToString()); 
+command.Parameters.AddWithValue("@PS1_1",PS1_1.ToString()); 
+command.Parameters.AddWithValue("@PS1_2",PS1_2.ToString()); 
+command.Parameters.AddWithValue("@PS1_3",PS1_3.ToString()); 
+command.Parameters.AddWithValue("@PS1_4",PS1_4.ToString()); 
+command.Parameters.AddWithValue("@PS1_5",PS1_5.ToString()); 
+command.Parameters.AddWithValue("@DIFF_DAYS",DIFF_DAYS.ToString()); 
 
-<head>
-    
-    @include('layouts/head')
-
-
-</head>
-
-
-<style>
-    .chartdiv {
-        width: 100%;
-        height: 500px;
-    }
-</style>
-
-<body>
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
-    <div class="page-container">
-        @include('layouts/sidebar')
-        <div class="main-content">
-            @include('layouts/headerarea')
-            <div class="row">
-            <div class="col-lg-4" style="padding: 2px;">
-                        <div class="card">
-                            <div class="card-body" style="padding: 0rem;">
-                                <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月銷數量</h4>
-                                <div id="amlinechart4"></div>
-                                <div style="font-size: 12px;">AHD 攝影機|IPCAM|OEM/ODM攝影機|NVR|DHDDVR|OEM/ODM NVR/DVR|NAV
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-            </div>
-          
-        </div>
-        @include('layouts/footer')
-    </div>
-    @include('layouts/settings')
-</body>
-@include('layouts/footerjs')
-<script src="assets/js/line-chart.js"></script>
-
-
-
-</html>
+INSERT INTO mes_deld_shipment (DAT_ONCA, NUM_ONCA, NUM_MTRM, COD_CUST, NAM_CUSTS, COD_ITEM, COD_CUSTS, NAM_ATTNS, ADR_CUSTS, NUM_SER, CNT_ONCA, ONCA_IR, DSC_ONCA, DAT_MTRD, PS1, MTRM_PS, PS_A, PS_B, DAT_ACTB, EMP_ORD, HUR_REQ, DAT_ACTE, STS_ONCA, RSN_BREAK1, RSN_BREAK2, RSN_BREAK3, RSN_BREAK4, RSN_BREAK5, PS1_1, PS1_2, PS1_3, PS1_4, PS1_5, DIFF_DAYS) VALUES (@DAT_ONCA, @NUM_ONCA, @NUM_MTRM, @COD_CUST, @NAM_CUSTS, @COD_ITEM, @COD_CUSTS, @NAM_ATTNS, @ADR_CUSTS, @NUM_SER, @CNT_ONCA, @ONCA_IR, @DSC_ONCA, @DAT_MTRD, @PS1, @MTRM_PS, @PS_A, @PS_B, @DAT_ACTB, @EMP_ORD, @HUR_REQ, @DAT_ACTE, @STS_ONCA, @RSN_BREAK1, @RSN_BREAK2, @RSN_BREAK3, @RSN_BREAK4, @RSN_BREAK5, @PS1_1, @PS1_2, @PS1_3, @PS1_4, @PS1_5, @DIFF_DAYS)
