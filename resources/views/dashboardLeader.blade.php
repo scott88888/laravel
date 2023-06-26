@@ -25,41 +25,102 @@
         <div class="main-content">
             @include('layouts/headerarea')
 
-            <div class="col-lg-4" style="padding: 2px;">
+            <!-- <div class="col-lg-4" style="padding: 2px;">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
                         <div id="amlinechart4"></div>
-                        <div style="font-size: 12px; padding-left:1rem;">AHD 攝影機|IPCAM|OEM/ODM攝影機|NVR|DHDDVR|OEM/ODM NVR/DVR|NAV
+                        <div style="font-size: 12px; padding-left:1rem;">AHD 攝影機|IPCAM|OEM/ODM攝影機|NVR|DHDDVR|OEM/ODM NVR/DVR|NAV</div>   
+                    </div>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">                                            
+                                                <th scope="col">借出人</th>
+                                                <th scope="col">數量</th>                                            
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($borrowItem as $item)
+                                            <tr> 
+                                                <td>{{ $item->nam_emp }}</td>
+                                                <td>{{ $item->total_qty }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">滯銷品排行榜</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">                                            
+                                                <th scope="col">產品型號</th>
+                                                <th scope="col">庫存</th>                                            
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($unsalableProducts as $item)
+                                            <tr> 
+                                                <td>{{ $item->COD_ITEM }}</td>
+                                                <td>{{ $item->QTY_STK }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">今日工單生產狀況 (條碼回報)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="ListData" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">
+                                            <th style="text-align: center;">客戶</th>
+                                            <th style="text-align: center;">訂單數量</th>
+                                            <th style="text-align: center;">已回報數量</th>
+                                            <th style="text-align: center;">產品型號</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($productionStatus as $status)
+                                            <tr>
+                                                <td>{{ $status->remark2 }}</td>
+                                                <td>{{ $status->qty_pcs }}</td>
+                                                <td>{{ $status->count }}</td>
+                                                <td>{{ $status->COD_MITEM }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4" style="padding: 2px;">
-                <div style="text-align: center;">
-                    <span style="font-size: large;text-align: center;">今日工單生產狀況 (條碼回報)</span>
-                </div>
-                <table id="ListData" class="display text-center " style="width:100%">
-
-                    <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">
-                        <th style="text-align: center;"></th>
-                        <th style="text-align: center;"></th>
-                        <th style="text-align: center;"></th>
-                        <th style="text-align: center;"></th>
-                    </thead>
-                    <tbody>
-                        @foreach ($productionStatus as $status)
-                        <tr>
-                            <td>{{ $status->remark2 }}</td>
-                            <td>{{ $status->qty_pcs }}</td>
-                            <td>{{ $status->count }}</td>
-                            <td>{{ $status->COD_MITEM }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
 
         </div>
         @include('layouts/footer')
@@ -72,37 +133,7 @@
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 
 <script>
-    var table;
-    $(document).ready(function() {
-        table = $('#ListData').DataTable({
-            searching: false, // 取消搜尋欄位
-            lengthChange: false, // 取消顯示數量   
-            paging: false, // 取消頁數顯示
-            info: false, // 取消總計項數顯示    
-            columnDefs: [{
-                    targets: [0], // 所在的 index（從 0 開始）
-                    data: "remark2",
-                    title: "客戶"
-                },
 
-                {
-                    targets: [1], // 所在的 index（從 0 開始）
-                    data: "qty_pcs",
-                    title: "訂單數量"
-                },
-                {
-                    targets: [2], // 所在的 index（從 0 開始）
-                    data: "count",
-                    title: "已回報數量"
-                },
-                {
-                    targets: [3], // 所在的 index（從 0 開始）
-                    data: "COD_MITEM",
-                    title: "產品型號"
-                }
-            ]
-        });
-    });
 
 
     if ($('#amlinechart4').length) {
@@ -220,6 +251,82 @@
             "export": {
                 "enabled": false
             }
+        });
+    }
+    if ($('#ambarchart4').length) {
+        var chart = AmCharts.makeChart("ambarchart4", {
+            "type": "serial",
+            "theme": "light",
+            "marginRight": 70,
+            "dataProvider": [{
+                "country": "馬希娥",
+                "visits": 27,
+                "color": "#8918FE"
+            }, {
+                "country": "張二",
+                "visits": 82,
+                "color": "#7474F0"
+            }, {
+                "country": "李三",
+                "visits": 61,
+                "color": "#C5C5FD"
+            }, {
+                "country": "陳四",
+                "visits": 22,
+                "color": "#952FFE"
+            }, {
+                "country": "小明",
+                "visits": 26,
+                "color": "#7474F0"
+            }, {
+                "country": "小貓",
+                "visits": 14,
+                "color": "#CBCBFD"
+            }, {
+                "country": "小狗",
+                "visits": 64,
+                "color": "#FD9C21"
+            }, {
+                "country": "大聰",
+                "visits": 11,
+                "color": "#0D8ECF"
+            }, {
+                "country": "大董",
+                "visits": 65,
+                "color": "#0D52D1"
+            }, {
+                "country": "小六",
+                "visits": 80,
+                "color": "#2A0CD0"
+            }],
+            "valueAxes": [{
+                "axisAlpha": 0,
+                "position": "left",
+                "title": false
+            }],
+            "startDuration": 1,
+            "graphs": [{
+                "balloonText": "<b>[[category]]: [[value]]</b>",
+                "fillColorsField": "color",
+                "fillAlphas": 0.9,
+                "lineAlpha": 0.2,
+                "type": "column",
+                "valueField": "visits"
+            }],
+            "chartCursor": {
+                "categoryBalloonEnabled": false,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "country",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 45
+            },
+            "export": {
+                "enabled": false
+            }
+
         });
     }
 </script>

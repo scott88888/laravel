@@ -101,7 +101,7 @@
 <script>
     $(ListData).DataTable({
         ...tableConfig,
-        "order": [[0, "desc"]]
+        "order": [[2, "desc"]]
     })
 </script>
 

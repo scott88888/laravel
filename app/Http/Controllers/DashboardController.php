@@ -31,10 +31,18 @@ class DashboardController extends BaseController
         // $RMAMonDashboard = DashboardModel::getRMAMonList($month);
         // $RMALastMonDashboard = DashboardModel::getRMAMonList($lastMonth);
         
+        $borrowItem = DB::select("SELECT nam_emp, SUM(qty_brow) as total_qty
+        FROM mes_mfr05_view
+        WHERE cls_brow <> 6
+        GROUP BY nam_emp
+        ORDER BY total_qty DESC
+        LIMIT 10");
+        $unsalableProducts = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
 
         $productionStatus = $this->productionStatus();
+
         //var_dump($productionStatus);
-        return view('dashboardLeader', compact('productionStatus'));
+        return view('dashboardLeader', compact('productionStatus','borrowItem','unsalableProducts'));
     }
 
 
