@@ -40,7 +40,7 @@ class DashboardController extends BaseController
         $unsalableProducts = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
 
         $productionStatus = $this->productionStatus();
-
+        
         //var_dump($productionStatus);
         return view('dashboardLeader', compact('productionStatus','borrowItem','unsalableProducts'));
     }

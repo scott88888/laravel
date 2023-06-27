@@ -44,21 +44,21 @@
                                             <th>實際歸還日期</th>
                                             <th>實際歸還數量</th>
                                             <th>借出原因</th>
-                                            <th>倉位</th>
-                                            <th>備註</th>
+                                            
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($MesMfrList as $ListData)
                                         <tr>
-                                            <td>{{$ListData->num_brow}}</td>
-                                            <td>{{$ListData->cod_dpt}}</td>
-                                            <td>{{$ListData->emp_brow}}||{{$ListData->nam_emp}}</td>
-                                            <td>{{$ListData->nam_facts}}</td>
-                                            <td>{{$ListData->cod_item}}</td>
-                                            <td>{{$ListData->qty_brow}}</td>
-                                            <td>{{$ListData->dat_brow}}</td>
-                                            <td>{{$ListData->dat_rrtn}}</td>
+                                            <td>{{$ListData->NUM_BROW}}</td>
+                                            <td>{{$ListData->COD_DPT}}</td>
+                                            <td>{{$ListData->NUM_BROW}}||{{$ListData->NAM_EMP}}</td>
+                                            <td>{{$ListData->NAM_FACTS}}</td>
+                                            <td>{{$ListData->COD_ITEM}}</td>
+                                            <td>{{$ListData->QTY_BROW}}</td>
+                                            <td>{{$ListData->DAT_BROW}}</td>
+                                            <td>{{$ListData->DAT_RRTN}}</td>
                                             <td>
                                                 @if ($ListData->date_gap > 0 )
                                                 <p style="color:blue">{{$ListData->date_gap}}</p>
@@ -66,10 +66,10 @@
                                                 <p style="color:red">{{$ListData->date_gap}}</p>
                                                 @endif
                                             </td>
-                                            <td>{{$ListData->dat_artn}}</td>
-                                            <td>{{$ListData->cnt_artn}}</td>
+                                            <td>{{$ListData->DAT_ARTN}}</td>
+                                            <td>{{$ListData->CNT_ARTN}}</td>
                                             <td>
-                                                @switch($ListData->cls_brow)
+                                                @switch($ListData->CLS_BROW)
                                                 @case('1')
                                                 <p style="color:blue">TEST</p>
                                                 @break
@@ -116,11 +116,11 @@
                                                 <p style="color:green">重新加工</p>
                                                 @break
                                                 @default
-                                                <p>{{$ListData->cls_brow}}</p>
+                                                <p>{{$ListData->CLS_BROW}}</p>
                                                 @endswitch
                                             </td>
-                                            <td>{{$ListData->cod_loco}}</td>
-                                            <td>{{$ListData->dsp_brom}}</td>
+                                           
+                               
                                         </tr>
                                         @endforeach
                                     </tbody>

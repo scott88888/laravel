@@ -221,6 +221,7 @@ class MesController extends BaseController
     {
 
         $MesMfrList = MesModelList::getMesMfrList();
+
         if ($MesMfrList) {
             return view('mesMfrList', ['MesMfrList' => $MesMfrList]);
         }
