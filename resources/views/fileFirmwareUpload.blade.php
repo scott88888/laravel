@@ -248,8 +248,7 @@
         var otherFiles_Name = $('#otherFiles_Name').val();
         var PanTilt_ver = $('#PanTilt_ver').val();
         var P_ver = $('#P_ver').val();
-
-
+        var inspectionForm = $('#inspectionForm').val();
         var labels = $('#firmwareOS, #firmwareAPP, #otherFiles, #checkReport');
         var containsNotUploaded = false;
         labels.each(function() {
@@ -283,6 +282,7 @@
                     lensMCU: lensMCU,
                     lensISP: lensISP,
                     AI_Version: AI_Version,
+                    inspectionForm: inspectionForm,
                     firmwareOS_Name: firmwareOS_Name,
                     firmwareAPP_Name: firmwareAPP_Name,
                     checkReport_Name: checkReport_Name,

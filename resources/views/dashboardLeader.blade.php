@@ -105,27 +105,32 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
+                                <h4 class="header-title" style="text-align: center;">季暢銷品排行榜</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">借出人</th>
-                                            <th scope="col">數量</th>
+                                            <th scope="col">品名</th>
+                                            <th scope="col">分類</th>
+                                            <th scope="col">月出貨</th>
+                                            <th scope="col">季出貨</th>
+                                            <th scope="col">成品庫存</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($borrowItem as $item)
                                             <tr>
-                                                <td>{{ $item->nam_emp }}</td>
-                                                <td>{{ $item->total_qty }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
-                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -133,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body">
                             <div style="text-align: center;">
@@ -160,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body">
                             <div style="text-align: center;">
