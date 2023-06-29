@@ -75,4 +75,47 @@ class DashboardModel extends Authenticatable
         ->get();
         return $value;
     }
+
+    public static function getShipmentMon($day1, $day31)
+    {
+        
+        $value = DB::select("SELECT SUM(QTY_DEL) as QTY ,mes_typ_item.TYP_CODE from mes_deld_shipment
+        LEFT JOIN mes_typ_item ON mes_deld_shipment.TYP_ITEM = mes_typ_item.TYP_ITEM
+        WHERE mes_deld_shipment.DAT_DEL >= $day1 AND mes_deld_shipment.DAT_DEL <= $day31
+        GROUP BY TYP_CODE");
+        return $value;
+    }
+    public static function getBorrowItem()
+    {
+        
+        $value = DB::select("SELECT nam_emp, SUM(qty_brow) as total_qty
+        FROM mes_mfr05_view
+        WHERE cls_brow <> 6
+        GROUP BY nam_emp
+        ORDER BY total_qty DESC
+        LIMIT 10");
+        return $value;
+    }
+    public static function getUnsalableProducts()
+    {
+        
+        $value = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
+        return $value;
+    }
+    public static function productionStatus()
+    {
+        $value = DB::select("SELECT *, COUNT(*) AS count
+        FROM (
+            SELECT tmp1.`runcard_no`, tmp1.`work_no`, tmp1.`version`, tmp1.`startTime`, tmp1.`NUM_PS`, tmp1.`COD_MITEM`, tmp1.`productionLine`, tmp1.`operation`, tmp2.remark2, tmp2.num_po, tmp2.qty_pcs
+            FROM runcard tmp1, order_this_month tmp2
+            WHERE tmp1.`startTime` LIKE '2023-06-19%'
+              AND tmp1.`NUM_PS` = tmp2.`num_ps`
+            GROUP BY tmp1.runcard_no
+        ) AS temp_table
+        GROUP BY work_no
+        ORDER BY `startTime` DESC");
+        return $value;
+    }
 }
+   
+

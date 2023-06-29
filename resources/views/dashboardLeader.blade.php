@@ -24,16 +24,87 @@
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
-
-            <!-- <div class="col-lg-4" style="padding: 2px;">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
-                        <div id="amlinechart4"></div>
-                        <div style="font-size: 12px; padding-left:1rem;">AHD 攝影機|IPCAM|OEM/ODM攝影機|NVR|DHDDVR|OEM/ODM NVR/DVR|NAV</div>   
+            <div class="row">
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
+                            <div id="amlinechart4"></div>
+                            <div style="font-size: 12px; padding-left:1rem;"></div>
+                        </div>
                     </div>
                 </div>
-            </div> -->
+                <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">當月份出貨統計數量</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">種類</th>
+                                            <th scope="col">數量</th>
+                                            <th scope="col">佔比</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($shipmentThisMon as $item)
+                                            <tr>
+                                                <td>
+                                                    @if ($item->TYP_CODE == 1)
+                                                    <p>AHD CAM</p>
+                                                    @elseif ($item->TYP_CODE == 2)
+                                                    <p>DVR/NVR</p>
+                                                    @elseif ($item->TYP_CODE == 3)
+                                                    <p>IPCAM</p>
+                                                    @elseif ($item->TYP_CODE == 4)
+                                                    <p>NAV</p>
+                                                    @elseif ($item->TYP_CODE == 5)
+                                                    <p>SP</p>
+                                                    @else ($item->TYP_CODE == 6)
+                                                    <p>周邊</p>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->QTY }}</td>
+                                                <td>{{ $item->part }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">借出人</th>
+                                            <th scope="col">數量</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($borrowItem as $item)
+                                            <tr>
+                                                <td>{{ $item->nam_emp }}</td>
+                                                <td>{{ $item->total_qty }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-4" style="padding: 2px;">
                     <div class="card">
@@ -44,13 +115,13 @@
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table text-center">
-                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">                                            
-                                                <th scope="col">借出人</th>
-                                                <th scope="col">數量</th>                                            
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">借出人</th>
+                                            <th scope="col">數量</th>
                                         </thead>
                                         <tbody>
-                                        @foreach ($borrowItem as $item)
-                                            <tr> 
+                                            @foreach ($borrowItem as $item)
+                                            <tr>
                                                 <td>{{ $item->nam_emp }}</td>
                                                 <td>{{ $item->total_qty }}</td>
                                             </tr>
@@ -71,13 +142,13 @@
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table text-center">
-                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">                                            
-                                                <th scope="col">產品型號</th>
-                                                <th scope="col">庫存</th>                                            
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">產品型號</th>
+                                            <th scope="col">庫存</th>
                                         </thead>
                                         <tbody>
-                                        @foreach ($unsalableProducts as $item)
-                                            <tr> 
+                                            @foreach ($unsalableProducts as $item)
+                                            <tr>
                                                 <td>{{ $item->COD_ITEM }}</td>
                                                 <td>{{ $item->QTY_STK }}</td>
                                             </tr>
@@ -98,7 +169,7 @@
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table id="ListData" class="table text-center">
-                                        <thead class="text-capitalize text-uppercase bg-info" style=" background: darkgrey;">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th style="text-align: center;">客戶</th>
                                             <th style="text-align: center;">訂單數量</th>
                                             <th style="text-align: center;">已回報數量</th>
@@ -131,8 +202,37 @@
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-
+@if(isset($shipmentMon))
 <script>
+    // 获取当前日期
+    var currentDate = new Date();
+    // 存储最近 12 个月份的数组
+    var recentMonths = [];
+    for (var i = 0; i < 12; i++) {
+        var year = currentDate.getFullYear();
+        var month = currentDate.getMonth() + 1;
+        var formattedMonth = ("0" + month).slice(-2);
+        recentMonths.push(formattedMonth + "月");
+        currentDate.setMonth(currentDate.getMonth() - 1);
+    }
+
+    console.log(recentMonths[11]);
+    var i = 11;
+    var shipmentData = @json($shipmentMon);
+    console.log(shipmentData);
+    var chartData = [];
+    shipmentData.forEach(function(item) {
+        var monthData = {
+            mon: recentMonths[i],
+            ahdcam: item[0]['QTY'],
+            dvrnvr: item[1]['QTY'],
+            ipcam: item[2]['QTY'],
+            nav: item[3]['QTY'],
+            sp: item[4]['QTY'],
+        };
+        chartData.push(monthData);
+        i = i - 1;
+    });
 
 
 
@@ -144,96 +244,53 @@
             "legend": {
                 "useGraphSettings": true
             },
-            "dataProvider": [{
-                "mon": 1 + "月",
-                "defective": 800,
-                "germany": 1060,
-                "uk": 999
-            }, {
-                "mon": 2 + "月",
-                "defective": 900,
-                "germany": 1000,
-                "uk": 888
-            }, {
-                "mon": 3 + "月",
-                "defective": 750,
-                "germany": 1015,
-                "uk": 777
-            }, {
-                "mon": 4 + "月",
-                "defective": 650,
-                "germany": 1000,
-                "uk": 666
-            }, {
-                "mon": 5 + "月",
-                "defective": 400,
-                "germany": 1000,
-                "uk": 690
-            }, {
-                "mon": 6 + "月",
-                "defective": 550,
-                "germany": 990,
-                "uk": 780
-            }, {
-                "mon": 7 + "月",
-                "defective": 650,
-                "germany": 977,
-                "uk": 820
-            }, {
-                "mon": 8 + "月",
-                "defective": 666,
-                "germany": 1000,
-                "uk": 999
-            }, {
-                "mon": 9 + "月",
-                "defective": 777,
-                "germany": 1069,
-                "uk": 688
-            }, {
-                "mon": 10 + "月",
-                "defective": 555,
-                "germany": 1000,
-                "uk": 777
-            }, {
-                "mon": 11 + "月",
-                "defective": 520,
-                "germany": 1200,
-                "uk": 712
-            }, {
-                "mon": 12 + "月",
-                "defective": 480,
-                "germany": 1270,
-                "uk": 1300
-            }],
+            "dataProvider": chartData,
             "startDuration": 0.5,
             "graphs": [{
-                "balloonText": "AHD 攝影機 [[category]]: [[value]]",
+                "balloonText": "AHD CAM [[category]]: [[value]]",
                 "bullet": "round",
-
-                "title": "AHD攝影機",
-                "valueField": "defective",
+                "title": "AHD CAM",
+                "valueField": "ahdcam",
                 "fillAlphas": 0,
-                "lineColor": "#31ef98",
+                "lineColor": "#e67e22",
                 "lineThickness": 2,
-                "negativeLineColor": "#17e285",
+                "negativeLineColor": "#e67e22",
+            }, {
+                "balloonText": "DVR/NVR [[category]]: [[value]]",
+                "bullet": "round",
+                "title": "DVR/NVR",
+                "valueField": "dvrnvr",
+                "fillAlphas": 0,
+                "lineColor": "#2ecc71",
+                "lineThickness": 2,
+                "negativeLineColor": "#2ecc71"
             }, {
                 "balloonText": "IPCAM [[category]]: [[value]]",
                 "bullet": "round",
                 "title": "IPCAM",
-                "valueField": "germany",
+                "valueField": "ipcam",
                 "fillAlphas": 0,
-                "lineColor": "#9656e7",
+                "lineColor": "#3498db",
                 "lineThickness": 2,
-                "negativeLineColor": "#c69cfd"
+                "negativeLineColor": "#3498db",
             }, {
-                "balloonText": "OEM/ODM攝影機[[category]]: [[value]]",
+                "balloonText": "NAV [[category]]: [[value]]",
                 "bullet": "round",
-                "title": "OEM攝影機",
-                "valueField": "uk",
+                "title": "NAV",
+                "valueField": "nav",
                 "fillAlphas": 0,
-                "lineColor": "#31aeef",
+                "lineColor": "#9b59b6",
                 "lineThickness": 2,
-                "negativeLineColor": "#31aeef",
+                "negativeLineColor": "#9b59b6",
+            }, {
+                "balloonText": "SP [[category]]: [[value]]",
+                "bullet": "round",
+                "title": "SP",
+                "valueField": "sp",
+                "fillAlphas": 0,
+                "lineColor": "#f1c40f",
+                "lineThickness": 2,
+                "negativeLineColor": "#f1c40f",
             }],
             "chartCursor": {
                 "cursorAlpha": 0,
@@ -253,6 +310,9 @@
             }
         });
     }
+</script>
+@endif
+<script>
     if ($('#ambarchart4').length) {
         var chart = AmCharts.makeChart("ambarchart4", {
             "type": "serial",

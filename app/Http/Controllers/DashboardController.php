@@ -18,47 +18,54 @@ class DashboardController extends BaseController
         return view('Dashboard');
     }
     public function dashboardLeader(Request $request)
-    {  
+    {
+        //取得時間
+        $currentDate = date('Y-m-d');
+        $currentYear = date('Y', strtotime($currentDate));
+        $currentMonth = date('m', strtotime($currentDate));
+        $recentMonths = array();
+        for ($i = 0; $i < 12; $i++) {
+            $year = $currentYear;
+            $month = $currentMonth - $i;
+            if ($month <= 0) {
+                $year--;
+                $month = 12 + $month;
+            }
+            $formattedMonth = sprintf("%02d", $month);
+            $recentMonths[11 - $i] = $year . $formattedMonth;
+        }
 
-        // $MfrDashboard = DashboardModel::getMfrList();
-        // $ProductStockDashboard = DashboardModel::getProductStockList();
-        // $PartsStockDashboard = DashboardModel::getPartsStockList();
-        // $BuyDelayDashboard = DashboardModel::getBuyDelayList();
-        // $year = date('Y', strtotime('-1 year')); 
-        // $month = date('Ym');   
-        // $lastMonth = date('Ym', strtotime('-1 month'));
-        // $RMAYearDashboard = DashboardModel::getRMAMonList($year);
-        // $RMAMonDashboard = DashboardModel::getRMAMonList($month);
-        // $RMALastMonDashboard = DashboardModel::getRMAMonList($lastMonth);
-        
-        $borrowItem = DB::select("SELECT nam_emp, SUM(qty_brow) as total_qty
-        FROM mes_mfr05_view
-        WHERE cls_brow <> 6
-        GROUP BY nam_emp
-        ORDER BY total_qty DESC
-        LIMIT 10");
-        $unsalableProducts = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
+        for ($i = 0; $i < 12; $i++) {
+            $day1 = $recentMonths[$i] . '01';
+            $day31 = $recentMonths[$i] . '31';
+            $shipmentMon[] = DashboardModel::getShipmentMon($day1, $day31);
+        }
+        $shipmentThisMon = $shipmentMon[11];
+        $total = 0;
+        foreach ($shipmentThisMon as $key => $value) {
+            $total += $value->QTY;
+        }
+        foreach ($shipmentThisMon as $key => $value) {
+            $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
+        }
+        // $shipment = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
+        // FROM (
+        //   SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
+        //     ROW_NUMBER() OVER (PARTITION BY mes_typ_item.TYP_CODE ORDER BY SUM(mes_deld_shipment.QTY_DEL) DESC) AS row_num
+        //   FROM mes_deld_shipment
+        //   LEFT JOIN mes_typ_item ON mes_deld_shipment.TYP_ITEM = mes_typ_item.TYP_ITEM
+        //   WHERE mes_deld_shipment.DAT_DEL >= '20230601' AND mes_deld_shipment.DAT_DEL <= '20230631'
+        //   GROUP BY mes_deld_shipment.NAM_ITEMS, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM
+        // ) AS subquery
+        // WHERE subquery.row_num <= 10
+        // ORDER BY subquery.TYP_CODE, subquery.QTY_DEL DESC;
+        // ;
+        // ");
+        // exit;
 
-        $productionStatus = $this->productionStatus();
-        
-        //var_dump($productionStatus);
-        return view('dashboardLeader', compact('productionStatus','borrowItem','unsalableProducts'));
-    }
-
-
-    function productionStatus(){
-        $value = DB::select("SELECT *, COUNT(*) AS count
-        FROM (
-            SELECT tmp1.`runcard_no`, tmp1.`work_no`, tmp1.`version`, tmp1.`startTime`, tmp1.`NUM_PS`, tmp1.`COD_MITEM`, tmp1.`productionLine`, tmp1.`operation`, tmp2.remark2, tmp2.num_po, tmp2.qty_pcs
-            FROM runcard tmp1, order_this_month tmp2
-            WHERE tmp1.`startTime` LIKE '2023-06-19%'
-              AND tmp1.`NUM_PS` = tmp2.`num_ps`
-            GROUP BY tmp1.runcard_no
-        ) AS temp_table
-        GROUP BY work_no
-        ORDER BY `startTime` DESC");
-        return $value;
-
-
+        $borrowItem = DashboardModel::getBorrowItem();
+        $unsalableProducts = DashboardModel::getUnsalableProducts();
+        $productionStatus = DashboardModel::productionStatus();
+        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon'));
     }
 }
