@@ -21,6 +21,7 @@ class DashboardController extends BaseController
     {
         //取得時間
         $currentDate = date('Y-m-d');
+
         $currentYear = date('Y', strtotime($currentDate));
         $currentMonth = date('m', strtotime($currentDate));
         $recentMonths = array();
@@ -85,10 +86,9 @@ class DashboardController extends BaseController
         // ;
         // ");
         // exit;
-
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
-        $productionStatus = DashboardModel::productionStatus();
+        $productionStatus = DashboardModel::productionStatus($currentDate);
         return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon','shipmentRanking'));
     }
 }

@@ -102,14 +102,14 @@ class DashboardModel extends Authenticatable
         $value = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
         return $value;
     }
-    public static function productionStatus()
+    public static function productionStatus($currentDate)
     {
 
         $value = DB::select("SELECT *, COUNT(*) AS count
         FROM (
             SELECT tmp1.`runcard_no`, tmp1.`work_no`, tmp1.`version`, tmp1.`startTime`, tmp1.`NUM_PS`, tmp1.`COD_MITEM`, tmp1.`productionLine`, tmp1.`operation`, tmp2.remark2, tmp2.num_po, tmp2.qty_pcs
             FROM runcard tmp1, order_this_month tmp2
-            WHERE tmp1.`startTime` LIKE '2023-06-29%'
+            WHERE tmp1.`startTime` LIKE '$currentDate%'
               AND tmp1.`NUM_PS` = tmp2.`num_ps`
             GROUP BY tmp1.runcard_no
         ) AS temp_table
