@@ -129,8 +129,6 @@
                                         <input id="inspectionForm" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <div class="form-row" style="padding-left: 26px;">

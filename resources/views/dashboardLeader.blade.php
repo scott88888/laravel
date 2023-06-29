@@ -119,17 +119,40 @@
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th scope="col">品名</th>
                                             <th scope="col">分類</th>
-                                            <th scope="col">月出貨</th>
                                             <th scope="col">季出貨</th>
                                             <th scope="col">成品庫存</th>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                @foreach ($shipmentRanking as $item)
+                                            <tr>
+                                                <td>{{ $item->COD_ITEM }}</td>
+                                                <td>
+                                                    @if ($item->TYP_CODE == 1)
+                                                    <p>AHD CAM</p>
+                                                    @elseif ($item->TYP_CODE == 2)
+                                                    <p>DVR/NVR</p>
+                                                    @elseif ($item->TYP_CODE == 3)
+                                                    <p>IPCAM</p>
+                                                    @elseif ($item->TYP_CODE == 4)
+                                                    <p>NAV</p>
+                                                    @elseif ($item->TYP_CODE == 5)
+                                                    <p>SP</p>
+                                                    @else ($item->TYP_CODE == 6)
+                                                    <p>周邊</p>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->QTY_DEL }}</td>
+                                                <td>
+                                                    @if ($item->QTY_STK > 0 )
+                                                    <p> {{ $item->QTY_STK }}</p>
+                                                    @else
+                                                    <p>0</p>
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                            @endforeach
                                             </tr>
                                         </tbody>
                                     </table>
