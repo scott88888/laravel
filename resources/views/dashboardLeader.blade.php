@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
+                <div class="col-2" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body">
                             <div style="text-align: center;">
@@ -95,6 +95,42 @@
                                             <tr>
                                                 <td>{{ $item->nam_emp }}</td>
                                                 <td>{{ $item->total_qty }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">今日生產維修狀況</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">工單</th>
+                                            <th scope="col">產品名稱</th>
+                                            <th scope="col">訂單數量</th>
+                                            <th scope="col">維修數量</th>
+                                            <th scope="col">今日不良率</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($mainten as $item)
+                                            <tr>
+                                                <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
+                                                        {{ $item->runcard_no }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $item->model }}</td>
+                                                <td>{{ $item->order_qty }}</td>
+                                                <td>{{ $item->ng_qty }}</td>
+                                                <td>{{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

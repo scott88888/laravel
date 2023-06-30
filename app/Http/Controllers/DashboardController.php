@@ -68,8 +68,10 @@ class DashboardController extends BaseController
             $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
             $shipmentRanking[$i] -> QTY_STK = $lcst[0]->QTY_STK;
         }
-
-
+        $todayDate = date('ymd');
+        $maintenDate = 'MR'.date('ymd').'%';
+        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate' ");
+       
 
 
         // $shipment = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
@@ -89,6 +91,6 @@ class DashboardController extends BaseController
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionStatus = DashboardModel::productionStatus($currentDate);
-        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon','shipmentRanking'));
+        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon','shipmentRanking','mainten'));
     }
 }
