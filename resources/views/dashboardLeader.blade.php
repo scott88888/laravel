@@ -14,6 +14,17 @@
         width: 100%;
         height: 500px;
     }
+
+    .table td,
+    .table th {
+        padding: 0.25rem;
+
+    }
+
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
 </style>
 
 <body>
@@ -22,12 +33,12 @@
     </div>
     <div class="page-container">
         @include('layouts/sidebar')
-        <div class="main-content">
+        <div class="main-content" style="background: #fff;">
             @include('layouts/headerarea')
             <div class="row">
                 <div class="col-4" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
                             <div id="amlinechart4"></div>
                             <div style="font-size: 12px; padding-left:1rem;"></div>
@@ -36,7 +47,7 @@
                 </div>
                 <div class="col-2" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">當月份出貨統計數量</h4>
                             </div>
@@ -79,7 +90,7 @@
                 </div>
                 <div class="col-2" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">借品排行榜</h4>
                             </div>
@@ -106,7 +117,7 @@
                 </div>
                 <div class="col-4" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">今日生產維修狀況</h4>
                             </div>
@@ -145,7 +156,7 @@
             <div class="row">
                 <div class="col-4" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">季出貨排行榜</h4>
                             </div>
@@ -197,9 +208,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
+                <div class="col-2" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">滯銷品排行榜</h4>
                             </div>
@@ -226,7 +237,7 @@
                 </div>
                 <div class="col-3" style="padding: 2px;">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">今日工單生產狀況 (條碼回報)</h4>
                             </div>
@@ -246,6 +257,47 @@
                                                 <td>{{ $status->qty_pcs }}</td>
                                                 <td>{{ $status->count }}</td>
                                                 <td>{{ $status->COD_MITEM }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">RMA維修月報表(30天)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="ListData" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th style="text-align: center;"></th>                                         
+                                            <th style="text-align: center;">數量</th>
+                                            <th style="text-align: center;">百分比</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($warranty as $status)
+                                            <tr>
+                                                <td>{{ $status->PS1_4 }}</td>
+                                                <td>{{ $status->Count }}</td>
+                                                <td>{{ $status->part }}</td>
+                                            </tr>
+                                            @endforeach
+                                            @foreach ($warrantyPart as $status)
+                                            <tr>
+                                            <td>無損毀</td>
+                                            <td>{{ $status->a1 }}</td>
+                                            <td></td>
+                                            </tr>
+                                            <tr>
+                                            <td>換零件</td>
+                                            <td>{{ $status->a2 }}</td>
+                                            <td></td>
                                             </tr>
                                             @endforeach
                                         </tbody>

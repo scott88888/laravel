@@ -58,6 +58,7 @@ class DashboardController extends BaseController
         foreach ($shipmentThisMon as $key => $value) {
             $total += $value->QTY;
         }
+
         foreach ($shipmentThisMon as $key => $value) {
             if ($value->QTY == 0) {
                 $value->part = 0;
@@ -65,7 +66,7 @@ class DashboardController extends BaseController
                 $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
             }
         }
-        
+
 
 
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
@@ -87,10 +88,52 @@ class DashboardController extends BaseController
         }
         $todayDate = date('ymd');
         $maintenDate = 'MR' . date('ymd') . '%';
-        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate' ");
+        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate'");
 
 
 
+        $warranty = DB::select("SELECT PS1_4, COUNT(*) AS Count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN 20230527 and 20230627 AND (PS1_4 ='保固期內'OR PS1_4 ='保固期外') GROUP BY PS1_4");
+        $total = 0;
+        foreach ($warranty as $key => $value) {
+            $total += $value->Count;
+        };
+        foreach ($warranty as $key => $value) {
+            if ($value->Count == 0) {
+                $value->part = 0;
+            } else {
+                $value->part = number_format(($value->Count / $total) * 100, 1) . '%';
+            }
+        }
+
+        $warrantyPS = DB::select("SELECT MTRM_PS, COUNT(*) AS Count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN 20230527 and 20230627  GROUP BY MTRM_PS");
+
+        $warrantyAll =  DB::select("SELECT COUNT(*) AS Count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN 20230527 and 20230627");
+
+        $warrantyNO =  DB::select("SELECT MTRM_PS, COUNT(*) AS Count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN 20230527 and 20230627 AND (MTRM_PS ='NO') GROUP BY MTRM_PS");
+
+        // echo $warrantyAll[0]->Count;
+        // echo $warrantyNO[0]->Count;
+
+        // echo number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%';
+        // echo number_format((($warrantyAll[0]->Count - $warrantyNO[0]->Count) / $warrantyAll[0]->Count) * 100, 1) . '%';
+
+        (object)
+
+
+        $warrantyPart[0] = (object) [
+            'a1' => $warrantyNO[0]->Count,
+            'a2' => $warrantyAll[0]->Count,
+        ];
+
+       
         // $shipment = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         // FROM (
         //   SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
@@ -108,6 +151,6 @@ class DashboardController extends BaseController
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionStatus = DashboardModel::productionStatus($currentDate);
-        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'mainten'));
+        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'mainten', 'warranty','warrantyPart'));
     }
 }
