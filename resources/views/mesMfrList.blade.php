@@ -60,10 +60,10 @@
                                             <td>{{$ListData->DAT_BROW}}</td>
                                             <td>{{$ListData->DAT_RRTN}}</td>
                                             <td>
-                                                @if ($ListData->date_gap > 0 )
-                                                <p style="color:blue">{{$ListData->date_gap}}</p>
+                                                @if ($ListData->DATE_GAP > 0 )
+                                                <p style="color:blue">{{$ListData->DATE_GAP}}</p>
                                                 @else
-                                                <p style="color:red">{{$ListData->date_gap}}</p>
+                                                <p style="color:red">{{$ListData->DATE_GAP}}</p>
                                                 @endif
                                             </td>
                                             <td>{{$ListData->DAT_ARTN}}</td>
@@ -139,7 +139,9 @@
 @include('layouts/footerjs')
 
 <script>
-    $(ListData).DataTable({
+    var table;
+    table = $('#ListData').DataTable({
+            ...tableConfig,   
         "autoWidth": false,
         "lengthMenu": [
             [10, 25, 50, -1],
