@@ -27,7 +27,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="main5">
-                <div class="row">
+                <div class="row" style="margin-right:0px; margin-left:0px;">
                     <!-- Dark table start -->
                     <div class="col-12 mt-1">
                         <div class="card">
@@ -122,14 +122,12 @@
 </body>
 @include('layouts/footerjs')
 <script>
+     var table;
     $(document).ready(function() {
         let Model;
         $('#loading').hide();
-        var table = $('#ListData').DataTable({
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
+        table = $('#ListData').DataTable({
+            ...tableConfig,
             responsive: true,
             columns: [{
                 "data": "Model",

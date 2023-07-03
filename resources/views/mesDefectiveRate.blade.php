@@ -27,7 +27,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="main5">
-                <div class="row">
+                <div class="row" style="margin-right:0px; margin-left:0px;">
                     <!-- Dark table start -->
                     <div class="col-12 mt-1">
                         <div class="card">
@@ -38,7 +38,7 @@
                                         <label class="col-form-label">分析月份(年)</label>
                                         <select id="launchDate" class="form-control" style="padding: 0;">
                                             <option>select
-                                            </option>
+                                            </option> 
                                             @foreach ($date as $item)
                                             <option value="{{ $item->year}}{{ $item->month}}">{{ $item->year}}.{{ $item->month}}
                                             </option>
@@ -90,16 +90,14 @@
 </body>
 @include('layouts/footerjs')
 <script>
+      var table;
     $(document).ready(function() {
         $('#loading').hide();
         let Model;
         let work_no;
         
-        var table = $('#ListData').DataTable({
-            "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
+        table = $('#ListData').DataTable({
+            ...tableConfig,
         responsive: true,
             columns: [{
                 "data": "work_no",

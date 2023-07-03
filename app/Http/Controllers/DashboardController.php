@@ -39,18 +39,35 @@ class DashboardController extends BaseController
         for ($i = 0; $i < 12; $i++) {
             $day1 = $recentMonths[$i] . '01';
             $day31 = $recentMonths[$i] . '31';
+
             $shipmentMon[] = DashboardModel::getShipmentMon($day1, $day31);
         }
+
+        if (empty($shipmentMon[11])) {
+            $shipmentMon[11] = []; // 初始化為空陣列
+            for ($i = 0; $i < 6; $i++) {
+                $shipmentMon[11][$i] = (object) [
+                    'QTY' => 0,
+                    'TYP_CODE' => $i,
+                ];
+            }
+        }
+
         $shipmentThisMon = $shipmentMon[11];
         $total = 0;
         foreach ($shipmentThisMon as $key => $value) {
             $total += $value->QTY;
         }
         foreach ($shipmentThisMon as $key => $value) {
-            $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
+            if ($value->QTY == 0) {
+                $value->part = 0;
+            } else {
+                $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
+            }
         }
-
         
+
+
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
           SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
@@ -63,15 +80,15 @@ class DashboardController extends BaseController
         WHERE subquery.row_num <= 2
         ORDER BY subquery.TYP_CODE, subquery.QTY_DEL DESC");
 
-        for ($i=0; $i < count($shipmentRanking); $i++) { 
-            $item = $shipmentRanking[$i]->COD_ITEM;            
+        for ($i = 0; $i < count($shipmentRanking); $i++) {
+            $item = $shipmentRanking[$i]->COD_ITEM;
             $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
-            $shipmentRanking[$i] -> QTY_STK = $lcst[0]->QTY_STK;
+            $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
         $todayDate = date('ymd');
-        $maintenDate = 'MR'.date('ymd').'%';
+        $maintenDate = 'MR' . date('ymd') . '%';
         $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate' ");
-       
+
 
 
         // $shipment = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
@@ -91,6 +108,6 @@ class DashboardController extends BaseController
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionStatus = DashboardModel::productionStatus($currentDate);
-        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon','shipmentRanking','mainten'));
+        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'mainten'));
     }
 }
