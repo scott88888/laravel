@@ -339,12 +339,13 @@
     var chartData = [];
     shipmentData.forEach(function(item) {
         var monthData = {
-            mon: recentMonths[i],
-            ahdcam: item[0]['QTY'],
-            dvrnvr: item[1]['QTY'],
-            ipcam: item[2]['QTY'],
-            nav: item[3]['QTY'],
-            sp: item[4]['QTY'],
+            mon: recentMonths[i],            
+            ahdcam: (item[0] && item[0]['TYP_CODE'] =='1') ? item[0]['QTY'] : 0,
+            dvrnvr: (item[1] && item[1]['TYP_CODE'] =='2') ? item[1]['QTY'] : 0,
+            ipcam: (item[2] && item[2]['TYP_CODE'] =='3') ? item[2]['QTY'] : 0,
+            nav: (item[3] && item[3]['TYP_CODE'] =='4') ? item[3]['QTY'] : 0,
+            sp: (item[4] && item[4]['TYP_CODE'] =='5') ? item[4]['QTY'] : 0,
+            
         };
         chartData.push(monthData);
         i = i - 1;
@@ -428,83 +429,6 @@
     }
 </script>
 @endif
-<script>
-    if ($('#ambarchart4').length) {
-        var chart = AmCharts.makeChart("ambarchart4", {
-            "type": "serial",
-            "theme": "light",
-            "marginRight": 70,
-            "dataProvider": [{
-                "country": "馬希娥",
-                "visits": 27,
-                "color": "#8918FE"
-            }, {
-                "country": "張二",
-                "visits": 82,
-                "color": "#7474F0"
-            }, {
-                "country": "李三",
-                "visits": 61,
-                "color": "#C5C5FD"
-            }, {
-                "country": "陳四",
-                "visits": 22,
-                "color": "#952FFE"
-            }, {
-                "country": "小明",
-                "visits": 26,
-                "color": "#7474F0"
-            }, {
-                "country": "小貓",
-                "visits": 14,
-                "color": "#CBCBFD"
-            }, {
-                "country": "小狗",
-                "visits": 64,
-                "color": "#FD9C21"
-            }, {
-                "country": "大聰",
-                "visits": 11,
-                "color": "#0D8ECF"
-            }, {
-                "country": "大董",
-                "visits": 65,
-                "color": "#0D52D1"
-            }, {
-                "country": "小六",
-                "visits": 80,
-                "color": "#2A0CD0"
-            }],
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left",
-                "title": false
-            }],
-            "startDuration": 1,
-            "graphs": [{
-                "balloonText": "<b>[[category]]: [[value]]</b>",
-                "fillColorsField": "color",
-                "fillAlphas": 0.9,
-                "lineAlpha": 0.2,
-                "type": "column",
-                "valueField": "visits"
-            }],
-            "chartCursor": {
-                "categoryBalloonEnabled": false,
-                "cursorAlpha": 0,
-                "zoomable": false
-            },
-            "categoryField": "country",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 45
-            },
-            "export": {
-                "enabled": false
-            }
 
-        });
-    }
-</script>
 
 </html>
