@@ -300,6 +300,20 @@
                                             <td>{{ $status->changePartsPer }}</td></td>
                                             </tr>
                                             @endforeach
+                                            @foreach ($AVGtime as $status)
+                                            <tr>
+                                                <td>入場平均時間</td>
+                                                <td>{{ $status->Count }}</td>
+                                                <td></td>
+                                            </tr>
+                                            @endforeach
+                                            @foreach ($repairQuantity as $status)
+                                            <tr>
+                                                <td>維修總數</td>
+                                                <td>{{ $status->Count }}</td>
+                                                <td></td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
 
 
