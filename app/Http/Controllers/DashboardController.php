@@ -119,35 +119,13 @@ class DashboardController extends BaseController
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN 20230527 and 20230627 AND (MTRM_PS ='NO') GROUP BY MTRM_PS");
 
-        // echo $warrantyAll[0]->Count;
-        // echo $warrantyNO[0]->Count;
-
-        // echo number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%';
-        // echo number_format((($warrantyAll[0]->Count - $warrantyNO[0]->Count) / $warrantyAll[0]->Count) * 100, 1) . '%';
-
-        (object)
-
-
         $warrantyPart[0] = (object) [
-            'a1' => $warrantyNO[0]->Count,
-            'a2' => $warrantyAll[0]->Count,
+            'noDamage' => $warrantyNO[0]->Count,           
+            'changeParts' => $warrantyAll[0]->Count - $warrantyNO[0]->Count,
+            'noDamagePer' => number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%',      
+            'changePartsPer' => number_format((($warrantyAll[0]->Count - $warrantyNO[0]->Count) / $warrantyAll[0]->Count) * 100, 1) . '%'
         ];
-
-       
-        // $shipment = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
-        // FROM (
-        //   SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
-        //     ROW_NUMBER() OVER (PARTITION BY mes_typ_item.TYP_CODE ORDER BY SUM(mes_deld_shipment.QTY_DEL) DESC) AS row_num
-        //   FROM mes_deld_shipment
-        //   LEFT JOIN mes_typ_item ON mes_deld_shipment.TYP_ITEM = mes_typ_item.TYP_ITEM
-        //   WHERE mes_deld_shipment.DAT_DEL >= '20230601' AND mes_deld_shipment.DAT_DEL <= '20230631'
-        //   GROUP BY mes_deld_shipment.NAM_ITEMS, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM
-        // ) AS subquery
-        // WHERE subquery.row_num <= 10
-        // ORDER BY subquery.TYP_CODE, subquery.QTY_DEL DESC;
-        // ;
-        // ");
-        // exit;
+        
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionStatus = DashboardModel::productionStatus($currentDate);

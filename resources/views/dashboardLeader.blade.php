@@ -212,7 +212,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">滯銷品排行榜</h4>
+                                <h4 class="header-title" style="text-align: center;">庫存排行榜</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -270,7 +270,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA維修月報表(30天)</h4>
+                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天)</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -291,16 +291,19 @@
                                             @foreach ($warrantyPart as $status)
                                             <tr>
                                             <td>無損毀</td>
-                                            <td>{{ $status->a1 }}</td>
-                                            <td></td>
+                                            <td>{{ $status->noDamage }}</td>
+                                            <td>{{ $status->noDamagePer }}</td>
                                             </tr>
                                             <tr>
                                             <td>換零件</td>
-                                            <td>{{ $status->a2 }}</td>
-                                            <td></td>
+                                            <td>{{ $status->changeParts }}</td>
+                                            <td>{{ $status->changePartsPer }}</td></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
+
+
+
                                     </table>
                                 </div>
                             </div>
