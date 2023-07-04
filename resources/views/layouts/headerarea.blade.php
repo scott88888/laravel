@@ -32,6 +32,7 @@
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="index.html">Home</a></li>
                                 <li><span>Datatable</span></li>
+                                <span id="timeNow" style="font-size: large;">time</span>
                             </ul>
                         </div>
                     </div>
@@ -43,7 +44,7 @@
                                 <form method="POST" class="dropdown-item" action="{{ route('logout') }}" x-data>
                                     @csrf
                                     <button type="submit" class="btn btn-rounded btn-primary mb-3">{{ __('Log Out') }}</button>
-                                   
+
                                 </form>
                             </div>
                         </div>
@@ -51,3 +52,13 @@
                 </div>
             </div>
             <!-- page title area end -->
+            <script>
+                // 獲取要更新的元素
+                var dateSpan = document.getElementById('timeNow');
+
+                // 獲取當前日期
+                var today = new Date();
+
+                // 更新日期到元素內容
+                dateSpan.textContent = ''+today.toLocaleDateString();
+            </script>
