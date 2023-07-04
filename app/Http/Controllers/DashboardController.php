@@ -135,9 +135,7 @@ class DashboardController extends BaseController
         $AVGtime = DB::select("SELECT AVG(DIFF_DAYS) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE");
-
-
-
+        
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionStatus = DashboardModel::productionStatus($currentDate);

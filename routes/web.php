@@ -7,7 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SetupController;
-
+use App\Http\Controllers\AutoUpdateController;
 
 
 
@@ -15,6 +15,7 @@ Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
 Route::view('/temp', 'temp');
 
+Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
 
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
