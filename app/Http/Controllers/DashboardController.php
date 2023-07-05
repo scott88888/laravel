@@ -163,7 +163,7 @@ class DashboardController extends BaseController
 
     public function mainten()
     {
-        $maintenDate = 'MR' . date('ymd') . '%';
+        $maintenDate = 'MR' . date('ymd') ;
         $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
         if (count($mainten) === 0) {
             $data = DB::select("SELECT * FROM runcard_ng_rate ORDER BY ng_id DESC LIMIT 1");
