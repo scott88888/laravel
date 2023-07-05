@@ -17,9 +17,12 @@ class AutoUpdateController extends BaseController
 
     public function mesAutoUpdate(Request $request)
     {
+        //$this->repairToday();
+        $this->productionToday();
+    }
 
-
-        
+    public function repairToday()
+    {
         $date = date('ymd');
         $data = 'MR' . $date . '%';
         // 讀取資料
@@ -28,7 +31,7 @@ class AutoUpdateController extends BaseController
             ->where('num_comr', 'LIKE', $data)
             ->get();
         if ($runcard_ng_rate->count() != 0) {
-            DB::table('runcard_ng_rate')->where('num_comr', 'LIKE', $data)->delete();            
+            DB::table('runcard_ng_rate')->where('num_comr', 'LIKE', $data)->delete();
             foreach ($runcard_ng_rate as $data) {
                 try {
                     DB::table('runcard_ng_rate')->insert([
@@ -48,13 +51,37 @@ class AutoUpdateController extends BaseController
                     ]);
                 } catch (Throwable $e) {
                     // 發生錯誤時的處理邏輯
-                    $msg='錯誤'.date('His').$e->getMessage();
+                    $msg = '錯誤' . date('His') . $e->getMessage();
                     $this->writeLog($msg);
                 }
             }
         }
     }
 
+    public function productionToday()
+    {
+        $date = date('Y-m-d');
+        echo $date;
+        $runcard = DB::connection('mysql_second')
+            ->table('runcard')
+            ->whereDate('startTime', '=', $date)
+            ->get();
+
+        if ($runcard->isNotEmpty()) {
+            try {
+                DB::table('runcard')->whereDate('startTime', '=', $date)->delete();
+
+                foreach ($runcard as $item) {
+                    $data = (array) $item;
+                    DB::table('runcard')->insert($data);
+                }
+            } catch (Throwable $e) {
+                // 發生錯誤時的處理邏輯
+                $msg = '錯誤' . date('His') . $e->getMessage();
+                $this->writeLog($msg);
+            }
+        }
+    }
 
     public function writeLog($msg)
     {
