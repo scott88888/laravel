@@ -17,7 +17,7 @@ class AutoUpdateController extends BaseController
 
     public function mesAutoUpdate(Request $request)
     {
-        //$this->repairToday();
+        $this->repairToday();
         $this->productionToday();
     }
 
