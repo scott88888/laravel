@@ -64,12 +64,12 @@ class AutoUpdateController extends BaseController
         echo $date;
         $runcard = DB::connection('mysql_second')
             ->table('runcard')
-            ->whereDate('startTime', '=', $date)
+            ->whereDate('work_endTime', '=', $date)
             ->get();
 
         if ($runcard->isNotEmpty()) {
             try {
-                DB::table('runcard')->whereDate('startTime', '=', $date)->delete();
+                DB::table('runcard')->whereDate('work_endTime', '=', $date)->delete();
 
                 foreach ($runcard as $item) {
                     $data = (array) $item;
