@@ -86,13 +86,14 @@ class DashboardController extends BaseController
             $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
             $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
-        $todayDate = date('ymd');
-        $maintenDate = 'MR' . date('ymd') . '%';
-        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate'");
 
+
+        //今日生產維修狀況
+        $maintenData = $this->mainten();
+        //今日生產維修狀況end
 
         $warrantyDateE = date('Ymd');
-        $warrantyDateS = date('Ymd', strtotime('-30 days', strtotime(date('Ymd'))));    
+        $warrantyDateS = date('Ymd', strtotime('-30 days', strtotime(date('Ymd'))));
 
         $warranty = DB::select("SELECT PS1_4, COUNT(*) AS Count
         FROM mes_rma_analysis
@@ -108,7 +109,7 @@ class DashboardController extends BaseController
                 $value->part = number_format(($value->Count / $total) * 100, 1) . '%';
             }
         }
-  
+
         $warrantyPS = DB::select("SELECT MTRM_PS, COUNT(*) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE  GROUP BY MTRM_PS");
@@ -122,12 +123,12 @@ class DashboardController extends BaseController
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE AND (MTRM_PS ='NO') GROUP BY MTRM_PS");
 
         $warrantyPart[0] = (object) [
-            'noDamage' => $warrantyNO[0]->Count,           
+            'noDamage' => $warrantyNO[0]->Count,
             'changeParts' => $warrantyAll[0]->Count - $warrantyNO[0]->Count,
-            'noDamagePer' => number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%',      
+            'noDamagePer' => number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%',
             'changePartsPer' => number_format((($warrantyAll[0]->Count - $warrantyNO[0]->Count) / $warrantyAll[0]->Count) * 100, 1) . '%'
         ];
-        
+
         $repairQuantity = DB::select("SELECT COUNT(*) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE and  PS1_2 <> '測試正常' ");
@@ -135,10 +136,42 @@ class DashboardController extends BaseController
         $AVGtime = DB::select("SELECT AVG(DIFF_DAYS) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE");
-        
+
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
+        $productionData = $this->productionStatus();
+
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime'));
+    }
+
+
+    public function productionStatus()
+    {
+
+        $currentDate = date('Y-m-d');
         $productionStatus = DashboardModel::productionStatus($currentDate);
-        return view('dashboardLeader', compact('productionStatus', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'mainten', 'warranty','warrantyPart','repairQuantity','AVGtime'));
+        if (count($productionStatus) === 0) {
+
+            $data = DB::select("SELECT startTime FROM runcard ORDER BY `id` DESC LIMIT 1");
+            $currentDate = substr($data[0]->startTime, 0, 10);
+            $productionStatus = DashboardModel::productionStatus($currentDate);
+           
+ 
+        }
+        return ['productionStatus' => $productionStatus, 'currentDate' => $currentDate];
+    }
+
+    public function mainten()
+    {
+        $maintenDate = 'MR' . date('ymd') . '%';
+        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
+        if (count($mainten) === 0) {
+            $data = DB::select("SELECT * FROM runcard_ng_rate ORDER BY ng_id DESC LIMIT 1");
+            $maintenDate = substr($data[0]->num_comr, 0, -4);
+            $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
+        }
+        $maintenDate = substr($maintenDate, 2);
+
+        return ['mainten' => $mainten, 'maintenDate' => $maintenDate];
     }
 }

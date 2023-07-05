@@ -119,7 +119,10 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">今日生產維修狀況</h4>
+                                <h4 class="header-title" style="text-align: center;">
+                                    {{$maintenData['maintenDate'] }}
+                                    製程維修狀況
+                                </h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -132,7 +135,7 @@
                                             <th scope="col">今日不良率</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($mainten as $item)
+                                            @foreach ($maintenData['mainten'] as $item)
                                             <tr>
                                                 <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
                                                         {{ $item->runcard_no }}
@@ -239,7 +242,9 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">今日工單生產狀況 (條碼回報)</h4>
+                                <h4 class="header-title" style="text-align: center;">
+                                {{$productionData['currentDate'] }}   工單生產狀況 (條碼回報)
+                                </h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -251,7 +256,7 @@
                                             <th style="text-align: center;">產品型號</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($productionStatus as $status)
+                                            @foreach ($productionData['productionStatus'] as $status)
                                             <tr>
                                                 <td>{{ $status->remark2 }}</td>
                                                 <td>{{ $status->qty_pcs }}</td>
@@ -276,7 +281,7 @@
                                 <div class="table-responsive">
                                     <table id="ListData" class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th style="text-align: center;"></th>                                         
+                                            <th style="text-align: center;"></th>
                                             <th style="text-align: center;">數量</th>
                                             <th style="text-align: center;">百分比</th>
                                         </thead>
@@ -290,14 +295,15 @@
                                             @endforeach
                                             @foreach ($warrantyPart as $status)
                                             <tr>
-                                            <td>無損毀</td>
-                                            <td>{{ $status->noDamage }}</td>
-                                            <td>{{ $status->noDamagePer }}</td>
+                                                <td>無損毀</td>
+                                                <td>{{ $status->noDamage }}</td>
+                                                <td>{{ $status->noDamagePer }}</td>
                                             </tr>
                                             <tr>
-                                            <td>換零件</td>
-                                            <td>{{ $status->changeParts }}</td>
-                                            <td>{{ $status->changePartsPer }}</td></td>
+                                                <td>換零件</td>
+                                                <td>{{ $status->changeParts }}</td>
+                                                <td>{{ $status->changePartsPer }}</td>
+                                                </td>
                                             </tr>
                                             @endforeach
                                             @foreach ($AVGtime as $status)
@@ -356,13 +362,13 @@
     var chartData = [];
     shipmentData.forEach(function(item) {
         var monthData = {
-            mon: recentMonths[i],            
-            ahdcam: (item[0] && item[0]['TYP_CODE'] =='1') ? item[0]['QTY'] : 0,
-            dvrnvr: (item[1] && item[1]['TYP_CODE'] =='2') ? item[1]['QTY'] : 0,
-            ipcam: (item[2] && item[2]['TYP_CODE'] =='3') ? item[2]['QTY'] : 0,
-            nav: (item[3] && item[3]['TYP_CODE'] =='4') ? item[3]['QTY'] : 0,
-            sp: (item[4] && item[4]['TYP_CODE'] =='5') ? item[4]['QTY'] : 0,
-            
+            mon: recentMonths[i],
+            ahdcam: (item[0] && item[0]['TYP_CODE'] == '1') ? item[0]['QTY'] : 0,
+            dvrnvr: (item[1] && item[1]['TYP_CODE'] == '2') ? item[1]['QTY'] : 0,
+            ipcam: (item[2] && item[2]['TYP_CODE'] == '3') ? item[2]['QTY'] : 0,
+            nav: (item[3] && item[3]['TYP_CODE'] == '4') ? item[3]['QTY'] : 0,
+            sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,
+
         };
         chartData.push(monthData);
         i = i - 1;
