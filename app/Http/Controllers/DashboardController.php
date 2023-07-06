@@ -19,55 +19,14 @@ class DashboardController extends BaseController
     }
     public function dashboardLeader(Request $request)
     {
-        //取得時間
-        $currentDate = date('Y-m-d');
 
-        $currentYear = date('Y', strtotime($currentDate));
-        $currentMonth = date('m', strtotime($currentDate));
-        $recentMonths = array();
-        for ($i = 0; $i < 12; $i++) {
-            $year = $currentYear;
-            $month = $currentMonth - $i;
-            if ($month <= 0) {
-                $year--;
-                $month = 12 + $month;
-            }
-            $formattedMonth = sprintf("%02d", $month);
-            $recentMonths[11 - $i] = $year . $formattedMonth;
-        }
+       
 
-        for ($i = 0; $i < 12; $i++) {
-            $day1 = $recentMonths[$i] . '01';
-            $day31 = $recentMonths[$i] . '31';
-
-            $shipmentMon[] = DashboardModel::getShipmentMon($day1, $day31);
-        }
-
-        if (empty($shipmentMon[11])) {
-            $shipmentMon[11] = []; // 初始化為空陣列
-            for ($i = 0; $i < 6; $i++) {
-                $shipmentMon[11][$i] = (object) [
-                    'QTY' => 0,
-                    'TYP_CODE' => $i,
-                ];
-            }
-        }
-
-        $shipmentThisMon = $shipmentMon[11];
-        $total = 0;
-        foreach ($shipmentThisMon as $key => $value) {
-            $total += $value->QTY;
-        }
-
-        foreach ($shipmentThisMon as $key => $value) {
-            if ($value->QTY == 0) {
-                $value->part = 0;
-            } else {
-                $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
-            }
-        }
-
-
+        //過去12個月出貨數量//當月
+        $shipmentMon = $this->shipmentMon();
+        $shipmentThisMon = $shipmentMon['shipmentThisMon'];
+        $shipmentMon = $shipmentMon['shipmentMon'];
+        //end
 
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
@@ -140,38 +99,118 @@ class DashboardController extends BaseController
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionData = $this->productionStatus();
+        $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime'));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime','description'));
     }
 
 
     public function productionStatus()
     {
-
         $currentDate = date('Y-m-d');
         $productionStatus = DashboardModel::productionStatus($currentDate);
         if (count($productionStatus) === 0) {
-
             $data = DB::select("SELECT startTime FROM runcard ORDER BY `id` DESC LIMIT 1");
             $currentDate = substr($data[0]->startTime, 0, 10);
             $productionStatus = DashboardModel::productionStatus($currentDate);
-           
- 
         }
+        $currentDate = substr($currentDate, 2);
         return ['productionStatus' => $productionStatus, 'currentDate' => $currentDate];
     }
 
     public function mainten()
     {
-        $maintenDate = 'MR' . date('ymd') ;
+        $maintenDate = 'MR' . date('ymd');
         $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
         if (count($mainten) === 0) {
             $data = DB::select("SELECT * FROM runcard_ng_rate ORDER BY ng_id DESC LIMIT 1");
             $maintenDate = substr($data[0]->num_comr, 0, -4);
             $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
         }
-        $maintenDate = substr($maintenDate, 2);
-
+        $maintenDate = substr($maintenDate, 2, 2) . '-' . substr($maintenDate, 4, 2) . '-' . substr($maintenDate, 6, 2);
         return ['mainten' => $mainten, 'maintenDate' => $maintenDate];
+    }
+
+    public function shipmentMon()
+    {
+        //取得時間
+        $currentDate = date('Y-m-d');
+
+        $currentYear = date('Y', strtotime($currentDate));
+        $currentMonth = date('m', strtotime($currentDate));
+        $recentMonths = array();
+        for ($i = 0; $i < 12; $i++) {
+            $year = $currentYear;
+            $month = $currentMonth - $i;
+            if ($month <= 0) {
+                $year--;
+                $month = 12 + $month;
+            }
+            $formattedMonth = sprintf("%02d", $month);
+            $recentMonths[11 - $i] = $year . $formattedMonth;
+        }
+
+        for ($i = 0; $i < 12; $i++) {
+            $day1 = $recentMonths[$i] . '01';
+            $day31 = $recentMonths[$i] . '31';
+
+            $shipmentMon[] = DashboardModel::getShipmentMon($day1, $day31);
+        }
+
+        if (empty($shipmentMon[11])) {
+            $shipmentMon[11] = []; // 初始化為空陣列
+            for ($i = 0; $i < 6; $i++) {
+                $shipmentMon[11][$i] = (object) [
+                    'QTY' => 0,
+                    'TYP_CODE' => $i,
+                ];
+            }
+        }
+
+        $shipmentThisMon = $shipmentMon[11];
+        $total = 0;
+        foreach ($shipmentThisMon as $key => $value) {
+            $total += $value->QTY;
+        }
+
+        foreach ($shipmentThisMon as $key => $value) {
+            if ($value->QTY == 0) {
+                $value->part = 0;
+            } else {
+                $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
+            }
+        }
+
+
+        return ['shipmentMon' => $shipmentMon, 'shipmentThisMon' => $shipmentThisMon];
+    }
+
+    public function description()
+    {
+
+        $description = DB::select("SELECT
+                                        a.sts_comr,
+                                        c.description AS comr_desc,
+                                        COUNT(c.description) AS count_comr
+                                    FROM
+                                        runcard_ng_rate AS a
+                                        LEFT JOIN defective AS c ON a.sts_comr = c.item_no
+                                    WHERE
+                                    (num_comr >= 'MR2306010001')  AND (num_comr <= 'MR2307010001')
+                                    GROUP BY
+                                    comr_desc
+                                    ORDER BY
+                                    count_comr DESC
+                                    LIMIT 10
+                                    ");
+        //var_dump($description);
+        $total = 0;
+        foreach ($description as $key => $value) {
+            $total +=  $value->count_comr;
+        }       
+        foreach ($description as $key => $value) {
+            $value->count_comr = number_format(($value->count_comr / $total)* 100, 1). '%';           
+        }
+        return $description;
     }
 }

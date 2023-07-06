@@ -36,7 +36,7 @@
         <div class="main-content" style="background: #fff;">
             @include('layouts/headerarea')
             <div class="row">
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-5" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <h4 class="header-title" style="text-align: center;margin: 10px 0;">過去12個月出貨數量</h4>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -115,36 +115,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-2" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">
-                                    {{$maintenData['maintenDate'] }}
-                                    製程維修狀況
-                                </h4>
+                                <h4 class="header-title" style="text-align: center;">庫存排行榜</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">工單</th>
-                                            <th scope="col">產品名稱</th>
-                                            <th scope="col">訂單數量</th>
-                                            <th scope="col">維修數量</th>
-                                            <th scope="col">今日不良率</th>
+                                            <th scope="col">產品型號</th>
+                                            <th scope="col">庫存</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($maintenData['mainten'] as $item)
+                                            @foreach ($unsalableProducts as $item)
                                             <tr>
-                                                <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
-                                                        {{ $item->runcard_no }}
-                                                    </a>
-                                                </td>
-                                                <td>{{ $item->model }}</td>
-                                                <td>{{ $item->order_qty }}</td>
-                                                <td>{{ $item->ng_qty }}</td>
-                                                <td>{{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}</td>
+                                                <td>{{ $item->COD_ITEM }}</td>
+                                                <td>{{ $item->QTY_STK }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -155,9 +143,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -211,24 +198,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 2px;">
+
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">庫存排行榜</h4>
+                                <h4 class="header-title" style="text-align: center;">
+                                    {{$maintenData['maintenDate'] }}
+                                    製程不良狀況
+                                </h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">產品型號</th>
-                                            <th scope="col">庫存</th>
+                                            <th scope="col">工單</th>
+                                            <th scope="col">產品名稱</th>
+                                            <th scope="col">訂單數量</th>
+                                            <th scope="col">維修數量</th>
+                                            <th scope="col">今日不良率</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($unsalableProducts as $item)
+                                            @foreach ($maintenData['mainten'] as $item)
                                             <tr>
-                                                <td>{{ $item->COD_ITEM }}</td>
-                                                <td>{{ $item->QTY_STK }}</td>
+                                                <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
+                                                        {{ $item->runcard_no }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $item->model }}</td>
+                                                <td>{{ $item->order_qty }}</td>
+                                                <td>{{ $item->ng_qty }}</td>
+                                                <td>{{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -243,7 +243,7 @@
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">
-                                {{$productionData['currentDate'] }}   工單生產狀況 (條碼回報)
+                                    {{$productionData['currentDate'] }} 工單生產狀況 (條碼回報)
                                 </h4>
                             </div>
                             <div class="single-table">
@@ -271,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
+                <div class="col-2" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -321,9 +321,6 @@
                                             </tr>
                                             @endforeach
                                         </tbody>
-
-
-
                                     </table>
                                 </div>
                             </div>
@@ -331,7 +328,37 @@
                     </div>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">不良統計表(過去30天)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">不良現象</th>
+                                            <th scope="col">不良代號</th>
+                                            <th scope="col">占比</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($description as $item)
+                                            <tr>
+                                                <td>{{ $item->comr_desc }}</td>
+                                                <td>{{ $item->sts_comr }}</td>
+                                                <td>{{ $item->count_comr }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @include('layouts/footer')
     </div>
