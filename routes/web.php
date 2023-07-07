@@ -8,7 +8,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\AutoUpdateController;
-
+use App\Http\Controllers\RedirectController;
 
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
@@ -20,13 +20,12 @@ Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'm
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
-
+    Route::any('/redirect', [RedirectController::class, 'redirect'])->name('redirect');
     //MES
     Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);
     Route::match(['get', 'post'], '/mesUploadList', [MesController::class, 'mesUploadList']);
     Route::match(['get', 'post'], '/mesUploadListAjax', [MesController::class, 'mesUploadListAjax']);
-    
     Route::match(['get', 'post'], '/editFirmware', [MesController::class, 'editFirmware']);
     Route::match(['get', 'post'], '/delFirmwareAjax', [MesController::class, 'delFirmwareAjax']);
     Route::match(['get', 'post'], '/mesItemList', [MesController::class, 'mesItemList']);
@@ -57,8 +56,6 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
     Route::match(['get', 'post'], '/mesRMAbadPartAjax', [MesController::class, 'mesRMAbadPartAjax']);
-
-    
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
     //檔案管理

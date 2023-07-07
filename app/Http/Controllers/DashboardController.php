@@ -13,6 +13,8 @@ class DashboardController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+ 
+
     public function index(Request $request)
     {
         return view('Dashboard');
@@ -188,6 +190,10 @@ class DashboardController extends BaseController
     public function description()
     {
 
+        $today = 'MR'.date('ymd').'0999';
+        $previousDate = 'MR'.date('Ymd', strtotime('-30 days', strtotime(date('ymd')))).'0001';
+
+      
         $description = DB::select("SELECT
                                         a.sts_comr,
                                         c.description AS comr_desc,
@@ -196,20 +202,20 @@ class DashboardController extends BaseController
                                         runcard_ng_rate AS a
                                         LEFT JOIN defective AS c ON a.sts_comr = c.item_no
                                     WHERE
-                                    (num_comr >= 'MR2306010001')  AND (num_comr <= 'MR2307010001')
+                                    (num_comr >= '$previousDate')  AND (num_comr <= '$today')
                                     GROUP BY
                                     comr_desc
                                     ORDER BY
                                     count_comr DESC
                                     LIMIT 10
                                     ");
-        //var_dump($description);
+       
         $total = 0;
         foreach ($description as $key => $value) {
             $total +=  $value->count_comr;
         }       
         foreach ($description as $key => $value) {
-            $value->count_comr = number_format(($value->count_comr / $total)* 100, 1). '%';           
+            $value->total = number_format(($value->count_comr / $total)* 100, 1). '%';           
         }
         return $description;
     }

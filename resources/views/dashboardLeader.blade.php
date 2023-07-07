@@ -49,7 +49,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">當月份出貨統計數量</h4>
+                                <h4 class="header-title" style="text-align: center;">當月份累計出貨數量</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -341,6 +341,7 @@
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th scope="col">不良現象</th>
                                             <th scope="col">不良代號</th>
+                                            <th scope="col">數量</th>
                                             <th scope="col">占比</th>
                                         </thead>
                                         <tbody>
@@ -349,6 +350,7 @@
                                                 <td>{{ $item->comr_desc }}</td>
                                                 <td>{{ $item->sts_comr }}</td>
                                                 <td>{{ $item->count_comr }}</td>
+                                                <td>{{ $item->total }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -368,6 +370,16 @@
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script>
+    $(document).ready(function() {
+        // 檢查是否支援全畫面 API
+        console.log('test');
+        if (document.documentElement.requestFullscreen) {
+            // 在載入完成後，進入全畫面模式
+            document.documentElement.requestFullscreen();
+        }
+    });
+</script>
 @if(isset($shipmentMon))
 <script>
     // 获取当前日期
