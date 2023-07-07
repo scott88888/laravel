@@ -371,16 +371,6 @@
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script>
-    $(document).ready(function() {
-        // 檢查是否支援全畫面 API
-        console.log('test');
-        if (document.documentElement.requestFullscreen) {
-            // 在載入完成後，進入全畫面模式
-            document.documentElement.requestFullscreen();
-        }
-    });
-</script>
 @if(isset($shipmentMon))
 <script>
     // 获取当前日期
