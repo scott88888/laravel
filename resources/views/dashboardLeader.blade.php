@@ -144,62 +144,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-3" style="padding: 2px;">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0.5rem;">
-                            <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">季出貨排行榜(202303-202306)</h4>
-                            </div>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">品名</th>
-                                            <th scope="col">分類</th>
-                                            <th scope="col">季出貨</th>
-                                            <th scope="col">成品庫存</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                @foreach ($shipmentRanking as $item)
-                                            <tr>
-                                                <td>{{ $item->COD_ITEM }}</td>
-                                                <td>
-                                                    @if ($item->TYP_CODE == 1)
-                                                    <p>AHD CAM</p>
-                                                    @elseif ($item->TYP_CODE == 2)
-                                                    <p>DVR/NVR</p>
-                                                    @elseif ($item->TYP_CODE == 3)
-                                                    <p>IPCAM</p>
-                                                    @elseif ($item->TYP_CODE == 4)
-                                                    <p>NAV</p>
-                                                    @elseif ($item->TYP_CODE == 5)
-                                                    <p>SP</p>
-                                                    @else ($item->TYP_CODE == 6)
-                                                    <p>周邊</p>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $item->QTY_DEL }}</td>
-                                                <td>
-                                                    @if ($item->QTY_STK > 0 )
-                                                    <p> {{ $item->QTY_STK }}</p>
-                                                    @else
-                                                    <p>0</p>
-                                                    @endif
-                                                </td>
+                
 
-                                            </tr>
-                                            @endforeach
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-5" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -238,7 +185,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -271,7 +218,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -329,7 +276,61 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-3" style="padding: 2px;">
+            <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">季出貨排行榜(202303-202306)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">品名</th>
+                                            <th scope="col">分類</th>
+                                            <th scope="col">季出貨</th>
+                                            <th scope="col">成品庫存</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($shipmentRanking as $item)
+                                            <tr>
+                                                <td>{{ $item->COD_ITEM }}</td>
+                                                <td>
+                                                    @if ($item->TYP_CODE == 1)
+                                                    <p>AHD CAM</p>
+                                                    @elseif ($item->TYP_CODE == 2)
+                                                    <p>DVR/NVR</p>
+                                                    @elseif ($item->TYP_CODE == 3)
+                                                    <p>IPCAM</p>
+                                                    @elseif ($item->TYP_CODE == 4)
+                                                    <p>NAV</p>
+                                                    @elseif ($item->TYP_CODE == 5)
+                                                    <p>SP</p>
+                                                    @else ($item->TYP_CODE == 6)
+                                                    <p>周邊</p>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->QTY_DEL }}</td>
+                                                <td>
+                                                    @if ($item->QTY_STK > 0 )
+                                                    <p> {{ $item->QTY_STK }}</p>
+                                                    @else
+                                                    <p>0</p>
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                            @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
