@@ -359,7 +359,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         @include('layouts/footer')
@@ -367,9 +366,8 @@
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="{{ asset('js/amcharts.js') }}"></script>
+<script src="{{ asset('js/serial.js') }}"></script>
 @if(isset($shipmentMon))
 <script>
     // 获取当前日期
