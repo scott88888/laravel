@@ -52,7 +52,8 @@
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-folder"></i>
                             <span>檔案管理</span></a>
                         <ul class="collapse">
-                            <li id="fileFirmwareUploadBtn"><a href="fileFirmwareUpload">韌體上傳</a></li>                            
+                            <li id="fileFirmwareUploadBtn"><a href="fileFirmwareUpload">韌體上傳</a></li>          
+                            <li id="fileECNEditBtn"><a href="fileECNEdit">ECR/N上傳</a></li>                     
                         </ul>
                     </li>
                     <li id="setup">

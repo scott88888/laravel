@@ -12,24 +12,17 @@ use DB;
 class DashboardController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-
- 
-
     public function index(Request $request)
     {
         return view('Dashboard');
     }
     public function dashboardLeader(Request $request)
     {
-
-       
-
         //過去12個月出貨數量//當月
         $shipmentMon = $this->shipmentMon();
         $shipmentThisMon = $shipmentMon['shipmentThisMon'];
         $shipmentMon = $shipmentMon['shipmentMon'];
         //end
-
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
           SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
@@ -47,8 +40,6 @@ class DashboardController extends BaseController
             $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
             $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
-
-
         //今日生產維修狀況
         $maintenData = $this->mainten();
         //今日生產維修狀況end
@@ -89,15 +80,12 @@ class DashboardController extends BaseController
             'noDamagePer' => number_format(($warrantyNO[0]->Count / $warrantyAll[0]->Count) * 100, 1) . '%',
             'changePartsPer' => number_format((($warrantyAll[0]->Count - $warrantyNO[0]->Count) / $warrantyAll[0]->Count) * 100, 1) . '%'
         ];
-
         $repairQuantity = DB::select("SELECT COUNT(*) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE and  PS1_2 <> '測試正常' ");
-
         $AVGtime = DB::select("SELECT AVG(DIFF_DAYS) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE");
-
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionData = $this->productionStatus();
@@ -155,7 +143,6 @@ class DashboardController extends BaseController
         for ($i = 0; $i < 12; $i++) {
             $day1 = $recentMonths[$i] . '01';
             $day31 = $recentMonths[$i] . '31';
-
             $shipmentMon[] = DashboardModel::getShipmentMon($day1, $day31);
         }
 
@@ -182,18 +169,13 @@ class DashboardController extends BaseController
                 $value->part = number_format(($value->QTY / $total) * 100, 1) . '%';
             }
         }
-
-
         return ['shipmentMon' => $shipmentMon, 'shipmentThisMon' => $shipmentThisMon];
     }
 
     public function description()
     {
-
         $today = 'MR'.date('ymd').'0999';
         $previousDate = 'MR'.date('Ymd', strtotime('-30 days', strtotime(date('ymd')))).'0001';
-
-      
         $description = DB::select("SELECT
                                         a.sts_comr,
                                         c.description AS comr_desc,
@@ -209,7 +191,6 @@ class DashboardController extends BaseController
                                     count_comr DESC
                                     LIMIT 10
                                     ");
-       
         $total = 0;
         foreach ($description as $key => $value) {
             $total +=  $value->count_comr;

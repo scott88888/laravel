@@ -110,6 +110,9 @@ switch (page) {
   case 'fileFirmwareUpload':
     $('#fileFirmwareUploadBtn').last().addClass("active");
     break;
+  case 'fileECNEdit':
+    $('#fileECNEditBtn').last().addClass("active");
+    break;
   case 'update':
     $('#updatePasswordBtn').last().addClass("active");
     break;

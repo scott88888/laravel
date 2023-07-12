@@ -295,7 +295,13 @@
                                                 <td>{{ $item->model }}</td>
                                                 <td>{{ $item->order_qty }}</td>
                                                 <td>{{ $item->ng_qty }}</td>
-                                                <td>{{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}</td>
+                                                @if ($item->order_qty == 0)
+                                                <td>0</td>
+                                                @else
+                                                <td>
+                                                    {{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}
+                                                </td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>
