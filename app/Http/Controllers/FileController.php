@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileModel;
+use DB;
 
 class FileController extends Controller
 {
@@ -83,7 +84,8 @@ class FileController extends Controller
             $value = FileModel::fwindexInsert($data);
         }
         return response()->json($request->input('PanTilt_ver'));
-    }
+    } 
+
 
     public function uploadFile(Request $request)
     {
@@ -126,13 +128,30 @@ class FileController extends Controller
         curl_close($curl);
     }
 
-    
+
     public function fileECNEdit(Request $request)
     {
         return view('fileECNEdit');
     }
 
+    public function fileECNEditAjax(Request $request)
+    {
 
+        $data = [
+            'ECRNum' => $request->input('ECRNum'),
+            'applyDate' => $request->input('applyDate'),
+            'ECNNum' => $request->input('ECNNum'),
+            'noticeDate' => $request->input('noticeDate'),
+            'model' => $request->input('model'),
+            'reason' => $request->input('reason'),
+            'approved' => $request->input('approved'),
+            'charge' => $request->input('charge'),
+            'remark' => $request->input('remark'),
+            'createDate' => date('Y-m-d H:i:s')
+        ];
+        $value = FileModel::ECNCreate($data);        
+        return response()->json(['ok' => $value ]);
+    }
     public function ECNuploadFile(Request $request)
     {
         // FTP 伺服器的主機地址、使用者名稱和密碼
@@ -141,13 +160,13 @@ class FileController extends Controller
         $ftpPassword = 'SCSC';
 
         // 調用建立目錄函數
-        if ( $request->input('formId') == 'ECRpdfForm') {
-           // 上傳檔案的目標路徑和檔名，大小
-        $directory = 'RD_ECRECN/ECR';
-        }else{
+        if ($request->input('formId') == 'ECRpdfForm') {
+            // 上傳檔案的目標路徑和檔名，大小
+            $directory = 'RD_ECRECN/ECR';
+        } else {
             $directory = 'RD_ECRECN/ECN';
         }
-        
+
         //$directory = 'aaa';
 
         $ftpFilename = $_FILES['file']['name'];

@@ -31,7 +31,8 @@
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
-                                                <th class='hide_column'>ECR編號</th>
+                                            <th></th>
+                                                <th>ECR編號</th>
                                                 <th>ECN編號</th>
                                                 <th>通知日期</th>
                                                 <th>機種</th>
@@ -48,36 +49,30 @@
                                         <tbody>
                                             @foreach ($MesECNList as $ListData)
                                             <tr>
-                                                <td>
-                                                    @if ($ListData->ecr_no == "x" || $ListData->ecr_no == "X" )
-                                                    <div>{{$ListData->ecr_no}}</div>
-                                                    @else
+                                                <td><a href="editECRN?id={{$ListData->id}}" target="_blank"><span class="ti-pencil"></span>
+                                                    </td>
+                                                <td>                                                 
                                                     <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECR/{{$ListData->ecr_no}}" target="_blank">
-                                                            {{$ListData->ecr_no}}
-                                                    </div>
-                                                    @endif
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECR/{{$ListData->ECRNum}}" target="_blank">
+                                                            {{$ListData->ECRNum}}
+                                                    </div>                                                   
                                                 </td>
                                                 <td>
-                                                    @if ($ListData->ecn_no == "x" || $ListData->ecn_no == "X" )
-                                                    {{$ListData->ecn_no}}
-                                                    @else
                                                     <div>
-                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/{{$ListData->ecn_no}}" target="_blank">
-                                                            {{$ListData->ecn_no}}
-                                                    </div>
-                                                    @endif
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/{{$ListData->ECNNum}}" target="_blank">
+                                                            {{$ListData->ECNNum}}
+                                                    </div>                                              
                                                 </td>
-                                                <td>{{$ListData->ecn_release_date}}</td>
+                                                <td>{{$ListData->noticeDate}}</td>
                                                 <td>{{$ListData->model}}</td>
-                                                <td>{{$ListData->description}}</td>
-                                                <td>{{$ListData->approve}}</td>
-                                                <td>{{$ListData->rd_enginner}}</td>
-                                                <td>{{$ListData->pc_get_date}}</td>
-                                                <td>{{$ListData->work_no}}</td>
-                                                <td>{{$ListData->status}}</td>
+                                                <td>{{$ListData->reason}}</td>
+                                                <td>{{$ListData->approved}}</td>
+                                                <td>{{$ListData->charge}}</td>
+                                                <td>{{$ListData->modification_date}}</td>
+                                                <td>{{$ListData->orderNumber}}</td>
+                                                <td>{{$ListData->closeCase}}</td>
                                                 <td>{{$ListData->remark}}</td>
-                                                <td>{{$ListData->remark2}}</td>
+                                                <td>{{$ListData->serialNumber}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -104,7 +99,7 @@
         "info": true,
         responsive: true,
         "order": [
-            [1, "desc"]
+            [3, "desc"]
         ],
         "columnDefs": [{                
                 "targets": "_all",

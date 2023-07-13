@@ -274,7 +274,7 @@ class MesModelList extends Authenticatable
     }
     public static function getMesECNList()
     {
-        $value = DB::select("SELECT * FROM ecrecn order by `ecn_release_date`, 'ecr_no' desc");
+        $value = DB::select("SELECT * FROM mes_ecrecn order by `createDate` desc");
         return $value;
     }
     public static function getRMAListAjax($searchtype, $search)

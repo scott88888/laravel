@@ -379,6 +379,19 @@ class MesController extends BaseController
         }
     }
 
+    public function editECRN(Request $request)
+    {
+        //獲取資料
+        $editECRN = DB::table('mes_ecrecn')
+        ->where('id', $request->id)
+        ->get();
+        if ($editECRN) {
+            return view('editECRN', ['editECRN' => $editECRN]);
+        }
+    }
+
+    
+
     public function mesRMAList(Request $request)
     {
         //獲取資料

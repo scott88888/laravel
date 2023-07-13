@@ -45,7 +45,7 @@
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">ECR/N新增</h4>
+                                <h4 class="header-title">ECR/N</h4>
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3">
                                         <label>ECR編號<span style="color: red;"></span></label>
@@ -54,7 +54,7 @@
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label style="padding-top: 0;" class="col-form-label">申請日期</label>
-                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="applyDate">
+                                            <input class="form-control" type="date" value="" id="applyDate">
                                         </div>
                                     </div>
                                     <div class="col-md-2 mb-3">
@@ -65,7 +65,7 @@
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label style="padding-top: 0;" class="col-form-label">通知日期</label>
-                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
+                                            <input class="form-control" type="date" value="" id="noticeDate">
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
@@ -128,17 +128,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                                <button type="button" id="submit" class="btn btn-primary btn-block">
-                                    <li class="fa fa-cloud-upload"></li> 儲存
-                                </button>
-                                <button type="button" id="submitOK" class="btn btn-flat btn-outline-success" onclick="location.reload()">
-                                    <li class="fa fa-cloud-upload"></li> 儲存成功，新增下一筆
-                                </button>
-                            </div>
-                            <div class="0" style="margin: 2% 25%;width: 50%;">
 
-                            </div>
                             <div id="progressBar">
                                 <div id="progressBarFill"></div>
                             </div>
@@ -148,7 +138,46 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="row" style="margin: 0;">
+                    <div class="col-12" style="padding: 8px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">ECR/N新增(生管修改)</h4>
+                                <div class="form-row">
+                                    <div class="col-md-2 mb-3">
+                                        <div class="form-group">
+                                            <label for="example-date-input" style="padding-top: 0;" class="col-form-label">生管修改日期</label>
+                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="modification_date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label>製造單號<span style="color: red;"></span></label>
+                                        <input id="orderNumber" type="text" class="form-control">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="fa fa-calendar-minus-o">出廠序號</label>
+                                        <input id="serialNumber" type="text" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label class="fa fa-wrench">結案</label>
+                                        <div class="form-check" style="padding-top: 0.5rem;padding-left: 2.5rem;">
+                                            <input type="checkbox" class="form-check-input" id="closeCase">
+                                            <label class="form-check-label">是否結案</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
+                                <button type="button" id="" class="btn btn-primary btn-block">
+                                    <li class="fa fa-cloud-upload"></li> 更新儲存
+                                </button>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     @include('layouts/footer')
