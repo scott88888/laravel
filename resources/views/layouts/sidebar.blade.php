@@ -36,7 +36,7 @@
                             <li id="mesDefectiveRateBtn"><a href="mesDefectiveRate">產品維修不良率分析</a></li>
                             <li id="mesRepairNGListBtn"><a href="mesRepairNGList">產線零件維修不良排行</a></li>
                             <li id="mesBuyDelayBtn"><a href="mesBuyDelay">入料逾期明細表</a></li>
-                            <li id="mesECNListBtn"><a href="mesECNList">ECN查詢</a></li>
+                            <li id="mesECNListBtn"><a href="mesECNList">ECR/ECN查詢</a></li>
                             <li id="mesRMAListBtn"><a href="mesRMAList">RMA退貨授權查詢</a></li>
                             <li id="mesRMAAnalysisBtn"><a href="mesRMAAnalysis">RMA不良原因查詢</a></li>
                             <li id="mesShipmentListBtn"><a href="mesShipmentList">出貨查詢</a></li>

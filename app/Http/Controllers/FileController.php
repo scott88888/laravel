@@ -84,7 +84,7 @@ class FileController extends Controller
             $value = FileModel::fwindexInsert($data);
         }
         return response()->json($request->input('PanTilt_ver'));
-    } 
+    }
 
 
     public function uploadFile(Request $request)
@@ -131,13 +131,19 @@ class FileController extends Controller
 
     public function fileECNEdit(Request $request)
     {
+
         return view('fileECNEdit');
     }
 
+
+
     public function fileECNEditAjax(Request $request)
     {
-
+        if ($request->input('listid')) {
+            $delId = DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
+        }
         $data = [
+            'id' => $request->input('listid'),
             'ECRNum' => $request->input('ECRNum'),
             'applyDate' => $request->input('applyDate'),
             'ECNNum' => $request->input('ECNNum'),
@@ -149,8 +155,25 @@ class FileController extends Controller
             'remark' => $request->input('remark'),
             'createDate' => date('Y-m-d H:i:s')
         ];
-        $value = FileModel::ECNCreate($data);        
-        return response()->json(['ok' => $value ]);
+        $request = FileModel::ECNCreate($data);
+        return response()->json(['ok' => $request]);        
+    }
+
+    public function delECRNAjax(Request $request)
+    {
+        if ($request->input('listid')) {
+            $delId = DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
+        }
+
+        if ($delId) {
+            return response()->json(['ok' => $delId]);
+        }else {
+            return response()->json(['error' => $delId]);
+        }
+        
+        
+        
+        
     }
     public function ECNuploadFile(Request $request)
     {
@@ -166,8 +189,6 @@ class FileController extends Controller
         } else {
             $directory = 'RD_ECRECN/ECN';
         }
-
-        //$directory = 'aaa';
 
         $ftpFilename = $_FILES['file']['name'];
         $ftpFilename = urlencode($ftpFilename);

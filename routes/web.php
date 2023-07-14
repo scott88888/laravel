@@ -67,7 +67,10 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
     Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
-    Route::match(['get', 'post'], '/fileECNEditAjax', [FileController::class, 'fileECNEditAjax']);
+    Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
+    Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
+
+    
     
     //設定
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');

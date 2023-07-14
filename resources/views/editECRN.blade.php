@@ -41,56 +41,62 @@
             @include('layouts/headerarea')
             <div>
                 <div class="row" style="margin: 0;">
-                    <!-- Dark table start -->
+
+                    @foreach($editECRN as $data)
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">ECR/N</h4>
+
+                                <h4 class="header-title" style="color: red;">ECR/ECN(RD修改)</h4>
+                                <div id="message" style="text-align: center;">
+                                </div>
+                                <input id="listid" style="display: none;" value="{{ $data->id }}">
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3">
                                         <label>ECR編號<span style="color: red;"></span></label>
-                                        <input id="ECRNum" type="text" class="form-control">
+                                        <input id="ECRNum" type="text" class="form-control" value="{{ $data->ECRNum }}">
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label style="padding-top: 0;" class="col-form-label">申請日期</label>
-                                            <input class="form-control" type="date" value="" id="applyDate">
+                                            <input class="form-control" type="date" value="{{ $data->applyDate }}" id="applyDate">
                                         </div>
                                     </div>
+
                                     <div class="col-md-2 mb-3">
                                         <label>ECN編號
                                         </label>
-                                        <input id="ECNNum" type="text" class="form-control">
+                                        <input id="ECNNum" type="text" class="form-control" value="{{ $data->ECNNum }}">
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label style="padding-top: 0;" class="col-form-label">通知日期</label>
-                                            <input class="form-control" type="date" value="" id="noticeDate">
+                                            <input class="form-control" type="date" value="{{ $data->noticeDate }}" id="noticeDate">
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label>機種<span style="color: red;"></span></label>
-                                        <input id="model" type="text" class="form-control">
+                                        <input id="model" type="text" class="form-control" value="{{ $data->model }}">
                                     </div>
                                 </div>
                                 <div class="form-row" id="">
                                     <div class="col-md-4 mb-3">
                                         <label>事由<span style="color: red;"></span></label>
-                                        <input id="reason" type="text" class="form-control">
+                                        <input id="reason" type="text" class="form-control" value="{{ $data->reason }}">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="">備註</label>
-                                        <input id="remark" type="text" class="form-control">
+                                        <input id="remark" type="text" class="form-control" value="{{ $data->remark }}">
                                     </div>
-                                  
+
                                     <div class="col-md-2 mb-3">
                                         <label>擔當<span style="color: red;"></span></label>
-                                        <input id="charge" type="text" class="form-control">
+                                        <input id="charge" type="text" class="form-control" value="{{ $data->charge }}">
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label for="" class="fa fa-wrench">核准</label>
                                         <div class="form-check" style="padding-top: 0.5rem;padding-left: 2.5rem;">
-                                            <input type="checkbox" class="form-check-input" id="approved">
+                                            <input type="checkbox" class="form-check-input" id="approved" value="{{ $data->approved }}">
                                             <label class="form-check-label">是否核准</label>
                                         </div>
                                     </div>
@@ -127,6 +133,42 @@
                                         </div>
                                     </form>
                                 </div>
+                                <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
+                                    <div class="form-row">
+                                        <div class="col-md-6 mb-3">
+                                            <button type="submit" id="delBtn" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">
+                                                <li class="fa fa-cloud-upload"></li> 刪除
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <button type="button" id="edit" class="btn btn-info btn-block">
+                                                <li class="fa fa-cloud-upload"></li> 修改
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6 mb-3">
+                                            <button type="button" id="cancel" class="btn btn-secondary  btn-block">
+                                                <li class="fa fa-cloud-upload"></li> 取消修改
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <button type="button" id="submit" class="btn btn-primary btn-block">
+                                                <li class="fa fa-cloud-upload"></li> 儲存
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="submitOK" class="btn btn-flat btn-outline-success">
+                                        <li class="fa fa-cloud-upload"></li> 儲存成功，關閉此頁面
+                                    </button>
+                                    <button type="button" id="delOK" class="btn btn-flat btn-outline-success">
+                                        <li class="fa fa-cloud-upload"></li> 刪除成功，關閉此頁面
+                                    </button>
+                                </div>
                             </div>
 
                             <div id="progressBar">
@@ -136,6 +178,26 @@
                         </div>
 
                     </div>
+                    @endforeach
+                </div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">刪除確認</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal">確認刪除</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -143,7 +205,7 @@
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">ECR/N新增(生管修改)</h4>
+                                <h4 class="header-title" style="color: red;">ECR/ECN新增(生管修改)</h4>
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
@@ -188,9 +250,19 @@
 <script>
     $(document).ready(function() {
         $('#submitOK').hide();
-        $('#speedDome_input').hide();
+        $('#submit').hide();
+        $('#cancel').hide();
+        $('#delOK').hide();
+        disabled()
+        var approved = $("#approved");
+        if (approved.val() === 'Y') {
+            approved.prop("checked", true);
+        } else {
+            approved.prop("checked", false);
+        }
     });
     $('#submit').click(function() {
+        var listid = $('#listid').val();
         var ECRNum = $('#ECRNum').val();
         var applyDate = $('#applyDate').val();
         var ECNNum = $('#ECNNum').val();
@@ -220,10 +292,11 @@
             alert("有文件尚未上傳");
         } else {
             $.ajax({
-                url: 'fileECNEditAjax',
+                url: 'fileECRNEditAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
+                    listid: listid,
                     ECRNum: ECRNum,
                     applyDate: applyDate,
                     ECNNum: ECNNum,
@@ -237,6 +310,7 @@
                 success: function(response) {
                     $('input').prop('disabled', true);
                     $('#submit').hide();
+                    $('#cancel').hide();
                     $('#submitOK').show();
                     $('.input-group-text').addClass('d-none');
 
@@ -250,6 +324,67 @@
             });
         }
     });
+    $('#delete').click(function() {
+        var listid = $('#listid').val();
+
+        $.ajax({
+            url: "{{ asset('delECRNAjax') }}",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                listid: listid
+            },
+            success: function(response) {
+                $('#delOK').show();
+                disabled();
+                $('#delBtn').hide();
+                $('#edit').hide();
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // 處理 AJAX 請求失敗後的回應
+                console.log('no');
+            }
+        });
+    });
+
+    $('#edit').click(function() {
+        enable()
+        var message = "請注意!現在是可修改狀態";
+        var alertElement = $('<div class="alert alert-warning">' + message + '</div>');
+        $('#message').append(alertElement);
+    });
+
+    function disabled() {
+        $('#ECRNum').prop('disabled', true);
+        $('#applyDate').prop('disabled', true);
+        $('#ECNNum').prop('disabled', true);
+        $('#noticeDate').prop('disabled', true);
+        $('#model').prop('disabled', true);
+        $('#reason').prop('disabled', true);
+        $('#remark').prop('disabled', true);
+        $('#charge').prop('disabled', true);
+        $('#approved').prop('disabled', true);
+        $(".input-group-append").hide();
+    }
+
+    function enable() {
+        $('#ECRNum').prop('disabled', false);
+        $('#applyDate').prop('disabled', false);
+        $('#ECNNum').prop('disabled', false);
+        $('#noticeDate').prop('disabled', false);
+        $('#model').prop('disabled', false);
+        $('#reason').prop('disabled', false);
+        $('#remark').prop('disabled', false);
+        $('#charge').prop('disabled', false);
+        $('#approved').prop('disabled', false);
+        $('#cancel').show();
+        $('#submit').show();
+        $('#delBtn').hide();
+        $('#edit').hide();
+        $(".input-group-append").show();
+    }
 
     function updateFileStatus(input, labelId) {
         var fileName = input.files[0].name;
@@ -313,6 +448,17 @@
             });
         }
     }
+
+
+
+    function closePage() {
+        window.close(); // 關閉當前窗口
+    }
+
+    // 關閉當前窗口
+    document.getElementById('cancel').addEventListener('click', closePage);
+    document.getElementById('submitOK').addEventListener('click', closePage);
+    document.getElementById('delOK').addEventListener('click', closePage);
 </script>
 
 </html>

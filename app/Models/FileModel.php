@@ -62,7 +62,7 @@ class FileModel extends Authenticatable
     {
        
         $value = DB::table('mes_ecrecn')->insert([
-            'id' => '',
+            'id' => $data['id'],
             'ECRNum' => $data['ECRNum'],
             'applyDate' => $data['applyDate'],
             'ECNNum' => $data['ECNNum'],
