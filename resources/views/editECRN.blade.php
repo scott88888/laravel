@@ -48,8 +48,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title" style="color: red;">ECR/ECN(RD修改)</h4>
-                                <div id="message" style="text-align: center;">
-                                </div>
+                                <div id="message" style="text-align: center;"></div>
                                 <input id="listid" style="display: none;" value="{{ $data->id }}">
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3">
@@ -206,34 +205,57 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="color: red;">ECR/ECN新增(生管修改)</h4>
+                                <div id="messagePM" style="text-align: center;"></div>
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label for="example-date-input" style="padding-top: 0;" class="col-form-label">生管修改日期</label>
-                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="modification_date">
+                                            <input class="form-control" type="date" value="{{ $data->modificationDate }}" id="modificationDate">
                                         </div>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label>製造單號<span style="color: red;"></span></label>
-                                        <input id="orderNumber" type="text" class="form-control">
+                                        <input id="orderNumber" type="text" class="form-control" value="{{ $data->orderNumber }}" >
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="fa fa-calendar-minus-o">出廠序號</label>
-                                        <input id="serialNumber" type="text" class="form-control">
+                                        <input id="serialNumber" type="text" class="form-control" value="{{ $data->serialNumber }}" >
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="fa fa-wrench">結案</label>
                                         <div class="form-check" style="padding-top: 0.5rem;padding-left: 2.5rem;">
-                                            <input type="checkbox" class="form-check-input" id="closeCase">
+                                            <input type="checkbox" class="form-check-input" id="closeCase" value="{{ $data->closeCase }}" >
                                             <label class="form-check-label">是否結案</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                                <button type="button" id="" class="btn btn-primary btn-block">
-                                    <li class="fa fa-cloud-upload"></li> 更新儲存
+                               
+                                
+
+                                    <div class="col-md-12">
+                                        <button type="button" id="editPM" class="btn btn-info btn-block">
+                                            <li class="fa fa-cloud-upload"></li> 修改
+                                        </button>
+                                    </div>
+                               
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <button type="button" id="cancelPM" class="btn btn-secondary btn-block">
+                                            <li class="fa fa-cloud-upload"></li> 取消修改
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button type="button" id="submitPM" class="btn btn-primary btn-block">
+                                            <li class="fa fa-cloud-upload"></li> 儲存
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" id="submitOKPM" class="btn btn-flat btn-outline-success">
+                                    <li class="fa fa-cloud-upload"></li> 儲存成功，關閉此頁面
                                 </button>
+
                             </div>
                         </div>
 
@@ -253,13 +275,25 @@
         $('#submit').hide();
         $('#cancel').hide();
         $('#delOK').hide();
+        $('#cancelPM').hide();
+        $('#submitPM').hide();
+        $('#submitOKPM').hide();
+        $('#delOKPM').hide();
         disabled()
+        disabledPM()
         var approved = $("#approved");
         if (approved.val() === 'Y') {
             approved.prop("checked", true);
         } else {
             approved.prop("checked", false);
         }
+        var closeCase = $("#closeCase");
+        if (closeCase.val() === 'Y') {
+            closeCase.prop("checked", true);
+        } else {
+            closeCase.prop("checked", false);
+        }
+        
     });
     $('#submit').click(function() {
         var listid = $('#listid').val();
@@ -356,6 +390,50 @@
         $('#message').append(alertElement);
     });
 
+    $('#editPM').click(function() {
+        enablePM()
+        var message = "請注意!現在是可修改狀態";
+        var alertElement = $('<div class="alert alert-warning">' + message + '</div>');
+        $('#messagePM').append(alertElement);
+    });
+    $('#submitPM').click(function() {
+        var listid = $('#listid').val();
+        var modificationDate = $('#modificationDate').val();
+        var orderNumber = $('#orderNumber').val();
+        var serialNumber = $('#serialNumber').val();
+
+        var closeCasecheck = document.getElementById('closeCase');
+        if (closeCasecheck.checked) {
+            var closeCase = 'Y'
+        } else {
+            var closeCase = 'N';
+        }
+
+        $.ajax({
+            url: 'fileECRNEditPMAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                listid: listid,
+                modificationDate: modificationDate,
+                orderNumber: orderNumber,
+                serialNumber: serialNumber,
+                closeCase: closeCase
+            },
+            success: function(response) {
+                $('input').prop('disabled', true);
+                $('#submitPM').hide();
+                $('#cancelPM').hide();
+                $('#submitOKPM').show();
+                $('.input-group-text').addClass('d-none');
+            },
+            error: function(xhr, status, error) {
+                // 處理 AJAX 請求失敗後的回應
+                console.log('no');
+            }
+        });
+    });
+
     function disabled() {
         $('#ECRNum').prop('disabled', true);
         $('#applyDate').prop('disabled', true);
@@ -384,6 +462,23 @@
         $('#delBtn').hide();
         $('#edit').hide();
         $(".input-group-append").show();
+    }
+
+    function disabledPM() {
+        $('#modificationDate').prop('disabled', true);
+        $('#orderNumber').prop('disabled', true);
+        $('#serialNumber').prop('disabled', true);
+        $('#closeCase').prop('disabled', true);
+    }
+
+    function enablePM() {
+        $('#modificationDate').prop('disabled', false);
+        $('#orderNumber').prop('disabled', false);
+        $('#serialNumber').prop('disabled', false);
+        $('#closeCase').prop('disabled', false);
+        $('#cancelPM').show();
+        $('#submitPM').show();
+        $('#editPM').hide();
     }
 
     function updateFileStatus(input, labelId) {
@@ -449,8 +544,6 @@
         }
     }
 
-
-
     function closePage() {
         window.close(); // 關閉當前窗口
     }
@@ -459,6 +552,9 @@
     document.getElementById('cancel').addEventListener('click', closePage);
     document.getElementById('submitOK').addEventListener('click', closePage);
     document.getElementById('delOK').addEventListener('click', closePage);
+    document.getElementById('cancelPM').addEventListener('click', closePage);
+    document.getElementById('submitOKPM').addEventListener('click', closePage);
+    
 </script>
 
 </html>

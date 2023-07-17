@@ -72,9 +72,22 @@ class FileModel extends Authenticatable
             'approved' => $data['approved'],
             'charge' => $data['charge'],
             'remark' => $data['remark'],
-            'createDate' => $data['createDate']
-            
+            'createDate' => $data['createDate']            
         ]);
         return $value;
     }
+    public static function ECNPMupdate($data)
+    {
+       
+        $value =DB::table('mes_ecrecn')
+        ->where('id',$data['listid'])
+        ->update([
+            'modificationDate' => $data['modificationDate'],
+            'orderNumber' => $data['orderNumber'],
+            'serialNumber' => $data['serialNumber'],
+            'closeCase' => $data['closeCase'],
+        ]);
+        return $value;
+    }
+
 }

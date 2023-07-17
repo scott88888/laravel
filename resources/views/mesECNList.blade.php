@@ -68,7 +68,7 @@
                                                 <td>{{$ListData->reason}}</td>
                                                 <td>{{$ListData->approved}}</td>
                                                 <td>{{$ListData->charge}}</td>
-                                                <td>{{$ListData->modification_date}}</td>
+                                                <td>{{$ListData->modificationDate}}</td>
                                                 <td>{{$ListData->orderNumber}}</td>
                                                 <td>{{$ListData->closeCase}}</td>
                                                 <td>{{$ListData->remark}}</td>

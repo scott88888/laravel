@@ -69,7 +69,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
     Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
     Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
-
+    Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
     
     
     //設定

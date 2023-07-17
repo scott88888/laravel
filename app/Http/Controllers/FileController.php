@@ -137,10 +137,10 @@ class FileController extends Controller
 
 
 
-    public function fileECNEditAjax(Request $request)
+    public function fileECRNEditAjax(Request $request)
     {
         if ($request->input('listid')) {
-            $delId = DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
+            DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
         }
         $data = [
             'id' => $request->input('listid'),
@@ -170,11 +170,34 @@ class FileController extends Controller
         }else {
             return response()->json(['error' => $delId]);
         }
-        
-        
-        
-        
     }
+
+    public function fileECRNEditPMAjax(Request $request)
+    {
+        if ($request->input('listid')) {
+            $data = [
+                'listid' => $request->input('listid'),
+                'modificationDate' => $request->input('modificationDate'),
+                'orderNumber' => $request->input('orderNumber'),
+                'serialNumber' => $request->input('serialNumber'),
+                'closeCase' => $request->input('closeCase')
+            ];
+
+            $request = FileModel::ECNPMupdate($data);
+            DB::table('mes_ecrecn')
+            ->where('id',$data['listid'])
+            ->update([
+                'modificationDate' => $data['modificationDate'],
+                'orderNumber' => $data['orderNumber'],
+                'serialNumber' => $data['serialNumber'],
+                'closeCase' => $data['closeCase'],
+            ]);
+            return response()->json(['ok' => $request]);
+        }
+    }
+
+
+
     public function ECNuploadFile(Request $request)
     {
         // FTP 伺服器的主機地址、使用者名稱和密碼

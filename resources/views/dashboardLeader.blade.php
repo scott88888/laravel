@@ -181,7 +181,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天)</h4>
+                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天) <span style="color: green;">調整中</span> </h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -354,7 +354,6 @@
                                                     <p>0</p>
                                                     @endif
                                                 </td>
-
                                             </tr>
                                             @endforeach
                                             </tr>
@@ -387,11 +386,8 @@
         recentMonths.push(formattedMonth + "月");
         currentDate.setMonth(currentDate.getMonth() - 1);
     }
-
-    console.log(recentMonths[11]);
     var i = 11;
     var shipmentData = @json($shipmentMon);
-    console.log(shipmentData);
     var chartData = [];
     shipmentData.forEach(function(item) {
         var monthData = {
@@ -406,9 +402,6 @@
         chartData.push(monthData);
         i = i - 1;
     });
-
-
-
     if ($('#amlinechart4').length) {
         var chart = AmCharts.makeChart("amlinechart4", {
             "type": "serial",
