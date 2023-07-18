@@ -191,7 +191,7 @@
             alert("有文件尚未上傳");
         } else {
             $.ajax({
-                url: 'fileECNEditAjax',
+                url: 'fileECNCreateAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {

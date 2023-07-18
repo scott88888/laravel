@@ -133,7 +133,31 @@ class FileController extends Controller
     {
         return view('fileECNEdit');
     }
+    
+  
 
+    public function fileECNCreateAjax(Request $request)
+    {
+        
+        
+            $data = [
+                'id' => '',
+                'ECRNum' => $request->input('ECRNum'),
+                'applyDate' => $request->input('applyDate'),
+                'ECNNum' => $request->input('ECNNum'),
+                'noticeDate' => $request->input('noticeDate'),
+                'model' => $request->input('model'),
+                'reason' => $request->input('reason'),
+                'approved' => $request->input('approved'),
+                'charge' => $request->input('charge'),
+                'remark' => $request->input('remark'),
+                'createDate' => date('Y-m-d H:i:s')
+            ];
+            FileModel::ECNCreate($data);
+            return response()->json(['ok' => $request]);  
+               
+         
+    }
     public function fileECRNEditAjax(Request $request)
     {
         if ($request->input('listid')) {
@@ -255,7 +279,7 @@ class FileController extends Controller
         // 關閉 cURL
         curl_close($curl);
     }
-    
+
     public function  formatFileSize($bytes)
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];

@@ -68,6 +68,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
     Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
+    Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
+    
     Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
     Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
     
