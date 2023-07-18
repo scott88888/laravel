@@ -6,19 +6,8 @@
     @include('layouts/head')
 </head>
 
-<script>
-    $(document).ready(function() {
-        $('#ListData').DataTable({
-            "autoWidth": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "info": true,
-        responsive: true,
-        });
-    });
-</script>
+
+
 
 <body>
     <div id="preloader">
@@ -91,6 +80,9 @@
 </body>
 @include('layouts/footerjs')
 <script>
-   
+       $(ListData).DataTable({
+        ...tableConfig,
+        "order": [[0, "asc"]]
+    })
 </script>
 </html>

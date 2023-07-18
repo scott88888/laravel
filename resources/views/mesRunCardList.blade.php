@@ -6,11 +6,6 @@
     @include('layouts/head')
 </head>
 
-<script>
-    $(document).ready(function() {
-        $('#ListData').DataTable();
-    });
-</script>
 
 
 <body>
@@ -132,11 +127,7 @@
 
         $('#loading').hide();
         var table = $('#ListData').DataTable({
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            responsive: true,
+            ...tableConfig,
             columns: [{
                 "data": "NUM_PS",
                 "title": "工單"

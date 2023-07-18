@@ -6,11 +6,6 @@
     @include('layouts/head')
 </head>
 
-<script>
-    $(document).ready(function() {
-        $('#ListData').DataTable();
-    });
-</script>
 
 
 <body>
@@ -118,6 +113,8 @@
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
+
+
 <script>
     $(document).ready(function() {
         // 建立 Date 物件，自動獲取當前日期和時間
@@ -136,11 +133,7 @@
 
         $('#loading').hide();
         var table = $('#ListData').DataTable({
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            responsive: true,
+            ...tableConfig,
             columns: [{
                     "data": "remark2",
                     "title": "客戶"

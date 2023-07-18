@@ -95,14 +95,9 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    $(ListData).DataTable({
-        "autoWidth": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "info": true,
-        responsive: true,
+       $(ListData).DataTable({
+        ...tableConfig,
+        "order": [[0, "desc"]]
     })
 </script>
 

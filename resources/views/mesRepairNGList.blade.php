@@ -6,11 +6,6 @@
     @include('layouts/head')
 </head>
 
-<script>
-    $(document).ready(function() {
-        $('#ListData').DataTable();
-    });
-</script>
 
 <body>
     <div id="preloader">
@@ -84,11 +79,7 @@
         let Model;
         let work_no;
         var table = $('#ListData').DataTable({
-            responsive: true,
-            "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
+            ...tableConfig,
             columns: [{
                 "data": "PART_NO",
                 "title": "零件料號"

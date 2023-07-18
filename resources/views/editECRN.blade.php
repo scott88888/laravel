@@ -41,7 +41,6 @@
             @include('layouts/headerarea')
             <div>
                 <div class="row" style="margin: 0;">
-
                     @foreach($editECRN as $data)
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
@@ -215,31 +214,43 @@
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label>製造單號<span style="color: red;"></span></label>
-                                        <input id="orderNumber" type="text" class="form-control" value="{{ $data->orderNumber }}" >
+                                        <input id="orderNumber" type="text" class="form-control" value="{{ $data->orderNumber }}">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="fa fa-calendar-minus-o">出廠序號</label>
-                                        <input id="serialNumber" type="text" class="form-control" value="{{ $data->serialNumber }}" >
+                                        <input id="serialNumber" type="text" class="form-control" value="{{ $data->serialNumber }}">
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="fa fa-wrench">結案</label>
                                         <div class="form-check" style="padding-top: 0.5rem;padding-left: 2.5rem;">
-                                            <input type="checkbox" class="form-check-input" id="closeCase" value="{{ $data->closeCase }}" >
+                                            <input type="checkbox" class="form-check-input" id="closeCase" value="{{ $data->closeCase }}">
                                             <label class="form-check-label">是否結案</label>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-row">
+
+                                    <div class="col-md-3 mb-3">
+                                        <label>送驗單號<span style="color: red;"></span></label>
+                                        <input id="deliveryOrder" type="text" class="form-control" value="{{ $data->deliveryOrder }}">
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="fa fa-calendar-minus-o">規修單號</label>
+                                        <input id="repairOrderNum" type="text" class="form-control" value="{{ $data->repairOrderNum }}">
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="fa fa-calendar-minus-o">規修</label>
+                                        <input id="repairOrder" type="text" class="form-control" value="{{ $data->repairOrder }}">
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                               
-                                
-
-                                    <div class="col-md-12">
-                                        <button type="button" id="editPM" class="btn btn-info btn-block">
-                                            <li class="fa fa-cloud-upload"></li> 修改
-                                        </button>
-                                    </div>
-                               
+                                <div class="col-md-12">
+                                    <button type="button" id="editPM" class="btn btn-info btn-block">
+                                        <li class="fa fa-cloud-upload"></li> 修改
+                                    </button>
+                                </div>
                                 <div class="form-row">
                                     <div class="col-md-6 mb-3">
                                         <button type="button" id="cancelPM" class="btn btn-secondary btn-block">
@@ -293,7 +304,7 @@
         } else {
             closeCase.prop("checked", false);
         }
-        
+
     });
     $('#submit').click(function() {
         var listid = $('#listid').val();
@@ -401,7 +412,9 @@
         var modificationDate = $('#modificationDate').val();
         var orderNumber = $('#orderNumber').val();
         var serialNumber = $('#serialNumber').val();
-
+        var deliveryOrder = $('#deliveryOrder').val();
+        var repairOrderNum = $('#repairOrderNum').val();
+        var repairOrder = $('#repairOrder').val();
         var closeCasecheck = document.getElementById('closeCase');
         if (closeCasecheck.checked) {
             var closeCase = 'Y'
@@ -418,7 +431,10 @@
                 modificationDate: modificationDate,
                 orderNumber: orderNumber,
                 serialNumber: serialNumber,
-                closeCase: closeCase
+                closeCase: closeCase,
+                deliveryOrder: deliveryOrder,
+                repairOrderNum: repairOrderNum,
+                repairOrder: repairOrder
             },
             success: function(response) {
                 $('input').prop('disabled', true);
@@ -469,6 +485,10 @@
         $('#orderNumber').prop('disabled', true);
         $('#serialNumber').prop('disabled', true);
         $('#closeCase').prop('disabled', true);
+        $('#deliveryOrder').prop('disabled', true);
+        $('#repairOrderNum').prop('disabled', true);
+        $('#repairOrder').prop('disabled', true);
+
     }
 
     function enablePM() {
@@ -476,6 +496,9 @@
         $('#orderNumber').prop('disabled', false);
         $('#serialNumber').prop('disabled', false);
         $('#closeCase').prop('disabled', false);
+        $('#deliveryOrder').prop('disabled', false);
+        $('#repairOrderNum').prop('disabled', false);
+        $('#repairOrder').prop('disabled', false);
         $('#cancelPM').show();
         $('#submitPM').show();
         $('#editPM').hide();
@@ -554,7 +577,6 @@
     document.getElementById('delOK').addEventListener('click', closePage);
     document.getElementById('cancelPM').addEventListener('click', closePage);
     document.getElementById('submitOKPM').addEventListener('click', closePage);
-    
 </script>
 
 </html>

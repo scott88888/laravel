@@ -131,32 +131,44 @@ class FileController extends Controller
 
     public function fileECNEdit(Request $request)
     {
-
         return view('fileECNEdit');
     }
-
-
 
     public function fileECRNEditAjax(Request $request)
     {
         if ($request->input('listid')) {
-            DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
-        }
-        $data = [
-            'id' => $request->input('listid'),
-            'ECRNum' => $request->input('ECRNum'),
-            'applyDate' => $request->input('applyDate'),
-            'ECNNum' => $request->input('ECNNum'),
-            'noticeDate' => $request->input('noticeDate'),
-            'model' => $request->input('model'),
-            'reason' => $request->input('reason'),
-            'approved' => $request->input('approved'),
-            'charge' => $request->input('charge'),
-            'remark' => $request->input('remark'),
-            'createDate' => date('Y-m-d H:i:s')
-        ];
-        $request = FileModel::ECNCreate($data);
-        return response()->json(['ok' => $request]);        
+            //DB::table('mes_ecrecn')->where('id', $request->input('listid'))->delete();
+            $data = [
+                'id' => $request->input('listid'),
+                'ECRNum' => $request->input('ECRNum'),
+                'applyDate' => $request->input('applyDate'),
+                'ECNNum' => $request->input('ECNNum'),
+                'noticeDate' => $request->input('noticeDate'),
+                'model' => $request->input('model'),
+                'reason' => $request->input('reason'),
+                'approved' => $request->input('approved'),
+                'charge' => $request->input('charge'),
+                'remark' => $request->input('remark'),
+                'createDate' => date('Y-m-d H:i:s')
+            ];
+            DB::table('mes_ecrecn')
+            ->where('id',$data['id'])
+            ->update([
+                'id' => $data['id'],
+                'ECRNum' => $data['ECRNum'],
+                'applyDate' => $data['applyDate'],
+                'ECNNum' => $data['ECNNum'],
+                'noticeDate' => $data['noticeDate'],
+                'model' => $data['model'],
+                'reason' => $data['reason'],
+                'approved' => $data['approved'],
+                'charge' => $data['charge'],
+                'remark' => $data['remark'],
+                'createDate' => $data['createDate']
+            ]);
+            return response()->json(['ok' => $request]);  
+        }       
+         
     }
 
     public function delECRNAjax(Request $request)
@@ -180,9 +192,11 @@ class FileController extends Controller
                 'modificationDate' => $request->input('modificationDate'),
                 'orderNumber' => $request->input('orderNumber'),
                 'serialNumber' => $request->input('serialNumber'),
-                'closeCase' => $request->input('closeCase')
+                'closeCase' => $request->input('closeCase'),
+                'deliveryOrder' => $request->input('deliveryOrder'),
+                'repairOrderNum' => $request->input('repairOrderNum'),
+                'repairOrder' => $request->input('repairOrder')
             ];
-
             $request = FileModel::ECNPMupdate($data);
             DB::table('mes_ecrecn')
             ->where('id',$data['listid'])
@@ -191,12 +205,13 @@ class FileController extends Controller
                 'orderNumber' => $data['orderNumber'],
                 'serialNumber' => $data['serialNumber'],
                 'closeCase' => $data['closeCase'],
+                'deliveryOrder' => $data['deliveryOrder'],
+                'repairOrderNum' => $data['repairOrderNum'],
+                'repairOrder' => $data['repairOrder'],
             ]);
             return response()->json(['ok' => $request]);
         }
     }
-
-
 
     public function ECNuploadFile(Request $request)
     {
@@ -240,6 +255,7 @@ class FileController extends Controller
         // 關閉 cURL
         curl_close($curl);
     }
+    
     public function  formatFileSize($bytes)
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];

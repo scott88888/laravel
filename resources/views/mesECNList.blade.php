@@ -44,6 +44,10 @@
                                                 <th>結案</th>
                                                 <th>備註</th>
                                                 <th>出廠序號</th>
+                                                <th>送驗單號</th>
+                                                <th>規修單號</th>
+                                                <th>規修</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,6 +77,9 @@
                                                 <td>{{$ListData->closeCase}}</td>
                                                 <td>{{$ListData->remark}}</td>
                                                 <td>{{$ListData->serialNumber}}</td>
+                                                <td>{{$ListData->deliveryOrder}}</td>
+                                                <td>{{$ListData->repairOrderNum}}</td>
+                                                <td>{{$ListData->repairOrder}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -91,22 +98,9 @@
 @include('layouts/footerjs')
 <script>
     $(ListData).DataTable({
-        "autoWidth": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "info": true,
-        responsive: true,
-        "order": [
-            [3, "desc"]
-        ],
-        "columnDefs": [{                
-                "targets": "_all",
-                "className": "dt-center",
-            } // 所有列居中显示
-        ]
-    });
+        ...tableConfig,
+        "order": [[3, "desc"]]
+    })
 </script>
 
 </html>

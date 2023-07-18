@@ -5,14 +5,6 @@
    
     @include('layouts/head')
 </head>
-
-<script>
-    $(document).ready(function() {
-        $('#ListData').DataTable();
-    });
-</script>
-
-
 <body>
     <div id="preloader">
         <div class="loader"></div>
@@ -99,11 +91,7 @@
         let Model;
         let work_no;
         var table = $('#ListData').DataTable({
-            "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
+            ...tableConfig,
             columns: [{
                 "data": "DAT_BUY",
                 "title": "採購日期"
