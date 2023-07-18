@@ -46,8 +46,6 @@
                                                 <th>出廠序號</th>
                                                 <th>送驗單號</th>
                                                 <th>規修單號</th>
-                                                <th>規修</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,7 +77,6 @@
                                                 <td>{{$ListData->serialNumber}}</td>
                                                 <td>{{$ListData->deliveryOrder}}</td>
                                                 <td>{{$ListData->repairOrderNum}}</td>
-                                                <td>{{$ListData->repairOrder}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

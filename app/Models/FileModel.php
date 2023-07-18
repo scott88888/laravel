@@ -71,6 +71,7 @@ class FileModel extends Authenticatable
             'reason' => $data['reason'],
             'approved' => $data['approved'],
             'charge' => $data['charge'],
+            'deliveryOrder' => $data['deliveryOrder'],
             'remark' => $data['remark'],
             'createDate' => $data['createDate']            
         ]);

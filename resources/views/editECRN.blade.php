@@ -78,11 +78,11 @@
                                     </div>
                                 </div>
                                 <div class="form-row" id="">
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label>事由<span style="color: red;"></span></label>
                                         <input id="reason" type="text" class="form-control" value="{{ $data->reason }}">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label class="">備註</label>
                                         <input id="remark" type="text" class="form-control" value="{{ $data->remark }}">
                                     </div>
@@ -90,6 +90,10 @@
                                     <div class="col-md-2 mb-3">
                                         <label>擔當<span style="color: red;"></span></label>
                                         <input id="charge" type="text" class="form-control" value="{{ $data->charge }}">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label>送驗單號<span style="color: red;"></span></label>
+                                        <input id="deliveryOrder" type="text" class="form-control" value="{{ $data->deliveryOrder }}">
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label for="" class="fa fa-wrench">核准</label>
@@ -216,10 +220,15 @@
                                         <label>製造單號<span style="color: red;"></span></label>
                                         <input id="orderNumber" type="text" class="form-control" value="{{ $data->orderNumber }}">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label class="fa fa-calendar-minus-o">出廠序號</label>
                                         <input id="serialNumber" type="text" class="form-control" value="{{ $data->serialNumber }}">
                                     </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label class="fa fa-calendar-minus-o">規修單號</label>
+                                        <input id="repairOrderNum" type="text" class="form-control" value="{{ $data->repairOrderNum }}">
+                                    </div>
+                                  
                                     <div class="col-md-2 mb-3">
                                         <label class="fa fa-wrench">結案</label>
                                         <div class="form-check" style="padding-top: 0.5rem;padding-left: 2.5rem;">
@@ -227,22 +236,6 @@
                                             <label class="form-check-label">是否結案</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-row">
-
-                                    <div class="col-md-3 mb-3">
-                                        <label>送驗單號<span style="color: red;"></span></label>
-                                        <input id="deliveryOrder" type="text" class="form-control" value="{{ $data->deliveryOrder }}">
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <label class="fa fa-calendar-minus-o">規修單號</label>
-                                        <input id="repairOrderNum" type="text" class="form-control" value="{{ $data->repairOrderNum }}">
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <label class="fa fa-calendar-minus-o">規修</label>
-                                        <input id="repairOrder" type="text" class="form-control" value="{{ $data->repairOrder }}">
-                                    </div>
-
                                 </div>
                             </div>
                             <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
@@ -414,7 +407,7 @@
         var serialNumber = $('#serialNumber').val();
         var deliveryOrder = $('#deliveryOrder').val();
         var repairOrderNum = $('#repairOrderNum').val();
-        var repairOrder = $('#repairOrder').val();
+     
         var closeCasecheck = document.getElementById('closeCase');
         if (closeCasecheck.checked) {
             var closeCase = 'Y'
@@ -434,7 +427,7 @@
                 closeCase: closeCase,
                 deliveryOrder: deliveryOrder,
                 repairOrderNum: repairOrderNum,
-                repairOrder: repairOrder
+               
             },
             success: function(response) {
                 $('input').prop('disabled', true);
@@ -461,6 +454,7 @@
         $('#charge').prop('disabled', true);
         $('#approved').prop('disabled', true);
         $(".input-group-append").hide();
+        $('#deliveryOrder').prop('disabled', true);
     }
 
     function enable() {
@@ -478,6 +472,7 @@
         $('#delBtn').hide();
         $('#edit').hide();
         $(".input-group-append").show();
+        $('#deliveryOrder').prop('disabled', false);
     }
 
     function disabledPM() {
@@ -485,9 +480,8 @@
         $('#orderNumber').prop('disabled', true);
         $('#serialNumber').prop('disabled', true);
         $('#closeCase').prop('disabled', true);
-        $('#deliveryOrder').prop('disabled', true);
         $('#repairOrderNum').prop('disabled', true);
-        $('#repairOrder').prop('disabled', true);
+      
 
     }
 
@@ -495,10 +489,8 @@
         $('#modificationDate').prop('disabled', false);
         $('#orderNumber').prop('disabled', false);
         $('#serialNumber').prop('disabled', false);
-        $('#closeCase').prop('disabled', false);
-        $('#deliveryOrder').prop('disabled', false);
-        $('#repairOrderNum').prop('disabled', false);
-        $('#repairOrder').prop('disabled', false);
+        $('#closeCase').prop('disabled', false);   
+        $('#repairOrderNum').prop('disabled', false); 
         $('#cancelPM').show();
         $('#submitPM').show();
         $('#editPM').hide();

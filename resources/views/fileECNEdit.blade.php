@@ -74,11 +74,11 @@
                                     </div>
                                 </div>
                                 <div class="form-row" id="">
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label>事由<span style="color: red;"></span></label>
                                         <input id="reason" type="text" class="form-control">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label class="">備註</label>
                                         <input id="remark" type="text" class="form-control">
                                     </div>
@@ -86,6 +86,10 @@
                                     <div class="col-md-2 mb-3">
                                         <label>擔當<span style="color: red;"></span></label>
                                         <input id="charge" type="text" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label>送驗單號<span style="color: red;"></span></label>
+                                        <input id="deliveryOrder" type="text" class="form-control" >
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label for="" class="fa fa-wrench">核准</label>
@@ -170,6 +174,8 @@
         var reason = $('#reason').val();
         var charge = $('#charge').val();
         var remark = $('#remark').val();
+        var deliveryOrder = $('#deliveryOrder').val();
+        
         var approvedCheck = document.getElementById('approved');
         if (approvedCheck.checked) {
             var approved = 'Y'
@@ -203,6 +209,7 @@
                     reason: reason,
                     approved: approved,
                     charge: charge,
+                    deliveryOrder:deliveryOrder,
                     remark: remark
                 },
                 success: function(response) {

@@ -151,11 +151,12 @@ class FileController extends Controller
                 'approved' => $request->input('approved'),
                 'charge' => $request->input('charge'),
                 'remark' => $request->input('remark'),
+                'deliveryOrder' => $request->input('deliveryOrder'),
                 'createDate' => date('Y-m-d H:i:s')
             ];
             FileModel::ECNCreate($data);
             return response()->json(['ok' => $request]);  
-               
+            
          
     }
     public function fileECRNEditAjax(Request $request)
@@ -173,6 +174,7 @@ class FileController extends Controller
                 'approved' => $request->input('approved'),
                 'charge' => $request->input('charge'),
                 'remark' => $request->input('remark'),
+                'repairOrderNum' => $request->input('repairOrderNum'),                
                 'createDate' => date('Y-m-d H:i:s')
             ];
             DB::table('mes_ecrecn')
@@ -188,6 +190,7 @@ class FileController extends Controller
                 'approved' => $data['approved'],
                 'charge' => $data['charge'],
                 'remark' => $data['remark'],
+                'repairOrderNum' => $data['repairOrderNum'],
                 'createDate' => $data['createDate']
             ]);
             return response()->json(['ok' => $request]);  
@@ -218,8 +221,7 @@ class FileController extends Controller
                 'serialNumber' => $request->input('serialNumber'),
                 'closeCase' => $request->input('closeCase'),
                 'deliveryOrder' => $request->input('deliveryOrder'),
-                'repairOrderNum' => $request->input('repairOrderNum'),
-                'repairOrder' => $request->input('repairOrder')
+                'repairOrderNum' => $request->input('repairOrderNum')
             ];
             $request = FileModel::ECNPMupdate($data);
             DB::table('mes_ecrecn')
@@ -230,8 +232,7 @@ class FileController extends Controller
                 'serialNumber' => $data['serialNumber'],
                 'closeCase' => $data['closeCase'],
                 'deliveryOrder' => $data['deliveryOrder'],
-                'repairOrderNum' => $data['repairOrderNum'],
-                'repairOrder' => $data['repairOrder'],
+                'repairOrderNum' => $data['repairOrderNum']
             ]);
             return response()->json(['ok' => $request]);
         }
