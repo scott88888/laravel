@@ -213,7 +213,7 @@
                                     <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label for="example-date-input" style="padding-top: 0;" class="col-form-label">生管修改日期</label>
-                                            <input class="form-control" type="date" value="{{ $data->modificationDate }}" id="modificationDate">
+                                            <input class="form-control" type="text" value="{{ $data->modificationDate }}" id="modificationDate">
                                         </div>
                                     </div>
                                     <div class="col-md-2 mb-3">
