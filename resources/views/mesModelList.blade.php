@@ -6,9 +6,6 @@
     @include('layouts/head')
 </head>
 
-
-
-
 <body>
     <div id="preloader">
         <div class="loader"></div>
