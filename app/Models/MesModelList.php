@@ -17,7 +17,7 @@ class MesModelList extends Authenticatable
 
     public static function getModelListData()
     {
-       
+
         $value = DB::table('mes_item_list')
             ->orderBy('COD_ITEM', 'asc')
             ->get();
@@ -110,6 +110,18 @@ class MesModelList extends Authenticatable
     {
         $value = DB::table('mac_query')
             ->where($searchtype, 'like', '%' . $search . '%')
+            ->orderBy('NUM_PS', 'asc')
+            ->get();
+        return $value;
+    }
+
+    public static function getProductionResumeListDayAjax($date, $searchtype)
+    {
+
+
+
+        $value = DB::table('mac_query')
+            ->where($searchtype, '>=', $date)
             ->orderBy('NUM_PS', 'asc')
             ->get();
         return $value;
@@ -264,7 +276,7 @@ class MesModelList extends Authenticatable
         return $value;
     }
 
-    public static function insertDelFile($directory,$data)
+    public static function insertDelFile($directory, $data)
     {
 
         $del_time = Carbon::now();

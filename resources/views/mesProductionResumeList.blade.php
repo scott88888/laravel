@@ -29,29 +29,47 @@
                     <div class="col-12 mt-1" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">生產履歷查詢</h4>                               
+                                <h4 class="header-title">生產履歷查詢</h4>
                                 <div class="form-row">
-                                <div class="col-md-2 mb-3">
-                                    <label class="col-form-label" style="padding-top: 0;">查詢類型 </label>
-                                    <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option>選擇</option>
-                                        <option value="SEQ_ITEM">零件序號查詢</option>
-                                        <option value="SEQ_MITEM">出廠序號查詢</option>
-                                        <option value="PS2">MAC查詢</option>
-                                        <option value="PS5">韌體版本 (ex: 4.2.92.71)</option>
-                                        <option value="CLDS_COD_ITEM">產品型號查詢</option>
-                                        <option value="NUM_PS">工單 (ex:GA200102026)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 mb-3" id="searchBox">
-                                    <label for="validationCustom04">查詢內容</label>
-                                    <input id="search" type="text" class="form-control" placeholder="" required="">
-                                </div>
-                                <div class="col-2">
+                                    <div class="col-md-2 mb-3">
+                                        <label class="col-form-label" style="padding-top: 0;">查詢類型 </label>
+                                        <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option>選擇</option>
+                                            <option value="SEQ_ITEM">零件序號查詢</option>
+                                            <option value="SEQ_MITEM">出廠序號查詢</option>
+                                            <option value="PS2">MAC查詢</option>
+                                            <option value="PS5">韌體版本 (ex: 4.2.92.71)</option>
+                                            <option value="CLDS_COD_ITEM">產品型號查詢</option>
+                                            <option value="NUM_PS">工單 (ex:GA200102026)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3" id="searchBox">
+                                        <label for="validationCustom04">查詢內容</label>
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="validationCustom04">快查</label>
+                                        <div class="col">
+                                            <button id="1ds" class="btn btn-primary">昨日</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="">快查</label>
+                                        <div class="col">
+                                            <button id="7ds" class="btn btn-primary">7天</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="">快查</label>
+                                        <div class="col">
+                                            <button id="30ds" class="btn btn-primary">30天</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
                                         <label for="">查詢</label>
                                         <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
                                     </div>
-                            </div>
+                                </div>
                             </div>
                             <div class="data-tables datatable-dark">
                                 <table id="ListData" class="display text-center" style="width:100%">
@@ -236,6 +254,60 @@
             });
 
         });
+
+
+        setButtonClickEvent(1);
+        setButtonClickEvent(7);
+        setButtonClickEvent(30);
+
+        function setButtonClickEvent(days) {
+            $('#' + days + 'ds').click(function() {
+                const today = new Date();
+                const previousDate = new Date(today);
+                previousDate.setDate(today.getDate() - days);
+
+
+                loadData(getFormattedDate(previousDate));
+            });
+        }
+
+        function getFormattedDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function loadData(date) {
+            console.log(date);
+            var searchtype = 'DAT_BEGA';
+            console.log(searchtype);
+            $.ajax({
+                url: 'mesProductionResumeListDayAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    date: date,
+                    searchtype: searchtype
+                },
+                success: function(response) {
+                    console.log(response);
+                    // 清空表格資料
+                    table.clear();
+                    // 將回應資料加入表格
+                    table.rows.add(response);
+                    // 重新繪製表格
+                    table.draw();
+                    $('#loading').hide();
+                    // 處理 AJAX 請求成功後的回應
+                },
+                error: function(xhr, status, error) {
+                    // 處理 AJAX 請求失敗後的回應
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+        }
 
     });
 </script>

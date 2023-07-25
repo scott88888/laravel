@@ -36,6 +36,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesMonProductionListAjax', [MesController::class, 'mesMonProductionListAjax']);
     Route::match(['get', 'post'], '/mesProductionResumeList', [MesController::class, 'mesProductionResumeList']);
     Route::match(['get', 'post'], '/mesProductionResumeListAjax', [MesController::class, 'mesProductionResumeListAjax']);
+    Route::match(['get', 'post'], '/mesProductionResumeListDayAjax', [MesController::class, 'mesProductionResumeListDayAjax']);
     Route::match(['get', 'post'], '/mesHistoryProductionQuantity', [MesController::class, 'mesHistoryProductionQuantity']);
     Route::match(['get', 'post'], '/mesMfrList', [MesController::class, 'mesMfrList']);
     Route::match(['get', 'post'], '/mesRunCardList', [MesController::class, 'mesRunCardList']);
@@ -69,7 +70,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
     Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
     Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
-    
+
     Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
     Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
     

@@ -208,6 +208,19 @@ class MesController extends BaseController
         };
         return response()->json(status: 400);
     }
+    public function mesProductionResumeListDayAjax(Request $request)
+    {
+
+        if ($request->input('date') && $request->input('searchtype')) {
+            $date = $request->input('date');
+            $searchtype = $request->input('searchtype');
+            $mesProductionResumeListDayAjax = MesModelList::getProductionResumeListDayAjax($date, $searchtype);
+            return response()->json($mesProductionResumeListDayAjax);
+        };
+        return response()->json(status: 400);
+    }
+
+    
     public function mesHistoryProductionQuantity(Request $request)
     {
 
