@@ -278,10 +278,9 @@
             return `${year}-${month}-${day}`;
         }
 
-        function loadData(date) {
-            console.log(date);
-            var searchtype = 'DAT_BEGA';
-            console.log(searchtype);
+        function loadData(date) {         
+            var searchtype = 'DAT_BEGA';   
+            $('#loading').show();         
             $.ajax({
                 url: 'mesProductionResumeListDayAjax',
                 type: 'GET',
