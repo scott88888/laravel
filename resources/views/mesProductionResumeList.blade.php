@@ -59,12 +59,7 @@
                                             <button id="7ds" class="btn btn-primary">7天</button>
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
-                                        <label for="">快查</label>
-                                        <div class="col">
-                                            <button id="30ds" class="btn btn-primary">30天</button>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="col-2">
                                         <label for="">查詢</label>
                                         <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>

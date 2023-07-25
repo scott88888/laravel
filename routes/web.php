@@ -9,11 +9,12 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\AutoUpdateController;
 use App\Http\Controllers\RedirectController;
-
+use App\Http\Controllers\MailController;
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
-Route::view('/temp', 'temp');
+// Route::view('/temp', 'temp');
+Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
 
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
 
