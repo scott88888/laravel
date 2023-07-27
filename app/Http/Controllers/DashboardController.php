@@ -89,7 +89,7 @@ class DashboardController extends BaseController
         $productionData = $this->productionStatus();
         $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity','description'));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime','description'));
     }
 
 
