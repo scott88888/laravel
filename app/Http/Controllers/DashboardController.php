@@ -83,15 +83,13 @@ class DashboardController extends BaseController
         $repairQuantity = DB::select("SELECT COUNT(*) AS Count
         FROM mes_rma_analysis
         WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE and  PS1_2 <> '測試正常' ");
-        $AVGtime = DB::select("SELECT AVG(DIFF_DAYS) AS Count
-        FROM mes_rma_analysis
-        WHERE DAT_ONCA BETWEEN $warrantyDateS and $warrantyDateE");
+
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionData = $this->productionStatus();
         $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime','description'));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity','description'));
     }
 
 

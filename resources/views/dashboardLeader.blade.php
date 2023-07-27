@@ -212,10 +212,10 @@
                                                 </td>
                                             </tr>
                                             @endforeach
-                                            @foreach ($AVGtime as $status)
+                                            @foreach ($warrantyPart as $status)
                                             <tr>
                                                 <td>入場平均時間</td>
-                                                <td>{{ $status->Count }}</td>
+                                                <td>{{ $status->noDamage }}</td>
                                                 <td></td>
                                             </tr>
                                             @endforeach
