@@ -46,6 +46,28 @@ class DashboardController extends BaseController
 
         $warrantyDateE = date('Ymd');
         $warrantyDateS = date('Ymd', strtotime('-30 days', strtotime(date('Ymd'))));
+        $todayNumber = date('ym').'999999';
+        $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')).'000000';
+
+
+        //維修總數
+        $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE");
+        //維修保固外
+        $warrantyCountOut = DB::select("SELECT COUNT(*) AS result_count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
+        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+        AND (LENGTH(NUM_SER) = 10 AND NUM_SER REGEXP '^[0-9]+$')");
+        //維修保固內
+        $warrantyCountIn = DB::select("SELECT COUNT(*) AS result_count
+        FROM mes_rma_analysis
+        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
+        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
+        //維修其它
+        $warrantyCountOther = $warrantyCount[0]->result_count - $warrantyCountOut[0]->result_count - $warrantyCountIn[0]->result_count;
+        //計算全部維修的百分比
 
         $warranty = DB::select("SELECT PS1_4, COUNT(*) AS Count
         FROM mes_rma_analysis
@@ -89,7 +111,7 @@ class DashboardController extends BaseController
         $productionData = $this->productionStatus();
         $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'AVGtime','description'));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warranty', 'warrantyPart', 'repairQuantity', 'description'));
     }
 
 
@@ -172,8 +194,8 @@ class DashboardController extends BaseController
 
     public function description()
     {
-        $today = 'MR'.date('ymd').'0999';
-        $previousDate = 'MR'.date('Ymd', strtotime('-30 days', strtotime(date('ymd')))).'0001';
+        $today = 'MR' . date('ymd') . '0999';
+        $previousDate = 'MR' . date('Ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0001';
         $description = DB::select("SELECT
                                         a.sts_comr,
                                         c.description AS comr_desc,
@@ -192,9 +214,9 @@ class DashboardController extends BaseController
         $total = 0;
         foreach ($description as $key => $value) {
             $total +=  $value->count_comr;
-        }       
+        }
         foreach ($description as $key => $value) {
-            $value->total = number_format(($value->count_comr / $total)* 100, 1). '%';           
+            $value->total = number_format(($value->count_comr / $total) * 100, 1) . '%';
         }
         return $description;
     }
