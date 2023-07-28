@@ -192,40 +192,31 @@
                                             <th style="text-align: center;">百分比</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($warranty as $status)
+                                            @foreach ($warrantyPercent as $status)
                                             <tr>
-                                                <td>{{ $status->PS1_4 }}</td>
-                                                <td>{{ $status->Count }}</td>
-                                                <td>{{ $status->part }}</td>
-                                            </tr>
-                                            @endforeach
-                                            @foreach ($warrantyPart as $status)
-                                            <tr>
-                                                <td>無損毀</td>
-                                                <td>{{ $status->noDamage }}</td>
-                                                <td>{{ $status->noDamagePer }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>換零件</td>
-                                                <td>{{ $status->changeParts }}</td>
-                                                <td>{{ $status->changePartsPer }}</td>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            @foreach ($warrantyPart as $status)
-                                            <tr>
-                                                <td>入場平均時間</td>
-                                                <td>{{ $status->noDamage }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @foreach ($repairQuantity as $status)
-                                            <tr>
+                                                @if( $status[0] == 'warrantyCountIn' )
+                                                <td>製造日期1年內</td>
+                                                @elseif( $status[0] == 'warrantyCountOut' )
+                                                <td>製造日期1年外</td>
+                                                @elseif( $status[0] == 'warrantyCountOther' )
+                                                <td>其它</td>
+                                                @elseif( $status[0] == 'warrantyCount' )
                                                 <td>維修總數</td>
-                                                <td>{{ $status->Count }}</td>
-                                                <td></td>
+                                                @elseif( $status[0] == 'warrantyTest' )
+                                                <td>測試正常</td>
+                                                @elseif( $status[0] == 'warrantyQty' )
+                                                <td>維修數量</td>
+                                                @elseif( $status[0] == 'warrantyDuty' )
+                                                <td>製造日期1年內故障數量(本廠)</td>
+                                                
+
+
+                                                @endif
+                                                <td>{{ $status[1] }}</td>
+                                                <td>{{ $status[2] }}</td>                                               
                                             </tr>
                                             @endforeach
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -478,4 +469,5 @@
     }
 </script>
 @endif
+
 </html>
