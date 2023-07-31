@@ -51,10 +51,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRepairNGList', [MesController::class, 'mesRepairNGList']);
     Route::match(['get', 'post'], '/mesRepairNGListAjax', [MesController::class, 'mesRepairNGListAjax']);
     Route::match(['get', 'post'], '/mesBuyDelay', [MesController::class, 'mesBuyDelay']);
-    Route::match(['get', 'post'], '/mesBuyDelayAjax', [MesController::class, 'mesBuyDelayAjax']);
-    Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);
-    Route::match(['get', 'post'], '/editECRN', [MesController::class, 'editECRN']);
-    Route::match(['get', 'post'], '/delECRNAjax', [MesController::class, 'delECRNAjax']);
+    Route::match(['get', 'post'], '/mesBuyDelayAjax', [MesController::class, 'mesBuyDelayAjax']);   
     Route::match(['get', 'post'], '/mesRMAList', [MesController::class, 'mesRMAList']);
     Route::match(['get', 'post'], '/mesRMAListAjax', [MesController::class, 'mesRMAListAjax']);
     Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
@@ -63,33 +60,26 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
 
-    //ECRECN管理
+    //ECRECN
     Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);
     Route::match(['get', 'post'], '/editECRN', [MesController::class, 'editECRN']);
-
-    Route::match(['get', 'post'], '/ECRECNList', [MesController::class, 'mesECNList']);
-    Route::match(['get', 'post'], '/ECRECNedit', [MesController::class, 'editECRN']);
-
+    Route::match(['get', 'post'], '/delECRNAjax', [MesController::class, 'delECRNAjax']);
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
     Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
     Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
+    Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
+    Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
+
     //檔案管理
     Route::match(['get', 'post'], '/fileFirmwareUpload', [FileController::class, 'fileFirmwareUpload']);
     Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
-    Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
-
-
-    Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
-    Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
-    
     
     //設定
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
     Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog']);
-    
+
 });
