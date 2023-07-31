@@ -213,11 +213,7 @@
                                                 <td>{{ $status[2] }}</td>
                                             </tr>
                                             @endforeach
-                                            <tr>
-                                                <td>平均工時</td>
-                                                <td>{{ $averageHurReq }}小時</td>
-                                                <td></td>
-                                            </tr>
+                                          
                                         </tbody>
                                     </table>
                                 </div>
