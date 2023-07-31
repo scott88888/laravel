@@ -208,15 +208,16 @@
                                                 <td>維修數量</td>
                                                 @elseif( $status[0] == 'warrantyDuty' )
                                                 <td>製造日期1年內故障數量(本廠)</td>
-                                                
-
-
                                                 @endif
                                                 <td>{{ $status[1] }}</td>
-                                                <td>{{ $status[2] }}</td>                                               
+                                                <td>{{ $status[2] }}</td>
                                             </tr>
                                             @endforeach
-                                            
+                                            <tr>
+                                                <td>平均工時</td>
+                                                <td>{{ $averageHurReq }}小時</td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

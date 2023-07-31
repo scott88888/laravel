@@ -95,6 +95,13 @@ class DashboardController extends BaseController
                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')");
         $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+        //平均維修
+        $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
+                                    FROM mes_rma_analysis
+                                    WHERE DAT_ONCA BETWEEN 20230627 AND 20230727
+                                    AND HUR_REQ > 0");
+
+$averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
 
 
 
@@ -103,7 +110,7 @@ class DashboardController extends BaseController
         $productionData = $this->productionStatus();
         $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData','warrantyPercent', 'description'));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description','averageHurReq' ));
     }
 
 
