@@ -62,15 +62,24 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRMAbadPartAjax', [MesController::class, 'mesRMAbadPartAjax']);
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
+
+    //ECRECN管理
+    Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);
+    Route::match(['get', 'post'], '/editECRN', [MesController::class, 'editECRN']);
+
+    Route::match(['get', 'post'], '/ECRECNList', [MesController::class, 'mesECNList']);
+    Route::match(['get', 'post'], '/ECRECNedit', [MesController::class, 'editECRN']);
+
+    Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
+    Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
+    Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
     //檔案管理
     Route::match(['get', 'post'], '/fileFirmwareUpload', [FileController::class, 'fileFirmwareUpload']);
     Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
     Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
-    Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit']);
-    Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
-    Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
+
 
     Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
     Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
@@ -82,4 +91,5 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
 
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog']);
+    
 });

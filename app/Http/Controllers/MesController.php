@@ -391,7 +391,14 @@ class MesController extends BaseController
             return view('mesECNList', ['MesECNList' => $MesECNList]);
         }
     }
-
+    public function ECRECNList(Request $request)
+    {
+        //獲取資料
+        $MesECNList = MesModelList::getMesECNList();
+        if ($MesECNList) {
+            return view('ECRECNList', ['MesECNList' => $MesECNList]);
+        }
+    }
     public function editECRN(Request $request)
     {
         //獲取資料
