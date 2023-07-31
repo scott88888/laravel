@@ -44,27 +44,32 @@ class DashboardController extends BaseController
         $maintenData = $this->mainten();
         //今日生產維修狀況end
 
-        $warrantyDateE = date('Ymd');
-        $warrantyDateS = date('Ymd', strtotime('-30 days', strtotime(date('Ymd'))));
+        $warrantyDateE = 'FB' . date('ymd') . '9999';
+        $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
         $todayNumber = date('ym') . '999999';
         $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
 
 
         //維修總數
+        // $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
+        // FROM mes_rma_analysis
+        // WHERE NUM_MTRM BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
+
         $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
-        FROM mes_rma_analysis
-        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE");
+                                    FROM mes_rma_analysis
+                                    WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'");
+
         //維修保固外
         $warrantyCountOut = DB::select("SELECT COUNT(*) AS result_count
-        FROM mes_rma_analysis
-        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
-        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-        AND (LENGTH(NUM_SER) = 10 AND NUM_SER REGEXP '^[0-9]+$')");
+                                        FROM mes_rma_analysis
+                                        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
+                                        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+                                        AND (LENGTH(NUM_SER) = 10 AND NUM_SER REGEXP '^[0-9]+$')");
         //維修保固內
         $warrantyCountIn = DB::select("SELECT COUNT(*) AS result_count
-        FROM mes_rma_analysis
-        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
-        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
+                                        FROM mes_rma_analysis
+                                        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
+                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
         //維修其它
         $warrantyCountOther = $warrantyCount[0]->result_count - $warrantyCountOut[0]->result_count - $warrantyCountIn[0]->result_count;
         //計算全部維修的百分比      
@@ -76,13 +81,13 @@ class DashboardController extends BaseController
         //測試正常數量
         $warrantyTest = DB::select("SELECT COUNT(*) AS result_count
                         FROM mes_rma_analysis
-                        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
+                        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                         AND ps1_2 = '測試正常'");
 
         //維修數量
         $warrantyQty = DB::select("SELECT COUNT(*) AS result_count
                         FROM mes_rma_analysis
-                        WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
+                        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                         AND (ps1_2 != '測試正常' OR ps1_2 IS NULL)");
 
         $warrantyPercent[4] = ['warrantyTest', $warrantyTest[0]->result_count, number_format(($warrantyTest[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
@@ -91,17 +96,17 @@ class DashboardController extends BaseController
 
         $warrantyDuty = DB::select("SELECT COUNT(*) AS result_count
                                     FROM mes_rma_analysis
-                                    WHERE DAT_ONCA BETWEEN $warrantyDateS AND $warrantyDateE
+                                    WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')");
         $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
                                     FROM mes_rma_analysis
-                                    WHERE DAT_ONCA BETWEEN 20230627 AND 20230727
+                                    WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                                     AND HUR_REQ > 0");
 
-$averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
+        $averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
 
 
 
@@ -110,7 +115,7 @@ $averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
         $productionData = $this->productionStatus();
         $description = $this->description();
 
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description','averageHurReq' ));
+        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description', 'averageHurReq'));
     }
 
 
