@@ -10,6 +10,13 @@ use App\Http\Controllers\SetupController;
 use App\Http\Controllers\AutoUpdateController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\MailController;
+//API
+use App\Http\Controllers\uploadImgAPIController;
+
+
+Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upload']);
+Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
+
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::fallback([LogoutController::class, 'perform']);
