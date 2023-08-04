@@ -21,14 +21,26 @@ class uploadImgAPIController extends Controller
 
         if ($request->query('target')) {
             $target = $request->query('target');
+
+            
             switch ($target) {
                 case 'mesProductionResumeList':
                     $data = $request->json()->all();
                     $base64Image = $data['snap_image'];
+
+
                     $insertedId = DB::table('mes_uploadimg')->insertGetId([
+                        'imgUrl' => $base64Image
+                    ]);
+                    return response()->json(['message' => 'url=showImg?target=' . $target . '&id=' . $insertedId], 200);
+                    break;
+                case 'mesItemPartList':
+                    $data = $request->json()->all();
+                    $base64Image = $data['snap_image'];
+                    $insertedId = DB::table('mes_mesitempartlist_uploadimg')->insertGetId([
                         'img' => $base64Image
                     ]);
-                    return response()->json(['message' => 'url=showImg?target='. $target.'&id='. $insertedId ], 200);
+                    return response()->json(['message' => 'url=showImg?target=' . $target . '&id=' . $insertedId], 200);
                     break;
                 default:
                     return response()->json(['message' => 'error' . $target], 200);
@@ -36,18 +48,18 @@ class uploadImgAPIController extends Controller
         } else {
             return response()->json(['message' => 'error name'], 200);
         }
-
     }
 
     public function show(Request $request)
     {
 
         if ($request->query('id') & $request->query('target')) {
-
-            $image = DB::table('mes_uploadimg')->where('id', $request->query('id') )->first(); // 假設 $id 是您要查詢的圖片資料的 ID
+            $image = DB::table('mes_uploadimg')->where('id', $request->query('id'))->first(); // 假設 $id 是您要查詢的圖片資料的 ID
             $base64Image = $image->img; // 取出 base64 字串
-            $decodedImage = base64_decode($base64Image);        
+            $decodedImage = base64_decode($base64Image);
             return response($decodedImage)->header('Content-Type', 'image/jpeg');
         }
     }
+
+   
 }

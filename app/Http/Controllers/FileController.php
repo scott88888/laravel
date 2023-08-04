@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileModel;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
+
 
 class FileController extends Controller
 {
@@ -128,14 +132,11 @@ class FileController extends Controller
         curl_close($curl);
     }
 
-
     public function fileECNEdit(Request $request)
     {
         return view('fileECNEdit');
     }
     
-  
-
     public function fileECNCreateAjax(Request $request)
     {
         
@@ -293,4 +294,38 @@ class FileController extends Controller
 
         return round($bytes, 2) . ' ' . $units[$index];
     }
+
+    
+    public function uploadjpg(Request $request)
+    {
+        // FTP 伺服器的主機地址、使用者名稱和密碼
+        $ftpHost = '192.168.0.3';
+        $ftpUsername = 'E545';
+        $ftpPassword = 'SCSC';
+        // 建立目錄/檔名
+        $directory = $request->input('type')."/".$request->input('idModel');
+        $ftpFilename = $request->input('idModel').'.jpg';
+        $filesize = $_FILES['file']['size'];
+        $filesize = $this->formatFileSize($filesize);
+        // 建構 cURL 請求
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "ftp://{$ftpUsername}:{$ftpPassword}@{$ftpHost}/{$directory}/{$ftpFilename}");
+        curl_setopt($curl, CURLOPT_PORT, 57);
+        curl_setopt($curl, CURLOPT_UPLOAD, true);
+        curl_setopt($curl, CURLOPT_INFILE, fopen($_FILES['file']['tmp_name'], 'r'));
+        curl_setopt($curl, CURLOPT_INFILESIZE, $_FILES['file']['size']);
+        curl_setopt($curl, CURLOPT_FTP_CREATE_MISSING_DIRS, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // 執行 cURL 請求
+        $response = curl_exec($curl);
+        if ($response === false) {
+            return response()->json(['message' => '上傳失敗'], 400);
+        } else {
+            return response()->json(['message' => '上傳成功', 'filename' => $ftpFilename, 'filesize' => $filesize]);
+        }
+        // 關閉 cURL
+        curl_close($curl);
+    }
+
+
 }
