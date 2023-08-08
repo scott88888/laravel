@@ -150,10 +150,11 @@
 @include('layouts/footerjs')
 <script>
     $(document).ready(function() {
-        $('.fa-arrow-up').on('click', function() {
+        $('#ListData').on('click', '.fa-arrow-up', function() {
             var id = $(this).data('id');
             $('#modal-id').text("model: " + id);
             $('#idModel').val(id);
+
         });
         $('.fa-times').on('click', function() {
             var id = $(this).data('id');
@@ -243,7 +244,7 @@
         formData.append('file', file);
         formData.append('type', type);
         formData.append('delid', $('#delid').val());
-     
+
         $('#loading').show();
         $.ajax({
             url: "{{ asset('delJpgAjax') }}",
@@ -253,16 +254,16 @@
             processData: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },          
+            },
             success: function(response) {
                 console.log(response.message);
-                console.log(response.filename);               
+                console.log(response.filename);
                 $('#loading').hide();
 
             },
             error: function(xhr, status, error) {
                 console.log(error);
-                console.log(status);          
+                console.log(status);
                 $('#loading').hide();
             }
         });

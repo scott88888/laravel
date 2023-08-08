@@ -356,15 +356,34 @@ class FileController extends Controller
     }
     public function uploadJpgToSql($table, $model)
     {
+
         $create_time = Carbon::now();
-        $value = DB::table($table)->insert([
-            'id' => '',
-            'model' => $model,
-            'type' => 1,
-            'img' =>  $model . '.jpg',
-            'simg' =>  $model . '-s.jpg',
-            'create_time' => $create_time
-        ]);
+        $select = DB::table($table)
+            ->where('model', '=', $model)
+            ->get();
+        if (count($select) > 0) {
+
+            $value = DB::table($table)
+                ->where('model', '=', $model)
+                ->update([
+                    'model' => $model,
+                    'type' => 1,
+                    'img' =>  $model . '.jpg',
+                    'simg' =>  $model . '-s.jpg',
+                    'create_time' => $create_time
+                ]);
+        } else {
+            $value = DB::table($table)->insert([
+                'id' => '',
+                'model' => $model,
+                'type' => 1,
+                'img' =>  $model . '.jpg',
+                'simg' =>  $model . '-s.jpg',
+                'create_time' => $create_time
+            ]);
+        }
+
+
         return $value;
     }
     public function delJpgAjax(Request $request)
@@ -373,7 +392,7 @@ class FileController extends Controller
         $ftpHost = '192.168.0.3';
         $ftpUsername = 'E545';
         $ftpPassword = 'SCSC';
-        
+
         // 刪除的目錄
         $model = $request->input('delid');
         $directory = "mesItemPartList/98-AHD3421S1Y1";
@@ -389,8 +408,5 @@ class FileController extends Controller
         return response()->json([
             'message' => $result
         ]);
-
-
-
     }
 }
