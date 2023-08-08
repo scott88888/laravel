@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileModel;
 use DB;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-
+use Carbon\Carbon;
 
 
 class FileController extends Controller
@@ -136,29 +135,27 @@ class FileController extends Controller
     {
         return view('fileECNEdit');
     }
-    
+
     public function fileECNCreateAjax(Request $request)
     {
-        
-        
-            $data = [
-                'id' => '',
-                'ECRNum' => $request->input('ECRNum'),
-                'applyDate' => $request->input('applyDate'),
-                'ECNNum' => $request->input('ECNNum'),
-                'noticeDate' => $request->input('noticeDate'),
-                'model' => $request->input('model'),
-                'reason' => $request->input('reason'),
-                'approved' => $request->input('approved'),
-                'charge' => $request->input('charge'),
-                'remark' => $request->input('remark'),
-                'deliveryOrder' => $request->input('deliveryOrder'),
-                'createDate' => date('Y-m-d H:i:s')
-            ];
-            FileModel::ECNCreate($data);
-            return response()->json(['ok' => $request]);  
-            
-         
+
+
+        $data = [
+            'id' => '',
+            'ECRNum' => $request->input('ECRNum'),
+            'applyDate' => $request->input('applyDate'),
+            'ECNNum' => $request->input('ECNNum'),
+            'noticeDate' => $request->input('noticeDate'),
+            'model' => $request->input('model'),
+            'reason' => $request->input('reason'),
+            'approved' => $request->input('approved'),
+            'charge' => $request->input('charge'),
+            'remark' => $request->input('remark'),
+            'deliveryOrder' => $request->input('deliveryOrder'),
+            'createDate' => date('Y-m-d H:i:s')
+        ];
+        FileModel::ECNCreate($data);
+        return response()->json(['ok' => $request]);
     }
     public function fileECRNEditAjax(Request $request)
     {
@@ -175,28 +172,27 @@ class FileController extends Controller
                 'approved' => $request->input('approved'),
                 'charge' => $request->input('charge'),
                 'remark' => $request->input('remark'),
-                'repairOrderNum' => $request->input('repairOrderNum'),                
+                'repairOrderNum' => $request->input('repairOrderNum'),
                 'createDate' => date('Y-m-d H:i:s')
             ];
             DB::table('mes_ecrecn')
-            ->where('id',$data['id'])
-            ->update([
-                'id' => $data['id'],
-                'ECRNum' => $data['ECRNum'],
-                'applyDate' => $data['applyDate'],
-                'ECNNum' => $data['ECNNum'],
-                'noticeDate' => $data['noticeDate'],
-                'model' => $data['model'],
-                'reason' => $data['reason'],
-                'approved' => $data['approved'],
-                'charge' => $data['charge'],
-                'remark' => $data['remark'],
-                'repairOrderNum' => $data['repairOrderNum'],
-                'createDate' => $data['createDate']
-            ]);
-            return response()->json(['ok' => $request]);  
-        }       
-         
+                ->where('id', $data['id'])
+                ->update([
+                    'id' => $data['id'],
+                    'ECRNum' => $data['ECRNum'],
+                    'applyDate' => $data['applyDate'],
+                    'ECNNum' => $data['ECNNum'],
+                    'noticeDate' => $data['noticeDate'],
+                    'model' => $data['model'],
+                    'reason' => $data['reason'],
+                    'approved' => $data['approved'],
+                    'charge' => $data['charge'],
+                    'remark' => $data['remark'],
+                    'repairOrderNum' => $data['repairOrderNum'],
+                    'createDate' => $data['createDate']
+                ]);
+            return response()->json(['ok' => $request]);
+        }
     }
 
     public function delECRNAjax(Request $request)
@@ -207,7 +203,7 @@ class FileController extends Controller
 
         if ($delId) {
             return response()->json(['ok' => $delId]);
-        }else {
+        } else {
             return response()->json(['error' => $delId]);
         }
     }
@@ -226,15 +222,15 @@ class FileController extends Controller
             ];
             $request = FileModel::ECNPMupdate($data);
             DB::table('mes_ecrecn')
-            ->where('id',$data['listid'])
-            ->update([
-                'modificationDate' => $data['modificationDate'],
-                'orderNumber' => $data['orderNumber'],
-                'serialNumber' => $data['serialNumber'],
-                'closeCase' => $data['closeCase'],
-                'deliveryOrder' => $data['deliveryOrder'],
-                'repairOrderNum' => $data['repairOrderNum']
-            ]);
+                ->where('id', $data['listid'])
+                ->update([
+                    'modificationDate' => $data['modificationDate'],
+                    'orderNumber' => $data['orderNumber'],
+                    'serialNumber' => $data['serialNumber'],
+                    'closeCase' => $data['closeCase'],
+                    'deliveryOrder' => $data['deliveryOrder'],
+                    'repairOrderNum' => $data['repairOrderNum']
+                ]);
             return response()->json(['ok' => $request]);
         }
     }
@@ -295,19 +291,19 @@ class FileController extends Controller
         return round($bytes, 2) . ' ' . $units[$index];
     }
 
-    
     public function uploadjpg(Request $request)
     {
         // FTP 伺服器的主機地址、使用者名稱和密碼
         $ftpHost = '192.168.0.3';
         $ftpUsername = 'E545';
         $ftpPassword = 'SCSC';
+
         // 建立目錄/檔名
-        $directory = $request->input('type')."/".$request->input('idModel');
-        $ftpFilename = $request->input('idModel').'.jpg';
-        $filesize = $_FILES['file']['size'];
-        $filesize = $this->formatFileSize($filesize);
-        // 建構 cURL 請求
+        $model = $request->input('idModel');
+        $directory = $request->input('type') . "/" . $model;
+        $ftpFilename = $model  . '.jpg';
+
+        // 上傳檔案到 FTP 伺服器
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, "ftp://{$ftpUsername}:{$ftpPassword}@{$ftpHost}/{$directory}/{$ftpFilename}");
         curl_setopt($curl, CURLOPT_PORT, 57);
@@ -316,16 +312,85 @@ class FileController extends Controller
         curl_setopt($curl, CURLOPT_INFILESIZE, $_FILES['file']['size']);
         curl_setopt($curl, CURLOPT_FTP_CREATE_MISSING_DIRS, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // 執行 cURL 請求
         $response = curl_exec($curl);
+        curl_close($curl);
+
         if ($response === false) {
             return response()->json(['message' => '上傳失敗'], 400);
-        } else {
-            return response()->json(['message' => '上傳成功', 'filename' => $ftpFilename, 'filesize' => $filesize]);
         }
-        // 關閉 cURL
-        curl_close($curl);
+
+        // 建立縮圖
+        $uploadedFileTmpPath = $_FILES['file']['tmp_name'];
+        $thumbnail = Image::make($uploadedFileTmpPath)->fit(200)->encode('jpg');
+
+        // 指定縮圖儲存的路徑和檔名
+        $thumbnailFilename = $model  . '-s.jpg'; // 你可以根據需求自定義縮圖的名稱
+
+        // 將縮圖內容寫入臨時檔案
+        $tmpThumbnailPath = tempnam(sys_get_temp_dir(), 'thumbnail');
+        file_put_contents($tmpThumbnailPath, $thumbnail);
+
+        // 使用 cURL 將縮圖上傳至 FTP 伺服器
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "ftp://{$ftpUsername}:{$ftpPassword}@{$ftpHost}/{$directory}/{$thumbnailFilename}");
+        curl_setopt($ch, CURLOPT_PORT, 57);
+        curl_setopt($ch, CURLOPT_UPLOAD, true);
+        curl_setopt($ch, CURLOPT_INFILE, fopen($tmpThumbnailPath, 'r')); // 使用 fopen 開啟縮圖檔案來源
+        curl_setopt($ch, CURLOPT_INFILESIZE, strlen($tmpThumbnailPath)); // 使用 strlen 獲取縮圖檔案大小
+        curl_setopt($ch, CURLOPT_FTP_CREATE_MISSING_DIRS, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        curl_close($ch);
+
+        // 返回 JSON 响應，包含上傳成功信息、檔案名稱和檔案大小
+        $filesize = $this->formatFileSize($_FILES['file']['size']);
+        $table = 'mes_' . $request->input('type') . '_uploadimg';
+        $this->uploadJpgToSql($table, $model);
+        return response()->json([
+            'message' => '上傳成功',
+            'filename' => $ftpFilename,
+            'filesize' => $filesize,
+            'thumbnail_path' => $directory,
+            'thumbnail_name' => $thumbnailFilename
+        ]);
     }
+    public function uploadJpgToSql($table, $model)
+    {
+        $create_time = Carbon::now();
+        $value = DB::table($table)->insert([
+            'id' => '',
+            'model' => $model,
+            'type' => 1,
+            'img' =>  $model . '.jpg',
+            'simg' =>  $model . '-s.jpg',
+            'create_time' => $create_time
+        ]);
+        return $value;
+    }
+    public function delJpgAjax(Request $request)
+    {
+        // FTP 伺服器的主機地址、使用者名稱和密碼
+        $ftpHost = '192.168.0.3';
+        $ftpUsername = 'E545';
+        $ftpPassword = 'SCSC';
+        
+        // 刪除的目錄
+        $model = $request->input('delid');
+        $directory = "mesItemPartList/98-AHD3421S1Y1";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "ftp://{$ftpUsername}:{$ftpPassword}@{$ftpHost}/{$directory}");
+        curl_setopt($ch, CURLOPT_PORT, 57);
+        curl_setopt($ch, CURLOPT_QUOTE, array("RMD {$directory}")); // 使用 RMD FTP 指令刪除資料夾
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FTP_USE_EPSV, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return response()->json([
+            'message' => $result
+        ]);
 
 
+
+    }
 }

@@ -79,8 +79,9 @@ class MesModelList extends Authenticatable
     {
 
         $value = DB::table('mes_lcst_parts')
-            ->where('qty_stk', '!=', 0)
-            ->orderBy('qty_stk', 'asc')
+            ->leftjoin('mes_mesitempartlist_uploadimg', 'mes_mesitempartlist_uploadimg.model', '=', 'mes_lcst_parts.COD_ITEM')
+            ->where('mes_lcst_parts.qty_stk', '!=', 0)
+            ->orderBy('mes_lcst_parts.qty_stk', 'asc')
             ->get();
         return $value;
     }

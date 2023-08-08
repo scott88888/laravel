@@ -37,10 +37,19 @@
                                             @foreach ($MesItemPartList as $ListData)
                                             <tr>
                                                 <td style="padding: 0;">
-                                                    <span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal"  data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>
-                                                    <span class="fa fa-times" data-toggle="modal" data-target="#delModal" style="font-size: larger;padding: 10px;cursor: pointer;color:red;"></span>
+                                                    <span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>
+                                                    <span class="fa fa-times" data-toggle="modal" data-target="#delModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:red;"></span>
                                                 </td>
-                                                <td><img style="max-width:60px;" src="https://www.anword.com.tw/images/Color-block/White.jpg"></td>
+
+                                                <td>
+                                                    @if($ListData->type > 0)
+                                                    <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}.jpg" target="_blank">
+                                                        <img style="max-width:100px;" src="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}-s.jpg" />
+                                                    </a>
+                                                    @else
+                                                    <div class="fa fa-file-picture-o"></div>
+                                                    @endif
+                                                </td>
                                                 <td>{{$ListData->COD_ITEM}}</td>
                                                 <td>
                                                     {{$ListData->NAM_ITEM}}
@@ -85,11 +94,12 @@
                             </button>
                         </div>
                         <div class="modal-body">
-
+                            <p id="modal-delid"></p>
+                            <input type="text" id="delid" style="display: none;">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal">確認刪除</button>
+                            <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal" onclick="delJpgAjax('mesItemPartList')">確認刪除</button>
                         </div>
                     </div>
                 </div>
@@ -107,16 +117,16 @@
                             <div style="padding:0, 1rem;">
                                 <span class="ti-upload">圖片</span>
                                 <input id="mesItemPart_Name" style="display: none;">
-                                <form id="mesItemPartForm" enctype="multipart/form-data">
-                                <p id="modal-id"></p>
-                                <input type="text" id="idModel" style="display: none;">
+                                <form id="mesItemPartListForm" enctype="multipart/form-data">
+                                    <p id="modal-id"></p>
+                                    <input type="text" id="idModel" style="display: none;">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="mesItemPartInput" id="mesItemPartInput" accept=".jpg" onchange="updateFileName(this,'mesItemPart')">
-                                            <label class="custom-file-label" id="mesItemPart">Choose file</label>
+                                            <input type="file" class="custom-file-input" name="mesItemPartListInput" id="mesItemPartListInput" accept=".jpg" onchange="updateFileName(this,'mesItemPartList')">
+                                            <label class="custom-file-label" id="mesItemPartList">Choose file</label>
                                         </div>
                                         <div class="input-group-append">
-                                            <button class="input-group-text" type="button" onclick="uploadFile('mesItemPart')">Upload</button>
+                                            <button class="input-group-text" type="button" onclick="uploadFile('mesItemPartList')">Upload</button>
                                         </div>
                                     </div>
                                 </form>
@@ -139,11 +149,16 @@
 </body>
 @include('layouts/footerjs')
 <script>
-    $(document).ready(function() {      
-        $('.fa-arrow-up').on('click', function() {            
-            var id = $(this).data('id');        
-            $('#modal-id').text("model: "+id);
-            $('#idModel').val(id) ;
+    $(document).ready(function() {
+        $('.fa-arrow-up').on('click', function() {
+            var id = $(this).data('id');
+            $('#modal-id').text("model: " + id);
+            $('#idModel').val(id);
+        });
+        $('.fa-times').on('click', function() {
+            var id = $(this).data('id');
+            $('#modal-delid').text("model: " + id);
+            $('#delid').val(id);
         });
     });
     $(ListData).DataTable({
@@ -153,7 +168,7 @@
             "className": "dt-center"
         }],
         "order": [
-            [0, "asc"]
+            [1, "desc"]
         ]
     })
 
@@ -166,8 +181,8 @@
 
     function uploadFile(type) {
         var fileInput;
-        fileInput = document.getElementById(type+'Input');
-        
+        fileInput = document.getElementById(type + 'Input');
+
         var file = fileInput.files[0];
         var formData = new FormData();
         formData.append('file', file);
@@ -211,6 +226,43 @@
                 console.log(status);
                 var label = document.getElementById(type);
                 label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
+                $('#loading').hide();
+            }
+        });
+
+
+
+    }
+
+    function delJpgAjax(type) {
+        var fileInput;
+        fileInput = document.getElementById(type + 'Input');
+
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', type);
+        formData.append('delid', $('#delid').val());
+     
+        $('#loading').show();
+        $.ajax({
+            url: "{{ asset('delJpgAjax') }}",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },          
+            success: function(response) {
+                console.log(response.message);
+                console.log(response.filename);               
+                $('#loading').hide();
+
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                console.log(status);          
                 $('#loading').hide();
             }
         });

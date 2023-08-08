@@ -68,7 +68,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
-
+    Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
+    
 
     //ECRECN
     Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);

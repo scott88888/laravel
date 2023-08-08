@@ -117,6 +117,8 @@ class MesController extends BaseController
     {
         //獲取資料
         $MesItemPartList = MesModelList::getItemPartListData();
+
+        
         if ($MesItemPartList) {
 
             return view('mesItemPartList', ['MesItemPartList' => $MesItemPartList]);
