@@ -360,17 +360,19 @@ class FileController extends Controller
         $create_time = Carbon::now();
         $select = DB::table($table)
             ->where('model', '=', $model)
+            ->where('first','=','1')  
             ->get();
         if (count($select) > 0) {
 
             $value = DB::table($table)
                 ->where('model', '=', $model)
+                ->where('first','=','1')  
                 ->update([
                     'model' => $model,
                     'type' => 1,
                     'img' =>  $model . '.jpg',
                     'simg' =>  $model . '-s.jpg',
-                    'create_time' => $create_time
+                    'create_time' => $create_time,
                 ]);
         } else {
             $value = DB::table($table)->insert([
@@ -379,7 +381,8 @@ class FileController extends Controller
                 'type' => 1,
                 'img' =>  $model . '.jpg',
                 'simg' =>  $model . '-s.jpg',
-                'create_time' => $create_time
+                'create_time' => $create_time,
+                'first' => 1,
             ]);
         }
 

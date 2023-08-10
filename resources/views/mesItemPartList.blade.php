@@ -25,7 +25,7 @@
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
-                                                <th>上傳/刪除</th>
+                                                <th>上傳</th>
                                                 <th>產品照片</th>
                                                 <th>產品型號</th>
                                                 <th>產品敘述</th>
@@ -38,11 +38,11 @@
                                             <tr>
                                                 <td style="padding: 0;">
                                                     <span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>
-                                                    <span class="fa fa-times" data-toggle="modal" data-target="#delModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:red;"></span>
+                                                    <!-- <span class="fa fa-times" data-toggle="modal" data-target="#delModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:red;"></span> -->
                                                 </td>
 
                                                 <td>
-                                                    @if($ListData->type > 0)
+                                                    @if($ListData->first = 1)
                                                     <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}.jpg" target="_blank">
                                                         <img style="max-width:100px;" src="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}-s.jpg" />
                                                     </a>
