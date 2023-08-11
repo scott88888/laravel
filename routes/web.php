@@ -17,11 +17,13 @@ use App\Http\Controllers\uploadImgAPIController;
 Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upload']);
 Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
 
+Route::match(['get', 'post'], '/access-network-folder', [uploadImgAPIController::class, 'index']);
+
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
-Route::fallback([LogoutController::class, 'perform']);
+
 // Route::view('/temp', 'temp');
-Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
+//Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
 
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
 
@@ -61,6 +63,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesBuyDelayAjax', [MesController::class, 'mesBuyDelayAjax']);   
     Route::match(['get', 'post'], '/mesRMAList', [MesController::class, 'mesRMAList']);
     Route::match(['get', 'post'], '/mesRMAListAjax', [MesController::class, 'mesRMAListAjax']);
+    Route::match(['get', 'post'], '/mesRMAErrorItemAjax', [MesController::class, 'mesRMAErrorItemAjax']);
+    Route::match(['get', 'post'], '/mesRMA30dsAjax', [MesController::class, 'mesRMA30dsAjax']);
     Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
     Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
     Route::match(['get', 'post'], '/mesRMAbadPartAjax', [MesController::class, 'mesRMAbadPartAjax']);

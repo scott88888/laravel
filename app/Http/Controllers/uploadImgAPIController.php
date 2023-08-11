@@ -9,6 +9,7 @@ use Intervention\Image\Facades\Image;
 use App\Models\UploadImgAPIModel;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -48,7 +49,7 @@ class uploadImgAPIController extends Controller
                     $this->uploadSjpg($target, $model, $imageData);
                     DB::table($table)->insert([
                         'id' => '',
-                        'model' => $fileName,
+                        'model' => $model,
                         'type' => 2,
                         'img' =>  $model . '.jpg',
                         'simg' =>  $model . '-s.jpg',
@@ -75,6 +76,13 @@ class uploadImgAPIController extends Controller
             return response($decodedImage)->header('Content-Type', 'image/jpeg');
         }
     }
+    public function index()
+    {
+        $files = Storage::disk('network')->files('mesItemPartList');
+
+        return view('temp', compact('files'));
+    }
+
 
     public function formatFileSize($bytes)
     {

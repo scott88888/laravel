@@ -13,7 +13,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => 'C:\xampp\htdocs\laravel\public\up',
+            'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
@@ -29,6 +29,15 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+        ],
+        'network' => [
+            'driver' => 'ftp',
+            'host' => '192.168.0.3',
+            'username' => 'E545',
+            'password' => 'SCSC',
+            'port'     => 57, // 這裡設定 FTP 連線的埠號
+            'root' => '/', // 根目錄路徑
+            // 其他 FTP 相關配置
         ],
 
     ],

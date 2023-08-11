@@ -26,14 +26,14 @@
             @include('layouts/headerarea')
             <div class="main5">
                 <div class="row" style="margin: 0;">
-                    <div class="col-12 mt-1" style="padding: 8px;">
+                    <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">RMA退貨授權查詢</h4>
                                 <div class="form-row">
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">查詢類型</label>
-                                        <select id="searchtype" class="form-control" style="padding: 0;">
+                                        <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option>select</option>
                                             <option value="NUM_ONCA">報修單號</option>
                                             <option value="NUM_MTRM">派修單號</option>
@@ -42,18 +42,30 @@
                                             <option value="COD_CUST">客戶代碼</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label>查詢內容</label>
+                                        <input class="form-control" id="search">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>條件查詢</label>
+                                        <div class="col">
+                                            <button id="submit" class="btn btn-primary">查詢</button>
+                                        </div>
+                                    </div>                             
                                 </div>
                                 <div class="form-row">
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label>查詢內容</label>
-                                            <input class="form-control form-control-sm" id="search">
+                                    <div class="col-md-2">
+                                        <label for="">製造日期1年內故障</label>
+                                        <div class="col">
+                                            <button id="errorItem" class="btn btn-primary">查詢</button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-row col-md-6 mb-3">
-                                    <div class="col">
-                                        <button id="submit" class="btn btn-primary">查詢</button>
+                                    <div class="col-md-2">
+                                        <label for="">快查</label>
+                                        <div class="col">
+                                            <button id="30ds" class="btn btn-primary">30天查詢</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +82,7 @@
                                         <th>DAT_ACTE</th>
                                         <th>EMP_ORD</th>
                                         <th>STS_ONCA</th>
-                                        <th>date_gap</th>
+                                        
                                     </thead>
                                     <tbody>
                                         <tr>
@@ -83,8 +95,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td></td>                                          
                                         </tr>
                                     </tbody>
                                 </table>
@@ -235,6 +246,57 @@
 
         });
 
+        
+
+        $('#errorItem').click(function() {
+            $('#loading').show();
+            $.ajax({
+                url: 'mesRMAErrorItemAjax',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // 清空表格資料
+                    table.clear();
+                    // 將回應資料加入表格
+                    table.rows.add(response);
+                    // 重新繪製表格
+                    table.draw();
+                    $('#loading').hide();
+                    // 處理 AJAX 請求成功後的回應                   
+                },
+                error: function(xhr, status, error) {
+                    // 處理 AJAX 請求失敗後的回應
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+
+        });
+
+        $('#30ds').click(function() {
+            $('#loading').show();
+            $.ajax({
+                url: 'mesRMA30dsAjax',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // 清空表格資料
+                    table.clear();
+                    // 將回應資料加入表格
+                    table.rows.add(response);
+                    // 重新繪製表格
+                    table.draw();
+                    $('#loading').hide();
+                    // 處理 AJAX 請求成功後的回應                   
+                },
+                error: function(xhr, status, error) {
+                    // 處理 AJAX 請求失敗後的回應
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+
+        });
     });
 </script>
 

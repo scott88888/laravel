@@ -99,6 +99,13 @@ class DashboardController extends BaseController
                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')");
+//                                     $sql = "SELECT COUNT(*) AS result_count
+//                                     FROM mes_rma_analysis
+//                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
+//                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+//                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')";
+//                                     var_dump($sql);
+//                                     exit;
         $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
@@ -107,9 +114,6 @@ class DashboardController extends BaseController
                                     AND HUR_REQ > 0");
 
         $averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
-
-
-
         $borrowItem = DashboardModel::getBorrowItem();
         $unsalableProducts = DashboardModel::getUnsalableProducts();
         $productionData = $this->productionStatus();
