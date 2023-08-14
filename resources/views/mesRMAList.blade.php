@@ -52,9 +52,8 @@
                                         <div class="col">
                                             <button id="submit" class="btn btn-primary">查詢</button>
                                         </div>
-                                    </div>                             
-                                </div>
-                                <div class="form-row">
+                                    </div>      
+                                    
                                     <div class="col-md-2">
                                         <label for="">製造日期1年內故障</label>
                                         <div class="col">
@@ -67,6 +66,9 @@
                                             <button id="30ds" class="btn btn-primary">30天查詢</button>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-row">
+                                  
                                 </div>
                             </div>
                             <div class="data-tables datatable-dark">
@@ -81,11 +83,13 @@
                                         <th>DAT_ACTB</th>
                                         <th>DAT_ACTE</th>
                                         <th>EMP_ORD</th>
-                                        <th>STS_ONCA</th>
-                                        
+                                        <th>MTRM_PS</th>
+                                        <th>PS1_1</th>
+                                        <th>STS_ONCA</th>                                       
                                     </thead>
                                     <tbody>
                                         <tr>
+                                        <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -95,7 +99,8 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>                                          
+                                            <td></td>       
+                                            <td></td>                                       
                                         </tr>
                                     </tbody>
                                 </table>
@@ -148,24 +153,32 @@
                     targets: [5], // 所在的 index（從 0 開始）
                     data: "NUM_SER",
                     title: "出廠序號"
+                },  {
+                    targets: [6], // 所在的 index（從 0 開始）
+                    data: "MTRM_PS",
+                    title: "維修零件"
+                },  {
+                    targets: [7], // 所在的 index（從 0 開始）
+                    data: "PS1_1",
+                    title: "不良原因"
                 },
                 {
-                    targets: [6], // 所在的 index（從 0 開始）
+                    targets: [8], // 所在的 index（從 0 開始）
                     data: "DAT_ACTB",
                     title: "實際開工"
                 },
                 {
-                    targets: [7], // 所在的 index（從 0 開始）
+                    targets: [9], // 所在的 index（從 0 開始）
                     data: "DAT_ACTE",
                     title: "實際完工"
                 },
                 {
-                    targets: [8], // 所在的 index（從 0 開始）
+                    targets: [10], // 所在的 index（從 0 開始）
                     data: "EMP_ORD",
                     title: "維修人員"
                 },
                 {
-                    targets: [9], // 所在的 index（從 0 開始）
+                    targets: [11], // 所在的 index（從 0 開始）
                     data: "STS_ONCA",
                     title: "維修單狀況",
                     render: function(data, type, row, meta) {
@@ -204,13 +217,6 @@
             ]
         });
 
-        // $('#searchtype').on('change', function() {
-        //     if ($(this).val() == 'CustomerCode') {
-        //         $('#rang').show();
-        //     } else {
-        //         $('#rang').hide();
-        //     }
-        // });
         $('#submit').click(function() {
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();
@@ -244,9 +250,7 @@
                 }
             });
 
-        });
-
-        
+        });        
 
         $('#errorItem').click(function() {
             $('#loading').show();

@@ -10,7 +10,7 @@ use App\Models\UploadImgAPIModel;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Storage;
-
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class uploadImgAPIController extends Controller
@@ -76,13 +76,25 @@ class uploadImgAPIController extends Controller
             return response($decodedImage)->header('Content-Type', 'image/jpeg');
         }
     }
-    public function index()
+    public function downloadImg($target,$model, $filename)
     {
-        $files = Storage::disk('network')->files('mesItemPartList');
+        $path = $target.'/'.$model.'/'. $filename;
 
-        return view('temp', compact('files'));
+        return Storage::disk('network')->download($path, $filename);
     }
-
+    public function showImage($target,$model, $filename)
+    {
+        $path = $target.'/'.$model.'/'. $filename;
+    
+        $content = Storage::disk('network')->get($path);
+        $response = new StreamedResponse(function () use ($content) {
+            echo $content;
+        });
+    
+        $response->headers->set('Content-Type', 'image/jpeg'); // 設定 Content-Type 為圖片格式
+    
+        return $response;
+    }
 
     public function formatFileSize($bytes)
     {

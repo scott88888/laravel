@@ -47,6 +47,9 @@
                                                         <img style="max-width:100px;" src="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}-s.jpg" />
                                                     </a>
                                                     @else
+                                                    <!-- 使用當下域名的連結方式 -->
+                                                    <!-- <a href="{{ asset('/show-image/mesitempartlist/12.jpg') }} " target="_blank">
+                                                    <img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/12.jpg') }} "/> -->
                                                     <div class="fa fa-file-picture-o"></div>
                                                     @endif
                                                 </td>

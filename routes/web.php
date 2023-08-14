@@ -17,17 +17,16 @@ use App\Http\Controllers\uploadImgAPIController;
 Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upload']);
 Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
 
-Route::match(['get', 'post'], '/access-network-folder', [uploadImgAPIController::class, 'index']);
+
 
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
-
-// Route::view('/temp', 'temp');
+Route::view('/temp', 'temp');
 //Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
 
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
-
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
+
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
     Route::any('/redirect', [RedirectController::class, 'redirect'])->name('redirect');
@@ -73,7 +72,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
-    
+    Route::match(['get', 'post'], 'download/{target}/{model}/{filename}', [uploadImgAPIController::class, 'downloadImg']);
+    Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
 
     //ECRECN
     Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);
@@ -90,6 +90,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
+
+    
     
     //設定
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
