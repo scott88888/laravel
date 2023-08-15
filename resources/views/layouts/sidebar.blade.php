@@ -56,12 +56,25 @@
                             <li id="mesRMAListBtn"><a href="mesRMAList">RMA退貨授權查詢</a></li>
                         </ul>
                     </li> -->
+                  
                     <li id="fileCenter">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-folder"></i>
                             <span>檔案管理</span></a>
                         <ul class="collapse">
                             <li id="fileFirmwareUploadBtn"><a href="fileFirmwareUpload">韌體上傳</a></li>
                             <li id="fileECNEditBtn"><a href="fileECNEdit">ECR/ECN新增</a></li>
+                        </ul>
+                    </li>
+                    <li id="inventoryList">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-excel-o"></i>
+                            <span>分公司庫存表</span></a>
+                        <ul class="collapse">
+                            <li id="inventoryListUpload"><a href="inventoryListUpload">庫存上傳</a></li>
+                            <li id="inventoryListUS"><a href="inventoryListUS">美國分公司庫存</a></li>
+                            <li id="inventoryListUK"><a href="inventoryListUK">英國分公司庫存</a></li>
+                            <li id="inventoryListAUS"><a href="inventoryListAUS">澳洲分公司庫存</a></li>
+                            <li id="inventoryListIT"><a href="inventoryListIT">義大利分公司庫存</a></li>
+                            <li id="inventoryListMY"><a href="inventoryListMY">馬來西亞分公司庫存</a></li>
                         </ul>
                     </li>
                     <li id="setup">

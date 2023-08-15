@@ -46,15 +46,13 @@
                                         <label>查詢內容</label>
                                         <input class="form-control" id="search">
                                     </div>
-
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>條件查詢</label>
                                         <div class="col">
                                             <button id="submit" class="btn btn-primary">查詢</button>
                                         </div>
-                                    </div>      
-                                    
-                                    <div class="col-md-2">
+                                    </div>                                          
+                                    <div class="col-md-1">
                                         <label for="">製造日期1年內故障</label>
                                         <div class="col">
                                             <button id="errorItem" class="btn btn-primary">查詢</button>
@@ -67,8 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                  
+                                <div class="form-row">                                  
                                 </div>
                             </div>
                             <div class="data-tables datatable-dark">

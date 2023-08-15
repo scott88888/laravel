@@ -10,6 +10,8 @@ use App\Http\Controllers\SetupController;
 use App\Http\Controllers\AutoUpdateController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\InventoryListController;
+
 //API
 use App\Http\Controllers\uploadImgAPIController;
 
@@ -21,6 +23,7 @@ Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show'
 
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
+Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::view('/temp', 'temp');
 //Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
 
@@ -90,9 +93,11 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
+    //分公司庫存    
+    Route::match(['get', 'post'], '/inventoryListUpload', [InventoryListController::class, 'inventoryListUpload']);
+    Route::match(['get', 'post'], '/importCsv', [InventoryListController::class, 'importCsv'])->name('importCsv');
+ 
 
-    
-    
     //設定
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
     Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');

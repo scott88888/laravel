@@ -122,9 +122,6 @@ class MesModelList extends Authenticatable
 
     public static function getProductionResumeListDayAjax($date, $searchtype)
     {
-
-
-
         $value = DB::table('mac_query')
             ->where($searchtype, '>=', $date)
             ->orderBy('NUM_PS', 'asc')
