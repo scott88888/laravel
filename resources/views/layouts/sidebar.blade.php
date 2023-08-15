@@ -65,7 +65,7 @@
                             <li id="fileECNEditBtn"><a href="fileECNEdit">ECR/ECN新增</a></li>
                         </ul>
                     </li>
-                    <li id="inventoryList">
+                    <!-- <li id="inventoryList">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-excel-o"></i>
                             <span>分公司庫存表</span></a>
                         <ul class="collapse">
@@ -76,7 +76,7 @@
                             <li id="inventoryListIT"><a href="inventoryListIT">義大利分公司庫存</a></li>
                             <li id="inventoryListMY"><a href="inventoryListMY">馬來西亞分公司庫存</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li id="setup">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
                             <span>設定</span></a>
