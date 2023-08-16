@@ -24,9 +24,8 @@
                             <div class="card-body">
                                 <h4 class="header-title">分公司庫存上傳</h4>
                                 <div class="form-row">
-
                                     <div class="col-5" style="padding:0, 1rem;">
-                                        <span class="ti-upload">韌體(OS)</span>
+                                        <span class="ti-upload">庫存CSV</span>
                                         <input id="firmwareOS_Name" style="display: none;">
                                         <form action="{{ route('importCsv') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
@@ -46,11 +45,23 @@
                                                     </select>
                                                 </div>
                                                 <div class="input-group-append">
-                                                <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.5rem">上傳CSV</button>
+                                                    <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.5rem">上傳CSV</button>
                                                 </div>
                                             </div>
+
                                         </form>
+
                                     </div>
+
+                                    <div class="col-md-1" style="padding:0, 1rem;margin-left: 5%;">
+                                        <label style="display: inline;">範例</label>
+                                        <div class="col" style="text-align: center;">
+                                            <a href="{{ asset('ex.csv') }}" download>
+                                                <button type="button" class="btn btn-success mb-3">下載</button>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>

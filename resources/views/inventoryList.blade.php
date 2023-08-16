@@ -26,7 +26,7 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">成品庫存查詢</h4>
+                                <h4 class="header-title">{{$country}}庫存查詢，更新時間{{$time}}</h4>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">

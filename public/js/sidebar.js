@@ -1,6 +1,10 @@
 
 var path = window.location.pathname;
 var page = path.split('/').pop();
+var url = new URL(window.location.href);
+var searchParams = new URLSearchParams(url.search);
+
+
 var prefix = page.substring(0, 3);
 if (prefix == "mes") {
   $('#documentSearch').last().addClass("active");
@@ -9,6 +13,7 @@ if (prefix == "mes") {
   $('#dashBoard').removeClass('active');
   $('#setup').removeClass('active');
   $('#fileCenter').removeClass('active');
+  $('#inventoryList').removeClass('active');
 };
 
 if (prefix == "das") {
@@ -18,6 +23,7 @@ if (prefix == "das") {
   $('#documentSearch').removeClass('active');
   $('#setup').removeClass('active');
   $('#fileCenter').removeClass('active');
+  $('#inventoryList').removeClass('active');
 };
 if (prefix == "fil") {
   $('#fileCenter').last().addClass("active");
@@ -26,6 +32,7 @@ if (prefix == "fil") {
   $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#setup').removeClass('active');
+  $('#inventoryList').removeClass('active');
 
 };
 if (prefix == "upd" | prefix == "use") {
@@ -35,12 +42,38 @@ if (prefix == "upd" | prefix == "use") {
   $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#fileCenter').removeClass('active');
+  $('#inventoryList').removeClass('active');
+};
+
+if (prefix == "inv") {
+  $('#inventoryList').last().addClass("active");
+  $('#inventoryList a:first-child').attr('aria-expanded', true);
+  $('#inventoryList ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#documentSearch').removeClass('active');
+  $('#dashBoard').removeClass('active');
+  $('#fileCenter').removeClass('active');
+  $('#setup').removeClass('active');
 };
 
 
-
-
 switch (page) {
+  case 'inventoryListUpload':
+    $('#inventoryListUpload').last().addClass("active");
+    break;
+  case 'inventoryList':  
+    var country = searchParams.get('country');
+    if (country === 'US') {
+      $('#inventoryListUS').last().addClass("active");
+    } else if (country === 'UK') {
+      $('#inventoryListUK').last().addClass("active");
+    } else if (country === 'AUS') {
+      $('#inventoryListAUS').last().addClass("active");
+    } else if (country === 'IT') {
+      $('#inventoryListIT').last().addClass("active");
+    } else if (country === 'MY') {
+      $('#inventoryListMY').last().addClass("active");
+    }
+    break;
   case 'dashboardLeader':
     $('#dashboardLeaderBtn').last().addClass("active");
     break;
