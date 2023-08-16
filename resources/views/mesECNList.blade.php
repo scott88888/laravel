@@ -55,13 +55,13 @@
                                                     </td>
                                                 <td>                                                 
                                                     <div>
-                                                        <a href="http://192.168.0.123/support/www/MES/lilin/upload/RD_ECRECN/ECR/{{$ListData->ECRNum}}.pdf" target="_blank">
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECR/{{$ListData->ECRNum}}.pdf" target="_blank">
                                                             {{$ListData->ECRNum}}
                                                     </div>                                                   
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <a href="http://192.168.0.123/support/www/MES/lilin/upload/RD_ECRECN/ECN/{{$ListData->ECNNum}}.pdf" target="_blank">
+                                                        <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/RD_ECRECN/ECN/{{$ListData->ECNNum}}.pdf" target="_blank">
                                                             {{$ListData->ECNNum}}
                                                     </div>                                              
                                                 </td>

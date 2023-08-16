@@ -65,18 +65,18 @@
                             <li id="fileECNEditBtn"><a href="fileECNEdit">ECR/ECN新增</a></li>
                         </ul>
                     </li>
-                    <!-- <li id="inventoryList">
+                    <li id="inventoryList">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-excel-o"></i>
                             <span>分公司庫存表</span></a>
                         <ul class="collapse">
                             <li id="inventoryListUpload"><a href="inventoryListUpload">庫存上傳</a></li>
-                            <li id="inventoryListUS"><a href="inventoryListUS">美國分公司庫存</a></li>
-                            <li id="inventoryListUK"><a href="inventoryListUK">英國分公司庫存</a></li>
-                            <li id="inventoryListAUS"><a href="inventoryListAUS">澳洲分公司庫存</a></li>
-                            <li id="inventoryListIT"><a href="inventoryListIT">義大利分公司庫存</a></li>
-                            <li id="inventoryListMY"><a href="inventoryListMY">馬來西亞分公司庫存</a></li>
+                            <li id="inventoryListUS"><a href="inventoryList?country=US">美國分公司庫存</a></li>
+                            <li id="inventoryListUK"><a href="inventoryList?country=UK">英國分公司庫存</a></li>
+                            <li id="inventoryListAUS"><a href="inventoryList?country=AUS">澳洲分公司庫存</a></li>
+                            <li id="inventoryListIT"><a href="inventoryList?country=IT">義大利分公司庫存</a></li>
+                            <li id="inventoryListMY"><a href="inventoryList?country=MY">馬來西亞分公司庫存</a></li>
                         </ul>
-                    </li> -->
+                    </li>
                     <li id="setup">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
                             <span>設定</span></a>

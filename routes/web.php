@@ -96,8 +96,10 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //分公司庫存    
     Route::match(['get', 'post'], '/inventoryListUpload', [InventoryListController::class, 'inventoryListUpload']);
     Route::match(['get', 'post'], '/importCsv', [InventoryListController::class, 'importCsv'])->name('importCsv');
- 
 
+    Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
+    Route::match(['get', 'post'], 'inventoryList', [InventoryListController::class, 'inventoryList']);
+    
     //設定
     Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
     Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');

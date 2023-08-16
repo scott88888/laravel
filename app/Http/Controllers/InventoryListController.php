@@ -35,4 +35,17 @@ class InventoryListController extends Controller
 
         return redirect()->back()->with('error', '請選擇一個 CSV 檔案');
     }
+
+    public function inventoryList(Request $request)
+    {
+        
+        $country = $request->query('country'); 
+        echo $country;
+        $value = DB::select("SELECT * FROM mes_stockcsv WHERE country = '$country' GROUP BY TIME ORDER BY TIME DESC");
+        $time = $value[0]->time;
+        $inventoryList =  DB::select("SELECT * FROM mes_stockcsv WHERE country = '$country' and time = '$time'");
+        return view('inventoryList', compact('inventoryList','time','country'));
+       
+
+    }
 }
