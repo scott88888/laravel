@@ -43,8 +43,8 @@
 
                                                 <td>
                                                     @if($ListData->first == 1)
-                                                    <a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}.jpg" target="_blank">
-                                                        <img style="max-width:100px;" src="http://mes.meritlilin.com.tw/support/www/MES/lilin/upload/mesItemPartList/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}-s.jpg" />
+                                                    <a href="{{ asset('/show-image/mesitempartlist/' . $ListData->COD_ITEM . '/' . $ListData->COD_ITEM . '.jpg') }}" target="_blank">
+                                                        <img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/' . $ListData->COD_ITEM . '/' . $ListData->COD_ITEM . '-s.jpg') }}" />
                                                     </a>
                                                     @else
                                                     <!-- 使用當下域名的連結方式 -->
