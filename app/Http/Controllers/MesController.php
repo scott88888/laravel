@@ -125,6 +125,20 @@ class MesController extends BaseController
         }
     }
 
+    public function mesItemPartListAjax(Request $request)
+    {
+        //獲取資料
+        
+        $model = $request->input('search');
+        
+        $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_ITEM LIKE '$model%' GROUP BY mes_lcst_parts.QTY_STK ;");
+        return response()->json($value);
+
+
+
+    }
+    
+
     public function mesKickoffList(Request $request)
     {
         //獲取資料

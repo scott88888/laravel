@@ -21,6 +21,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">物料查詢</h4>
+                                <div class="form-row">
+                                    <div class="col-md-2 mb-3" id="searchBox">
+                                        <label for="">型號查詢</label>
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+                                    <div class="col-2" style="margin-left: 3rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
@@ -38,7 +50,6 @@
                                             <tr>
                                                 <td style="padding: 0;">
                                                     <span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>
-                                                    <!-- <span class="fa fa-times" data-toggle="modal" data-target="#delModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:red;"></span> -->
                                                 </td>
 
                                                 <td>
@@ -47,9 +58,6 @@
                                                         <img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/' . $ListData->COD_ITEM . '/' . $ListData->COD_ITEM . '-s.jpg') }}" />
                                                     </a>
                                                     @else
-                                                    <!-- 使用當下域名的連結方式 -->
-                                                    <!-- <a href="{{ asset('/show-image/mesitempartlist/12.jpg') }} " target="_blank">
-                                                    <img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/12.jpg') }} "/> -->
                                                     <div class="fa fa-file-picture-o"></div>
                                                     @endif
                                                 </td>
@@ -71,6 +79,9 @@
                                                     @break
                                                     @case('LL-000')
                                                     <p style="color:red">內銷借品專用倉</p>
+                                                    @break
+                                                    @case('GO-002')
+                                                    <p style="color:blue">良品倉-原料</p>
                                                     @break
                                                     @default
                                                     <p></p>
@@ -152,7 +163,77 @@
 </body>
 @include('layouts/footerjs')
 <script>
+    let model;
     $(document).ready(function() {
+        table = $('#ListData').DataTable({
+            ...tableConfig,
+            columnDefs: [{
+                    "targets": "_all",
+                    "className": "dt-center"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 0,
+                    "title": "上傳",
+                },
+                {
+                    "data": "first",
+                    "targets": 1,
+                    "title": "產品照片"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 2,
+                    "title": "產品型號"
+                },
+                {
+                    "data": "NAM_ITEM",
+                    "targets": 3,
+                    "title": "產品敘述"
+                },
+                {
+                    "data": "QTY_STK",
+                    "targets": 4,
+                    "title": "庫存"
+                },
+                {
+                    "data": "COD_LOC",
+                    "targets": 5,
+                    "title": "倉位"
+                },
+
+                {
+                    targets: [0, 1, 5], // 所在的 index（從 0 開始）
+                    render: function(data, type, row, meta) {
+                        switch (meta.col) {
+                            case 0:
+                                model = data;
+                                return '<span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="' + data + '" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>'
+                            case 1:
+                                if (data == 1) {
+                                    var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '.jpg';
+                                    var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '-s.jpg';
+                                    return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '" alt="圖片"></a>';
+                                } else {
+                                    return data;
+                                }
+                            case 5:
+                                if (data == 'GO-002') {
+                                    return '<p style="color:blue">良品倉-原料</p>';
+                                } else if (data == 'AO-111') {
+                                    return ' <p style="color:purple">共用料件倉</p>';
+                                } else {
+                                    return data;
+                                }
+                            default:
+                                return data;
+                        }
+                    }
+                }
+
+            ]
+        });
+
         $('#ListData').on('click', '.fa-arrow-up', function() {
             var id = $(this).data('id');
             $('#modal-id').text("model: " + id);
@@ -164,23 +245,92 @@
             $('#modal-delid').text("model: " + id);
             $('#delid').val(id);
         });
+        $('#submit').click(function() {
+            var search = $('#search').val();
+            selectModel(search);
+        });
     });
-    $(ListData).DataTable({
-        ...tableConfig,
-        columnDefs: [{
-            "targets": "_all",
-            "className": "dt-center"
-        }],
-        "order": [
-            [1, "desc"]
-        ]
-    })
 
+    function selectModel(search) {
+        $('#loading').show();
+        $.ajax({
+            url: 'mesItemPartListAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                search: search
+            },
+            success: function(response) {
+                table.clear().rows.add(response).draw();
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+                console.log('no data');
+                table.clear();
+                $('#loading').hide();
+            }
+        });
+    }
 
     function updateFileName(input, labelId) {
         var fileName = input.files[0].name;
         var label = document.getElementById(labelId);
         label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
+    }
+
+    function select(type) {
+        var fileInput;
+        fileInput = document.getElementById(type + 'Input');
+
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', type);
+        formData.append('idModel', $('#idModel').val());
+        console.log(formData);
+        $('#loading').show();
+        $.ajax({
+            url: "{{ asset('uploadjpg') }}",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        var progressPercent = Math.round((e.loaded / e.total) * 100);
+                        $('#progressBarFill').css('width', progressPercent + '%');
+                    }
+                });
+                return xhr;
+            },
+            success: function(response) {
+                console.log(response.message);
+                console.log(response.filename);
+                $('#' + type + '_Name').val(response.filename).hide();
+                var label = document.getElementById(type);
+                label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
+                // console.log(response.filesize);
+                // console.log(type);
+
+                $('#loading').hide();
+
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                console.log(status);
+                var label = document.getElementById(type);
+                label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
+                $('#loading').hide();
+            }
+        });
+
+
+
     }
 
     function uploadFile(type) {
