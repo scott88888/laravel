@@ -10,6 +10,9 @@
     <div id="preloader">
         <div class="loader"></div>
     </div>
+    <div id="loading">
+        <img src="{{ asset('images/icon/loading.gif') }}" alt="Loading...">
+    </div>
     <div class="page-container">
         @include('layouts/sidebar')
         <div class="main-content">
@@ -22,6 +25,15 @@
                             <div class="card-body">
                                 <h4 class="header-title">物料查詢</h4>
                                 <div class="form-row">
+                                <div class="col-md-2 mb-3">
+                                        <label class="col-form-label" style="padding-top: 0;">倉位編號</label>
+                                        <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">                                        
+                                            <option value="">全倉位</option>
+                                            @foreach ($MesItemPartList as $ListData)
+                                            <option value="{{$ListData->COD_LOC}}">{{$ListData->COD_LOC}}</option>                                           
+                                            @endforeach 
+                                        </select>
+                                    </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="">料號查詢</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
@@ -42,53 +54,20 @@
                                                 <th>料號</th>
                                                 <th>料件說明</th>
                                                 <th>庫存</th>
+                                                <th>倉位</th>
                                                 <th>倉位編號</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($MesItemPartList as $ListData)
-                                            <tr>
-                                                <td style="padding: 0;">
-                                                    <span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="{{$ListData->COD_ITEM}}" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>
-                                                </td>
-
-                                                <td>
-                                                    @if($ListData->first == 1)
-                                                    <a href="{{ asset('/show-image/mesitempartlist/' . $ListData->COD_ITEM . '/' . $ListData->COD_ITEM . '.jpg') }}" target="_blank">
-                                                        <img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/' . $ListData->COD_ITEM . '/' . $ListData->COD_ITEM . '-s.jpg') }}" />
-                                                    </a>
-                                                    @else
-                                                    <div class="fa fa-file-picture-o"></div>
-                                                    @endif
-                                                </td>
-                                                <td>{{$ListData->COD_ITEM}}</td>
-                                                <td>
-                                                    {{$ListData->NAM_ITEM}}
-                                                </td>
-                                                <td>{{$ListData->QTY_STK}}</td>
-                                                <td>{{$ListData->COD_LOC}}</td>
-                                                <!-- <td> @switch($ListData->COD_LOC)
-                                                    @case('GO-001')
-                                                    <p style="color:blue">內銷成品倉</p>
-                                                    @break
-                                                    @case('WO-003')
-                                                    <p style="color:green">外銷成品倉</p>
-                                                    @break
-                                                    @case('AO-111')
-                                                    <p style="color:purple">共用料件倉</p>
-                                                    @break
-                                                    @case('LL-000')
-                                                    <p style="color:red">內銷借品專用倉</p>
-                                                    @break
-                                                    @case('GO-002')
-                                                    <p style="color:blue">良品倉-原料</p>
-                                                    @break
-                                                    @default
-                                                    <p></p>
-                                                    @endswitch
-                                                </td> -->
-                                            </tr>
-                                            @endforeach
+                                           <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -165,6 +144,7 @@
 <script>
     let model;
     $(document).ready(function() {
+        $('#loading').hide();
         table = $('#ListData').DataTable({
             ...tableConfig,
             columnDefs: [{
@@ -201,9 +181,13 @@
                     "targets": 5,
                     "title": "倉位"
                 },
-
                 {
-                    targets: [0, 1, 5], // 所在的 index（從 0 開始）
+                    "data": "COD_LOC",
+                    "targets": 6,
+                    "title": "倉位編號"
+                },
+                {
+                    targets: [0, 1, 5, 6], // 所在的 index（從 0 開始）
                     render: function(data, type, row, meta) {
                         switch (meta.col) {
                             case 0:
@@ -217,15 +201,25 @@
                                 } else {
                                     return data;
                                 }
-                                // case 5:
-                                //     if (data == 'GO-002') {
-                                //         return '<p style="color:blue">良品倉-原料</p>';
-                                //     } else if (data == 'AO-111') {
-                                //         return ' <p style="color:purple">共用料件倉</p>';
-                                //     } else {
-                                //         return data;
-                                //     }
                             case 5:
+                                if (data == 'GO-001') {
+                                    return ' <p style="color:blue">內銷成品倉</p>';
+                                } else if (data == 'WO-003') {
+                                    return ' <p style="color:green">外銷成品倉</p>';
+                                } else if (data == 'AO-111') {
+                                    return ' <p style="color:purple">共用料件倉</p>';
+                                } else if (data == 'LL-000') {
+                                    return ' <p style="color:red">內銷借品專用倉</p>';
+                                } else if (data == 'GO-002') {
+                                    return ' <p style="color:blue">良品倉-原料</p>';
+                                } else if (data == 'PA-000') {
+                                    return ' <p style="color:blue">維修總倉</p>';
+                                } else if (data == '0804') {
+                                    return ' <p style="color:blue">品管課(生產)</p>';
+                                }else {
+                                    return data;
+                                }
+                            case 6:
                                 return data;
                             default:
                                 return data;
@@ -249,18 +243,21 @@
         });
         $('#submit').click(function() {
             var search = $('#search').val();
-            selectModel(search);
+            var depository = $('#depository').val();
+            
+            selectModel(depository,search);
         });
     });
 
-    function selectModel(search) {
+    function selectModel(depository,search) {
         $('#loading').show();
         $.ajax({
             url: 'mesItemPartListAjax',
             type: 'GET',
             dataType: 'json',
             data: {
-                search: search
+                search: search,
+                depository: depository
             },
             success: function(response) {
                 table.clear().rows.add(response).draw();

@@ -116,12 +116,12 @@ class MesController extends BaseController
     public function mesItemPartList(Request $request)
     {
         //獲取資料
-        $MesItemPartList = MesModelList::getItemPartListData();
+        // $MesItemPartList = MesModelList::getItemPartListData();
 
-        
-        if ($MesItemPartList) {
+         $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
+        if ($value) {
 
-            return view('mesItemPartList', ['MesItemPartList' => $MesItemPartList]);
+            return view('mesItemPartList', ['MesItemPartList' => $value]);
         }
     }
 
@@ -130,9 +130,14 @@ class MesController extends BaseController
         //獲取資料
         
         $model = $request->input('search');
+        $depository = $request->input('depository');
+        if (!$depository) {
+            $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%';");
+        }else {
+            $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_LOC = '$depository' AND  COD_ITEM LIKE '$model%' ");
         
-        $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_ITEM LIKE '$model%' GROUP BY mes_lcst_parts.QTY_STK ;");
-        return response()->json($value);
+        }
+       return response()->json($value);
 
 
 

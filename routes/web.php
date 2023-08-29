@@ -28,6 +28,7 @@ Route::view('/temp', 'temp');
 //Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
 
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
+Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 
     Route::view('/dashboard', 'dashboard')->name('dashboard');
@@ -77,7 +78,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
     Route::match(['get', 'post'], 'download/{target}/{model}/{filename}', [uploadImgAPIController::class, 'downloadImg']);
-    Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
+
 
     //ECRECN
     Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList']);
