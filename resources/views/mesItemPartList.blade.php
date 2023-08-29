@@ -23,7 +23,7 @@
                                 <h4 class="header-title">物料查詢</h4>
                                 <div class="form-row">
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="">型號查詢</label>
+                                        <label for="">料號查詢</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
@@ -38,11 +38,11 @@
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
                                                 <th>上傳</th>
-                                                <th>產品照片</th>
-                                                <th>產品型號</th>
-                                                <th>產品敘述</th>
+                                                <th>照片</th>
+                                                <th>料號</th>
+                                                <th>料件說明</th>
                                                 <th>庫存</th>
-                                                <th>倉位</th>
+                                                <th>倉位編號</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -66,8 +66,8 @@
                                                     {{$ListData->NAM_ITEM}}
                                                 </td>
                                                 <td>{{$ListData->QTY_STK}}</td>
-                                                <td>
-                                                    @switch($ListData->COD_LOC)
+                                                <td>{{$ListData->COD_LOC}}</td>
+                                                <!-- <td> @switch($ListData->COD_LOC)
                                                     @case('GO-001')
                                                     <p style="color:blue">內銷成品倉</p>
                                                     @break
@@ -86,7 +86,7 @@
                                                     @default
                                                     <p></p>
                                                     @endswitch
-                                                </td>
+                                                </td> -->
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -217,14 +217,16 @@
                                 } else {
                                     return data;
                                 }
+                                // case 5:
+                                //     if (data == 'GO-002') {
+                                //         return '<p style="color:blue">良品倉-原料</p>';
+                                //     } else if (data == 'AO-111') {
+                                //         return ' <p style="color:purple">共用料件倉</p>';
+                                //     } else {
+                                //         return data;
+                                //     }
                             case 5:
-                                if (data == 'GO-002') {
-                                    return '<p style="color:blue">良品倉-原料</p>';
-                                } else if (data == 'AO-111') {
-                                    return ' <p style="color:purple">共用料件倉</p>';
-                                } else {
-                                    return data;
-                                }
+                                return data;
                             default:
                                 return data;
                         }
