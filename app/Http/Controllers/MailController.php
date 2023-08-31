@@ -29,6 +29,7 @@ class MailController extends Controller
             if (count($dueNumlist) == 0) {
                 continue;
             } else {
+                $msg= '已逾期';
                 $EMP_BROW = $value->EMP_BROW;   
                 $result = $this->getMfrOverdueCC($EMP_BROW);
                 //獲得主要收件人
@@ -36,7 +37,7 @@ class MailController extends Controller
                 //獲得CC收件人
                 $combinedRecipients = $result['combinedRecipients'];                
                 //寄信
-                // $this->sendMail($dueNumlist, $recipients, $combinedRecipients,$subject);
+                $this->sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject);
             }
         };
         //即將到期通知-------------------------------------
@@ -51,7 +52,7 @@ class MailController extends Controller
                 //獲得未歸還單號內容列表
                 $dueNumlist = DB::select("SELECT * , DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
                                             FROM `mes_mfr05_view`
-                                            WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW())  = 7
+                                            WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW())  = 6
                                             AND `EMP_BROW` =  '$value->EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
             }
@@ -59,6 +60,7 @@ class MailController extends Controller
             if (count($dueNumlist) == 0) {
                 continue;
             } else {
+                $msg= '即將到期';
                 $EMP_BROW = $value->EMP_BROW;
                 $result = $this->getMfrOverdueCC($EMP_BROW);
                 //獲得主要收件人
@@ -66,17 +68,17 @@ class MailController extends Controller
                 //獲得CC收件人
                 $combinedRecipients = $result['combinedRecipients'];
                 //寄信
-                // $this->sendMail($dueNumlist, $recipients, $combinedRecipients, $subject);
+                 $this->sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject);
             }
         };
     }
 
 
-    public function sendMail($dueNumlist, $recipients, $combinedRecipients, $subject)
+    public function sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject)
     {
         Mail::to($recipients)
             ->cc($combinedRecipients)
-            ->send(new mfrMall($dueNumlist, $subject));
+            ->send(new mfrMall($msg,$dueNumlist, $subject));
     }
 
     public function getMfrOverdueUser()
@@ -96,7 +98,7 @@ class MailController extends Controller
         AND `DAT_ARTN` = '0000-00-00'
         AND ($saleListSql)
         GROUP BY `NAM_EMP`
-        ORDER BY `NAM_EMP` DESC ");
+        ORDER BY `NAM_EMP` DESC limit 1 ");
         return $value;
     }
 

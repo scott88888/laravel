@@ -14,9 +14,11 @@ class mfrMall extends Mailable
     use Queueable, SerializesModels;
     public $dueNumlist;
     public $subject;
-
-    public function __construct($dueNumlist, $subject)
+    public $msg;
+    
+    public function __construct($msg,$dueNumlist, $subject)
     {
+        $this->msg = $msg;
         $this->dueNumlist = $dueNumlist;
         $this->subject = $subject;
     }
