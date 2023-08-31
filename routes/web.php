@@ -24,8 +24,8 @@ Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show'
 
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
-Route::view('/temp', 'temp');
-//Route::match(['get', 'post'], '/temp', [MailController::class, 'mail']);
+// Route::view('/temp', 'temp');
+Route::match(['get', 'post'], '/temp', [MailController::class, 'mailT']);
 
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
 Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
