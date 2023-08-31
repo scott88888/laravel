@@ -267,7 +267,7 @@
                                 <div class="table-responsive">
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">工單</th>
+                                            <th scope="col">流程卡號</th>
                                             <th scope="col">產品名稱</th>
                                             <th scope="col">訂單數量</th>
                                             <th scope="col">維修數量</th>
