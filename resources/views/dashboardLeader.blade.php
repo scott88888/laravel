@@ -275,7 +275,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($maintenData['mainten'] as $item)
-                                            <tr class="{{ ($item->ng_qty / $item->order_qty * 100) > 10 ? 'text-danger' : '' }}">
+                                            <tr class="{{ ($item->ng_qty / $item->order_qty * 100) >= 10 ? 'text-danger' : '' }}">
                                                 <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
                                                         {{ substr($item->runcard_no, 0, 11) }}
                                                     </a>

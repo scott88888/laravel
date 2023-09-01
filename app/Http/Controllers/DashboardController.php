@@ -95,11 +95,14 @@ class DashboardController extends BaseController
 
 
         $warrantyDuty = DB::select("SELECT COUNT(*) AS result_count
-                                    FROM mes_rma_analysis
-                                    WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                    AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-                                    AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
-                                    GROUP BY `NUM_ONCA`");
+                                    FROM (
+                                        SELECT *
+                                        FROM mes_rma_analysis
+                                        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
+                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+                                        AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
+                                        GROUP BY NUM_ONCA
+                                    ) AS grouped_data");
 //                                     $sql = "SELECT COUNT(*) AS result_count
 //                                     FROM mes_rma_analysis
 //                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
