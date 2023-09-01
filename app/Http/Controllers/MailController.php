@@ -68,7 +68,7 @@ class MailController extends Controller
                 //獲得CC收件人
                 $combinedRecipients = $result['combinedRecipients'];
                 //寄信
-                 $this->sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject);
+                $this->sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject);
             }
         };
     }
