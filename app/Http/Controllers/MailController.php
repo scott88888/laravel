@@ -12,7 +12,7 @@ class MailController extends Controller
     {
         //逾期通知-------------------------------------
         //獲得標題 
-        $subject = '這是功能測試【MES】' . date('m') . '月份。借品未歸還 | 逾期通知信 #稽核日' . date('Y-m-d');
+        $subject = '【MES】' . date('m') . '月份。借品未歸還 | 逾期通知信 #稽核日' . date('Y-m-d');
         //取得未歸還名單
         $dueUserList = $this->getMfrOverdueUser();
         //獲得內容        
