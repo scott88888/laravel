@@ -452,7 +452,13 @@ class MesController extends BaseController
         $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
         $todayNumber = date('ym') . '999999';
         $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
-        $mesRMAErrorItemAjax= DB::select("SELECT *  FROM mes_rma_analysis WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE' AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber AND (PS1_3 = '廠商' OR PS1_3 = '本廠')");
+        $mesRMAErrorItemAjax= DB::select("SELECT *  FROM mes_rma_analysis 
+        WHERE NUM_MTRM BETWEEN '$warrantyDateS' 
+        AND '$warrantyDateE' 
+        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber 
+        AND $todayNumber 
+        AND (PS1_3 = '廠商' OR PS1_3 = '本廠') 
+        GROUP BY `NUM_ONCA`");        
         return response()->json($mesRMAErrorItemAjax);
     }
     public function mesRMA30dsAjax(Request $request)

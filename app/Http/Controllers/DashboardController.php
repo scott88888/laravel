@@ -98,7 +98,8 @@ class DashboardController extends BaseController
                                     FROM mes_rma_analysis
                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-                                    AND (PS1_3 = '廠商' OR PS1_3 = '本廠')");
+                                    AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
+                                    GROUP BY `NUM_ONCA`");
 //                                     $sql = "SELECT COUNT(*) AS result_count
 //                                     FROM mes_rma_analysis
 //                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
