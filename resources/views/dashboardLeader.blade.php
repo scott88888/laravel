@@ -213,7 +213,7 @@
                                                 <td>{{ $status[2] }}</td>
                                             </tr>
                                             @endforeach
-                                          
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -267,7 +267,7 @@
                                 <div class="table-responsive">
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">流程卡號</th>
+                                            <th scope="col">工單</th>
                                             <th scope="col">產品名稱</th>
                                             <th scope="col">訂單數量</th>
                                             <th scope="col">維修數量</th>
@@ -275,21 +275,21 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($maintenData['mainten'] as $item)
-                                            <tr>
+                                            <tr class="{{ ($item->ng_qty / $item->order_qty * 100) > 10 ? 'text-danger' : '' }}">
                                                 <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
-                                                        {{ $item->runcard_no }}
+                                                        {{ substr($item->runcard_no, 0, 11) }}
                                                     </a>
                                                 </td>
                                                 <td>{{ $item->model }}</td>
                                                 <td>{{ $item->order_qty }}</td>
                                                 <td>{{ $item->ng_qty }}</td>
-                                                @if ($item->order_qty == 0)
-                                                <td>0</td>
-                                                @else
                                                 <td>
+                                                    @if ($item->order_qty == 0)
+                                                    0
+                                                    @else
                                                     {{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}
+                                                    @endif
                                                 </td>
-                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>

@@ -8,7 +8,7 @@ use DB;
 
 class MailController extends Controller
 {
-    public function mailT()
+    public function mailMFR()
     {
         //逾期通知-------------------------------------
         //獲得標題 
@@ -17,20 +17,21 @@ class MailController extends Controller
         $dueUserList = $this->getMfrOverdueUser();
         //獲得內容        
         foreach ($dueUserList as $key => $value) {
+             $EMP_BROW = $value->EMP_BROW; 
+            // $EMP_BROW = 'E242';
             if ($value->COD_DPT == '0300' || $value->COD_DPT == '0350' || $value->COD_DPT == '0360' || $value->COD_DPT == '0400') {
                 //獲得未歸還單號內容列表
                 $dueNumlist = DB::select("SELECT * , DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
                                             FROM `mes_mfr05_view`
                                             WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW()) < 0 
-                                            AND `EMP_BROW` =  '$value->EMP_BROW'
+                                            AND `EMP_BROW` =  '$EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
             }
             //如果沒有資料 則該業務不用寄發通知信
             if (count($dueNumlist) == 0) {
                 continue;
             } else {
-                $msg= '已逾期';
-                $EMP_BROW = $value->EMP_BROW;   
+                $msg= '已逾期';                
                 $result = $this->getMfrOverdueCC($EMP_BROW);
                 //獲得主要收件人
                 $recipients = $result['recipients'];                
@@ -48,20 +49,21 @@ class MailController extends Controller
 
         //獲得內容        
         foreach ($dueUserList as $key => $value) {
+            $EMP_BROW = $value->EMP_BROW;
+            // $EMP_BROW = 'E242';   
             if ($value->COD_DPT == '0300' || $value->COD_DPT == '0350' || $value->COD_DPT == '0360' || $value->COD_DPT == '0400') {
                 //獲得未歸還單號內容列表
                 $dueNumlist = DB::select("SELECT * , DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
                                             FROM `mes_mfr05_view`
-                                            WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW())  = 6
-                                            AND `EMP_BROW` =  '$value->EMP_BROW'
+                                            WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW())  = 7
+                                            AND `EMP_BROW` = '$EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
             }
             //如果沒有資料 則該業務不用寄發通知信2222
             if (count($dueNumlist) == 0) {
                 continue;
             } else {
-                $msg= '即將到期';
-                $EMP_BROW = $value->EMP_BROW;
+                $msg= '即將到期';            
                 $result = $this->getMfrOverdueCC($EMP_BROW);
                 //獲得主要收件人
                 $recipients = $result['recipients'];

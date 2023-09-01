@@ -12,7 +12,7 @@
         <th style="border: 1px solid black;padding: 1rem;text-align: center;">借出數量</th>
         <th style="border: 1px solid black;padding: 1rem;text-align: center;">借出日期</th>
         <th style="border: 1px solid black;padding: 1rem;text-align: center;">預計歸還日</th>
-        <th style="border: 1px solid black;padding: 1rem;text-align: center;">逾期天數</th>
+        <th style="border: 1px solid black;padding: 1rem;text-align: center;">{{$msg}}</th>
     </tr>
     @foreach ($dueNumlist as $data)
     <tr>
@@ -23,7 +23,7 @@
         <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->QTY_BROW }}</td>
         <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->DAT_BROW }}</td>
         <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->DAT_RRTN }}</td>
-        <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->DATE_GAP }}</td>
+        <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ abs($data->DATE_GAP) }}</td>
     </tr>
     @endforeach
 </table>
