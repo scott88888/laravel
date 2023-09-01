@@ -10,26 +10,7 @@ class MailController extends Controller
 {
     public function mailMFR()
     {
-        $warrantyDateE = 'FB' . date('ymd') . '9999';
-        $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
-        $todayNumber = date('ym') . '999999';
-        $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
-        $warrantyDuty = DB::select("SELECT COUNT(*) AS result_count
-        FROM mes_rma_analysis
-        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-        AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
-        GROUP BY `NUM_ONCA`");
-        $sql = "SELECT COUNT(*) AS result_count
-        FROM mes_rma_analysis
-        WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-        AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
-        GROUP BY `NUM_ONCA`";
-        echo  $sql;
-        var_dump($warrantyDuty);
-
-        exit;
+        
         //逾期通知-------------------------------------
         //獲得標題 
         $subject = '【MES】' . date('m') . '月份。借品未歸還 | 逾期通知信 #稽核日' . date('Y-m-d');
