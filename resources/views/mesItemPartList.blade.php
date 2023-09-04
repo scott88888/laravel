@@ -52,7 +52,7 @@
                                                 <th>上傳</th>
                                                 <th>照片</th>
                                                 <th>料號</th>
-                                                <th>料件說明</th>
+                                                <th>料件敘述</th>
                                                 <th>庫存</th>
                                                 <th>倉位</th>
                                                 <th>倉位編號</th>
@@ -164,12 +164,12 @@
                 {
                     "data": "COD_ITEM",
                     "targets": 2,
-                    "title": "產品型號"
+                    "title": "料號"
                 },
                 {
                     "data": "NAM_ITEM",
                     "targets": 3,
-                    "title": "產品敘述"
+                    "title": "料件敘述"
                 },
                 {
                     "data": "QTY_STK",
