@@ -60,7 +60,7 @@
                                             <td>{{$ListData->DAT_BROW}}</td>
                                             <td>{{$ListData->DAT_RRTN}}</td>
                                             <td>
-                                                @if ($ListData->DATE_GAP < 8 && $ListData->DATE_GAP > 0 )
+                                                @if ($ListData->DATE_GAP < 8 && $ListData->DATE_GAP >= 0 )
                                                 <p style="color:red">即將逾期</p>
                                                 @elseif ($ListData->DATE_GAP >= 8 )
                                                 <p style="color:blue">未逾期</p>

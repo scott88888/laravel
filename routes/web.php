@@ -18,10 +18,6 @@ use App\Http\Controllers\uploadImgAPIController;
 
 Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upload']);
 Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
-
-
-
-
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 // Route::view('/temp', 'temp');
