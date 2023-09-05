@@ -104,16 +104,16 @@ class MesController extends BaseController
         file_put_contents($batchFilePath, $batchContent);
     }
 
-    public function mesItemList(Request $request)
+    public function inventoryItemList(Request $request)
     {
         //獲取資料
         $MesItemList = MesModelList::getItemListData();
         if ($MesItemList) {
-            return view('mesItemList', ['MesItemList' => $MesItemList]);
+            return view('inventoryItemList', ['MesItemList' => $MesItemList]);
         }
     }
 
-    public function mesItemPartList(Request $request)
+    public function inventoryItemPartList(Request $request)
     {
         //獲取資料
         // $MesItemPartList = MesModelList::getItemPartListData();
@@ -121,11 +121,11 @@ class MesController extends BaseController
          $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
         if ($value) {
 
-            return view('mesItemPartList', ['MesItemPartList' => $value]);
+            return view('inventoryItemPartList', ['MesItemPartList' => $value]);
         }
     }
 
-    public function mesItemPartListAjax(Request $request)
+    public function inventoryItemPartListAjax(Request $request)
     {
         //獲取資料
         
@@ -433,12 +433,12 @@ class MesController extends BaseController
 
     
 
-    public function mesRMAList(Request $request)
+    public function RMAList(Request $request)
     {
         //獲取資料
-        return view('mesRMAList');
+        return view('RMAList');
     }
-    public function mesRMAListAjax(Request $request)
+    public function RMAListAjax(Request $request)
     {
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');
@@ -446,7 +446,7 @@ class MesController extends BaseController
         return response()->json($mesRMAListAjax);
     }
 
-    public function mesRMAErrorItemAjax(Request $request)
+    public function RMAErrorItemAjax(Request $request)
     {       
         $warrantyDateE = 'FB' . date('ymd') . '9999';
         $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
@@ -461,7 +461,7 @@ class MesController extends BaseController
         GROUP BY `NUM_ONCA`");        
         return response()->json($mesRMAErrorItemAjax);
     }
-    public function mesRMA30dsAjax(Request $request)
+    public function RMA30dsAjax(Request $request)
     {       
         $warrantyDateE = 'FB' . date('ymd') . '9999';
         $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
@@ -470,18 +470,18 @@ class MesController extends BaseController
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE '");
         return response()->json($mesRMA30dsAjax);
     }
-    public function mesRMAAnalysis(Request $request)
+    public function RMAAnalysis(Request $request)
     {
-        return view('mesRMAAnalysis');
+        return view('RMAAnalysis');
     }
-    public function mesRMAAnalysisAjax(Request $request)
+    public function RMAAnalysisAjax(Request $request)
     {
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');
         $mesRMAAnalysisAjax = MesModelList::getRMAAnalysisAjax($searchtype, $search);
         return response()->json($mesRMAAnalysisAjax);
     }
-    public function mesRMAbadPartAjax(Request $request)
+    public function RMAbadPartAjax(Request $request)
     {
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');

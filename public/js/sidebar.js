@@ -10,6 +10,18 @@ if (prefix == "mes") {
   $('#documentSearch').last().addClass("active");
   $('#documentSearch a:first-child').attr('aria-expanded', true);
   $('#documentSearch ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#RMA').removeClass('active');
+  $('#dashBoard').removeClass('active');
+  $('#setup').removeClass('active');
+  $('#fileCenter').removeClass('active');
+  $('#inventoryList').removeClass('active');
+};
+
+if (prefix == "RMA") {
+  $('#RMA').last().addClass("active");
+  $('#RMA a:first-child').attr('aria-expanded', true);
+  $('#RMA ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#setup').removeClass('active');
   $('#fileCenter').removeClass('active');
@@ -20,6 +32,7 @@ if (prefix == "das") {
   $('#dashBoard').last().addClass("active");
   $('#dashBoard a:first-child').attr('aria-expanded', true);
   $('#dashBoard ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#RMA').removeClass('active');
   $('#documentSearch').removeClass('active');
   $('#setup').removeClass('active');
   $('#fileCenter').removeClass('active');
@@ -29,6 +42,7 @@ if (prefix == "fil") {
   $('#fileCenter').last().addClass("active");
   $('#fileCenter a:first-child').attr('aria-expanded', true);
   $('#fileCenter ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#RMA').removeClass('active');
   $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#setup').removeClass('active');
@@ -39,6 +53,7 @@ if (prefix == "upd" | prefix == "use") {
   $('#setup').last().addClass("active");
   $('#setup a:first-child').attr('aria-expanded', true);
   $('#setup ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#RMA').removeClass('active');
   $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#fileCenter').removeClass('active');
@@ -49,6 +64,7 @@ if (prefix == "inv") {
   $('#inventoryList').last().addClass("active");
   $('#inventoryList a:first-child').attr('aria-expanded', true);
   $('#inventoryList ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+  $('#RMA').removeClass('active');
   $('#documentSearch').removeClass('active');
   $('#dashBoard').removeClass('active');
   $('#fileCenter').removeClass('active');
@@ -86,11 +102,11 @@ switch (page) {
   case 'mesModelList':
     $('#mesModelListBtn').last().addClass("active");
     break;
-  case 'mesItemList':
-    $('#mesItemListBtn').last().addClass("active");
+  case 'inventoryItemList':
+    $('#inventoryItemListBtn').last().addClass("active");
     break;
-  case 'mesItemPartList':
-    $('#mesItemPartListBtn').last().addClass("active");
+  case 'inventoryItemPartList':
+    $('#inventoryItemPartListBtn').last().addClass("active");
     break;
   case 'mesKickoffList':
     $('#mesKickoffListBtn').last().addClass("active");
@@ -131,11 +147,11 @@ switch (page) {
   case 'mesECNList':
     $('#mesECNListBtn').last().addClass("active");
     break;
-  case 'mesRMAList':
-    $('#mesRMAListBtn').last().addClass("active");
+  case 'RMAList':
+    $('#RMAListBtn').last().addClass("active");
     break;
-  case 'mesRMAAnalysis':
-    $('#mesRMAAnalysisBtn').last().addClass("active");
+  case 'RMAAnalysis':
+    $('#RMAAnalysisBtn').last().addClass("active");
     break;
   case 'mesShipmentList':
     $('#mesShipmentListBtn').last().addClass("active");

@@ -252,7 +252,7 @@
     function selectModel(depository,search) {
         $('#loading').show();
         $.ajax({
-            url: 'mesItemPartListAjax',
+            url: 'inventoryItemPartListAjax',
             type: 'GET',
             dataType: 'json',
             data: {

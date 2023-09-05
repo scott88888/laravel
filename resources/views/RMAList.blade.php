@@ -221,7 +221,7 @@
             var rangE = $('#rangE').val();
             $('#loading').show();
             $.ajax({
-                url: 'mesRMAListAjax',
+                url: 'RMAListAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -252,7 +252,7 @@
         $('#errorItem').click(function() {
             $('#loading').show();
             $.ajax({
-                url: 'mesRMAErrorItemAjax',
+                url: 'RMAErrorItemAjax',
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -277,7 +277,7 @@
         $('#30ds').click(function() {
             $('#loading').show();
             $.ajax({
-                url: 'mesRMA30dsAjax',
+                url: 'RMA30dsAjax',
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {

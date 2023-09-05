@@ -76,8 +76,7 @@
                                     <th>PS1_3</th>
                                     <th>OUT_LIST5</th>
                                     <th>EMP_ORD</th>
-                                    <th>STS_ONCA</th>
-                                    <th>DIFF_DAYS</th>
+                                    <th>STS_ONCA</th>                                   
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -96,8 +95,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td></td>                                       
                                     </tr>
                                 </tbody>
                             </table>
@@ -257,12 +255,7 @@
                     title: "維修單狀況",
                 },
                 {
-                    targets: [16], // 所在的 index（從 0 開始）
-                    data: "DIFF_DAYS",
-                    title: "處理時間 (天)",
-
-                }, {
-                    targets: [1, 8, 12, 13, 15, 16], // 所在的 index（從 0 開始）
+                    targets: [1, 8, 12, 13, 15], // 所在的 index（從 0 開始）
                     render: function(data, type, row, meta) {
                         switch (meta.col) {
                             case 1:
@@ -330,7 +323,7 @@
             var rangE = $('#rangE').val();
             $('#loading').show();
             $.ajax({
-                url: 'mesRMAAnalysisAjax',
+                url: 'RMAAnalysisAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -365,7 +358,7 @@
             var searchtype = $('#searchtype').val();
             $('#loading').show();
             $.ajax({
-                url: 'mesRMAbadPartAjax',
+                url: 'RMAbadPartAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {

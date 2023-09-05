@@ -32,7 +32,7 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">生產不良弱點分析</h4>
+                                <h4 class="header-title">生產維修紀錄查詢</h4>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label>查詢內容</label>

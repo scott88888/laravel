@@ -36,9 +36,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesUploadListAjax', [MesController::class, 'mesUploadListAjax']);
     Route::match(['get', 'post'], '/editFirmware', [MesController::class, 'editFirmware']);
     Route::match(['get', 'post'], '/delFirmwareAjax', [MesController::class, 'delFirmwareAjax']);
-    Route::match(['get', 'post'], '/mesItemList', [MesController::class, 'mesItemList']);
-    Route::match(['get', 'post'], '/mesItemPartList', [MesController::class, 'mesItemPartList']);
-    Route::match(['get', 'post'], '/mesItemPartListAjax', [MesController::class, 'mesItemPartListAjax']);
+
     Route::match(['get', 'post'], '/mesKickoffList', [MesController::class, 'mesKickoffList']);
     Route::match(['get', 'post'], '/mesCutsQuery', [MesController::class, 'mesCutsQuery']);
     Route::match(['get', 'post'], '/mesMonProductionList', [MesController::class, 'mesMonProductionList']);
@@ -60,15 +58,18 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRepairNGListAjax', [MesController::class, 'mesRepairNGListAjax']);
     Route::match(['get', 'post'], '/mesBuyDelay', [MesController::class, 'mesBuyDelay']);
     Route::match(['get', 'post'], '/mesBuyDelayAjax', [MesController::class, 'mesBuyDelayAjax']);   
-    Route::match(['get', 'post'], '/mesRMAList', [MesController::class, 'mesRMAList']);
-    Route::match(['get', 'post'], '/mesRMAListAjax', [MesController::class, 'mesRMAListAjax']);
-    Route::match(['get', 'post'], '/mesRMAErrorItemAjax', [MesController::class, 'mesRMAErrorItemAjax']);
-    Route::match(['get', 'post'], '/mesRMA30dsAjax', [MesController::class, 'mesRMA30dsAjax']);
-    Route::match(['get', 'post'], '/mesRMAAnalysis', [MesController::class, 'mesRMAAnalysis']);
-    Route::match(['get', 'post'], '/mesRMAAnalysisAjax', [MesController::class, 'mesRMAAnalysisAjax']);
-    Route::match(['get', 'post'], '/mesRMAbadPartAjax', [MesController::class, 'mesRMAbadPartAjax']);
+
     Route::match(['get', 'post'], '/mesShipmentList', [MesController::class, 'mesShipmentList']);
     Route::match(['get', 'post'], '/mesShipmentListAjax', [MesController::class, 'mesShipmentListAjax']);
+
+    //RMA
+    Route::match(['get', 'post'], '/RMAList', [MesController::class, 'RMAList']);
+    Route::match(['get', 'post'], '/RMAListAjax', [MesController::class, 'RMAListAjax']);
+    Route::match(['get', 'post'], '/RMAErrorItemAjax', [MesController::class, 'RMAErrorItemAjax']);
+    Route::match(['get', 'post'], '/RMA30dsAjax', [MesController::class, 'RMA30dsAjax']);
+    Route::match(['get', 'post'], '/RMAAnalysis', [MesController::class, 'RMAAnalysis']);
+    Route::match(['get', 'post'], '/RMAAnalysisAjax', [MesController::class, 'RMAAnalysisAjax']);
+    Route::match(['get', 'post'], '/RMAbadPartAjax', [MesController::class, 'RMAbadPartAjax']);
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
@@ -91,9 +92,11 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
     //分公司庫存    
+    Route::match(['get', 'post'], '/inventoryItemList', [MesController::class, 'inventoryItemList']);
+    Route::match(['get', 'post'], '/inventoryItemPartList', [MesController::class, 'inventoryItemPartList']);
+    Route::match(['get', 'post'], '/inventoryItemPartListAjax', [MesController::class, 'inventoryItemPartListAjax']);
     Route::match(['get', 'post'], '/inventoryListUpload', [InventoryListController::class, 'inventoryListUpload']);
     Route::match(['get', 'post'], '/importCsv', [InventoryListController::class, 'importCsv'])->name('importCsv');
-
     Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
     Route::match(['get', 'post'], 'inventoryList', [InventoryListController::class, 'inventoryList']);
     
