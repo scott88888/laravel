@@ -93,7 +93,7 @@ class MailController extends Controller
             $saleListSql .= "`EMP_BROW` = '" . $saleList[$i] . "' OR ";
         }
         $saleListSql = rtrim($saleListSql, ' OR');
-        //取得未歸還名單 (測試使用第一筆而已)
+        //取得未歸還名單 (測試使用第一筆而已 DESC limit 1 )
         $value = DB::select("SELECT *, DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
         FROM `mes_mfr05_view`
         WHERE `CLS_BROW` <> 6 
@@ -101,7 +101,7 @@ class MailController extends Controller
         AND `DAT_ARTN` = '0000-00-00'
         AND ($saleListSql)
         GROUP BY `NAM_EMP`
-        ORDER BY `NAM_EMP` DESC limit 1 ");
+        ORDER BY `NAM_EMP`");
         return $value;
     }
 
