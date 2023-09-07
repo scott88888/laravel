@@ -21,4 +21,11 @@ class SetupController extends BaseController
         return view('userLoginLog', compact('value'));
         
     }
+
+    public function userPermission()
+    {
+        
+        return view('userPermission');
+        
+    }
 }

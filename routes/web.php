@@ -14,7 +14,7 @@ use App\Http\Controllers\InventoryListController;
 
 //API
 use App\Http\Controllers\uploadImgAPIController;
-
+use App\Http\Middleware\CheckPermission;
 
 Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upload']);
 Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
@@ -33,6 +33,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);
     Route::match(['get', 'post'], '/mesUploadList', [MesController::class, 'mesUploadList']);
+    // Route::match(['get', 'post'], '/mesUploadList', [MesController::class, 'mesUploadList'])
+    // ->middleware(CheckPermission::class . ':mesUploadList'); // 添加中间件到mesUploadList路由
+
     Route::match(['get', 'post'], '/mesUploadListAjax', [MesController::class, 'mesUploadListAjax']);
     Route::match(['get', 'post'], '/editFirmware', [MesController::class, 'editFirmware']);
     Route::match(['get', 'post'], '/delFirmwareAjax', [MesController::class, 'delFirmwareAjax']);

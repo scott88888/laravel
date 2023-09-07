@@ -285,31 +285,31 @@
                                 return  '<a href="{{ asset("/editFirmware?id=") }}'+ data +'"  target="_blank">' + data + '</a>';
                             case 8:
                                 if (data != null) {
-                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                    return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
                                 } else {
                                     return '';
                                 }
                             case 9:
                                 if (data != null) {
-                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                    return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
                                 } else {
                                     return '';
                                 }
                             case 10:
                                 if (data == null) {
-                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
+                                    return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
                                 } else {
                                     return '';
                                 }
                             case 11:
                                 if (data != null) {
-                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
+                                    return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + pdf_icon + '</a>';
                                 } else {
                                     return '';
                                 }
                             case 12:
                                 if (data != null) {
-                                    return '<a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
+                                    return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';
                                 } else {
                                     return '';
                                 }
