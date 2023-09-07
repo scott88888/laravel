@@ -23,7 +23,7 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">物料查詢</h4>
+                                <h4 class="header-title">物料庫存查詢</h4>
                                 <div class="form-row">
                                 <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">倉位編號</label>

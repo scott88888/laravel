@@ -11,6 +11,7 @@
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">客戶</th>
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">產品</th>
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">借出數量</th>
+            <th style="border: 1px solid black;padding: 1rem;text-align: center;">實際歸還數量</th>
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">借出日期</th>
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">預計歸還日</th>
             <th style="border: 1px solid black;padding: 1rem;text-align: center;">逾期天數</th>
@@ -22,9 +23,9 @@
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->NAM_FACTS }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->COD_ITEM }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->QTY_BROW }}</td>
+            <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->CNT_ARTN }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->DAT_BROW }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->DAT_RRTN }}</td>
-
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">
                 @if ($data->DATE_GAP < 8 && $data->DATE_GAP > 0 )
                     <p style="color:red">即將逾期</p>
