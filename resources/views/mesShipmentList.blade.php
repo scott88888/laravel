@@ -39,7 +39,7 @@
                                             <option value="NAM_ITEMS">品名</option>
                                             <option value="NUM_DEL">出貨單號</option>
                                             <option value="NUM_PO">訂單編號</option>
-                                            <option value="COD_ITEM">料號</option>
+                                            <option value="COD_ITEM">產品型號</option>
                                             <option value="DAT_DEL">出貨日期</option>
                                         </select>
                                     </div>
@@ -159,7 +159,7 @@
                 {
                     "data": "COD_ITEM",
                     "targets": 6,
-                    "title": "料號"
+                    "title": "產品型號"
                 },
                 {
                     "data": "QTY_DEL",

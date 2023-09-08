@@ -19,13 +19,18 @@ class RedirectController extends BaseController
 
     public function redirect(Request $request)
     {
+        //導向預設頁面
         $employeeId = auth()->user()->employee_id;
-        if ($employeeId === 'user') {
-            return redirect('/mesModelList');
-        } else{
+            $pageInfo = DB::table('mes_check_permission')
+                ->join('mes_all_page', 'mes_check_permission.default', '=', 'mes_all_page.id')
+                ->where('mes_check_permission.employee_id', $employeeId)
+                ->select('mes_all_page.*')
+                ->first();
+        if ($pageInfo) {                    
+            return redirect('/'.$pageInfo->page);
+        } else {
             return redirect('/dashboardLeader');
         }
-
        
     }
 }

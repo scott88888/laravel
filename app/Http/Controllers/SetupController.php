@@ -14,18 +14,30 @@ class SetupController extends BaseController
 
     public function userLoginLog()
     {
-        
+
         $value = DB::table('mes_loginlog')
             ->orderBy('id', 'desc')
             ->get();
         return view('userLoginLog', compact('value'));
-        
     }
 
-    public function userPermission()
+    public function userCheckPermission()
     {
-        
-        return view('userPermission');
-        
+
+        return view('userCheckPermission');
+    }
+    public function userSearchIDAjax(Request $request)
+    {
+
+        $employee_id = $request->input('searchID');
+
+
+        if ($employee_id) {
+            $suerData =  DB::select("SELECT *
+            FROM mes_check_permission
+            WHERE employee_id = '$employee_id'");
+            return response()->json($suerData);
+        };
+        return response()->json($employee_id);
     }
 }
