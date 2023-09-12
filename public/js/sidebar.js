@@ -1,11 +1,11 @@
 
-var path = window.location.pathname;
-var page = path.split('/').pop();
-var url = new URL(window.location.href);
-var searchParams = new URLSearchParams(url.search);
+const path = window.location.pathname;
+const page = path.split('/').pop();
+const url = new URL(window.location.href);
+const searchParams = new URLSearchParams(url.search);
 
 
-var prefix = page.substring(0, 3);
+const prefix = page.substring(0, 3);
 if (prefix == "mes") {
   $('#documentSearch').last().addClass("active");
   $('#documentSearch a:first-child').attr('aria-expanded', true);
@@ -76,7 +76,7 @@ switch (page) {
   case 'inventoryListUpload':
     $('#inventoryListUpload').last().addClass("active");
     break;
-  case 'inventoryList':  
+  case 'inventoryList':
     var country = searchParams.get('country');
     if (country === 'US') {
       $('#inventoryListUS').last().addClass("active");
@@ -168,8 +168,31 @@ switch (page) {
   case 'userLoginLog':
     $('#userLoginLogBtn').last().addClass("active");
     break;
+  case 'userCheckPermission':
+    $('#userCheckPermissionBtn').last().addClass("active");
+    break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
+
 }
 
+$(document).ready(function () {
+  // 当文档加载完成后执行此代码
 
+  // 处理Ajax请求的函数
+  function fetchData() {
+    $.ajax({
+      url: 'sidebarPageAjax',
+      method: 'GET',
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      }
+    });
+  }
+
+  // 调用fetchData函数以触发Ajax请求
+  fetchData();
+});

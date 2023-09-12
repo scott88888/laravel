@@ -13,8 +13,7 @@ class CheckPermission
 {
     public function handle($request, Closure $next, $permission)
     {
-        try {
-            
+        try {            
             // 當前user
             $user = Auth::user();
             $user->employee_id;
@@ -29,7 +28,6 @@ class CheckPermission
                 ->where('employee_id', $user->employee_id)
                 ->whereRaw("FIND_IN_SET($pageID, permission)")
                 ->first();
-
 
             if ($record) {
                 return $next($request);

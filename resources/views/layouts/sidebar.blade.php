@@ -92,6 +92,7 @@
                         <ul class="collapse">
                             <li id="updatePasswordBtn"><a href="{{ route('password.update') }}">修改密碼</a></li>
                             <li id="userLoginLogBtn"><a href="userLoginLog">登入紀錄</a></li>
+                            <li id="userCheckPermissionBtn"><a href="userCheckPermission">權限設定</a></li>
                         </ul>
                     </li>
                 </ul>
