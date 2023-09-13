@@ -17,19 +17,24 @@ class SidebarController extends BaseController
     public function sidebarPageAjax(Request $request)
     {
         $user = Auth::user();
-        $user->employee_id;
+        $dbData = DB::select("SELECT * 
+        FROM `mes_all_page`;");
+        $dbIds = array_column($dbData, 'id');
         $permissionPage = DB::select("SELECT * 
             FROM `mes_check_permission`
             WHERE `employee_id` = '$user->employee_id';");
 
-        $permission = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28";
-        $permissionsArray = explode(',', $permission);
+        $permission = $permissionPage[0]->permission;
+        $permissionArray = explode(',', $permission);
+        $diffIds = array_diff($dbIds, $permissionArray);
+
+
         $pageNames = [];
 
-        foreach ($permissionsArray as $permissionId) {
+        foreach ($diffIds as $permissionId) {
             $page = DB::table('mes_all_page')
                 ->where('id', $permissionId)
-                ->value('name');
+                ->value('page');
 
             if ($page) {
                 $pageNames[] = $page;

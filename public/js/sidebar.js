@@ -74,7 +74,7 @@ if (prefix == "inv") {
 
 switch (page) {
   case 'inventoryListUpload':
-    $('#inventoryListUpload').last().addClass("active");
+    $('#inventoryListUploadBtn').last().addClass("active");
     break;
   case 'inventoryList':
     var country = searchParams.get('country');
@@ -177,22 +177,58 @@ switch (page) {
 }
 
 $(document).ready(function () {
-  // 当文档加载完成后执行此代码
-
-  // 处理Ajax请求的函数
   function fetchData() {
     $.ajax({
       url: 'sidebarPageAjax',
       method: 'GET',
       success: function (response) {
-        console.log(response);
+        hideBtn(response);
+        var diffIds = response.diffIds;      
       },
       error: function (xhr, status, error) {
         console.error(error);
       }
     });
   }
+  function hideBtn(response) {
+    for (const pageName of response) {
+      $(`#${pageName.replace('/', '\\/')}Btn`).hide();   
+      checkAndHideCategory('dashBoard');
+      checkAndHideCategory('documentSearch');
+      checkAndHideCategory('RMA');
+      checkAndHideCategory('fileCenter');
+      checkAndHideCategory('inventoryList');
+      checkAndHideCategory('setup');
+      if (pageName == 'inventoryList') {
+        hideInventoryList();
+     
+      }
+    }
+  }
+  function hideInventoryList() {    
+    $('#inventoryListUS').hide();
+    $('#inventoryListUK').hide();
+    $('#inventoryListAUS').hide();
+    $('#inventoryListIT').hide();
+    $('#inventoryListMY').hide();
+  }
 
-  // 调用fetchData函数以触发Ajax请求
   fetchData();
+  function checkAndHideCategory(categoryId) {
+    var categoryButtons = $(`#${categoryId} ul li`);
+    var allHidden = true;
+    categoryButtons.each(function () {
+      if ($(this).css('display') !== 'none') {
+        allHidden = false;
+        return false;
+      }
+    });
+    if (allHidden) {
+      $(`#${categoryId}`).hide();
+    }
+  }
+
+
 });
+
+

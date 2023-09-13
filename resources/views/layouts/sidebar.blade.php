@@ -10,20 +10,16 @@
                 <ul class="metismenu" id="menu">
                     <li id="dashBoard">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-palette"></i><span>儀表板</span></a>
-                        <ul class="collapse">
-                            <!-- <li><a href="">戰情室</a></li> -->
+                        <ul class="collapse">                          
                             <li id="dashboardLeaderBtn"><a href="dashboardLeader">排行榜</a></li>
                         </ul>
                     </li>
                     <li id="documentSearch">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>文件查詢/下載
                             </span></a>
-                        <ul class="collapse">
-                            <!-- <li id="mesRepairProductsBtn"><a href="mesRepairProducts">維修不良查詢</a></li> -->
+                        <ul class="collapse">                          
                             <li id="mesUploadListBtn"><a href="mesUploadList">韌體下載查詢</a></li>
                             <li id="mesModelListBtn"><a href="mesModelList">產品型號查詢</a></li>
-                            <!-- <li id="mesItemListBtn"><a href="mesItemList">成品庫存查詢</a></li>
-                            <li id="mesItemPartListBtn"><a href="mesItemPartList">料件庫存查詢</a></li> -->
                             <li id="mesKickoffListBtn"><a href="mesKickoffList">客製化申請單查詢</a></li>
                             <li id="mesCutsQueryBtn"><a href="mesCutsQuery">客戶代碼查詢</a></li>
                             <li id="mesMonProductionListBtn"><a href="mesMonProductionList">訂單生產狀態查詢</a></li>
@@ -69,7 +65,7 @@
                             <span>檔案管理</span></a>
                         <ul class="collapse">
                             <li id="fileFirmwareUploadBtn"><a href="fileFirmwareUpload">韌體上傳</a></li>
-                            <li id="fileECNEditBtn"><a href="fileECNEdit">ECR/ECN新增</a></li>
+                            <li id="fileECNEditBtn" style=""><a href="fileECNEdit">ECR/ECN新增</a></li>
                         </ul>
                     </li>
                     <li id="inventoryList">
@@ -78,7 +74,7 @@
                         <ul class="collapse">
                             <li id="inventoryItemListBtn"><a href="inventoryItemList">成品庫存查詢</a></li>
                             <li id="inventoryItemPartListBtn"><a href="inventoryItemPartList">料件庫存查詢</a></li>
-                            <li id="inventoryListUpload"><a href="inventoryListUpload">國外庫存上傳</a></li>
+                            <li id="inventoryListUploadBtn"><a href="inventoryListUpload">國外庫存上傳</a></li>
                             <li id="inventoryListUS"><a href="inventoryList?country=US">美國分公司庫存</a></li>
                             <li id="inventoryListUK"><a href="inventoryList?country=UK">英國分公司庫存</a></li>
                             <li id="inventoryListAUS"><a href="inventoryList?country=AUS">澳洲分公司庫存</a></li>

@@ -24,6 +24,7 @@ class SetupController extends BaseController
 
     public function userCheckPermission()
     {
+        
         return view('userCheckPermission');
     }
     public function userSearchIDAjax(Request $request)

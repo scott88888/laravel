@@ -10,6 +10,7 @@
     $(document).ready(function() {
         $('#ListData').DataTable();
     });
+   
 </script>
 
 <body>
@@ -275,7 +276,6 @@
                     searchID: searchID
                 },
                 success: function(response) {
-                    console.log(response);
                     $('#loading').hide();
                     getCheckBox(response);
                     $('#checkPermissionForm').toggle();
@@ -302,9 +302,7 @@
                     const id = checkbox.id.replace('checkbox', ''); // 移除 "checkbox" 前綴
                     selectedCheckboxIds.push(parseInt(id, 10)); // 轉換為整數並存入數組
                 }
-            });
-            // 打印選中的 checkbox ID 數組
-            console.log(selectedCheckboxIds);
+            });           
             var searchID = $('#searchID').val();
             $('#loading').show();
             $.ajax({
@@ -316,7 +314,6 @@
                     selectedCheckboxIds: selectedCheckboxIds
                 },
                 success: function(response) {
-                    console.log(response);
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {
@@ -335,8 +332,7 @@
             var permissionData = response[0]['permission'];
             var pageID = permissionData.split(',').map(function(item) {
                 return parseInt(item.trim(), 10);
-            });
-            console.log(pageID);
+            });          
             pageID.forEach(permissionValue => {
                 const checkbox = document.getElementById(`checkbox${permissionValue}`);
                 if (checkbox) {
