@@ -13,6 +13,7 @@
                     <!-- profile info & task notification -->
                     <div class="col-md-6 col-sm-4 clearfix">
                         <ul class="notification-area pull-right">
+                            <li id="refresh-view"><i class="fa fa-refresh"  style="font-size: 32px;"></i></li>
                             <li id="full-view"><i class="ti-fullscreen"></i></li>
                             <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
                             <!-- <li class="settings-btn">
@@ -60,5 +61,8 @@
                 var today = new Date();
 
                 // 更新日期到元素內容
-                dateSpan.textContent = ''+today.toLocaleDateString();
+                dateSpan.textContent = '' + today.toLocaleDateString();
+                $('#refresh-view').click(function() {
+                    location.reload();
+                });
             </script>
