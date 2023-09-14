@@ -309,6 +309,7 @@
         var reason = $('#reason').val();
         var charge = $('#charge').val();
         var remark = $('#remark').val();
+        var deliveryOrder = $('#deliveryOrder').val();        
         var approvedCheck = document.getElementById('approved');
         if (approvedCheck.checked) {
             var approved = 'Y'
@@ -343,6 +344,7 @@
                     reason: reason,
                     approved: approved,
                     charge: charge,
+                    deliveryOrder: deliveryOrder,
                     remark: remark
                 },
                 success: function(response) {
@@ -405,7 +407,7 @@
         var modificationDate = $('#modificationDate').val();
         var orderNumber = $('#orderNumber').val();
         var serialNumber = $('#serialNumber').val();
-        var deliveryOrder = $('#deliveryOrder').val();
+        
         var repairOrderNum = $('#repairOrderNum').val();
      
         var closeCasecheck = document.getElementById('closeCase');
@@ -425,7 +427,6 @@
                 orderNumber: orderNumber,
                 serialNumber: serialNumber,
                 closeCase: closeCase,
-                deliveryOrder: deliveryOrder,
                 repairOrderNum: repairOrderNum,
                
             },

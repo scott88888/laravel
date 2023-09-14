@@ -172,7 +172,7 @@ class FileController extends Controller
                 'approved' => $request->input('approved'),
                 'charge' => $request->input('charge'),
                 'remark' => $request->input('remark'),
-                'repairOrderNum' => $request->input('repairOrderNum'),
+                'deliveryOrder' => $request->input('deliveryOrder'),
                 'createDate' => date('Y-m-d H:i:s')
             ];
             DB::table('mes_ecrecn')
@@ -188,7 +188,7 @@ class FileController extends Controller
                     'approved' => $data['approved'],
                     'charge' => $data['charge'],
                     'remark' => $data['remark'],
-                    'repairOrderNum' => $data['repairOrderNum'],
+                    'deliveryOrder' => $data['deliveryOrder'],
                     'createDate' => $data['createDate']
                 ]);
             return response()->json(['ok' => $request]);

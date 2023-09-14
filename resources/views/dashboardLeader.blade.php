@@ -260,7 +260,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-5" style="padding: 2px;">
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -305,14 +305,20 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-4">
+                <div class="col-5">
                     <div class="card">
                         <div class="card-body" style="padding: 0;">
+                        <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">
+                                    {{$maintenData['maintenDate'] }}
+                                    製程不良狀況佔比
+                                </h4>
+                            </div>
                             <div id="chartdiv"></div>
-
+                           
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
@@ -482,37 +488,17 @@
     }
 
 
-
+    var chartData = [
+        @foreach ($maintenData['maintenPie'] as $item)
+        {
+            "country": "{{ $item->comr_desc }}",
+            "litres": {{ $item->COUNT }},
+        },
+        @endforeach
+    ];
     var chart = AmCharts.makeChart("chartdiv", {
         "type": "pie",
-        "dataProvider": [{
-            "country": "影像光箱判定問題",
-            "litres": 501.9,
-        }, {
-            "country": "Czech 端子脫落",
-            "litres": 301.9
-        }, {
-            "country": "髒污清潔",
-            "litres": 201.1
-        }, {
-            "country": "CUT不良",
-            "litres": 165.8
-        }, {
-            "country": "更換PCBA",
-            "litres": 139.9
-        }, {
-            "country": "插件廠加工缺件",
-            "litres": 128.3
-        }, {
-            "country": "零件不良",
-            "litres": 99
-        }, {
-            "country": "元件空冷焊",
-            "litres": 60
-        }, {
-            "country": "The 插件廠加工損件",
-            "litres": 50
-        }],
+        "dataProvider": chartData, // 使用 chartData 作为数据提供程序
         "valueField": "litres",
         "titleField": "country",
         "labelRadius": 5,
@@ -522,20 +508,17 @@
         "marginBottom": 0
     });
 
-    chart.dataProvider[4].color = "#FFAF87";
-    chart.validateData();
-
     // chart2.dataProvider[0].color = "#E89F7B";
     // chart2.dataProvider[1].color = "#FFAF87";
     // chart2.dataProvider[2].color = "#FF9F7D";
     // chart2.dataProvider[3].color = "#FF8E72";
-    // chart2.dataProvider[4].color = "#F67C68";
+    chart.dataProvider[3].color = "#F67C68";
     // chart2.dataProvider[5].color = "#ED6A5E";
     // chart2.dataProvider[6].color = "#9DA589";
     // chart2.dataProvider[7].color = "#4CE0B3";
     // chart2.dataProvider[8].color = "#42AC92";
     // chart2.dataProvider[9].color = "#377771";
-    // chart2.validateData();
+    chart.validateData();
 </script>
 @endif
 

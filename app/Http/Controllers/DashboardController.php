@@ -103,13 +103,13 @@ class DashboardController extends BaseController
                                         AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
                                         GROUP BY NUM_ONCA
                                     ) AS grouped_data");
-//                                     $sql = "SELECT COUNT(*) AS result_count
-//                                     FROM mes_rma_analysis
-//                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-//                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-//                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')";
-//                                     var_dump($sql);
-//                                     exit;
+        //                                     $sql = "SELECT COUNT(*) AS result_count
+        //                                     FROM mes_rma_analysis
+        //                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
+        //                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+        //                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')";
+        //                                     var_dump($sql);
+        //                                     exit;
         $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
@@ -148,12 +148,34 @@ class DashboardController extends BaseController
             $data = DB::select("SELECT * FROM runcard_ng_rate ORDER BY ng_id DESC LIMIT 1");
             $maintenDate = substr($data[0]->num_comr, 0, -4);
             $mainten = DB::select("SELECT * ,work_no, COUNT(*) as count FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%' GROUP BY work_no");
-
-            
-           
         }
+        $maintenPie = $this->maintenPie($maintenDate);
         $maintenDate = substr($maintenDate, 2, 2) . '-' . substr($maintenDate, 4, 2) . '-' . substr($maintenDate, 6, 2);
-        return ['mainten' => $mainten, 'maintenDate' => $maintenDate];
+
+        return ['mainten' => $mainten, 'maintenDate' => $maintenDate, 'maintenPie' => $maintenPie];
+    }
+    public function maintenPie($maintenDate)
+    {
+
+        // $maintenPie = DB::select("SELECT a.STS_COMR,c.description AS comr_desc, COUNT(*) AS COUNT
+        //                         FROM runcard_ng AS a
+        //                         LEFT JOIN defective AS c ON a.STS_COMR = c.item_no
+        //                         WHERE a.num_comr LIKE 'MR221202%'
+        //                         GROUP BY c.description");
+        $maintenPie = DB::select("SELECT a.STS_COMR,c.description AS comr_desc, COUNT(*) AS COUNT
+                                        FROM runcard_ng AS a
+                                        LEFT JOIN defective AS c ON a.STS_COMR = c.item_no
+                                        WHERE a.num_comr LIKE '$maintenDate%'
+                                        GROUP BY c.description");
+        $totalCount = 0;
+        foreach ($maintenPie as $item) {
+            $totalCount += $item->COUNT;
+        }
+        foreach ($maintenPie as &$item) {
+            $item->per = ($item->COUNT / $totalCount) * 100;
+        }
+        unset($item);
+        return $maintenPie;
     }
 
     public function shipmentMon()
