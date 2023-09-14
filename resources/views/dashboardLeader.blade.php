@@ -10,10 +10,12 @@
 
 
 <style>
-    .chartdiv {
+    #chartdiv {
         width: 100%;
-        height: 500px;
+        height: 400px;
+
     }
+
 
     .table td,
     .table th {
@@ -24,6 +26,10 @@
     .row {
         margin-right: 0px;
         margin-left: 0px;
+    }
+
+    .amcharts-main-div {
+        margin-left: -40px;
     }
 </style>
 
@@ -275,19 +281,19 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($maintenData['mainten'] as $item)
-                                            <tr class="{{ ($item->ng_qty / $item->order_qty * 100) >= 10 ? 'text-danger' : '' }}">
+                                            <tr class="{{ ($item->count / $item->order_qty * 100) >= 10 ? 'text-danger' : '' }}">
                                                 <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
                                                         {{ substr($item->runcard_no, 0, 11) }}
                                                     </a>
                                                 </td>
                                                 <td>{{ $item->model }}</td>
                                                 <td>{{ $item->order_qty }}</td>
-                                                <td>{{ $item->ng_qty }}</td>
+                                                <td>{{ $item->count }}</td>
                                                 <td>
-                                                    @if ($item->order_qty == 0)
+                                                    @if ($item->count == 0)
                                                     0
                                                     @else
-                                                    {{ round($item->ng_qty / $item->order_qty * 100, 1) . '%'  }}
+                                                    {{ round($item->count / $item->order_qty * 100, 1) . '%'  }}
                                                     @endif
                                                 </td>
                                             </tr>
@@ -299,7 +305,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <!-- <div class="col-4">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0;">
+                            <div id="chartdiv"></div>
+
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -354,13 +368,15 @@
                 </div>
             </div>
         </div>
+
         @include('layouts/footer')
     </div>
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
-<script src="{{ asset('js/amcharts.js') }}"></script>
+<script src="{{ asset('js/amcharts3.js') }}"></script>
 <script src="{{ asset('js/serial.js') }}"></script>
+<script src="{{ asset('js/pie.js') }}"></script>
 @if(isset($shipmentMon))
 <script>
     // 获取当前日期
@@ -464,6 +480,62 @@
             }
         });
     }
+
+
+
+    var chart = AmCharts.makeChart("chartdiv", {
+        "type": "pie",
+        "dataProvider": [{
+            "country": "影像光箱判定問題",
+            "litres": 501.9,
+        }, {
+            "country": "Czech 端子脫落",
+            "litres": 301.9
+        }, {
+            "country": "髒污清潔",
+            "litres": 201.1
+        }, {
+            "country": "CUT不良",
+            "litres": 165.8
+        }, {
+            "country": "更換PCBA",
+            "litres": 139.9
+        }, {
+            "country": "插件廠加工缺件",
+            "litres": 128.3
+        }, {
+            "country": "零件不良",
+            "litres": 99
+        }, {
+            "country": "元件空冷焊",
+            "litres": 60
+        }, {
+            "country": "The 插件廠加工損件",
+            "litres": 50
+        }],
+        "valueField": "litres",
+        "titleField": "country",
+        "labelRadius": 5,
+        "colorField": "color",
+        "labelText": "[[title]]:[[percents]]%",
+        "marginTop": 0,
+        "marginBottom": 0
+    });
+
+    chart.dataProvider[4].color = "#FFAF87";
+    chart.validateData();
+
+    // chart2.dataProvider[0].color = "#E89F7B";
+    // chart2.dataProvider[1].color = "#FFAF87";
+    // chart2.dataProvider[2].color = "#FF9F7D";
+    // chart2.dataProvider[3].color = "#FF8E72";
+    // chart2.dataProvider[4].color = "#F67C68";
+    // chart2.dataProvider[5].color = "#ED6A5E";
+    // chart2.dataProvider[6].color = "#9DA589";
+    // chart2.dataProvider[7].color = "#4CE0B3";
+    // chart2.dataProvider[8].color = "#42AC92";
+    // chart2.dataProvider[9].color = "#377771";
+    // chart2.validateData();
 </script>
 @endif
 

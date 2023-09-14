@@ -143,11 +143,14 @@ class DashboardController extends BaseController
     public function mainten()
     {
         $maintenDate = 'MR' . date('ymd');
-        $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
+        $mainten = DB::select("SELECT * ,work_no, COUNT(*) as count FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%' GROUP BY work_no");
         if (count($mainten) === 0) {
             $data = DB::select("SELECT * FROM runcard_ng_rate ORDER BY ng_id DESC LIMIT 1");
             $maintenDate = substr($data[0]->num_comr, 0, -4);
-            $mainten = DB::select("SELECT * FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%'");
+            $mainten = DB::select("SELECT * ,work_no, COUNT(*) as count FROM runcard_ng_rate WHERE num_comr LIKE '$maintenDate%' GROUP BY work_no");
+
+            
+           
         }
         $maintenDate = substr($maintenDate, 2, 2) . '-' . substr($maintenDate, 4, 2) . '-' . substr($maintenDate, 6, 2);
         return ['mainten' => $mainten, 'maintenDate' => $maintenDate];
