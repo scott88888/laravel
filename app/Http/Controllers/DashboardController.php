@@ -162,11 +162,21 @@ class DashboardController extends BaseController
         //                         LEFT JOIN defective AS c ON a.STS_COMR = c.item_no
         //                         WHERE a.num_comr LIKE 'MR221202%'
         //                         GROUP BY c.description");
-        $maintenPie = DB::select("SELECT a.STS_COMR,c.description AS comr_desc, COUNT(*) AS COUNT
-                                        FROM runcard_ng AS a
-                                        LEFT JOIN defective AS c ON a.STS_COMR = c.item_no
-                                        WHERE a.num_comr LIKE '$maintenDate%'
-                                        GROUP BY c.description");
+        $maintenPie = DB::select("SELECT
+                                        r.STS_COMR,
+                                        d.description AS comr_desc,
+                                        COUNT(*) AS COUNT
+                                    FROM
+                                        runcard_ng_rate AS r
+                                    LEFT JOIN
+                                        defective AS d
+                                    ON
+                                        r.sts_comr = d.item_no
+                                    WHERE
+                                        r.num_comr LIKE '$maintenDate%'
+                                    GROUP BY
+                                        r.sts_comr, d.description
+                                    ");
         $totalCount = 0;
         foreach ($maintenPie as $item) {
             $totalCount += $item->COUNT;

@@ -10,7 +10,6 @@
     $(document).ready(function() {
         $('#ListData').DataTable();
     });
-   
 </script>
 
 <body>
@@ -60,6 +59,35 @@
                                             <label class="custom-control-label" for="checkbox1">排行榜</label>
                                         </div>
                                     </div>
+
+
+                                    <div class="form-row">
+                                        <div class="custom-checkbox custom-control-inline">
+                                            <b class="text-muted mb-3 mt-4 d-block">
+                                                銷貨管理 <input type="checkbox" id="selectAll6"> 全選
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" id="salesManagementcheck">
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
+                                            <label class="custom-control-label" for="checkbox6">訂單生產狀態查詢</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox17">
+                                            <label class="custom-control-label" for="checkbox17">出貨查詢</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox9">
+                                            <label class="custom-control-label" for="checkbox9">借品未歸還一覽表</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox29">
+                                            <label class="custom-control-label" for="checkbox29">運送管理</label>
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">
@@ -67,6 +95,7 @@
                                             </b>
                                         </div>
                                     </div>
+
                                     <div class="form-row" id="queryAndDownload">
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox2">
@@ -84,10 +113,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox5">
                                             <label class="custom-control-label" for="checkbox5">客戶代碼查詢</label>
                                         </div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">訂單生產狀態查詢</label>
-                                        </div>
+
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox7">
                                             <label class="custom-control-label" for="checkbox7">生產履歷查詢</label>
@@ -96,10 +122,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox8">
                                             <label class="custom-control-label" for="checkbox8">歷史產品生產數量</label>
                                         </div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox9">
-                                            <label class="custom-control-label" for="checkbox9">借品未歸還一覽表</label>
-                                        </div>
+                                      
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox10">
                                             <label class="custom-control-label" for="checkbox10">生產流程卡查詢</label>
@@ -128,10 +151,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox16">
                                             <label class="custom-control-label" for="checkbox16">ECR/ECN查詢</label>
                                         </div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox17">
-                                            <label class="custom-control-label" for="checkbox17">出貨查詢</label>
-                                        </div>
+                                     
                                     </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
@@ -237,6 +257,9 @@
     const selectAllCheckbox3 = document.getElementById('selectAll3');
     const selectAllCheckbox4 = document.getElementById('selectAll4');
     const selectAllCheckbox5 = document.getElementById('selectAll5');
+    const selectAllCheckbox6 = document.getElementById('selectAll6');
+    
+    const checkboxesToToggle6 = document.querySelectorAll('#salesManagementcheck input[type="checkbox"]');
     const checkboxesToToggle = document.querySelectorAll('#queryAndDownload input[type="checkbox"]');
     const checkboxesToToggle2 = document.querySelectorAll('#rmacheck input[type="checkbox"]');
     const checkboxesToToggle3 = document.querySelectorAll('#fileManagement input[type="checkbox"]');
@@ -257,7 +280,7 @@
     handleSelectAllCheckboxChange(selectAllCheckbox3, checkboxesToToggle3);
     handleSelectAllCheckboxChange(selectAllCheckbox4, checkboxesToToggle4);
     handleSelectAllCheckboxChange(selectAllCheckbox5, checkboxesToToggle5);
-
+    handleSelectAllCheckboxChange(selectAllCheckbox6, checkboxesToToggle6);
 
     $(document).ready(function() {
         $('#loading').hide();
@@ -302,7 +325,7 @@
                     const id = checkbox.id.replace('checkbox', ''); // 移除 "checkbox" 前綴
                     selectedCheckboxIds.push(parseInt(id, 10)); // 轉換為整數並存入數組
                 }
-            });           
+            });
             var searchID = $('#searchID').val();
             $('#loading').show();
             $.ajax({
@@ -332,7 +355,7 @@
             var permissionData = response[0]['permission'];
             var pageID = permissionData.split(',').map(function(item) {
                 return parseInt(item.trim(), 10);
-            });          
+            });
             pageID.forEach(permissionValue => {
                 const checkbox = document.getElementById(`checkbox${permissionValue}`);
                 if (checkbox) {

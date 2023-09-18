@@ -1,76 +1,50 @@
 
 const path = window.location.pathname;
-const page = path.split('/').pop();
+
 const url = new URL(window.location.href);
 const searchParams = new URLSearchParams(url.search);
 
 
+
+const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
-if (prefix == "mes") {
-  $('#documentSearch').last().addClass("active");
-  $('#documentSearch a:first-child').attr('aria-expanded', true);
-  $('#documentSearch ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#RMA').removeClass('active');
-  $('#dashBoard').removeClass('active');
-  $('#setup').removeClass('active');
-  $('#fileCenter').removeClass('active');
-  $('#inventoryList').removeClass('active');
-};
 
-if (prefix == "RMA") {
-  $('#RMA').last().addClass("active");
-  $('#RMA a:first-child').attr('aria-expanded', true);
-  $('#RMA ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#documentSearch').removeClass('active');
-  $('#dashBoard').removeClass('active');
-  $('#setup').removeClass('active');
-  $('#fileCenter').removeClass('active');
-  $('#inventoryList').removeClass('active');
-};
+console.log(page);
+if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
+  setActive('#documentSearch');
+  removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+} else if (page == "RMAList" || page == "RMAAnalysis") {
+  setActive('#RMA');
+  removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+} else if (page == "dashboardLeader") {
+  setActive('#dashBoard');
+  removeActive(['#documentSearch', '#RMA', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+} else if (page == "fileFirmwareUpload" || page == "fileECNEdit") {
+  setActive('#fileCenter');
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#inventoryList','salesManagement']);
+} else if (page == "inventoryList" || page == "inventoryItemList" || page == "inventoryItemPartList" || page == "inventoryListUpload") {
+  setActive('#inventoryList');
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter','salesManagement']);
+} else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission") {
+  setActive('#setup');
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter','salesManagement']);
+} else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList") {
+  setActive('#salesManagement');
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter','setup']);
+}
 
-if (prefix == "das") {
-  $('#dashBoard').last().addClass("active");
-  $('#dashBoard a:first-child').attr('aria-expanded', true);
-  $('#dashBoard ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#RMA').removeClass('active');
-  $('#documentSearch').removeClass('active');
-  $('#setup').removeClass('active');
-  $('#fileCenter').removeClass('active');
-  $('#inventoryList').removeClass('active');
-};
-if (prefix == "fil") {
-  $('#fileCenter').last().addClass("active");
-  $('#fileCenter a:first-child').attr('aria-expanded', true);
-  $('#fileCenter ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#RMA').removeClass('active');
-  $('#documentSearch').removeClass('active');
-  $('#dashBoard').removeClass('active');
-  $('#setup').removeClass('active');
-  $('#inventoryList').removeClass('active');
 
-};
-if (prefix == "upd" | prefix == "use") {
-  $('#setup').last().addClass("active");
-  $('#setup a:first-child').attr('aria-expanded', true);
-  $('#setup ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#RMA').removeClass('active');
-  $('#documentSearch').removeClass('active');
-  $('#dashBoard').removeClass('active');
-  $('#fileCenter').removeClass('active');
-  $('#inventoryList').removeClass('active');
-};
+function setActive(elementId) {
+  $(elementId).last().addClass("active");
+  $(elementId + ' a:first-child').attr('aria-expanded', true);
+  $(elementId + ' ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
+}
 
-if (prefix == "inv") {
-  $('#inventoryList').last().addClass("active");
-  $('#inventoryList a:first-child').attr('aria-expanded', true);
-  $('#inventoryList ul').removeClass('collapse').addClass('collapse in').removeAttr('style');
-  $('#RMA').removeClass('active');
-  $('#documentSearch').removeClass('active');
-  $('#dashBoard').removeClass('active');
-  $('#fileCenter').removeClass('active');
-  $('#setup').removeClass('active');
-};
-
+function removeActive(elements) {
+  elements.forEach(function (element) {
+    $(element).removeClass('active');
+  });
+}
 
 switch (page) {
   case 'inventoryListUpload':
@@ -183,7 +157,7 @@ $(document).ready(function () {
       method: 'GET',
       success: function (response) {
         hideBtn(response);
-        var diffIds = response.diffIds;      
+        var diffIds = response.diffIds;
       },
       error: function (xhr, status, error) {
         console.error(error);
@@ -192,7 +166,7 @@ $(document).ready(function () {
   }
   function hideBtn(response) {
     for (const pageName of response) {
-      $(`#${pageName.replace('/', '\\/')}Btn`).hide();   
+      $(`#${pageName.replace('/', '\\/')}Btn`).hide();
       checkAndHideCategory('dashBoard');
       checkAndHideCategory('documentSearch');
       checkAndHideCategory('RMA');
@@ -201,11 +175,11 @@ $(document).ready(function () {
       checkAndHideCategory('setup');
       if (pageName == 'inventoryList') {
         hideInventoryList();
-     
+
       }
     }
   }
-  function hideInventoryList() {    
+  function hideInventoryList() {
     $('#inventoryListUS').hide();
     $('#inventoryListUK').hide();
     $('#inventoryListAUS').hide();
