@@ -28,6 +28,7 @@
                                                 <th>產品型號</th>
                                                 <th>產品性質</th>
                                                 <th>產品名稱</th>
+                                                <th>部別</th>
                                                 <th>上架時間</th>
                                                 <th>終止使用</th>
                                                 <th>終止銷售</th>
@@ -45,6 +46,7 @@
                                                 </td>
                                                 <td>{{$ListData->DSC_ITEM}}</td>
                                                 <td>{{$ListData->NAM_ITEM}}</td>
+                                                <td>{{$ListData->TYP_ITEM}}</td>
                                                 <td>{{$ListData->DAT_FILE}}</td>
                                                 <td>{{$ListData->DAT_USET}}</td>
                                                 <td>{{$ListData->DAT_SALED}}</td>

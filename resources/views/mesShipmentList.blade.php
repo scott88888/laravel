@@ -45,7 +45,7 @@
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="validationCustom04">查詢內容</label>
-                                        <input id="search" type="text" class="form-control" placeholder="" required="">                                   
+                                        <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-md-1">
                                         <label for="validationCustom04">快查</label>
@@ -90,6 +90,7 @@
                                         <th>NAM_CUSTS</th>
                                         <th>NUM_CUST</th>
                                         <th id="col1">NAM_ITEMS</th>
+                                        <th>TYP_ITEM</th>
                                         <th>NUM_DEL</th>
                                         <th>NUM_PO</th>
                                         <th>COD_ITEM</th>
@@ -97,6 +98,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -147,23 +149,28 @@
                     "title": "品名"
                 },
                 {
-                    "data": "NUM_DEL",
+                    "data": "TYP_ITEM",
                     "targets": 4,
+                    "title": "部別"
+                },
+                {
+                    "data": "NUM_DEL",
+                    "targets": 5,
                     "title": "出貨單號"
                 },
                 {
                     "data": "NUM_PO",
-                    "targets": 5,
+                    "targets": 6,
                     "title": "訂單編號"
                 },
                 {
                     "data": "COD_ITEM",
-                    "targets": 6,
+                    "targets": 7,
                     "title": "產品型號"
                 },
                 {
                     "data": "QTY_DEL",
-                    "targets": 7,
+                    "targets": 8,
                     "title": "數量"
                 }
             ]

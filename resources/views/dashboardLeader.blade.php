@@ -231,7 +231,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">不良統計表(過去30天)</h4>
+                                <h4 class="header-title" style="text-align: center;">不良統計表(當月)</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
