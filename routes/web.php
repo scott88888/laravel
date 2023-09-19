@@ -12,7 +12,8 @@ use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\InventoryListController;
 use App\Http\Controllers\SidebarController;
-
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\salesManagementController;
 
 
 //API
@@ -29,6 +30,9 @@ Route::match(['get', 'post'], '/mailMFR', [MailController::class, 'mailMFR']);
 Route::match(['get', 'post'], '/sidebarPageAjax', [SidebarController::class, 'sidebarPageAjax']);
 Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'mesAutoUpdate']);
 Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
+// test
+Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
+
 
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
@@ -141,4 +145,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':userCheckPermission');
     Route::match(['get', 'post'], '/userSearchIDAjax', [SetupController::class, 'userSearchIDAjax']);
     Route::match(['get', 'post'], '/userUpdatePermissionAjax', [SetupController::class, 'userUpdatePermissionAjax']);
+
+    // 銷貨管理
+    Route::match(['get', 'post'], '/shippingManagement', [salesManagementController::class, 'shippingManagement']);
+    Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
+    
 });

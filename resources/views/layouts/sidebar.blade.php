@@ -21,7 +21,7 @@
                             <li id="mesMonProductionListBtn"><a href="mesMonProductionList">訂單生產狀態查詢</a></li>
                             <li id="mesShipmentListBtn"><a href="mesShipmentList">出貨查詢</a></li>
                             <li id="mesMfrListBtn"><a href="mesMfrList">借品未歸還一覽表</a></li>
-                            <li id="shippingManagementBtn"><a href="">運送管理</a></li>
+                            <li id="shippingManagementBtn"><a href="shippingManagement">運送管理</a></li>
 
                         </ul>
                     </li>
