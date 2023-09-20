@@ -42,8 +42,6 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':dashboardLeader');
     //重新導向頁面
     Route::any('/redirect', [RedirectController::class, 'redirect'])->name('redirect');
-
-
     //MES
     Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
     Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList'])

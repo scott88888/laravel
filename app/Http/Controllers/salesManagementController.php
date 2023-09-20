@@ -21,12 +21,12 @@ class salesManagementController extends BaseController
 
     public function palletPython($resultString,$searchtype,$pallet)
     {
-        $pythonScriptPath = 'C:\xampp\htdocs\test\3DBinPacking\pallet.py';
+        $pythonScriptPath = 'C:\xampp\htdocs\3DBinPacking\pallet.py';
         $arg = '-t '.$searchtype .' -c ' .$pallet .$resultString;
-        $output = exec("C:\Users\AI007\AppData\Local\Programs\Python\Python311\python.exe $pythonScriptPath $arg");
-        $cmd = "C:\Users\AI007\AppData\Local\Programs\Python\Python311\python.exe $pythonScriptPath $arg";
+        $output = exec("C:\python\python.exe $pythonScriptPath $arg");
+        $cmd = "C:\python\python.exe $pythonScriptPath $arg";
         $data =[$arg,$output]; 
-        return $data;
+        return $output;
     }
 
     public function shippingManagementAjax(Request $request)
@@ -44,7 +44,6 @@ class salesManagementController extends BaseController
         $searchtype = $request->input('searchtype'); 
         $pallet = $request->input('pallet'); 
         $request = $this -> palletPython($resultString,$searchtype,$pallet);
-
         return response()->json($request);
     }
 }
