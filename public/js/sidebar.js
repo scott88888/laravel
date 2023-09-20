@@ -1,36 +1,31 @@
 
 const path = window.location.pathname;
-
 const url = new URL(window.location.href);
 const searchParams = new URLSearchParams(url.search);
-
-
-
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
 
-console.log(page);
 if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
   setActive('#documentSearch');
-  removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+  removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "RMAList" || page == "RMAAnalysis") {
   setActive('#RMA');
-  removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+  removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "dashboardLeader") {
   setActive('#dashBoard');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#fileCenter', '#inventoryList','salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "fileFirmwareUpload" || page == "fileECNEdit") {
   setActive('#fileCenter');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#inventoryList','salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#inventoryList', 'salesManagement']);
 } else if (page == "inventoryList" || page == "inventoryItemList" || page == "inventoryItemPartList" || page == "inventoryListUpload") {
   setActive('#inventoryList');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter','salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter', 'salesManagement']);
 } else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission") {
   setActive('#setup');
-  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter','salesManagement']);
-} else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList") {
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', 'salesManagement']);
+} else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement") {
   setActive('#salesManagement');
-  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter','setup']);
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#setup']);
 }
 
 
@@ -145,6 +140,10 @@ switch (page) {
   case 'userCheckPermission':
     $('#userCheckPermissionBtn').last().addClass("active");
     break;
+  case 'shippingManagement':
+    $('#shippingManagementBtn').last().addClass("active");
+    break;
+
   default:
     console.log('Sorry, we are out of ' + page + '.');
 

@@ -31,6 +31,7 @@
     .amcharts-main-div {
         margin-left: -40px;
     }
+    
 </style>
 
 <body>
@@ -271,7 +272,7 @@
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
-                                    <table class="table text-center">
+                                    <table id="maintenTable" class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th scope="col">工單</th>
                                             <th scope="col">產品名稱</th>
@@ -385,9 +386,16 @@
 <script src="{{ asset('js/pie.js') }}"></script>
 @if(isset($shipmentMon))
 <script>
-    // 获取当前日期
+    $('#maintenTable').DataTable({       
+        "info": false, 
+        "lengthChange": false,
+        "searching": false ,
+        "paging": false,
+        "order": [[4, "desc"]]
+    });
+  
     var currentDate = new Date();
-    // 存储最近 12 个月份的数组
+
     var recentMonths = [];
     for (var i = 0; i < 12; i++) {
         var year = currentDate.getFullYear();

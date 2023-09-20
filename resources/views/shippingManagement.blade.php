@@ -25,6 +25,7 @@
         <div class="main-content">
             @include('layouts/headerarea')
             <div class="main5">
+
                 <div class="row" style="margin: 0;">
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
@@ -34,7 +35,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">運送方式</label>
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option>select</option>
+                                            <option value="select">select</option>
                                             <option value="air">空運</option>
                                             <option value="sea">海運</option>
                                         </select>
@@ -42,7 +43,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">棧板</label>
                                         <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option>select</option>
+                                            <option value="select">select</option>
                                             <option value="W1200D1000">W1200D1000</option>
                                             <option value="W1200D800">W1200D800</option>
                                             <option value="W1100D1100">W1100D1100</option>
@@ -63,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="data-tables datatable-dark">
-                                <table id="ListData" class="display text-center" style="width:80%">
+                                <table id="ListData" class="display text-center" style="width:100%">
                                     <thead class="text-capitalize" style=" background: darkgrey;">
                                         <th style="text-align: center;">選擇</th>
                                         <th style="text-align: center;">料號</th>
@@ -79,6 +80,31 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <!-- Modal -->
+                <div class="modal fade" id="palletImg">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Pallet Modal </h5>
+                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <img id='palletImage' src="" alt="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -99,11 +125,11 @@
             ...tableConfig,
             "pageLength": -1,
         });
-        var selectedData = []; 
+        var selectedData = [];
         $('input[type="checkbox"]').change(function() {
             if ($(this).is(":checked")) {
                 var codItem = $(this).closest("tr").find("td:nth-child(2)").text();
-                var namItem = $(this).closest("tr").find("td:nth-child(3)").text();         
+                var namItem = $(this).closest("tr").find("td:nth-child(3)").text();
                 selectedData.push({
                     codItem: codItem,
                     namItem: namItem
@@ -120,7 +146,6 @@
             }
         });
         $('#checkButton').click(function() {
-            
             var checkboxes = $('input[type="checkbox"]');
             var checkedCount = 0;
             var searchtype = $('#searchtype').val();
@@ -130,15 +155,15 @@
                     checkedCount++;
                 }
             });
-            if (checkedCount > 6) {
-               
-            } else {
+            if (checkedCount > 0 && checkedCount <= 6 && checkedCount <= 6 && searchtype != 'select' && pallet != 'select') {
+                $('#loading').show();
                 sendAjax(selectedData, searchtype, pallet);
+            } else {
+                alert('選擇異常，請重新確認');
             }
         });
 
         function sendAjax(selectedData, searchtype, pallet) {
-
             $.ajax({
                 type: "GET",
                 url: "shippingManagementAjax",
@@ -149,10 +174,13 @@
                     pallet: pallet
                 },
                 success: function(response) {
-                    // 在这里处理后端响应
-                    console.log(response);
+                    $('#loading').hide();
+                    var imageUrl = "{{ asset('pallet') }}/" + response;
+                    $('#palletImage').attr('src', imageUrl);
+                    $('#palletImg').modal('show');
                 },
                 error: function(xhr, status, error) {
+                    $('#loading').hide();
                     console.log('no data');
 
                 }
