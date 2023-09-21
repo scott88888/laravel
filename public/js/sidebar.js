@@ -20,7 +20,7 @@ if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList
 } else if (page == "inventoryList" || page == "inventoryItemList" || page == "inventoryItemPartList" || page == "inventoryListUpload") {
   setActive('#inventoryList');
   removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter', 'salesManagement']);
-} else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission") {
+} else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission" || page == "userEdit") {
   setActive('#setup');
   removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', 'salesManagement']);
 } else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement") {
@@ -143,7 +143,9 @@ switch (page) {
   case 'shippingManagement':
     $('#shippingManagementBtn').last().addClass("active");
     break;
-
+  case 'userEdit':
+    $('#userEditBtn').last().addClass("active");
+    break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
 

@@ -42,7 +42,7 @@
                                         <tbody>
                                             @foreach ($userEdit as $ListData)
                                             <tr>
-                                                <td><a href="editUserPer?id={{$ListData->employee_id}}" target="_blank"><span class="ti-pencil"></span></td>
+                                                <td><a href="userEditPer?id={{$ListData->employee_id}}" target="_blank"><span class="ti-pencil"></span></td>
                                                 <td>{{$ListData->employee_id}}</td>
                                                 <td>{{$ListData->name}}</td>
                                                 <td>{{$ListData->email}}</td>

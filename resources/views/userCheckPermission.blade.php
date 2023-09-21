@@ -59,8 +59,6 @@
                                             <label class="custom-control-label" for="checkbox1">排行榜</label>
                                         </div>
                                     </div>
-
-
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">
@@ -122,7 +120,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox8">
                                             <label class="custom-control-label" for="checkbox8">歷史產品生產數量</label>
                                         </div>
-                                      
+
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox10">
                                             <label class="custom-control-label" for="checkbox10">生產流程卡查詢</label>
@@ -233,7 +231,7 @@
                                         </div>
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox30">
-                                            <label class="custom-control-label" for="checkbox30">權限調整</label>
+                                            <label class="custom-control-label" for="checkbox30">使用者修改</label>
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center">
@@ -252,6 +250,7 @@
             @include('layouts/footer')
         </div>
         @include('layouts/settings')
+    </div>
 </body>
 @include('layouts/footerjs')
 <script>
@@ -261,7 +260,7 @@
     const selectAllCheckbox4 = document.getElementById('selectAll4');
     const selectAllCheckbox5 = document.getElementById('selectAll5');
     const selectAllCheckbox6 = document.getElementById('selectAll6');
-    
+
     const checkboxesToToggle6 = document.querySelectorAll('#salesManagementcheck input[type="checkbox"]');
     const checkboxesToToggle = document.querySelectorAll('#queryAndDownload input[type="checkbox"]');
     const checkboxesToToggle2 = document.querySelectorAll('#rmacheck input[type="checkbox"]');

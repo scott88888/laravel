@@ -81,4 +81,20 @@ class SetupController extends BaseController
                                 INNER JOIN users U ON M.employee_id = U.employee_id COLLATE utf8_general_ci;");
         return view('userEdit', compact('userEdit'));
     }
+    public function userEditPer(Request $request)
+    {
+        $employee_id = $request->id;
+        if ($employee_id) {
+            return view('userEditPer', ['employee_id' => $employee_id]);
+        }
+    }
+    public function userDeleteAjax(Request $request)
+    {
+        $employee_id = $request->searchID;
+        $delemployee_id = DB::table('mes_check_permission')->where('employee_id', $employee_id)->delete();
+        if ($delemployee_id) {
+            return response()->json('刪除成功');
+        }
+    }
+    
 }

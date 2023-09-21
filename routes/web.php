@@ -145,8 +145,12 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/userUpdatePermissionAjax', [SetupController::class, 'userUpdatePermissionAjax']);
     Route::match(['get', 'post'], '/userEdit', [SetupController::class, 'userEdit'])
         ->middleware(CheckPermission::class . ':userEdit');
+    Route::match(['get', 'post'], '/userEditPer', [SetupController::class, 'userEditPer']);
+    Route::match(['get', 'post'], '/userDeleteAjax', [SetupController::class, 'userDeleteAjax']);
+    
     // 銷貨管理
     Route::match(['get', 'post'], '/shippingManagement', [salesManagementController::class, 'shippingManagement'])
         ->middleware(CheckPermission::class . ':shippingManagement');
+
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 });
