@@ -151,7 +151,6 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox16">
                                             <label class="custom-control-label" for="checkbox16">ECR/ECN查詢</label>
                                         </div>
-                                     
                                     </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
@@ -231,6 +230,10 @@
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox28">
                                             <label class="custom-control-label" for="checkbox28">權限調整</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox30">
+                                            <label class="custom-control-label" for="checkbox30">權限調整</label>
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center">
