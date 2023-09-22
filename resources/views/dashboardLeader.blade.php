@@ -80,8 +80,12 @@
                                                     <p>NAV</p>
                                                     @elseif ($item->TYP_CODE == 5)
                                                     <p>SP</p>
-                                                    @else ($item->TYP_CODE == 6)
+                                                    @elseif ($item->TYP_CODE == 6)
                                                     <p>周邊</p>
+                                                    @elseif  ($item->TYP_CODE == 7)
+                                                    <p>外購NVR/DVR/NAV主機</p>    
+                                                    @else ($item->TYP_CODE == 8)
+                                                    <p>腳架/投射器</p>                                                  
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->QTY }}</td>
@@ -163,18 +167,42 @@
                                 <div class="table-responsive">
                                     <table id="ListData" class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th style="text-align: center;">圖片</th>
                                             <th style="text-align: center;">客戶</th>
                                             <th style="text-align: center;">訂單數量</th>
                                             <th style="text-align: center;">已回報數量</th>
                                             <th style="text-align: center;">產品型號</th>
+                                            <th style="text-align: center;">製程</th>
+                                            
                                         </thead>
                                         <tbody>
                                             @foreach ($productionData['productionStatus'] as $status)
                                             <tr>
+                                                <td>
+                                                <img style="max-width:56px;" src={{ asset("/show-image/mesitempartlist").'/'.$status->COD_MITEM.'/'.$status->COD_MITEM.'-s.jpg' }} >
+                                                </td>
                                                 <td>{{ $status->remark2 }}</td>
                                                 <td>{{ $status->qty_pcs }}</td>
                                                 <td>{{ $status->count }}</td>
-                                                <td>{{ $status->COD_MITEM }}</td>
+                                                <td>{{ $status->COD_MITEM }}</td> 
+                                               @if ($status->operation == 'A0')
+                                                <td>前置作業</td>
+                                                @elseif ($status->operation == 'B0')
+                                                <td>組裝</td>
+                                                @elseif ($status->operation == 'B1')
+                                                <td>組裝</td>
+                                                @elseif ($status->operation == 'C0')
+                                                <td>測試</td>
+                                                @elseif ($status->operation == 'D0')
+                                                <td>包裝</td>
+                                                @elseif ($status->operation == 'D1')
+                                                <td>包裝</td>
+                                                @elseif (substr($status->runcard_no, 0, 2) == 'AA')
+                                                <td style="color:red">重工</td>
+                                                @else
+                                                <td>{{ $status->operation }}</td>
+                                                @endif     
+
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -414,9 +442,11 @@
             dvrnvr: (item[1] && item[1]['TYP_CODE'] == '2') ? item[1]['QTY'] : 0,
             ipcam: (item[2] && item[2]['TYP_CODE'] == '3') ? item[2]['QTY'] : 0,
             nav: (item[3] && item[3]['TYP_CODE'] == '4') ? item[3]['QTY'] : 0,
-            sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,
-
-        };
+            sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,    
+ 
+            // outsourcing: (item[6] && item[6]['TYP_CODE'] == '7') ? item[6]['QTY'] : 0,
+            // tripod: (item[7] && item[7]['TYP_CODE'] == '8') ? item[7]['QTY'] : 0,
+        }; 
         chartData.push(monthData);
         i = i - 1;
     });
@@ -475,7 +505,27 @@
                 "lineColor": "#f1c40f",
                 "lineThickness": 2,
                 "negativeLineColor": "#f1c40f",
-            }],
+            }
+            // ,{
+            //     "balloonText": "外購NVR/DVR/NAV主機 [[category]]: [[value]]",
+            //     "bullet": "round",
+            //     "title": "外購NVR/DVR/NAV主機",
+            //     "valueField": "outsourcing",
+            //     "fillAlphas": 0,
+            //     "lineColor": "#B9B973",
+            //     "lineThickness": 2,
+            //     "negativeLineColor": "#B9B973",
+            // }, {
+            //     "balloonText": "腳架/投射器 [[category]]: [[value]]",
+            //     "bullet": "round",
+            //     "title": "腳架/投射器",
+            //     "valueField": "tripod",
+            //     "fillAlphas": 0,
+            //     "lineColor": "#B87070",
+            //     "lineThickness": 2,
+            //     "negativeLineColor": "#B87070",
+            // }
+        ],
             "chartCursor": {
                 "cursorAlpha": 0,
                 "zoomable": false

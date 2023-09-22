@@ -35,15 +35,14 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">運送方式</label>
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="select">select</option>
-                                            <option value="air">空運</option>
                                             <option value="sea">海運</option>
+                                            <option value="air">空運</option>
+
                                         </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">棧板</label>
                                         <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="select">select</option>
                                             <option value="W1200D1000">W1200D1000</option>
                                             <option value="W1200D800">W1200D800</option>
                                             <option value="W1100D1100">W1100D1100</option>
@@ -155,7 +154,7 @@
                     checkedCount++;
                 }
             });
-            if (checkedCount > 0 && checkedCount <= 6 && checkedCount <= 6 && searchtype != 'select' && pallet != 'select') {
+            if (checkedCount > 0 && checkedCount <= 6 && checkedCount <= 6) {
                 $('#loading').show();
                 sendAjax(selectedData, searchtype, pallet);
             } else {

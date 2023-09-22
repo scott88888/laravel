@@ -26,17 +26,15 @@
                         </ul>
                     </li>
                     <li id="documentSearch">
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>文件查詢/下載
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span>生產管理
                             </span></a>
                         <ul class="collapse">
                             <li id="mesUploadListBtn"><a href="mesUploadList">韌體下載查詢</a></li>
                             <li id="mesModelListBtn"><a href="mesModelList">產品型號查詢</a></li>
                             <li id="mesKickoffListBtn"><a href="mesKickoffList">客製化申請單查詢</a></li>
                             <li id="mesCutsQueryBtn"><a href="mesCutsQuery">客戶代碼查詢</a></li>
-
                             <li id="mesProductionResumeListBtn"><a href="mesProductionResumeList">生產履歷查詢</a></li>
                             <li id="mesHistoryProductionQuantityBtn"><a href="mesHistoryProductionQuantity">歷史產品生產數量</a></li>
-
                             <li id="mesRunCardListBtn"><a href="mesRunCardList">生產流程卡查詢</a></li>
                             <li id="mesRuncardListNotinBtn"><a href="mesRuncardListNotin">未回報MES工單查詢</a></li>
                             <li id="mesDefectiveListBtn"><a href="mesDefectiveList">生產維修紀錄查詢</a></li>
@@ -49,7 +47,7 @@
                         </ul>
                     </li>
                     <li id="RMA">
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-wrench"></i><span>RMA
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-wrench"></i><span>RMA退貨管理
                             </span></a>
                         <ul class="collapse">
                             <li id="RMAListBtn"><a href="RMAList">RMA退貨授權查詢</a></li>
@@ -81,7 +79,7 @@
                     </li>
                     <li id="inventoryList">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-excel-o"></i>
-                            <span>庫存表</span></a>
+                            <span>庫存管理</span></a>
                         <ul class="collapse">
                             <li id="inventoryItemListBtn"><a href="inventoryItemList">成品庫存查詢</a></li>
                             <li id="inventoryItemPartListBtn"><a href="inventoryItemPartList">料件庫存查詢</a></li>
@@ -95,7 +93,7 @@
                     </li>
                     <li id="setup">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
-                            <span>設定</span></a>
+                            <span>使用者管理</span></a>
                         <ul class="collapse">
                             <li id="updatePasswordBtn"><a href="{{ route('password.update') }}">修改密碼</a></li>
                             <li id="userLoginLogBtn"><a href="userLoginLog">登入紀錄</a></li>
