@@ -83,7 +83,7 @@
                                                     @elseif ($item->TYP_CODE == 6)
                                                     <p>周邊</p>
                                                     @elseif  ($item->TYP_CODE == 7)
-                                                    <p>外購NVR/DVR/NAV主機</p>    
+                                                    <p>外購NVR/DVR/NAV/Camera</p>    
                                                     @else ($item->TYP_CODE == 8)
                                                     <p>腳架/投射器</p>                                                  
                                                     @endif
