@@ -138,12 +138,20 @@
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th scope="col">產品型號</th>
                                             <th scope="col">庫存</th>
+                                            <th scope="col">90天出貨量</th>
                                         </thead>
                                         <tbody>
                                             @foreach ($unsalableProducts as $item)
                                             <tr>
                                                 <td>{{ $item->COD_ITEM }}</td>
                                                 <td>{{ $item->QTY_STK }}</td>
+                                                
+                                                @if ($item->sellQty > 0 )
+                                                <td>{{ $item->sellQty }}</td>
+                                                @else
+                                                <td>0</td>
+                                                @endif
+                                                                                          
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -267,7 +275,7 @@
                                             <th style="text-align: center;">已回報數量</th>
                                             <th style="text-align: center;">產品型號</th>
                                             <th style="text-align: center;">製程</th>
-                                            
+                                            <th style="text-align: center;">平均工時</th>
                                         </thead>
                                         <tbody>
                                             @foreach ($productionData['productionStatus'] as $status)
@@ -296,7 +304,7 @@
                                                 @else
                                                 <td>{{ $status->operation }}</td>
                                                 @endif     
-
+                                                <td>{{ $status->average_time }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

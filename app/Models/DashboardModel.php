@@ -67,18 +67,18 @@ class DashboardModel extends Authenticatable
     public static function getRMAMonList($search)
     {
         $value = DB::table('mes_rma_analysis')
-        ->select('COD_ITEM', DB::raw('COUNT(*) AS COD_ITEM_Count'))
-        ->where('DAT_ONCA', 'LIKE', $search.'%')
-        ->groupBy('COD_ITEM')
-        ->orderByDesc('COD_ITEM_Count')
-        ->limit(10)
-        ->get();
+            ->select('COD_ITEM', DB::raw('COUNT(*) AS COD_ITEM_Count'))
+            ->where('DAT_ONCA', 'LIKE', $search . '%')
+            ->groupBy('COD_ITEM')
+            ->orderByDesc('COD_ITEM_Count')
+            ->limit(10)
+            ->get();
         return $value;
     }
 
     public static function getShipmentMon($day1, $day31)
     {
-        
+
         $value = DB::select("SELECT SUM(QTY_DEL) as QTY ,mes_typ_item.TYP_CODE from mes_deld_shipment
         LEFT JOIN mes_typ_item ON mes_deld_shipment.TYP_ITEM = mes_typ_item.TYP_ITEM
         WHERE mes_deld_shipment.DAT_DEL >= $day1 AND mes_deld_shipment.DAT_DEL <= $day31
@@ -87,7 +87,7 @@ class DashboardModel extends Authenticatable
     }
     public static function getBorrowItem()
     {
-        
+
         $value = DB::select("SELECT nam_emp, SUM(qty_brow) as total_qty
         FROM mes_mfr05_view
         WHERE cls_brow <> 6
@@ -98,8 +98,15 @@ class DashboardModel extends Authenticatable
     }
     public static function getUnsalableProducts()
     {
-        
+
         $value = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
+        return $value;
+    }
+    public static function getStockShipment($model,$today,$Days90)
+    {
+
+        $value = DB::select("SELECT SUM(QTY_DEL) as sellQty FROM mes_deld_shipment
+        WHERE COD_ITEM = '$model' AND (DAT_DEL BETWEEN '$Days90' AND '$today' )");
         return $value;
     }
     public static function productionStatus($currentDate)
@@ -118,5 +125,3 @@ class DashboardModel extends Authenticatable
         return $value;
     }
 }
-   
-

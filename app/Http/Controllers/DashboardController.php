@@ -119,10 +119,46 @@ class DashboardController extends BaseController
 
         $averageHurReq =  round($warrantyAVG[0]->average_hur_req, 2);
         $borrowItem = DashboardModel::getBorrowItem();
+        //庫存排行榜 90天出貨
         $unsalableProducts = DashboardModel::getUnsalableProducts();
-        $productionData = $this->productionStatus();
-        $description = $this->description();
+        for ($i = 0; $i < count($unsalableProducts); $i++) {
+            $modal =  $unsalableProducts[$i]->COD_ITEM;
+            $today = date("Ymd");
+            $Days90 = date("Ymd", strtotime("-90 days"));
+            $getStockShipment = DashboardModel::getStockShipment($modal, $today, $Days90);
+            $unsalableProducts[$i]->sellQty = $getStockShipment[0]->sellQty;
+        }
 
+
+        //工單生產狀況
+        $productionData = $this->productionStatus();
+        for ($i = 0; $i <  count($productionData['productionStatus']); $i++) {
+            $num_ps = $productionData['productionStatus'][$i]->NUM_PS;
+            $productionDataAVG = DB::select("SELECT AVG(time_diff) AS average_time
+            FROM (
+                SELECT TIMESTAMPDIFF(SECOND, work_startTime, work_endTime) AS time_diff
+                FROM runcard
+                WHERE num_ps = '$num_ps' AND SEQ_NO = '001'
+            ) AS time_diffs;");
+            $minutes = floor($productionDataAVG[0]->average_time / 60);
+            $remainingSeconds = $productionDataAVG[0]->average_time % 60;
+            // 格式化输出
+            $formattedTime = sprintf("%d分%d秒", $minutes, $remainingSeconds);
+            $productionData['productionStatus'][$i]->average_time = $formattedTime;
+        }
+    
+//         SELECT count('sts_comr')/12 AS qty FROM runcard_ng_rate
+// WHERE 
+//     (num_comr BETWEEN 'MR2209' AND 'MR2308')
+//     AND (num_comr LIKE 'MR22%' OR num_comr LIKE 'MR23%')
+//     AND sts_comr = 'MG'
+
+        //不良統計表(當月)
+        $description = $this->description();
+ 
+        for ($i=0; $i < count($description ) ; $i++) { 
+            # code...
+        }
         return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
     }
 
@@ -155,13 +191,7 @@ class DashboardController extends BaseController
         return ['mainten' => $mainten, 'maintenDate' => $maintenDate, 'maintenPie' => $maintenPie];
     }
     public function maintenPie($maintenDate)
-    {
-
-        // $maintenPie = DB::select("SELECT a.STS_COMR,c.description AS comr_desc, COUNT(*) AS COUNT
-        //                         FROM runcard_ng AS a
-        //                         LEFT JOIN defective AS c ON a.STS_COMR = c.item_no
-        //                         WHERE a.num_comr LIKE 'MR221202%'
-        //                         GROUP BY c.description");
+    { 
         $maintenPie = DB::select("SELECT
                                         r.STS_COMR,
                                         d.description AS comr_desc,
@@ -267,6 +297,7 @@ class DashboardController extends BaseController
         foreach ($description as $key => $value) {
             $value->total = number_format(($value->count_comr / $total) * 100, 1) . '%';
         }
+      
         return $description;
     }
 }
