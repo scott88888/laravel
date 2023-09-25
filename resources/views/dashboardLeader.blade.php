@@ -155,6 +155,100 @@
                 </div>
             </div>
             <div class="row">
+                
+           
+            </div>
+            <div class="row">
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">
+                                    {{$maintenData['maintenDate'] }}
+                                    製程不良狀況
+                                </h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="maintenTable" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">工單</th>
+                                            <th scope="col">產品名稱</th>
+                                            <th scope="col">訂單數量</th>
+                                            <th scope="col">維修數量</th>
+                                            <th scope="col">今日不良率</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($maintenData['mainten'] as $item)
+                                            <tr class="{{ ($item->count / $item->order_qty * 100) >= 10 ? 'text-danger' : '' }}">
+                                                <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
+                                                        {{ substr($item->runcard_no, 0, 11) }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $item->model }}</td>
+                                                <td>{{ $item->order_qty }}</td>
+                                                <td>{{ $item->count }}</td>
+                                                <td>
+                                                    @if ($item->count == 0)
+                                                    0
+                                                    @else
+                                                    {{ round($item->count / $item->order_qty * 100, 1) . '%'  }}
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0;">
+                        <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">
+                                    {{$maintenData['maintenDate'] }}
+                                    製程不良狀況佔比
+                                </h4>
+                            </div>
+                            <div id="chartdiv"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">不良統計表(當月)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">不良現象</th>
+                                            <th scope="col">不良代號</th>
+                                            <th scope="col">數量</th>
+                                            <th scope="col">占比</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($description as $item)
+                                            <tr>
+                                                <td>{{ $item->comr_desc }}</td>
+                                                <td>{{ $item->sts_comr }}</td>
+                                                <td>{{ $item->count_comr }}</td>
+                                                <td>{{ $item->total }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-5" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
@@ -168,7 +262,7 @@
                                     <table id="ListData" class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th style="text-align: center;">圖片</th>
-                                            <th style="text-align: center;">客戶</th>
+                                            <th style="text-align: center;">工單</th>
                                             <th style="text-align: center;">訂單數量</th>
                                             <th style="text-align: center;">已回報數量</th>
                                             <th style="text-align: center;">產品型號</th>
@@ -181,7 +275,7 @@
                                                 <td>
                                                 <img style="max-width:56px;" src={{ asset("/show-image/mesitempartlist").'/'.$status->COD_MITEM.'/'.$status->COD_MITEM.'-s.jpg' }} >
                                                 </td>
-                                                <td>{{ $status->remark2 }}</td>
+                                                <td>{{ $status->NUM_PS }}</td>
                                                 <td>{{ $status->qty_pcs }}</td>
                                                 <td>{{ $status->count }}</td>
                                                 <td>{{ $status->COD_MITEM }}</td> 
@@ -257,98 +351,6 @@
                     </div>
                 </div>
                 <div class="col-4" style="padding: 2px;">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0.5rem;">
-                            <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">不良統計表(當月)</h4>
-                            </div>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table class="table text-center">
-                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">不良現象</th>
-                                            <th scope="col">不良代號</th>
-                                            <th scope="col">數量</th>
-                                            <th scope="col">占比</th>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($description as $item)
-                                            <tr>
-                                                <td>{{ $item->comr_desc }}</td>
-                                                <td>{{ $item->sts_comr }}</td>
-                                                <td>{{ $item->count_comr }}</td>
-                                                <td>{{ $item->total }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4" style="padding: 2px;">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0.5rem;">
-                            <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">
-                                    {{$maintenData['maintenDate'] }}
-                                    製程不良狀況
-                                </h4>
-                            </div>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table id="maintenTable" class="table text-center">
-                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th scope="col">工單</th>
-                                            <th scope="col">產品名稱</th>
-                                            <th scope="col">訂單數量</th>
-                                            <th scope="col">維修數量</th>
-                                            <th scope="col">今日不良率</th>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($maintenData['mainten'] as $item)
-                                            <tr class="{{ ($item->count / $item->order_qty * 100) >= 10 ? 'text-danger' : '' }}">
-                                                <td><a href="http://mes.meritlilin.com.tw/support/www/MES/lilin/db_query_GAngRate.php?={{ $item->model }}&{{ $item->runcard_no}}">
-                                                        {{ substr($item->runcard_no, 0, 11) }}
-                                                    </a>
-                                                </td>
-                                                <td>{{ $item->model }}</td>
-                                                <td>{{ $item->order_qty }}</td>
-                                                <td>{{ $item->count }}</td>
-                                                <td>
-                                                    @if ($item->count == 0)
-                                                    0
-                                                    @else
-                                                    {{ round($item->count / $item->order_qty * 100, 1) . '%'  }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-5">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0;">
-                        <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">
-                                    {{$maintenData['maintenDate'] }}
-                                    製程不良狀況佔比
-                                </h4>
-                            </div>
-                            <div id="chartdiv"></div>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
