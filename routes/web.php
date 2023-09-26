@@ -121,6 +121,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileFirmwareUploadAjax', [FileController::class, 'fileFirmwareUploadAjax']);
     Route::get('/upload', [FileController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/fileupload', [FileController::class, 'uploadFile']);
+
+
     //分公司庫存    
     Route::match(['get', 'post'], '/inventoryItemList', [MesController::class, 'inventoryItemList'])
         ->middleware(CheckPermission::class . ':inventoryItemList');
@@ -147,10 +149,11 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':userEdit');
     Route::match(['get', 'post'], '/userEditPer', [SetupController::class, 'userEditPer']);
     Route::match(['get', 'post'], '/userDeleteAjax', [SetupController::class, 'userDeleteAjax']);
-    
+
     // 銷貨管理
     Route::match(['get', 'post'], '/shippingManagement', [salesManagementController::class, 'shippingManagement'])
         ->middleware(CheckPermission::class . ':shippingManagement');
-
+    Route::match(['get', 'post'], '/mesBOM', [MesController::class, 'mesBOM']);
+        // ->middleware(CheckPermission::class . ':mesBOM');
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 });

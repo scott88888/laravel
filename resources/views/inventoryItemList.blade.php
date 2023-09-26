@@ -81,7 +81,6 @@
                                                         <p></p>
                                                         @endswitch
                                                 </td>
-
                                             </tr>
                                             @endforeach
                                         </tbody>

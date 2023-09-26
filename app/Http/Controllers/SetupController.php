@@ -16,9 +16,8 @@ class SetupController extends BaseController
     public function userLoginLog()
     {
 
-        $value = DB::table('mes_loginlog')
-            ->orderBy('id', 'desc')
-            ->get();
+        $value = DB::SELECT("SELECT * FROM mes_loginlog
+        WHERE NOT log_url LIKE 'show-image%'");
         return view('userLoginLog', compact('value'));
     }
 

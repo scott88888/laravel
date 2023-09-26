@@ -523,7 +523,10 @@ class MesController extends BaseController
     {
         return view('mesShipmentList');
     }
-
+    public function mesBOM(Request $request)
+    {
+        return view('mesBOM');
+    }
     
     
 }
