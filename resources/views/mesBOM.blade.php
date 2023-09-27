@@ -74,7 +74,7 @@
             </div>
             <input type="hidden" id="modalValue">
             <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="myModalLabel">BOM</h5>
@@ -126,7 +126,6 @@
         $('#loading').hide();
         table = $('#ListData').DataTable({
             ...tableConfig,
-            // 第一个 DataTable 的 columnDefs
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
@@ -200,6 +199,9 @@
         });
         BOMtable = $('#BOMData').DataTable({
             ...tableConfig,
+            "info": false,
+            "lengthChange": false,
+                     
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
@@ -223,17 +225,18 @@
                     "title": "料號"
                 },
                 {
-                    "data": "COD_ITEM",
+                    "data": "COD_ITEMS",
                     "targets": 2,
                     "title": "產品說明"
                 },
                 {
-                    "data": "COD_ITEM",
+                    "data": "qty",
                     "targets": 3,
-                    "title": "庫存", "render": function(data, type, row) {
-                      
-                            return '0';
-                        
+                    "title": "庫存",
+                    "render": function(data, type, row) {
+
+                        return '';
+
                     }
                 }
             ]

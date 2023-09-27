@@ -118,7 +118,7 @@ class MesController extends BaseController
         //獲取資料
         // $MesItemPartList = MesModelList::getItemPartListData();
 
-         $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
+        $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
         if ($value) {
 
             return view('inventoryItemPartList', ['MesItemPartList' => $value]);
@@ -128,21 +128,17 @@ class MesController extends BaseController
     public function inventoryItemPartListAjax(Request $request)
     {
         //獲取資料
-        
+
         $model = $request->input('search');
         $depository = $request->input('depository');
         if (!$depository) {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%';");
-        }else {
+        } else {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_LOC = '$depository' AND  COD_ITEM LIKE '$model%' ");
-        
         }
-       return response()->json($value);
-
-
-
+        return response()->json($value);
     }
-    
+
 
     public function mesKickoffList(Request $request)
     {
@@ -241,7 +237,7 @@ class MesController extends BaseController
         return response()->json(status: 400);
     }
 
-    
+
     public function mesHistoryProductionQuantity(Request $request)
     {
 
@@ -424,14 +420,14 @@ class MesController extends BaseController
     {
         //獲取資料
         $editECRN = DB::table('mes_ecrecn')
-        ->where('id', $request->id)
-        ->get();
+            ->where('id', $request->id)
+            ->get();
         if ($editECRN) {
             return view('editECRN', ['editECRN' => $editECRN]);
         }
     }
 
-    
+
 
     public function RMAList(Request $request)
     {
@@ -447,25 +443,25 @@ class MesController extends BaseController
     }
 
     public function RMAErrorItemAjax(Request $request)
-    {       
+    {
         $warrantyDateE = 'FB' . date('ymd') . '9999';
         $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
         $todayNumber = date('ym') . '999999';
         $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
-        $mesRMAErrorItemAjax= DB::select("SELECT *  FROM mes_rma_analysis 
+        $mesRMAErrorItemAjax = DB::select("SELECT *  FROM mes_rma_analysis 
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' 
         AND '$warrantyDateE' 
         AND NUM_SER BETWEEN $thirteenMonthsAgoNumber 
         AND $todayNumber 
         AND (PS1_3 = '廠商' OR PS1_3 = '本廠') 
-        GROUP BY `NUM_ONCA`");        
+        GROUP BY `NUM_ONCA`");
         return response()->json($mesRMAErrorItemAjax);
     }
     public function RMA30dsAjax(Request $request)
-    {       
+    {
         $warrantyDateE = 'FB' . date('ymd') . '9999';
         $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
-        $mesRMA30dsAjax= DB::select("SELECT *
+        $mesRMA30dsAjax = DB::select("SELECT *
         FROM mes_rma_analysis
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE '");
         return response()->json($mesRMA30dsAjax);
@@ -488,7 +484,7 @@ class MesController extends BaseController
         $mesRMAbadPartAjax = DB::table('mes_rma_analysis')
             ->select('MTRM_PS AS part', DB::raw('COUNT(MTRM_PS) AS count'))
             ->where($searchtype, 'like', '%' . $search . '%')
-            
+
             ->groupBy('MTRM_PS')
             ->orderByDesc('count')
             ->take(10)
@@ -537,9 +533,26 @@ class MesController extends BaseController
     public function mesBOMSelectAjax(Request $request)
     {
         $search = $request->input('modalValue');
+
+        // $search = 'Z6R6452X3';
         $mesBOMItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEM LIKE '$search%'");
 
+        for ($i = 0; $i < count($mesBOMItem); $i++) {
+            $COD_ITEMS = $mesBOMItem[$i]->COD_ITEMS;
+            $results = DB::select("SELECT 
+            (SELECT SUM(QTY_STK) FROM mes_lcst_parts WHERE COD_ITEM = '$COD_ITEMS') AS QTY_parts,
+            (SELECT NAM_ITEM FROM mes_lcst_parts WHERE COD_ITEM = '$COD_ITEMS' LIMIT 1) AS NAM_ITEM,
+            (SELECT SUM(QTY_STK) FROM mes_lcst_item WHERE COD_ITEM = '$COD_ITEMS') AS QTY_item");
+            if (!empty($results)) {
+                $qty = $results[0]->QTY_parts + $results[0]->QTY_item;
+                $mesBOMItem[$i]->qty = $qty;
+                $NAM_ITEM = $results[0]->NAM_ITEM;
+                $mesBOMItem[$i]->NAM_ITEM = $NAM_ITEM;
+            } else {
+                $mesBOMItem[$i]->qty = '0';
+                $mesBOMItem[$i]->NAM_ITEM = '';
+            }
+        }
         return response()->json($mesBOMItem);
     }
-    
 }
