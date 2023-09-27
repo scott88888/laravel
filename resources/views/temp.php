@@ -1,27 +1,56 @@
-Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
-    //排行榜
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
-    Route::any('/dashboardLeader', [DashboardController::class, 'dashboardLeader'])->name('dashboardLeader');
-    //重新導向頁面
-    Route::any('/redirect', [RedirectController::class, 'redirect'])->name('redirect');
+columnDefs: [{
+                    "targets": "_all",
+                    "className": "dt-center"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 0,
+                    "title": "BOM",
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 1,
+                    "title": "產品照片"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 2,
+                    "title": "產品型號"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 3,
+                    "title": "產品性質"
+                },
+                {
+                    targets: [0, 1, 2, 3, 4], // 所在的 index（從 0 開始）
+                    render: function(data, row, meta) {
+                        switch (meta.col) {
+                            case 0:
+                                if (data.length > 0) {
+                                    return '<a href="#" id="openModalButton" data-modal-value="' + data + '">' + bom_icon + '</a>';
+                                    return button[0].outerHTML;
+                                } else {
+                                    return '';
+                                }
+                            case 1:
+                                if (data.length > 0) {
+                                    var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '.jpg';
+                                    var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '-s.jpg';
+                                    return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '"></a>';
+                                } else {
+                                    return '';
+                                }
 
-
-    //MES
-    Route::match(['get', 'post'], '/mesRepairProducts', [MesController::class, 'mesRepairProducts']);
-    Route::match(['get', 'post'], '/mesModelList', [MesController::class, 'mesModelList']);
-    Route::match(['get', 'post'], '/mesUploadList', [MesController::class, 'mesUploadList']);
-    Route::match(['get', 'post'], '/mesUploadListAjax', [MesController::class, 'mesUploadListAjax']);
-    Route::match(['get', 'post'], '/editFirmware', [MesController::class, 'editFirmware']);
-    Route::match(['get', 'post'], '/delFirmwareAjax', [MesController::class, 'delFirmwareAjax']);
-    Route::match(['get', 'post'], '/mesKickoffList', [MesController::class, 'mesKickoffList']);
-    Route::match(['get', 'post'], '/mesCutsQuery', [MesController::class, 'mesCutsQuery']);
-    Route::match(['get', 'post'], '/mesMonProductionList', [MesController::class, 'mesMonProductionList']);
-    
-    //設定
-    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
-    Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-    Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-    Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog']);
-    
-});
-
+                            case 2:
+                                return data;
+                            case 3:
+                                return data;
+                            case 4:
+                                return '';
+                            default:
+                                return data;
+                        }
+                    }
+                }
+            ]

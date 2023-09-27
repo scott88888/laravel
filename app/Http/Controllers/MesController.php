@@ -527,6 +527,19 @@ class MesController extends BaseController
     {
         return view('mesBOM');
     }
-    
+    public function mesBOMItemAjax(Request $request)
+    {
+        $search = $request->input('search');
+        $mesBOMItem = DB::select("SELECT * FROM mes_item_list WHERE COD_ITEM LIKE '$search%'");
+
+        return response()->json($mesBOMItem);
+    }
+    public function mesBOMSelectAjax(Request $request)
+    {
+        $search = $request->input('modalValue');
+        $mesBOMItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEM LIKE '$search%'");
+
+        return response()->json($mesBOMItem);
+    }
     
 }

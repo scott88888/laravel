@@ -23,19 +23,11 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">物料庫存查詢</h4>
+                                <h4 class="header-title">BOM查詢</h4>
                                 <div class="form-row">
-                                <div class="col-md-2 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">倉位編號</label>
-                                        <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">                                        
-                                            <option value="">全倉位</option>
-                                            @foreach ($MesItemPartList as $ListData)
-                                            <option value="{{$ListData->COD_LOC}}">{{$ListData->COD_LOC}}</option>                                           
-                                            @endforeach 
-                                        </select>
-                                    </div>
+
                                     <div class="col-md-2 mb-3" id="searchBox">
-                                        <label for="">料號查詢</label>
+                                        <label for="">產品型號查詢</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
@@ -49,25 +41,29 @@
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
-                                                <th>上傳</th>
+                                                <th>BOM</th>
                                                 <th>照片</th>
-                                                <th>料號</th>
-                                                <th>料件敘述</th>
-                                                <th>庫存</th>
-                                                <th>倉位</th>
-                                                <th>倉位編號</th>
+                                                <th>產品型號</th>
+                                                <th>產品性質</th>
+                                                <th>產品名稱</th>
+                                                <th>部別</th>
+                                                <th>上架時間</th>
+                                                <th>終止使用</th>
+                                                <th>90天</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                           </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -76,61 +72,42 @@
                     </div>
                 </div>
             </div>
-
+            <input type="hidden" id="modalValue">
             <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myModalLabel">刪除確認</h5>
+                            <h5 class="modal-title" id="myModalLabel">BOM</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p id="modal-delid"></p>
-                            <input type="text" id="delid" style="display: none;">
+                            <div class="data-tables datatable-dark">
+                                <table id="BOMData" class="display text-center" style="width:100%">
+                                    <thead class="text-capitalize" style=" background: darkgrey;">
+                                        <tr>
+                                            <th>照片</th>
+                                            <th>料件</th>
+                                            <th>敘述</th>
+                                            <th>庫存</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal" onclick="delJpgAjax('mesItemPartList')">確認刪除</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="myModalLabel">圖片上傳</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div style="padding:0, 1rem;">
-                                <span class="ti-upload">圖片</span>
-                                <input id="mesItemPart_Name" style="display: none;">
-                                <form id="mesItemPartListForm" enctype="multipart/form-data">
-                                    <p id="modal-id"></p>
-                                    <input type="text" id="idModel" style="display: none;">
-                                    <div class="input-group mb-3">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="mesItemPartListInput" id="mesItemPartListInput" accept=".jpg" onchange="updateFileName(this,'mesItemPartList')">
-                                            <label class="custom-file-label" id="mesItemPartList">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <button class="input-group-text" type="button" onclick="uploadFile('mesItemPartList')">Upload</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div id="progressBar">
-                            <div id="progressBarFill"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-info" id="delete" data-dismiss="modal">確認上傳</button>
                         </div>
                     </div>
                 </div>
@@ -143,121 +120,104 @@
 @include('layouts/footerjs')
 <script>
     let model;
+
     $(document).ready(function() {
+        let bom_icon = '<img src=' + '{{ asset("images/icon/bom_icon300.png")}} style="width: 1.5rem;"">';
         $('#loading').hide();
         table = $('#ListData').DataTable({
             ...tableConfig,
+            // 第一个 DataTable 的 columnDefs
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
-                },
-                {
+                }, {
                     "data": "COD_ITEM",
                     "targets": 0,
-                    "title": "上傳",
-                },
-                {
-                    "data": "first",
+                    "title": "BOM",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '">' + bom_icon + '</a>';
+                            return button[0].outerHTML;
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
+                    "data": "COD_ITEM",
                     "targets": 1,
-                    "title": "產品照片"
-                },
-                {
+                    "title": "產品照片",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '.jpg';
+                            var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '-s.jpg';
+                            return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '"></a>';
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     "data": "COD_ITEM",
                     "targets": 2,
-                    "title": "料號"
+                    "title": "產品型號"
+                },
+                {
+                    "data": "DSC_ITEM",
+                    "targets": 3,
+                    "title": "產品性質"
                 },
                 {
                     "data": "NAM_ITEM",
-                    "targets": 3,
-                    "title": "料件敘述"
-                },
-                {
-                    "data": "QTY_STK",
                     "targets": 4,
-                    "title": "庫存"
+                    "title": "產品名稱"
                 },
                 {
-                    "data": "COD_LOC",
+                    "data": "TYP_ITEM",
                     "targets": 5,
-                    "title": "倉位"
+                    "title": "部別"
                 },
                 {
-                    "data": "COD_LOC",
+                    "data": "DAT_FILE",
                     "targets": 6,
-                    "title": "倉位編號"
+                    "title": "上架時間"
                 },
                 {
-                    targets: [0, 1, 5, 6], // 所在的 index（從 0 開始）
-                    render: function(data, type, row, meta) {
-                        switch (meta.col) {
-                            case 0:
-                                model = data;
-                                return '<span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="' + data + '" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>'
-                            case 1:
-                                if (data == 1) {
-                                    var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '.jpg';
-                                    var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '-s.jpg';
-                                    return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '" alt="圖片"></a>';
-                                } else {
-                                    return data;
-                                }
-                            case 5:
-                                if (data == 'GO-001') {
-                                    return ' <p style="color:blue">內銷成品倉</p>';
-                                } else if (data == 'WO-003') {
-                                    return ' <p style="color:green">外銷成品倉</p>';
-                                } else if (data == 'AO-111') {
-                                    return ' <p style="color:purple">共用料件倉</p>';
-                                } else if (data == 'LL-000') {
-                                    return ' <p style="color:red">內銷借品專用倉</p>';
-                                } else if (data == 'GO-002') {
-                                    return ' <p style="color:blue">良品倉-原料</p>';
-                                } else if (data == 'PA-000') {
-                                    return ' <p style="color:blue">維修總倉</p>';
-                                } else if (data == '0804') {
-                                    return ' <p style="color:blue">品管課(生產)</p>';
-                                }else {
-                                    return data;
-                                }
-                            case 6:
-                                return data;
-                            default:
-                                return data;
-                        }
-                    }
+                    "data": "DAT_USET",
+                    "targets": 7,
+                    "title": "終止使用"
+                },
+                {
+                    "data": "DAT_USET",
+                    "targets": 8,
+                    "title": "90天",
+
                 }
-
             ]
-        });
-
-        $('#ListData').on('click', '.fa-arrow-up', function() {
-            var id = $(this).data('id');
-            $('#modal-id').text("model: " + id);
-            $('#idModel').val(id);
 
         });
-        $('.fa-times').on('click', function() {
-            var id = $(this).data('id');
-            $('#modal-delid').text("model: " + id);
-            $('#delid').val(id);
+        BOMtable = $('#BOMData').DataTable({
+            ...tableConfig,
+
+        });
+        $('#ListData').on('click', '#openModalButton', function() {
+            var modalValue = $(this).data('modal-value');
+            selectBOM(modalValue);
+            console.log(modalValue);
+
         });
         $('#submit').click(function() {
             var search = $('#search').val();
-            var depository = $('#depository').val();
-            
-            selectModel(depository,search);
+            selectModel(search);
         });
     });
 
-    function selectModel(depository,search) {
+    function selectModel(search) {
         $('#loading').show();
         $.ajax({
-            url: 'inventoryItemPartListAjax',
+            url: 'mesBOMItemAjax',
             type: 'GET',
             dataType: 'json',
             data: {
                 search: search,
-                depository: depository
             },
             success: function(response) {
                 table.clear().rows.add(response).draw();
@@ -269,158 +229,33 @@
                 $('#loading').hide();
             }
         });
+
     }
 
-    function updateFileName(input, labelId) {
-        var fileName = input.files[0].name;
-        var label = document.getElementById(labelId);
-        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
-    }
-
-    function select(type) {
-        var fileInput;
-        fileInput = document.getElementById(type + 'Input');
-
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('file', file);
-        formData.append('type', type);
-        formData.append('idModel', $('#idModel').val());
-        console.log(formData);
+    function selectBOM(modalValue) {
         $('#loading').show();
         $.ajax({
-            url: "{{ asset('uploadjpg') }}",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        var progressPercent = Math.round((e.loaded / e.total) * 100);
-                        $('#progressBarFill').css('width', progressPercent + '%');
-                    }
-                });
-                return xhr;
+            url: 'mesBOMSelectAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                modalValue: modalValue,
             },
             success: function(response) {
-                console.log(response.message);
-                console.log(response.filename);
-                $('#' + type + '_Name').val(response.filename).hide();
-                var label = document.getElementById(type);
-                label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
-                // console.log(response.filesize);
-                // console.log(type);
-
+                console.log(response);
                 $('#loading').hide();
+                var BOMtable = $('#BOMData').DataTable();
+                BOMtable.clear().rows.add(response).draw();
 
+
+                $('#delModal').modal('show');
             },
             error: function(xhr, status, error) {
-                console.log(error);
-                console.log(status);
-                var label = document.getElementById(type);
-                label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
+                console.log('no data');
+                table.clear();
                 $('#loading').hide();
             }
         });
-
-
-
-    }
-
-    function uploadFile(type) {
-        var fileInput;
-        fileInput = document.getElementById(type + 'Input');
-
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('file', file);
-        formData.append('type', type);
-        formData.append('idModel', $('#idModel').val());
-        console.log(formData);
-        $('#loading').show();
-        $.ajax({
-            url: "{{ asset('uploadjpg') }}",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        var progressPercent = Math.round((e.loaded / e.total) * 100);
-                        $('#progressBarFill').css('width', progressPercent + '%');
-                    }
-                });
-                return xhr;
-            },
-            success: function(response) {
-                console.log(response.message);
-                console.log(response.filename);
-                $('#' + type + '_Name').val(response.filename).hide();
-                var label = document.getElementById(type);
-                label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
-                // console.log(response.filesize);
-                // console.log(type);
-
-                $('#loading').hide();
-
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-                console.log(status);
-                var label = document.getElementById(type);
-                label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
-                $('#loading').hide();
-            }
-        });
-
-
-
-    }
-
-    function delJpgAjax(type) {
-        var fileInput;
-        fileInput = document.getElementById(type + 'Input');
-
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('file', file);
-        formData.append('type', type);
-        formData.append('delid', $('#delid').val());
-
-        $('#loading').show();
-        $.ajax({
-            url: "{{ asset('delJpgAjax') }}",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                console.log(response.message);
-                console.log(response.filename);
-                $('#loading').hide();
-
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-                console.log(status);
-                $('#loading').hide();
-            }
-        });
-
-
 
     }
 </script>

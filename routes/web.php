@@ -154,6 +154,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/shippingManagement', [salesManagementController::class, 'shippingManagement'])
         ->middleware(CheckPermission::class . ':shippingManagement');
     Route::match(['get', 'post'], '/mesBOM', [MesController::class, 'mesBOM']);
-        // ->middleware(CheckPermission::class . ':mesBOM');
+    // ->middleware(CheckPermission::class . ':mesBOM');
+    Route::match(['get', 'post'], '/mesBOMItemAjax', [MesController::class, 'mesBOMItemAjax']);
+    Route::match(['get', 'post'], '/mesBOMSelectAjax', [MesController::class, 'mesBOMSelectAjax']);
+    
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 });

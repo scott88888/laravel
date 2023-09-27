@@ -102,7 +102,7 @@ class DashboardModel extends Authenticatable
         $value = DB::select("SELECT * FROM mes_lcst_item WHERE qty_stk > 0 ORDER BY CAST(qty_stk AS UNSIGNED) DESC LIMIT 10");
         return $value;
     }
-    public static function getStockShipment($model,$today,$Days90)
+    public static function getStockShipment($model, $today, $Days90)
     {
 
         $value = DB::select("SELECT SUM(QTY_DEL) as sellQty FROM mes_deld_shipment
