@@ -96,7 +96,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td></td>
+                                            <td style="padding: 1px;"></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -189,13 +189,55 @@
                     "data": "DAT_USET",
                     "targets": 8,
                     "title": "90天",
+                    "render": function(data, type, row) {
 
+                        return '';
+
+                    }
                 }
             ]
 
         });
         BOMtable = $('#BOMData').DataTable({
             ...tableConfig,
+            columnDefs: [{
+                    "targets": "_all",
+                    "className": "dt-center"
+                },
+                {
+                    "data": "COD_ITEMS",
+                    "targets": 0,
+                    "title": "產品照片",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
+                            var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
+                            return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:50px;" src="' + imageUrls + '"></a>';
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
+                    "data": "COD_ITEMS",
+                    "targets": 1,
+                    "title": "料號"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 2,
+                    "title": "產品說明"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 3,
+                    "title": "庫存", "render": function(data, type, row) {
+                      
+                            return '0';
+                        
+                    }
+                }
+            ]
+
 
         });
         $('#ListData').on('click', '#openModalButton', function() {
