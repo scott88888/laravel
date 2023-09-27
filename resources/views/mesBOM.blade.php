@@ -198,10 +198,9 @@
 
         });
         BOMtable = $('#BOMData').DataTable({
-            ...tableConfig,
-            "info": false,
+            ...tableConfig,          
             "lengthChange": false,
-                     
+          
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
