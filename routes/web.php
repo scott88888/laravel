@@ -107,7 +107,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesECNList', [MesController::class, 'mesECNList'])
         ->middleware(CheckPermission::class . ':mesECNList');
     Route::match(['get', 'post'], '/editECRN', [MesController::class, 'editECRN']);
-    Route::match(['get', 'post'], '/delECRNAjax', [MesController::class, 'delECRNAjax']);
+    Route::match(['get', 'post'], '/delECRNAjax', [FileController::class, 'delECRNAjax']);
     Route::match(['get', 'post'], '/fileECNEdit', [FileController::class, 'fileECNEdit'])
         ->middleware(CheckPermission::class . ':fileFirmwareUpload');
     Route::match(['get', 'post'], '/fileECRNEditAjax', [FileController::class, 'fileECRNEditAjax']);
