@@ -526,8 +526,16 @@ class MesController extends BaseController
     public function mesBOMItemAjax(Request $request)
     {
         $search = $request->input('search');
-        $mesBOMItem = DB::select("SELECT * FROM mes_item_list WHERE COD_ITEM LIKE '$search%'");
 
+        $mesBOMItem = DB::select("SELECT * FROM mes_item_list WHERE COD_ITEM LIKE '$search%'");
+        $today = date("Ymd");
+        $Days90 = date("Ymd", strtotime("-90 days"));
+        for ($i = 0; $i < count($mesBOMItem); $i++) {
+            $COD_ITEM = $mesBOMItem[$i]->COD_ITEM;
+            $itemQty = DB::select("SELECT SUM(QTY_DEL) as QTY_DEL FROM mes_deld_shipment WHERE COD_ITEM = '$COD_ITEM' AND (DAT_DEL BETWEEN '$Days90' AND '$today')");
+
+            $mesBOMItem[$i]->QTY_DEL = $itemQty[0]->QTY_DEL;
+        }
         return response()->json($mesBOMItem);
     }
     public function mesBOMSelectAjax(Request $request)
@@ -535,7 +543,7 @@ class MesController extends BaseController
         $search = $request->input('modalValue');
 
         // $search = 'Z6R6452X3';
-        $mesBOMItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEM LIKE '$search%'");
+        $mesBOMItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEM = '$search' ORDER BY COD_ITEM ASC, COD_ITEMS ASC ");
 
         for ($i = 0; $i < count($mesBOMItem); $i++) {
             $COD_ITEMS = $mesBOMItem[$i]->COD_ITEMS;

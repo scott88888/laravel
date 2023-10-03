@@ -23,13 +23,17 @@ class DashboardController extends BaseController
         $shipmentThisMon = $shipmentMon['shipmentThisMon'];
         $shipmentMon = $shipmentMon['shipmentMon'];
         //end
+        $seasonDates = $this->getPreviousSeasonDates();
+        $startSeasonDate = $seasonDates['start'];
+        $endSeasonDate = $seasonDates['end'];
+        $seasonDates['Season']= substr($seasonDates['start'],0,6).'-'.substr($seasonDates['end'],0,6);
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
           SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
             ROW_NUMBER() OVER (PARTITION BY mes_typ_item.TYP_CODE ORDER BY SUM(mes_deld_shipment.QTY_DEL) DESC) AS row_num
           FROM mes_deld_shipment
           LEFT JOIN mes_typ_item ON mes_deld_shipment.TYP_ITEM = mes_typ_item.TYP_ITEM
-          WHERE mes_deld_shipment.DAT_DEL >= '20230401' AND mes_deld_shipment.DAT_DEL <= '20230631'
+          WHERE mes_deld_shipment.DAT_DEL >= '$startSeasonDate' AND mes_deld_shipment.DAT_DEL <= '$endSeasonDate'
           GROUP BY mes_deld_shipment.NAM_ITEMS, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM
         ) AS subquery
         WHERE subquery.row_num <= 2
@@ -40,6 +44,9 @@ class DashboardController extends BaseController
             $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
             $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
+       
+
+
         //今日生產維修狀況
         $maintenData = $this->mainten();
         //今日生產維修狀況end
@@ -146,20 +153,20 @@ class DashboardController extends BaseController
             $formattedTime = sprintf("%d分%d秒", $minutes, $remainingSeconds);
             $productionData['productionStatus'][$i]->average_time = $formattedTime;
         }
-    
-//         SELECT count('sts_comr')/12 AS qty FROM runcard_ng_rate
-// WHERE 
-//     (num_comr BETWEEN 'MR2209' AND 'MR2308')
-//     AND (num_comr LIKE 'MR22%' OR num_comr LIKE 'MR23%')
-//     AND sts_comr = 'MG'
+
+        //         SELECT count('sts_comr')/12 AS qty FROM runcard_ng_rate
+        // WHERE 
+        //     (num_comr BETWEEN 'MR2209' AND 'MR2308')
+        //     AND (num_comr LIKE 'MR22%' OR num_comr LIKE 'MR23%')
+        //     AND sts_comr = 'MG'
 
         //不良統計表(當月)
         $description = $this->description();
- 
-        for ($i=0; $i < count($description ) ; $i++) { 
+
+        for ($i = 0; $i < count($description); $i++) {
             # code...
         }
-        return view('dashboardLeader', compact('productionData', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
+        return view('dashboardLeader', compact('productionData','seasonDates' ,'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
     }
 
 
@@ -191,7 +198,7 @@ class DashboardController extends BaseController
         return ['mainten' => $mainten, 'maintenDate' => $maintenDate, 'maintenPie' => $maintenPie];
     }
     public function maintenPie($maintenDate)
-    { 
+    {
         $maintenPie = DB::select("SELECT
                                         r.STS_COMR,
                                         d.description AS comr_desc,
@@ -297,7 +304,51 @@ class DashboardController extends BaseController
         foreach ($description as $key => $value) {
             $value->total = number_format(($value->count_comr / $total) * 100, 1) . '%';
         }
-      
+
         return $description;
     }
+
+    function getPreviousSeasonDates()
+    {
+        $currentMonth = date('n'); // 获取当前月份，不带前导零
+
+        // 定义每个季节的开始月份
+        $seasons = [
+            1 => 1,  // 冬季
+            4 => 4,  // 春季
+            7 => 7,  // 夏季
+            10 => 10, // 秋季
+        ];
+
+        // 找到前一季度的开始月份
+        $startMonth = 1;
+        foreach ($seasons as $month => $seasonStartMonth) {
+            if ($currentMonth >= $month) {
+                $startMonth = $seasonStartMonth;
+            } else {
+                break;
+            }
+        }
+
+        // 计算前一季度的结束月份
+        $endMonth = $startMonth + 2;
+        if ($endMonth > 12) {
+            $endMonth = $endMonth - 12;
+        }
+
+        // 获取当前年份的后两位
+        $currentYear = date('Y');
+
+        // 格式化日期字符串
+        $startSeasonDate = $currentYear . sprintf('%02d', $startMonth - 3) . '01'; // 减去3个月获取前一季度的开始月份
+        $endSeasonDate = $currentYear . sprintf('%02d', $endMonth - 3) . '31'; // 减去3个月获取前一季度的结束月份
+
+        return [
+            'start' => $startSeasonDate,
+            'end' => $endSeasonDate,
+        ];
+    }
+
+    // 使用函数获取前一季度的日期范围
+
 }

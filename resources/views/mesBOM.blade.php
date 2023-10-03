@@ -185,12 +185,12 @@
                     "title": "終止使用"
                 },
                 {
-                    "data": "DAT_USET",
+                    "data": "QTY_DEL",
                     "targets": 8,
                     "title": "90天",
                     "render": function(data, type, row) {
 
-                        return '';
+                        return data;
 
                     }
                 }
@@ -224,7 +224,7 @@
                     "title": "料號"
                 },
                 {
-                    "data": "COD_ITEMS",
+                    "data": "NAM_ITEM",
                     "targets": 2,
                     "title": "產品說明"
                 },
@@ -234,7 +234,7 @@
                     "title": "庫存",
                     "render": function(data, type, row) {
 
-                        return '';
+                        return data;
 
                     }
                 }

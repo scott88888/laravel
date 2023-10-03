@@ -5,7 +5,7 @@ const searchParams = new URLSearchParams(url.search);
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
 
-if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
+if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList" || page == "mesBOM") {
   setActive('#documentSearch');
   removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "RMAList" || page == "RMAAnalysis") {
@@ -146,6 +146,10 @@ switch (page) {
   case 'userEdit':
     $('#userEditBtn').last().addClass("active");
     break;
+  case 'mesBOM':
+    $('#mesBOMBtn').last().addClass("active");
+    break;
+
   default:
     console.log('Sorry, we are out of ' + page + '.');
 
