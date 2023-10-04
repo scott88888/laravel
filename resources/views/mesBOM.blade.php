@@ -49,7 +49,8 @@
                                                 <th>部別</th>
                                                 <th>上架時間</th>
                                                 <th>終止使用</th>
-                                                <th>90天平銷</th>                                               
+                                                <th>90天平銷</th>
+                                                <th>庫存</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,7 +64,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                              
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -75,7 +76,7 @@
             </div>
             <input type="hidden" id="modalValue">
             <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document" style="max-width: 60%;">
+                <div class="modal-dialog" role="document" style="max-width: 70%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="myModalLabel">BOM</h5>
@@ -107,7 +108,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>                           
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
                         </div>
                     </div>
                 </div>
@@ -187,21 +188,28 @@
                 {
                     "data": "QTY_DEL",
                     "targets": 8,
-                    "title": "90天",
+                    "title": "90天平銷",
                     "render": function(data, type, row) {
 
                         return data;
 
                     }
+                },
+                {
+                    "data": "QTY_STK",
+                    "targets": 9,
+                    "title": "庫存"
                 }
-             
+
             ]
 
         });
         BOMtable = $('#BOMData').DataTable({
-            ...tableConfig,          
+            ...tableConfig,
+            "info": false,
             "lengthChange": false,
-          
+            "paging": false,
+            "scrollCollapse": true, // 啟用捲動條收縮
             columnDefs: [{
                     "targets": "_all",
                     "className": "dt-center"
@@ -289,7 +297,7 @@
                 modalValue: modalValue,
             },
             success: function(response) {
-                console.log(response);
+           
                 $('#loading').hide();
                 var BOMtable = $('#BOMData').DataTable();
                 BOMtable.clear().rows.add(response).draw();

@@ -156,6 +156,7 @@
                 }
             }]
         });
+        load();
         $('#searchtype').on('change', function() {
             var selectedValue = $(this).val();
             $('#loading').show();
@@ -185,7 +186,35 @@
             });
 
         });
+        function load() {
+            var selectedValue = 'MaterialDeliveryDate';
+            $('#loading').show();
+            $.ajax({
+                url: 'mesBuyDelayAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    searchtype: selectedValue
+                },
+                success: function(response) {
+                    // 清空表格資料
+                    table.clear();
+                    // 將回應資料加入表格
+                    table.rows.add(response);
+                    // 重新繪製表格
+                    table.order([0, 'desc']).draw();
+                    $('#loading').hide();
+                    // 處理 AJAX 請求成功後的回應
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // 處理 AJAX 請求失敗後的回應
+                    console.log('no');
+                    $('#loading').hide();
+                }
+            });
 
+        }
 
     });
 </script>
