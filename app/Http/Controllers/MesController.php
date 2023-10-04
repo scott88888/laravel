@@ -533,8 +533,9 @@ class MesController extends BaseController
         for ($i = 0; $i < count($mesBOMItem); $i++) {
             $COD_ITEM = $mesBOMItem[$i]->COD_ITEM;
             $itemQty = DB::select("SELECT SUM(QTY_DEL) as QTY_DEL FROM mes_deld_shipment WHERE COD_ITEM = '$COD_ITEM' AND (DAT_DEL BETWEEN '$Days90' AND '$today')");
-
+            $QTY_STK = DB::select("SELECT SUM(QTY_STK) AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$COD_ITEM'");
             $mesBOMItem[$i]->QTY_DEL = $itemQty[0]->QTY_DEL;
+            $mesBOMItem[$i]->QTY_STK = $QTY_STK[0]->QTY_STK;
         }
         return response()->json($mesBOMItem);
     }

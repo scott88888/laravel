@@ -49,7 +49,7 @@
                                                 <th>部別</th>
                                                 <th>上架時間</th>
                                                 <th>終止使用</th>
-                                                <th>90天</th>
+                                                <th>90天平銷</th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,6 +63,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                              
                                             </tr>
                                         </tbody>
                                     </table>
@@ -106,8 +107,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal" onclick="delJpgAjax('mesItemPartList')">確認刪除</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>                           
                         </div>
                     </div>
                 </div>
@@ -194,6 +194,7 @@
 
                     }
                 }
+             
             ]
 
         });
@@ -238,6 +239,8 @@
 
                     }
                 }
+
+
             ]
 
 
