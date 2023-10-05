@@ -392,12 +392,36 @@ class MesController extends BaseController
     public function mesBuyDelayAjax(Request $request)
     {
         $searchtype = $request->input('searchtype');
-        if ($searchtype) {
-            $mesBuyDelayAjax = MesModelList::getBuyDelayAjax($searchtype);
-            return response()->json($mesBuyDelayAjax);
-        } else {
-            return response()->json('nodata');
+        $daytime = $request->input('date');
+        $today = date('Ymd');
+        if ($daytime == '20009999') {
+            $today = '20999999';
         }
+
+        if ($searchtype == 'MaterialDeliveryDate') {
+            $value = DB::table('mes_purchase_overdue')
+                ->select('*')
+                ->whereNotNull('DAT_POR')
+                ->whereBetween('DAT_BUY', [$daytime, $today])
+                ->where('DIFF_DAYS', '>', 0)
+                ->orderBy('DAT_BUY', 'desc')
+                ->get();
+            return response()->json($value);
+        } else {
+            $value = DB::table('mes_purchase_overdue')
+                ->whereNull('DAT_POR')
+                ->whereBetween('DAT_BUY', [$daytime, $today])
+                ->orderBy('DAT_BUY', 'desc')
+                ->get();
+            return response()->json($value);
+        }
+
+        // if ($searchtype) {
+        //     $mesBuyDelayAjax = MesModelList::getBuyDelayAjax($searchtype);
+        //     return response()->json($mesBuyDelayAjax);
+        // } else {
+        //     return response()->json('nodata');
+        // }
     }
 
     public function mesECNList(Request $request)
@@ -552,14 +576,25 @@ class MesController extends BaseController
             (SELECT SUM(QTY_STK) FROM mes_lcst_parts WHERE COD_ITEM = '$COD_ITEMS') AS QTY_parts,
             (SELECT NAM_ITEM FROM mes_lcst_parts WHERE COD_ITEM = '$COD_ITEMS' LIMIT 1) AS NAM_ITEM,
             (SELECT SUM(QTY_STK) FROM mes_lcst_item WHERE COD_ITEM = '$COD_ITEMS') AS QTY_item");
+
+            $SUN_QTY = DB::select("SELECT * , SUM(UN_QTY) AS SUN_QTY
+                                    FROM mes_purchase_overdue
+                                    WHERE COD_ITEM = '$COD_ITEMS'");
+
             if (!empty($results)) {
                 $qty = $results[0]->QTY_parts + $results[0]->QTY_item;
                 $mesBOMItem[$i]->qty = $qty;
                 $NAM_ITEM = $results[0]->NAM_ITEM;
                 $mesBOMItem[$i]->NAM_ITEM = $NAM_ITEM;
+                $mesBOMItem[$i]->SUN_QTY =  $SUN_QTY[0]->SUN_QTY;
+                $mesBOMItem[$i]->DAT_REQ =  $SUN_QTY[0]->DAT_REQ;
+                $mesBOMItem[$i]->inventory =  $qty + $SUN_QTY[0]->SUN_QTY; 
             } else {
                 $mesBOMItem[$i]->qty = '0';
                 $mesBOMItem[$i]->NAM_ITEM = '';
+                $mesBOMItem[$i]->SUN_QTY =  '';
+                $mesBOMItem[$i]->DAT_REQ = '';
+                $mesBOMItem[$i]->inventory = '';
             }
         }
         return response()->json($mesBOMItem);

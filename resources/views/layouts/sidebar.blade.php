@@ -42,7 +42,7 @@
                             <li id="mesRepairNGListBtn"><a href="mesRepairNGList">產線零件維修不良排行</a></li>
                             <li id="mesBuyDelayBtn"><a href="mesBuyDelay">入料逾期明細表</a></li>
                             <li id="mesECNListBtn"><a href="mesECNList">ECR/ECN查詢</a></li>
-                            <li id="mesBOMBtn"><a href="mesBOM">BOM查詢</a></li>
+                            <li id="mesBOMBtn"><a href="mesBOM">推估訂單BOM</a></li>
 
                         </ul>
                     </li>

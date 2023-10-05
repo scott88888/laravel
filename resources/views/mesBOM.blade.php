@@ -23,7 +23,7 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">BOM查詢</h4>
+                                <h4 class="header-title">推估訂單BOM</h4>
                                 <div class="form-row">
 
                                     <div class="col-md-2 mb-3" id="searchBox">
@@ -91,14 +91,19 @@
                                         <tr>
                                             <th>照片</th>
                                             <th>料件</th>
-                                            <th>敘述</th>
-                                            <th>庫存</th>
-
+                                            <th>料號說明</th>
+                                            <th>在庫庫存</th>
+                                            <th>在途量</th>
+                                            <th>交期</th>
+                                            <th>預計庫存</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td style="padding: 1px;"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -235,20 +240,28 @@
                 {
                     "data": "NAM_ITEM",
                     "targets": 2,
-                    "title": "產品說明"
+                    "title": "料號說明"
                 },
                 {
                     "data": "qty",
                     "targets": 3,
-                    "title": "庫存",
-                    "render": function(data, type, row) {
-
-                        return data;
-
-                    }
+                    "title": "在庫庫存"
+                },
+                {
+                    "data": "SUN_QTY",
+                    "targets": 4,
+                    "title": "在途量"
+                },
+                {
+                    "data": "DAT_REQ",
+                    "targets": 5,
+                    "title": "交期"
+                },
+                {
+                    "data": "inventory",
+                    "targets": 6,
+                    "title": "預計庫存"
                 }
-
-
             ]
 
 
