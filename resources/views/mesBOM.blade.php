@@ -250,17 +250,17 @@
                 {
                     "data": "SUN_QTY",
                     "targets": 4,
-                    "title": "在途量"
+                    "title": "在途料件"
                 },
                 {
                     "data": "DAT_REQ",
                     "targets": 5,
-                    "title": "交期"
+                    "title": "料件預計到廠日"
                 },
                 {
                     "data": "inventory",
                     "targets": 6,
-                    "title": "預計庫存"
+                    "title": "預期庫存"
                 }
             ]
 
