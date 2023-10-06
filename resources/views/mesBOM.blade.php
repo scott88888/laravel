@@ -222,7 +222,7 @@
                 {
                     "data": "COD_ITEMS",
                     "targets": 0,
-                    "title": "產品照片",
+                    "title": "料件照片",
                     "render": function(data, type, row) {
                         if (data.length > 0) {
                             var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
@@ -315,7 +315,7 @@
                 var BOMtable = $('#BOMData').DataTable();
                 BOMtable.clear().rows.add(response).draw();
                 
-                $('#myModalLabel').text(modalValue);
+                $('#myModalLabel').text('「推估訂單BOM」-'+modalValue);
                 $('#delModal').modal('show');
             },
             error: function(xhr, status, error) {

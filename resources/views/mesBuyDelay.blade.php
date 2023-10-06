@@ -33,7 +33,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-1">
-                                        <label for="validationCustom04">快查</label>
+                                        <label for="">快查</label>
                                         <div class="col">
                                             <button id="1ds" class="btn btn-primary">明天</button>
                                         </div>
@@ -41,19 +41,22 @@
                                     <div class="col-md-1">
                                         <label for="">快查</label>
                                         <div class="col">
-                                            <button id="7ds" class="btn btn-primary">7天</button>
+                                            <button id="7ds" class="btn btn-primary">未來7天</button>
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <label for="">快查</label>
                                         <div class="col">
-                                            <button id="30ds" class="btn btn-primary">30天</button>
+                                            <button id="30ds" class="btn btn-primary">未來30天</button>
                                         </div>
                                     </div>
-                                    <div class="col-2">
-                                        <label for="">查詢</label>
-                                        <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
+                                    <div class="col">
+                                        <label for="">快查</label>
+                                        <div class="col2">
+                                            <button id="submit" class="btn btn-primary">送出</button>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
