@@ -410,6 +410,7 @@ class MesController extends BaseController
         } else {
             $value = DB::table('mes_purchase_overdue')
                 ->whereNull('DAT_POR')
+                ->orWhere('DAT_POR', '')
                 ->whereBetween('DAT_BUY', [$daytime, $today])
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
