@@ -5,7 +5,7 @@ const searchParams = new URLSearchParams(url.search);
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
 
-if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList" || page == "mesBOM") {
+if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList" ) {
   setActive('#documentSearch');
   removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "RMAList" || page == "RMAAnalysis") {
@@ -23,7 +23,7 @@ if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList
 } else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission" || page == "userEdit") {
   setActive('#setup');
   removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', 'salesManagement']);
-} else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement") {
+} else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement" || page == "mesBOM") {
   setActive('#salesManagement');
   removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#setup']);
 }

@@ -314,8 +314,8 @@
                 $('#loading').hide();
                 var BOMtable = $('#BOMData').DataTable();
                 BOMtable.clear().rows.add(response).draw();
-
-
+                
+                $('#myModalLabel').text(modalValue);
                 $('#delModal').modal('show');
             },
             error: function(xhr, status, error) {

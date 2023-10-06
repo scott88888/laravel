@@ -83,6 +83,10 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox29">
                                             <label class="custom-control-label" for="checkbox29">運送管理</label>
                                         </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox31">
+                                            <label class="custom-control-label" for="checkbox31">推估訂單BOM</label>
+                                        </div>
                                     </div>
 
 
@@ -149,10 +153,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox16">
                                             <label class="custom-control-label" for="checkbox16">ECR/ECN查詢</label>
                                         </div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox31">
-                                            <label class="custom-control-label" for="checkbox31">BOM查詢</label>
-                                        </div>
+                                       
                                     </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
