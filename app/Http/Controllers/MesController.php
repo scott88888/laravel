@@ -394,16 +394,15 @@ class MesController extends BaseController
         $searchtype = $request->input('searchtype');
         $daytime = $request->input('date');
         $today = date('Ymd');
-        if ($daytime == '20009999') {
-            $today = '20999999';
+        if ($daytime == '20999999') {
+            $today = '20009999';
         }
 
         if ($searchtype == 'MaterialDeliveryDate') {
             $value = DB::table('mes_purchase_overdue')
-                ->select('*')
-                ->whereNotNull('DAT_POR')
-                ->whereBetween('DAT_BUY', [$daytime, $today])
-                ->where('DIFF_DAYS', '>', 0)
+                ->select('*')                
+                ->whereBetween('DAT_POR', [$today, $daytime])
+                ->where('DAT_POR', '>', 0)
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);
@@ -411,7 +410,7 @@ class MesController extends BaseController
             $value = DB::table('mes_purchase_overdue')
                 ->whereNull('DAT_POR')
                 ->orWhere('DAT_POR', '')
-                ->whereBetween('DAT_BUY', [$daytime, $today])
+                ->whereBetween('DAT_REQ', [$today, $daytime])
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);

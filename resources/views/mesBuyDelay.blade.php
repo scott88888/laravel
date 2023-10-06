@@ -35,7 +35,7 @@
                                     <div class="col-md-1">
                                         <label for="validationCustom04">快查</label>
                                         <div class="col">
-                                            <button id="1ds" class="btn btn-primary">昨日</button>
+                                            <button id="1ds" class="btn btn-primary">明天</button>
                                         </div>
                                     </div>
                                     <div class="col-md-1">
@@ -169,22 +169,22 @@
             }, ],
 
         });
-        loadData('20009999');
+        loadData('20999999');
         setButtonClickEvent(1);
         setButtonClickEvent(7);
         setButtonClickEvent(30);
         $('#submit').click(function() {
-            loadData('20009999');
+            loadData('20999999');
         });
 
         function setButtonClickEvent(days) {
             $('#' + days + 'ds').click(function() {
                 const today = new Date();
                 const previousDate = new Date(today);
-                previousDate.setDate(today.getDate() - days);
-                console.log('no');
-
-                loadData(getFormattedDate(previousDate));
+                previousDate.setDate(today.getDate() + days);
+            
+                console.log(getFormattedDate(previousDate));
+                 loadData(getFormattedDate(previousDate));
             });
         }
 
