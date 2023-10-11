@@ -10,7 +10,7 @@ class MailController extends Controller
 {
     public function mailMFR()
     {
-        
+        $dayOfWeek = date("N");
         //逾期通知-------------------------------------
         //獲得標題 
         $subject = '【MES】' . date('m') . '月份。借品未歸還 | 逾期通知信 #稽核日' . date('Y-m-d');
@@ -28,8 +28,8 @@ class MailController extends Controller
                                             AND `EMP_BROW` =  '$EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
             }
-            //如果沒有資料 則該業務不用寄發通知信
-            if (count($dueNumlist) == 0) {
+            //如果沒有資料 或六日 則該業務不用寄發通知信
+            if (count($dueNumlist) == 0 || $dayOfWeek == 6 || $dayOfWeek == 7) {
                 continue;
             } else {
                 $msg= '已逾期';                
@@ -60,8 +60,8 @@ class MailController extends Controller
                                             AND `EMP_BROW` = '$EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
             }
-            //如果沒有資料 則該業務不用寄發通知信2222
-            if (count($dueNumlist) == 0) {
+            //如果沒有資料 或六日 則該業務不用寄發通知信
+            if (count($dueNumlist) == 0 || $dayOfWeek == 6 || $dayOfWeek == 7) {
                 continue;
             } else {
                 $msg= '即將到期';            

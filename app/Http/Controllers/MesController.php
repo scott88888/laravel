@@ -119,6 +119,7 @@ class MesController extends BaseController
         // $MesItemPartList = MesModelList::getItemPartListData();
 
         $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
+        
         if ($value) {
 
             return view('inventoryItemPartList', ['MesItemPartList' => $value]);
@@ -126,17 +127,27 @@ class MesController extends BaseController
     }
 
     public function inventoryItemPartListAjax(Request $request)
-    {
-        //獲取資料
-
+    {   
         $model = $request->input('search');
+        $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
+        if ($bomItem) {
+            $countBomItem = count($bomItem);
+        }
+        //獲取資料
+        
         $depository = $request->input('depository');
         if (!$depository) {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%';");
         } else {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_LOC = '$depository' AND  COD_ITEM LIKE '$model%' ");
         }
-        return response()->json($value);
+        $result = [
+            'bomItem' => $bomItem,
+            'value' => $value,
+            'countBomItem'=> $countBomItem
+        ];
+        
+        return response()->json($result);
     }
 
 

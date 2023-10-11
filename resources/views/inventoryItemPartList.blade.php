@@ -25,13 +25,13 @@
                             <div class="card-body">
                                 <h4 class="header-title">物料庫存查詢</h4>
                                 <div class="form-row">
-                                <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">倉位編號</label>
-                                        <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">                                        
+                                        <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="">全倉位</option>
                                             @foreach ($MesItemPartList as $ListData)
-                                            <option value="{{$ListData->COD_LOC}}">{{$ListData->COD_LOC}}</option>                                           
-                                            @endforeach 
+                                            <option value="{{$ListData->COD_LOC}}">{{$ListData->COD_LOC}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-2 mb-3" id="searchBox">
@@ -45,6 +45,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <strong>共用型號</strong>
+                                <div class="alert alert-success" role="alert" id="bomItemDiv">                                   
+                                </div>
+                                <strong>合計</strong> 
+                                <div class="alert alert-primary" role="alert" id="countBomItem">
+                                   
+                                </div>
+
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
@@ -59,15 +67,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                           </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -216,7 +224,7 @@
                                     return ' <p style="color:blue">維修總倉</p>';
                                 } else if (data == '0804') {
                                     return ' <p style="color:blue">品管課(生產)</p>';
-                                }else {
+                                } else {
                                     return data;
                                 }
                             case 6:
@@ -244,12 +252,12 @@
         $('#submit').click(function() {
             var search = $('#search').val();
             var depository = $('#depository').val();
-            
-            selectModel(depository,search);
+
+            selectModel(depository, search);
         });
     });
 
-    function selectModel(depository,search) {
+    function selectModel(depository, search) {
         $('#loading').show();
         $.ajax({
             url: 'inventoryItemPartListAjax',
@@ -260,7 +268,28 @@
                 depository: depository
             },
             success: function(response) {
-                table.clear().rows.add(response).draw();
+                var valueData = response.value;
+                table.clear();
+                table.rows.add(valueData);
+                table.draw();
+
+                // 假設response.bomItem是一個包含多個物件的陣列
+                var bomItems = response.bomItem;
+
+                // 提取每個物件中的COD_ITEM值
+                var codItems = bomItems.map(function(item) {
+                    return item.COD_ITEM;
+                });
+
+                // 使用join方法將提取的COD_ITEM值合併為一個文本字符串，以逗號分隔
+                var codItemText = codItems.join(', ');
+
+                // 獲取指定的<div>元素
+                var bomItemDiv = document.getElementById('bomItemDiv');
+                var countBomItem = document.getElementById('countBomItem');
+                // 設置<div>的內容為合併後的文本字符串
+                bomItemDiv.textContent = codItemText;
+                countBomItem.textContent = response.countBomItem + '筆';
                 $('#loading').hide();
             },
             error: function(xhr, status, error) {
@@ -368,8 +397,7 @@
                 $('#' + type + '_Name').val(response.filename).hide();
                 var label = document.getElementById(type);
                 label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
-                // console.log(response.filesize);
-                // console.log(type);
+
 
                 $('#loading').hide();
 

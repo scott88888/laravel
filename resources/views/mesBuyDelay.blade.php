@@ -56,32 +56,28 @@
                                             <button id="submit" class="btn btn-primary">送出</button>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>
-                                                <th>DAT_BUY</th>
+                                            <tr>                                               
                                                 <th>NUM_BUY</th>
                                                 <th>NAM_FACT</th>
                                                 <th>DAT_REQ</th>
                                                 <th>DAT_POR</th>
-                                                <th>DIFF_DAYS</th>
                                                 <th>COD_ITEM</th>
+                                                <th>NAM_ITEM</th>
                                                 <th>UNT_BUY</th>
                                                 <th>QTY_BUY</th>
                                                 <th>QTY_DEL</th>
                                                 <th>QTY_BACK</th>
-                                                <th>UN_QTY</th>
-                                                <th>NAM_ITEM</th>
+                                                <th>UN_QTY</th>                                              
                                                 <th>DAT_NEED</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
+                                            <tr>           
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -118,26 +114,24 @@
         var table = $('#ListData').DataTable({
             ...tableConfig,
             columns: [{
-                "data": "DAT_BUY",
-                "title": "採購日期"
-            }, {
                 "data": "NUM_BUY",
                 "title": "採購單號"
             }, {
                 "data": "NAM_FACT",
-                "title": "廠商"
-            }, {
-                "data": "DAT_REQ",
-                "title": "預定到貨日"
-            }, {
-                "data": "DAT_POR",
-                "title": "廠商回覆交期",
+                "title": "廠商",
                 "render": function(data, type, row) {
-                    if (data > 0) {
-                        return '<span style="color:red">' + data + '</span>';
-                    } else {
-                        return '<span style="color:blue">尚未回覆</span>';
-                    }
+                if (type === 'display' && data.length > 6) {
+                    return data.substring(0, 6);
+                }
+                return data;
+            }
+            }, {
+                "title": "日期",
+                "render": function(data, type, row) {
+                    var datBuy = row.DAT_BUY ? row.DAT_BUY : 'N/A';
+                    var datReq = row.DAT_REQ ? row.DAT_REQ : 'N/A';
+                    var datPor = row.DAT_POR > 0 ? '<span style="color:red">' + row.DAT_POR + '</span>' : '<span style="color:blue">尚未回覆</span>';
+                    return '採購日期: ' + datBuy + '<br>預定到貨: ' + datReq + '<br>廠商交期: ' + datPor;
                 }
             }, {
                 "data": "DIFF_DAYS",
@@ -146,6 +140,9 @@
                 "data": "COD_ITEM",
                 "title": "料號"
             }, {
+                "data": "NAM_ITEM",
+                "title": "料件名稱"
+            },  {
                 "data": "UNT_BUY",
                 "title": "單位"
             }, {
@@ -163,12 +160,9 @@
                 "render": function(data, type, row) {
                     return '<span style="color:red">' + data + '</span>';
                 }
-            }, {
-                "data": "NAM_ITEM",
-                "title": "產品名稱"
-            }, {
+            },{
                 "data": "DAT_NEED",
-                "title": "需求日"
+                "title": "產線需求日"
             }, ],
 
         });
@@ -185,9 +179,9 @@
                 const today = new Date();
                 const previousDate = new Date(today);
                 previousDate.setDate(today.getDate() + days);
-            
+
                 console.log(getFormattedDate(previousDate));
-                 loadData(getFormattedDate(previousDate));
+                loadData(getFormattedDate(previousDate));
             });
         }
 

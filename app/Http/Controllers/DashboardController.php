@@ -41,7 +41,21 @@ class DashboardController extends BaseController
 
         for ($i = 0; $i < count($shipmentRanking); $i++) {
             $item = $shipmentRanking[$i]->COD_ITEM;
-            $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK)AS QTY_STK FROM mes_lcst_item WHERE COD_ITEM = '$item' AND (COD_LOC = 'GO-001' OR COD_LOC = 'WO-003')");
+            $lcst = DB::select("SELECT COD_ITEM, SUM(QTY_STK) AS QTY_STK
+            FROM (
+                SELECT COD_ITEM, SUM(QTY_STK) AS QTY_STK
+                FROM mes_lcst_item
+                WHERE COD_ITEM = '$item'
+                GROUP BY COD_ITEM
+            
+                UNION ALL
+            
+                SELECT COD_ITEM, SUM(QTY_STK) AS QTY_STK
+                FROM mes_lcst_parts
+                WHERE COD_ITEM = '$item'
+                GROUP BY COD_ITEM
+            ) AS CombinedResults
+            GROUP BY COD_ITEM;");
             $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
        
