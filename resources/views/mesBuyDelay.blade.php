@@ -61,14 +61,14 @@
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>                                               
+                                            <tr>  
+                                                <th>COD_ITEM</th>                                             
                                                 <th>NUM_BUY</th>
                                                 <th>NAM_FACT</th>
                                                 <th>DAT_REQ</th>
                                                 <th>DAT_POR</th>
                                                 <th>COD_ITEM</th>
-                                                <th>NAM_ITEM</th>
-                                                <th>UNT_BUY</th>
+                                                <th>NAM_ITEM</th>                                             
                                                 <th>QTY_BUY</th>
                                                 <th>QTY_DEL</th>
                                                 <th>QTY_BACK</th>
@@ -77,14 +77,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>           
+                                            <tr> 
+                                                <td></td>          
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td></td>                                           
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -114,6 +114,18 @@
         var table = $('#ListData').DataTable({
             ...tableConfig,
             columns: [{
+                "data": "COD_ITEM",
+                "title": "照片",
+                "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
+                            var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
+                            return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:50px;" src="' + imageUrls + '"></a>';
+                        } else {
+                            return '';
+                        }
+                    }
+            },{
                 "data": "NUM_BUY",
                 "title": "採購單號"
             }, {
@@ -142,10 +154,7 @@
             }, {
                 "data": "NAM_ITEM",
                 "title": "料件名稱"
-            },  {
-                "data": "UNT_BUY",
-                "title": "單位"
-            }, {
+            },{
                 "data": "QTY_BUY",
                 "title": "數量"
             }, {
