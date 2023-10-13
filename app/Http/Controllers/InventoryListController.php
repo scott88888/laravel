@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Models\LangModel;
 
 class InventoryListController extends Controller
 {
@@ -12,7 +13,11 @@ class InventoryListController extends Controller
      */
     public function inventoryListUpload(Request $request)
     {
-        return view('inventoryListUpload');
+        $lang = app()->getLocale();
+        $page ='inventoryListUpload';
+        $getLangData = DB::select("SELECT `name`, `en` AS `lang` FROM `mes_lang` WHERE `page` = 'inventoryListUpload'");        
+       
+        return view('inventoryListUpload', compact('getLangData','lang'));
     }
 
     public function importCsv(Request $request)

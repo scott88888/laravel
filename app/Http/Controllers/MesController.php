@@ -8,7 +8,9 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
 
 
+
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class MesController extends BaseController
@@ -115,16 +117,23 @@ class MesController extends BaseController
 
     public function inventoryItemPartList(Request $request)
     {
-        //獲取資料
-        // $MesItemPartList = MesModelList::getItemPartListData();
-
-        $value = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
-        
-        if ($value) {
-
-            return view('inventoryItemPartList', ['MesItemPartList' => $value]);
+     
+        $MesItemPartList = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
+        if ($request->query('target')) {
+            $model = $request->query('target');
+            $modelData = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%'");
+            $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'"); 
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList','bomItem'));
+            
+        }else {
+            $modelData = '';
+            $bomItem = '';          
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList','bomItem'));
         }
+ 
     }
+
+
 
     public function inventoryItemPartListAjax(Request $request)
     {   

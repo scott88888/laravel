@@ -25,7 +25,6 @@
                             <div class="card-body">
                                 <h4 class="header-title">推估訂單BOM</h4>
                                 <div class="form-row">
-
                                     <div class="col-md-2 mb-3" id="searchBox">
                                         <label for="">產品型號查詢</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
@@ -235,7 +234,16 @@
                 }, {
                     "data": "COD_ITEMS",
                     "targets": 1,
-                    "title": "料號"
+                    "title": "料號",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var itemUrl = '{{ asset("/inventoryItemPartList?target=") }}' + data;
+                       
+                            return '<a href="' + itemUrl + '" target="_blank">' + data +'</a>';
+                        } else {
+                            return '';
+                        }
+                    }
                 },
                 {
                     "data": "NAM_ITEM",
@@ -310,12 +318,12 @@
                 modalValue: modalValue,
             },
             success: function(response) {
-           
+
                 $('#loading').hide();
                 var BOMtable = $('#BOMData').DataTable();
                 BOMtable.clear().rows.add(response).draw();
-                
-                $('#myModalLabel').text('「推估訂單BOM」-'+modalValue);
+
+                $('#myModalLabel').text('「推估訂單BOM」-' + modalValue);
                 $('#delModal').modal('show');
             },
             error: function(xhr, status, error) {

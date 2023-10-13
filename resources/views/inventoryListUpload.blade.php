@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang={{ app()->getLocale() }}>
+
 
 <head>
 
@@ -10,13 +10,16 @@
     <div id="preloader">
         <div class="loader"></div>
     </div>
-    <!-- <div id="loading">
-        <img src="{{ asset('images/icon/loading.gif') }}" alt="Loading...">
-    </div> -->
+
     <div class="page-container">
         @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
+            <div>
+
+
+
+            </div>
             <div class="main5">
                 <div class="row">
                     <div class="col-12 mt-1">
@@ -26,6 +29,7 @@
                                 <div class="form-row">
                                     <div class="col-5" style="padding:0, 1rem;">
                                         <span class="ti-upload">庫存CSV</span>
+                    
                                         <input id="firmwareOS_Name" style="display: none;">
                                         <form action="{{ route('importCsv') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
@@ -45,7 +49,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="input-group-append">
-                                                    <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.5rem">上傳CSV</button>
+                                                    <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.75rem">上傳CSV</button>
                                                 </div>
                                             </div>
 

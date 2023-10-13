@@ -46,12 +46,21 @@
                                     </div>
                                 </div>
                                 <strong>共用型號</strong>
-                                <div class="alert alert-success" role="alert" id="bomItemDiv">                                   
+                                <div class="alert alert-success" role="alert" id="bomItemDiv">
+
+                                    @if($bomItem && count($bomItem) > 0)
+                                    @foreach ($bomItem as $ListData)
+                                    {{$ListData->COD_ITEM}}
+                                    @endforeach
+                                    @endif
                                 </div>
-                                <strong>合計</strong> 
+                                <strong>合計</strong>
                                 <div class="alert alert-primary" role="alert" id="countBomItem">
-                                   
+                                    @if($bomItem && count($bomItem) > 0)
+                                    {{count($bomItem)}}筆
+                                    @endif
                                 </div>
+
 
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
@@ -67,6 +76,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if($modelData && count($modelData) > 0)
+                                            @foreach ($modelData as $ListData)
+                                            <tr>
+
+                                                <td>{{$ListData->COD_ITEM}}</td>
+                                                <td>
+                                                    <a href="{{ asset('/show-image/mesitempartlist/') }}/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}.jpg" target="_blank"><img style="max-width:100px;" src="{{ asset('/show-image/mesitempartlist/') }}/{{$ListData->COD_ITEM}}/{{$ListData->COD_ITEM}}-s.jpg" alt="圖片"></a>
+
+                                                </td>
+
+                                                <td>{{$ListData->COD_ITEM}}</td>
+                                                <td>{{$ListData->NAM_ITEM}}</td>
+                                                <td>{{$ListData->QTY_STK}}</td>
+                                                <td>
+                                                    @if($ListData->COD_LOC == 'GO-001')
+                                                    <p style="color:blue">內銷成品倉</p>
+                                                    @elseif($ListData->COD_LOC == 'WO-003')
+                                                    <p style="color:green">外銷成品倉</p>
+                                                    @elseif($ListData->COD_LOC == 'AO-111')
+                                                    <p style="color:green">共用料件倉</p>
+                                                    @elseif($ListData->COD_LOC == 'LL-000')
+                                                    <p style="color:green">內銷借品專用倉</p>
+                                                    @elseif($ListData->COD_LOC == 'GO-002')
+                                                    <p style="color:green">良品倉-原料</p>
+                                                    @elseif($ListData->COD_LOC == 'PA-000')
+                                                    <p style="color:green">維修總倉</p>
+                                                    @elseif($ListData->COD_LOC == '0804')
+                                                    <p style="color:green">品管課(生產)</p>
+                                                    @endif
+                                                </td>
+                                                <td>{{$ListData->COD_LOC}}</td>
+                                            </tr>
+                                            @endforeach
+                                            @else
                                             <tr>
                                                 <td></td>
                                                 <td></td>
@@ -76,6 +119,7 @@
                                                 <td></td>
                                                 <td></td>
                                             </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -165,7 +209,7 @@
                     "title": "上傳",
                 },
                 {
-                    "data": "first",
+                    "data": "COD_ITEM",
                     "targets": 1,
                     "title": "產品照片"
                 },
@@ -202,13 +246,10 @@
                                 model = data;
                                 return '<span class="fa fa-arrow-up" data-toggle="modal" data-target="#editModal" data-id="' + data + '" style="font-size: larger;padding: 10px;cursor: pointer;color:blue;"></span>'
                             case 1:
-                                if (data == 1) {
-                                    var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '.jpg';
-                                    var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + row.model + '/' + row.model + '-s.jpg';
-                                    return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '" alt="圖片"></a>';
-                                } else {
-                                    return data;
-                                }
+                                var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
+                                var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
+                                return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:100px;" src="' + imageUrls + '" alt="圖片"></a>';
+
                             case 5:
                                 if (data == 'GO-001') {
                                     return ' <p style="color:blue">內銷成品倉</p>';

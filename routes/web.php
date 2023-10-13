@@ -127,7 +127,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/inventoryItemList', [MesController::class, 'inventoryItemList'])
         ->middleware(CheckPermission::class . ':inventoryItemList');
     Route::match(['get', 'post'], '/inventoryItemPartList', [MesController::class, 'inventoryItemPartList'])
-        ->middleware(CheckPermission::class . ':inventoryItemPartList');
+        ->middleware(CheckPermission::class . ':inventoryItemPartList');    
     Route::match(['get', 'post'], '/inventoryItemPartListAjax', [MesController::class, 'inventoryItemPartListAjax']);
     Route::match(['get', 'post'], '/inventoryListUpload', [InventoryListController::class, 'inventoryListUpload'])
         ->middleware(CheckPermission::class . ':inventoryListUpload');
