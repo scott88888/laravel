@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
-
+use App\Services\LangService;
 
 
 use DB;
@@ -17,7 +17,12 @@ class MesController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    protected $langService;
 
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
+    }
 
     public function mesRepairProducts(Request $request)
     {
@@ -30,13 +35,24 @@ class MesController extends BaseController
         //獲取資料
         $MesModelList = MesModelList::getModelListData();
         if ($MesModelList) {
-            return view('mesModelList', ['MesModelList' => $MesModelList]);
+
+            $lang = app()->getLocale();
+            $page = 'mesModelList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesModelList', compact('MesModelList', 'langArray', 'sidebarLang'));
         }
     }
 
     public function mesUploadList(Request $request)
     {
-        return view('mesUploadList');
+        $lang = app()->getLocale();
+        $page = 'mesUploadList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesUploadList', compact('langArray', 'sidebarLang'));
     }
 
     public function mesUploadListAjax(Request $request)
@@ -111,39 +127,55 @@ class MesController extends BaseController
         //獲取資料
         $MesItemList = MesModelList::getItemListData();
         if ($MesItemList) {
-            return view('inventoryItemList', ['MesItemList' => $MesItemList]);
+            $lang = app()->getLocale();
+            $page = 'inventoryItemList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('inventoryItemList', compact('MesItemList', 'langArray', 'sidebarLang'));        
         }
     }
 
     public function inventoryItemPartList(Request $request)
     {
-     
+        $lang = app()->getLocale();
+        $page = 'inventoryItemList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+ 
+
+
         $MesItemPartList = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
         if ($request->query('target')) {
             $model = $request->query('target');
             $modelData = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%'");
-            $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'"); 
-            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList','bomItem'));
-            
-        }else {
+            $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
+
+
+
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem','langArray', 'sidebarLang'));
+        } else {
             $modelData = '';
-            $bomItem = '';          
-            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList','bomItem'));
+            $bomItem = '';
+
+
+            
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem','langArray', 'sidebarLang'));
         }
- 
     }
 
 
 
     public function inventoryItemPartListAjax(Request $request)
-    {   
+    {
         $model = $request->input('search');
         $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
         if ($bomItem) {
             $countBomItem = count($bomItem);
         }
         //獲取資料
-        
+
         $depository = $request->input('depository');
         if (!$depository) {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%';");
@@ -153,9 +185,9 @@ class MesController extends BaseController
         $result = [
             'bomItem' => $bomItem,
             'value' => $value,
-            'countBomItem'=> $countBomItem
+            'countBomItem' => $countBomItem
         ];
-        
+
         return response()->json($result);
     }
 
@@ -165,8 +197,12 @@ class MesController extends BaseController
         //獲取資料
         $MesKickoffList = MesModelList::getKickoffListData();
         if ($MesKickoffList) {
-
-            return view('mesKickoffList', ['MesKickoffList' => $MesKickoffList]);
+            $lang = app()->getLocale();
+            $page = 'mesKickoffList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesKickoffList', compact('MesKickoffList', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -175,8 +211,12 @@ class MesController extends BaseController
         //獲取資料
         $MesCutsQuery = MesModelList::getCutsQueryData();
         if ($MesCutsQuery) {
-
-            return view('mesCutsQuery', ['MesCutsQuery' => $MesCutsQuery]);
+            $lang = app()->getLocale();
+            $page = 'mesCutsQuery';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesCutsQuery', compact('MesCutsQuery', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -205,9 +245,15 @@ class MesController extends BaseController
 
     public function mesMonProductionList(Request $request)
     {
+        $lang = app()->getLocale();
+        $page = 'mesMonProductionList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
         list($date, $lastyear) = $this->dateFunction();
         if ($date && $lastyear) {
-            return view('mesMonProductionList', compact('date', 'lastyear'));
+            return view('mesMonProductionList', compact('langArray', 'sidebarLang', 'date', 'lastyear'));
         }
     }
 
@@ -231,7 +277,12 @@ class MesController extends BaseController
     }
     public function mesProductionResumeList(Request $request)
     {
-        return view('mesProductionResumeList');
+        $lang = app()->getLocale();
+        $page = 'mesProductionResumeList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesProductionResumeList', compact('langArray', 'sidebarLang'));
     }
 
     public function mesProductionResumeListAjax(Request $request)
@@ -263,7 +314,12 @@ class MesController extends BaseController
 
         $MesHistoryProductionQuantity = MesModelList::getHistoryProductionQuantity();
         if ($MesHistoryProductionQuantity) {
-            return view('mesHistoryProductionQuantity', ['MesHistoryProductionQuantity' => $MesHistoryProductionQuantity]);
+            $lang = app()->getLocale();
+            $page = 'mesHistoryProductionQuantity';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesHistoryProductionQuantity', compact('MesHistoryProductionQuantity', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -273,7 +329,12 @@ class MesController extends BaseController
         $MesMfrList = MesModelList::getMesMfrList();
 
         if ($MesMfrList) {
-            return view('mesMfrList', ['MesMfrList' => $MesMfrList]);
+            $lang = app()->getLocale();
+            $page = 'mesShipmentList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesShipmentList', compact('MesMfrList', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -289,7 +350,13 @@ class MesController extends BaseController
         $MesRunCardList = MesModelList::getRunCardList($first_day, $last_day);
 
         if ($date && $lastyear) {
-            return view('mesRunCardList', compact('date', 'lastyear'));
+
+            $lang = app()->getLocale();
+            $page = 'mesRunCardList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesRunCardList', compact('date', 'lastyear', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -327,7 +394,12 @@ class MesController extends BaseController
     {
         list($date, $lastyear) = $this->dateFunction();
         if ($date && $lastyear) {
-            return view('mesRuncardListNotin', compact('date', 'lastyear'));
+            $lang = app()->getLocale();
+            $page = 'mesRuncardListNotin';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesRuncardListNotin', compact('date', 'lastyear', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -354,7 +426,12 @@ class MesController extends BaseController
 
     public function mesDefectiveList()
     {
-        return view('mesDefectiveList');
+        $lang = app()->getLocale();
+        $page = 'mesDefectiveList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesDefectiveList', compact('langArray', 'sidebarLang'));
     }
 
     public function mesDefectiveListAjax(Request $request)
@@ -371,7 +448,12 @@ class MesController extends BaseController
     public function mesDefectiveRate()
     {
         list($date, $lastyear) = $this->dateFunction();
-        return view('mesDefectiveRate', compact('date', 'lastyear'));
+        $lang = app()->getLocale();
+        $page = 'mesDefectiveRate';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesDefectiveRate', compact('date', 'lastyear', 'langArray', 'sidebarLang'));
     }
 
     public function mesDefectiveRateAjax(Request $request)
@@ -392,7 +474,12 @@ class MesController extends BaseController
     public function mesRepairNGList()
     {
         list($date, $lastyear) = $this->dateFunction();
-        return view('mesRepairNGList', compact('date', 'lastyear'));
+        $lang = app()->getLocale();
+        $page = 'mesRepairNGList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesRepairNGList', compact('date', 'lastyear', 'langArray', 'sidebarLang'));
     }
 
     public function mesRepairNGListAjax(Request $request)
@@ -405,8 +492,12 @@ class MesController extends BaseController
 
     public function mesBuyDelay()
     {
-
-        return view('mesBuyDelay');
+        $lang = app()->getLocale();
+        $page = 'mesBuyDelay';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesBuyDelay', compact('langArray', 'sidebarLang'));
     }
 
     public function mesBuyDelayAjax(Request $request)
@@ -420,7 +511,7 @@ class MesController extends BaseController
 
         if ($searchtype == 'MaterialDeliveryDate') {
             $value = DB::table('mes_purchase_overdue')
-                ->select('*')                
+                ->select('*')
                 ->whereBetween('DAT_POR', [$today, $daytime])
                 ->where('DAT_POR', '>', 0)
                 ->orderBy('DAT_BUY', 'desc')
@@ -449,7 +540,12 @@ class MesController extends BaseController
         //獲取資料
         $MesECNList = MesModelList::getMesECNList();
         if ($MesECNList) {
-            return view('mesECNList', ['MesECNList' => $MesECNList]);
+            $lang = app()->getLocale();
+            $page = 'mesECNList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('mesECNList', compact('MesECNList', 'langArray', 'sidebarLang'));
         }
     }
     public function ECRECNList(Request $request)
@@ -475,8 +571,12 @@ class MesController extends BaseController
 
     public function RMAList(Request $request)
     {
-        //獲取資料
-        return view('RMAList');
+        $lang = app()->getLocale();
+        $page = 'RMAList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('RMAList', compact('langArray', 'sidebarLang'));
     }
     public function RMAListAjax(Request $request)
     {
@@ -512,7 +612,12 @@ class MesController extends BaseController
     }
     public function RMAAnalysis(Request $request)
     {
-        return view('RMAAnalysis');
+        $lang = app()->getLocale();
+        $page = 'RMAAnalysis';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('RMAAnalysis', compact('langArray', 'sidebarLang'));
     }
     public function RMAAnalysisAjax(Request $request)
     {
@@ -561,11 +666,24 @@ class MesController extends BaseController
 
     public function mesShipmentList(Request $request)
     {
-        return view('mesShipmentList');
+
+        $lang = app()->getLocale();
+        $page = 'mesShipmentList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+        return view('mesShipmentList', compact('langArray', 'sidebarLang'));
     }
     public function mesBOM(Request $request)
     {
-        return view('mesBOM');
+        $lang = app()->getLocale();
+        $page = 'mesBOM';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+        return view('mesBOM', compact('langArray', 'sidebarLang'));
     }
     public function mesBOMItemAjax(Request $request)
     {
@@ -608,7 +726,7 @@ class MesController extends BaseController
                 $mesBOMItem[$i]->NAM_ITEM = $NAM_ITEM;
                 $mesBOMItem[$i]->SUN_QTY =  $SUN_QTY[0]->SUN_QTY;
                 $mesBOMItem[$i]->DAT_REQ =  $SUN_QTY[0]->DAT_REQ;
-                $mesBOMItem[$i]->inventory =  $qty + $SUN_QTY[0]->SUN_QTY; 
+                $mesBOMItem[$i]->inventory =  $qty + $SUN_QTY[0]->SUN_QTY;
             } else {
                 $mesBOMItem[$i]->qty = '0';
                 $mesBOMItem[$i]->NAM_ITEM = '';

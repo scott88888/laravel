@@ -9,15 +9,30 @@ use App\Models\User;
 use Illuminate\Support\Facades\File;
 use DB;
 use Illuminate\Http\Request;
+use App\Services\LangService;
 
 class salesManagementController extends BaseController
 {
+    protected $langService;
+
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
+    }
 
     public function shippingManagement()
     {
-        $shippingManagement = DB::select("SELECT * FROM `mes_lcst_parts` WHERE  COD_ITEM LIKE '72%' GROUP BY COD_ITEM");
 
-        return view('shippingManagement', ['shippingManagement' => $shippingManagement]);
+        $lang = app()->getLocale();
+        $page = 'shippingManagement';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        $shippingManagement = DB::select("SELECT * FROM `mes_lcst_parts` WHERE  COD_ITEM LIKE '72%' GROUP BY COD_ITEM");
+        return view('shippingManagement', compact('shippingManagement', 'langArray', 'sidebarLang'));
+
+
+        
     }
 
     public function palletPython($resultString, $searchtype, $pallet)

@@ -4,20 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Models\LangModel;
-
+use App\Services\LangService;
 class InventoryListController extends Controller
 {
     /**
      * Handle an authentication attempt.
      */
+    protected $langService;
+
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
+    }
+
     public function inventoryListUpload(Request $request)
     {
         $lang = app()->getLocale();
         $page ='inventoryListUpload';
-        $getLangData = DB::select("SELECT `name`, `en` AS `lang` FROM `mes_lang` WHERE `page` = 'inventoryListUpload'");        
-       
-        return view('inventoryListUpload', compact('getLangData','lang'));
+        $langArray = $this->langService->getLang($lang,$page);
+        $page ='sidebar';
+        $sidebarLang = $this->langService->getLang($lang,$page);   
+        return view('inventoryListUpload', compact('langArray','sidebarLang'));
     }
 
     public function importCsv(Request $request)
@@ -56,7 +63,15 @@ class InventoryListController extends Controller
         $value = DB::select("SELECT * FROM mes_stockcsv WHERE country = '$country' GROUP BY TIME ORDER BY TIME DESC");
         $time = $value[0]->time;
         $inventoryList =  DB::select("SELECT * FROM mes_stockcsv WHERE country = '$country' and time = '$time'");
-        return view('inventoryList', compact('inventoryList','time','country'));
+
+
+        $lang = app()->getLocale();
+        $page ='inventoryList';
+        $langArray = $this->langService->getLang($lang,$page);
+        $page ='sidebar';
+        $sidebarLang = $this->langService->getLang($lang,$page);
+
+        return view('inventoryList', compact('inventoryList','time','country','langArray','sidebarLang'));
        
 
     }

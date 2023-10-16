@@ -25,10 +25,10 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">分公司庫存上傳</h4>
+                                <h4 class="header-title">{{ $langArray->分公司庫存上傳 }}</h4>
                                 <div class="form-row">
                                     <div class="col-5" style="padding:0, 1rem;">
-                                        <span class="ti-upload">庫存CSV</span>
+                                        <span class="ti-upload">{{ $langArray->庫存CSV }}</span>
                     
                                         <input id="firmwareOS_Name" style="display: none;">
                                         <form action="{{ route('importCsv') }}" method="POST" enctype="multipart/form-data">
@@ -40,16 +40,16 @@
                                                 </div>
                                                 <div class="input-group-append">
                                                     <select id="country" class="form-control" name="country" style="padding: 0;height: calc(2.25rem + 8px);">
-                                                        <option value="country">國家</option>
-                                                        <option value="US">美國</option>
-                                                        <option value="UK">英國</option>
-                                                        <option value="AUS">歐洲</option>
-                                                        <option value="IT">義大利</option>
-                                                        <option value="MY">馬來西亞</option>
+                                                        <option value="country">{{ $langArray->國家 }}</option>
+                                                        <option value="US">{{ $langArray->美國 }}</option>
+                                                        <option value="UK">{{ $langArray->英國 }}</option>
+                                                        <option value="AUS">{{ $langArray->歐洲 }}</option>
+                                                        <option value="IT">{{ $langArray->義大利 }}</option>
+                                                        <option value="MY">{{ $langArray->馬來西亞 }}</option>
                                                     </select>
                                                 </div>
                                                 <div class="input-group-append">
-                                                    <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.75rem">上傳CSV</button>
+                                                    <button id="submitBtn" class="input-group-text" type="submit" style="font-size:0.75rem">{{ $langArray->上傳CSV }}</button>
                                                 </div>
                                             </div>
 
@@ -58,10 +58,10 @@
                                     </div>
 
                                     <div class="col-md-1" style="padding:0, 1rem;margin-left: 5%;">
-                                        <label style="display: inline;">範例</label>
+                                        <label style="display: inline;">{{ $langArray->範例 }}</label>
                                         <div class="col" style="text-align: center;">
                                             <a href="{{ asset('ex.csv') }}" download>
-                                                <button type="button" class="btn btn-success mb-3">下載</button>
+                                                <button type="button" class="btn btn-success mb-3">{{ $langArray->下載 }}</button>
                                             </a>
                                         </div>
                                     </div>

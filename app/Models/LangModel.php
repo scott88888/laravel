@@ -14,10 +14,10 @@ class LangModel extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
 
-    public static function getLangData($page)
+    public static function getLangData($lang,$page)
     {
 
-        $value = DB::select("SELECT * FROM mes_lang WHERE page = '$page'");
+        $value = DB::select("SELECT `name`, `$lang` AS `lang` FROM `mes_lang` WHERE `page` = '$page'");    
 
         return $value;
     }

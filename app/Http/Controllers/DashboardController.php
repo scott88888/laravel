@@ -8,14 +8,19 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\DashboardModel;
 use DB;
+use App\Services\LangService;
+
 
 class DashboardController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    public function index(Request $request)
+    protected $langService;
+
+    public function __construct(LangService $langService)
     {
-        return view('Dashboard');
+        $this->langService = $langService;
     }
+
     public function dashboardLeader(Request $request)
     {
         //過去12個月出貨數量//當月
@@ -177,10 +182,14 @@ class DashboardController extends BaseController
         //不良統計表(當月)
         $description = $this->description();
 
-        for ($i = 0; $i < count($description); $i++) {
-            # code...
-        }
-        return view('dashboardLeader', compact('productionData','seasonDates' ,'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
+        $lang = app()->getLocale();
+        $page ='dashboardLeader';
+        $langArray = $this->langService->getLang($lang,$page);
+        $page ='sidebar';
+        $sidebarLang = $this->langService->getLang($lang,$page);   
+
+        
+        return view('dashboardLeader', compact('langArray','sidebarLang','productionData','seasonDates' ,'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
     }
 
 

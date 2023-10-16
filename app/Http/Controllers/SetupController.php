@@ -6,25 +6,42 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 
 use App\Models\User;
-
+use App\Services\LangService;
 use DB;
 use Illuminate\Http\Request;
 
 class SetupController extends BaseController
 {
+    protected $langService;
 
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
+    }
     public function userLoginLog()
     {
+        $lang = app()->getLocale();
+        $page = 'userLoginLog';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+
 
         $value = DB::SELECT("SELECT * FROM mes_loginlog
         WHERE NOT log_url LIKE 'show-image%'");
-        return view('userLoginLog', compact('value'));
+        return view('userLoginLog', compact('value', 'langArray', 'sidebarLang'));
     }
 
     public function userCheckPermission()
     {
+        $lang = app()->getLocale();
+        $page = 'userCheckPermission';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
 
-        return view('userCheckPermission');
+        return view('userCheckPermission', compact('langArray', 'sidebarLang'));
     }
     public function userSearchIDAjax(Request $request)
     {
@@ -73,12 +90,18 @@ class SetupController extends BaseController
 
     public function userEdit()
     {
-        $userEdit=DB::select("SELECT 
+        $userEdit = DB::select("SELECT 
                                     U.name,U.employee_id,U.email,
                                     LENGTH(M.permission COLLATE utf8_general_ci) - LENGTH(REPLACE(M.permission COLLATE utf8_general_ci, ',', '')) + 1 AS number_count
                                 FROM mes_check_permission M
                                 INNER JOIN users U ON M.employee_id = U.employee_id COLLATE utf8_general_ci;");
-        return view('userEdit', compact('userEdit'));
+
+        $lang = app()->getLocale();
+        $page = 'userEdit';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('userEdit', compact('userEdit','langArray', 'sidebarLang'));
     }
     public function userEditPer(Request $request)
     {
@@ -95,5 +118,4 @@ class SetupController extends BaseController
             return response()->json('刪除成功');
         }
     }
-    
 }

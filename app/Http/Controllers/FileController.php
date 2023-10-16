@@ -10,10 +10,15 @@ use App\Models\FileModel;
 use DB;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
-
+use App\Services\LangService;
 
 class FileController extends Controller
 {
+    protected $langService;
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
+    }
     public function showUploadForm()
     {
         return view('upload');
@@ -21,7 +26,12 @@ class FileController extends Controller
 
     public function fileFirmwareUpload(Request $request)
     {
-        return view('fileFirmwareUpload');
+        $lang = app()->getLocale();
+        $page = 'fileFirmwareUpload';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('fileFirmwareUpload', compact('langArray', 'sidebarLang'));
     }
 
     public function fileFirmwareUploadAjax(Request $request)
@@ -133,7 +143,13 @@ class FileController extends Controller
 
     public function fileECNEdit(Request $request)
     {
-        return view('fileECNEdit');
+        $lang = app()->getLocale();
+        $page = 'fileECNEdit';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('fileECNEdit', compact('langArray', 'sidebarLang'));
+       
     }
 
     public function fileECNCreateAjax(Request $request)
@@ -360,13 +376,13 @@ class FileController extends Controller
         $create_time = Carbon::now();
         $select = DB::table($table)
             ->where('model', '=', $model)
-            ->where('first','=','1')  
+            ->where('first', '=', '1')
             ->get();
         if (count($select) > 0) {
 
             $value = DB::table($table)
                 ->where('model', '=', $model)
-                ->where('first','=','1')  
+                ->where('first', '=', '1')
                 ->update([
                     'model' => $model,
                     'type' => 1,
