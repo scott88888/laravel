@@ -132,7 +132,7 @@ class MesController extends BaseController
             $langArray = $this->langService->getLang($lang, $page);
             $page = 'sidebar';
             $sidebarLang = $this->langService->getLang($lang, $page);
-            return view('inventoryItemList', compact('MesItemList', 'langArray', 'sidebarLang'));        
+            return view('inventoryItemList', compact('MesItemList', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -143,7 +143,7 @@ class MesController extends BaseController
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
- 
+
 
 
         $MesItemPartList = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
@@ -154,14 +154,14 @@ class MesController extends BaseController
 
 
 
-            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem','langArray', 'sidebarLang'));
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem', 'langArray', 'sidebarLang'));
         } else {
             $modelData = '';
             $bomItem = '';
 
 
-            
-            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem','langArray', 'sidebarLang'));
+
+            return view('inventoryItemPartList', compact('modelData', 'MesItemPartList', 'bomItem', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -172,13 +172,11 @@ class MesController extends BaseController
 
         $model = $request->input('search');
         $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
-        if (count($bomItem)>0) {
+        if (count($bomItem) > 0) {
             $countBomItem = count($bomItem);
-            
-        }else{
-          
+        } else {
+
             $countBomItem = 0;
-           
         }
 
 
@@ -528,12 +526,15 @@ class MesController extends BaseController
             return response()->json($value);
         } else {
             $value = DB::table('mes_purchase_overdue')
-                ->whereNull('DAT_POR')
-                ->orWhere('DAT_POR', '')
-                ->whereBetween('DAT_REQ', [$today, $daytime])
+                ->where(function ($query) use ($today, $daytime) {
+                    $query->whereNull('DAT_POR')
+                        ->orWhere('DAT_POR', '')
+                        ->whereBetween('DAT_REQ', [$today, $daytime]);
+                })
                 ->whereNotIn('STS_BUY', [99, 85]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
+
             return response()->json($value);
         }
 
@@ -579,7 +580,6 @@ class MesController extends BaseController
             $page = 'sidebar';
             $sidebarLang = $this->langService->getLang($lang, $page);
             return view('editECRN', compact('editECRN', 'langArray', 'sidebarLang'));
-            
         }
     }
 
