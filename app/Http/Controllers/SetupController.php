@@ -105,9 +105,16 @@ class SetupController extends BaseController
     }
     public function userEditPer(Request $request)
     {
+        $lang = app()->getLocale();
+        $page = 'userEditPer';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+        
         $employee_id = $request->id;
         if ($employee_id) {
-            return view('userEditPer', ['employee_id' => $employee_id]);
+            return view('userEditPer', compact('employee_id', 'langArray', 'sidebarLang'));
         }
     }
     public function userDeleteAjax(Request $request)
