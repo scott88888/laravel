@@ -149,7 +149,7 @@ class MesController extends BaseController
         $MesItemPartList = DB::select("SELECT * FROM `mes_lcst_parts` GROUP BY COD_LOC");
         if ($request->query('target')) {
             $model = $request->query('target');
-            $modelData = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%'");
+            $modelData = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_ITEM LIKE '$model%'");
             $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
 
 
@@ -169,16 +169,24 @@ class MesController extends BaseController
 
     public function inventoryItemPartListAjax(Request $request)
     {
+
         $model = $request->input('search');
         $bomItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEMS = '$model'");
-        if ($bomItem) {
+        if (count($bomItem)>0) {
             $countBomItem = count($bomItem);
+            
+        }else{
+          
+            $countBomItem = 0;
+           
         }
+
+
         //獲取資料
 
         $depository = $request->input('depository');
-        if (!$depository) {
-            $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE  COD_ITEM LIKE '$model%';");
+        if ($depository === 'all') {
+            $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_ITEM LIKE '$model%';");
         } else {
             $value = DB::select("SELECT * FROM `mes_lcst_parts` LEFT JOIN mes_mesitempartlist_uploadimg on mes_mesitempartlist_uploadimg.model = mes_lcst_parts.COD_ITEM WHERE COD_LOC = '$depository' AND  COD_ITEM LIKE '$model%' ");
         }

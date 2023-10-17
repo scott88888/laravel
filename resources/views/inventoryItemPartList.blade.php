@@ -28,7 +28,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">倉位編號</label>
                                         <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="">全倉位</option>
+                                            <option value="all">全倉位</option>
                                             @foreach ($MesItemPartList as $ListData)
                                             <option value="{{$ListData->COD_LOC}}">{{$ListData->COD_LOC}}</option>
                                             @endforeach
@@ -313,18 +313,20 @@
                 table.clear();
                 table.rows.add(valueData);
                 table.draw();
-
                 // 假設response.bomItem是一個包含多個物件的陣列
-                var bomItems = response.bomItem;
+                if (response.bomItem.length>0) {
+                    var bomItems = response.bomItem;
 
-                // 提取每個物件中的COD_ITEM值
-                var codItems = bomItems.map(function(item) {
-                    return item.COD_ITEM;
-                });
+                    // 提取每個物件中的COD_ITEM值
+                    var codItems = bomItems.map(function(item) {
+                        return item.COD_ITEM;
+                    });
 
-                // 使用join方法將提取的COD_ITEM值合併為一個文本字符串，以逗號分隔
-                var codItemText = codItems.join(', ');
-
+                    // 使用join方法將提取的COD_ITEM值合併為一個文本字符串，以逗號分隔
+                    var codItemText = codItems.join(', ');
+                }else{
+                    var codItemText = 'NULL';
+                }
                 // 獲取指定的<div>元素
                 var bomItemDiv = document.getElementById('bomItemDiv');
                 var countBomItem = document.getElementById('countBomItem');
@@ -334,7 +336,7 @@
                 $('#loading').hide();
             },
             error: function(xhr, status, error) {
-                console.log('no data');
+                console.log(error);
                 table.clear();
                 $('#loading').hide();
             }
