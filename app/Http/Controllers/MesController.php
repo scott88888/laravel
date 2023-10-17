@@ -338,11 +338,11 @@ class MesController extends BaseController
 
         if ($MesMfrList) {
             $lang = app()->getLocale();
-            $page = 'mesShipmentList';
+            $page = 'mesMfrList';
             $langArray = $this->langService->getLang($lang, $page);
             $page = 'sidebar';
             $sidebarLang = $this->langService->getLang($lang, $page);
-            return view('mesShipmentList', compact('MesMfrList', 'langArray', 'sidebarLang'));
+            return view('mesMfrList', compact('MesMfrList', 'langArray', 'sidebarLang'));
         }
     }
 
@@ -522,6 +522,7 @@ class MesController extends BaseController
                 ->select('*')
                 ->whereBetween('DAT_POR', [$today, $daytime])
                 ->where('DAT_POR', '>', 0)
+                ->whereNotIn('STS_BUY', [99, 85]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);
@@ -530,6 +531,7 @@ class MesController extends BaseController
                 ->whereNull('DAT_POR')
                 ->orWhere('DAT_POR', '')
                 ->whereBetween('DAT_REQ', [$today, $daytime])
+                ->whereNotIn('STS_BUY', [99, 85]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);
@@ -571,7 +573,13 @@ class MesController extends BaseController
             ->where('id', $request->id)
             ->get();
         if ($editECRN) {
-            return view('editECRN', ['editECRN' => $editECRN]);
+            $lang = app()->getLocale();
+            $page = 'mesECNList';
+            $langArray = $this->langService->getLang($lang, $page);
+            $page = 'sidebar';
+            $sidebarLang = $this->langService->getLang($lang, $page);
+            return view('editECRN', compact('editECRN', 'langArray', 'sidebarLang'));
+            
         }
     }
 
