@@ -29,7 +29,7 @@ class SetupController extends BaseController
 
 
         $value = DB::SELECT("SELECT * FROM mes_loginlog
-        WHERE NOT log_url LIKE 'show-image%'");
+        WHERE NOT log_url LIKE 'show-image%' ORDER BY log_time DESC LIMIT 1000 ");
         return view('userLoginLog', compact('value', 'langArray', 'sidebarLang'));
     }
 
@@ -68,7 +68,7 @@ class SetupController extends BaseController
         $pageID = $request->input('selectedCheckboxIds');
         $default = $request->input('default');
         $pageIDAsString = implode(',', $pageID);
-
+        $langValue = $request->input('langValue');
 
         if ($employee_id && $pageID) {
             // 先刪除現有的記錄
@@ -77,7 +77,8 @@ class SetupController extends BaseController
             $insert = DB::table('mes_check_permission')->insert([
                 'employee_id' => $employee_id,
                 'permission' => $pageIDAsString,
-                'default' => $pageID[0]
+                'default' => $pageID[0],
+                'lang_default' => $langValue
             ]);
             if ($insert) {
                 return response()->json(['success' => true, 'message' => '權限更新成功']);

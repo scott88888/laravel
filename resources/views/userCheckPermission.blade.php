@@ -46,6 +46,21 @@
                                     </div>
                                 </div>
                                 <div id="checkPermissionForm" style="display: block;">
+                                    <!-- <div class="form-row">
+                                        <div class="custom-checkbox custom-control-inline">
+                                            <b class="text-muted mb-3 mt-4 d-block">語系</b>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" checked id="customRadio4" name="customRadio2" value="zh" class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio4">中文</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="customRadio5" name="customRadio2" value="en" class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio5">English</label>
+                                        </div>
+                                    </div> -->
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">
@@ -88,7 +103,6 @@
                                             <label class="custom-control-label" for="checkbox31">推估訂單BOM</label>
                                         </div>
                                     </div>
-
 
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
@@ -153,7 +167,7 @@
                                             <input type="checkbox" class="custom-control-input" id="checkbox16">
                                             <label class="custom-control-label" for="checkbox16">ECR/ECN查詢</label>
                                         </div>
-                                       
+
                                     </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
@@ -294,6 +308,8 @@
         $('#checkPermissionForm').toggle();
         const searchSubmitButton = $('#searchSubmit');
         const reSearchButton = $('#reSearch');
+
+
         reSearchButton.hide();
         $('#searchSubmit').click(function() {
             var searchID = $('#searchID').val();
@@ -307,6 +323,7 @@
                 },
                 success: function(response) {
                     $('#loading').hide();
+                    console.log(response);
                     getCheckBox(response);
                     $('#checkPermissionForm').toggle();
                     $('#searchID').prop('disabled', !$('#searchID').prop('disabled'));
@@ -324,7 +341,10 @@
         $('#saveSubmit').click(function() {
             const selectedCheckboxIds = []; // 用於存儲已選中的 checkbox 的 ID 的數組
             // 獲取所有具有 class "custom-control-input" 的 checkbox
-            const checkboxes = document.querySelectorAll('.custom-control-input');
+            // const checkboxes = document.querySelectorAll('.custom-control-input');
+            // 獲取所有具有 class "custom-control-input" 的 checkbox，但排除指定的兩個 radio 按鈕
+            const checkboxes = document.querySelectorAll('.custom-control-input:not(#customRadio4):not(#customRadio5)');
+
             // 遍歷所有 checkbox
             checkboxes.forEach(function(checkbox) {
                 if (checkbox.checked) {
@@ -334,6 +354,7 @@
                 }
             });
             var searchID = $('#searchID').val();
+            const langValue = $('input[name="customRadio2"]:checked').val();
             $('#loading').show();
             $.ajax({
                 url: 'userUpdatePermissionAjax',
@@ -341,7 +362,8 @@
                 dataType: 'json',
                 data: {
                     searchID: searchID,
-                    selectedCheckboxIds: selectedCheckboxIds
+                    selectedCheckboxIds: selectedCheckboxIds,
+                    langValue: langValue
                 },
                 success: function(response) {
                     $('#loading').hide();
@@ -369,6 +391,8 @@
                     checkbox.checked = true;
                 }
             });
+            var lang = response[0]['lang_default'];
+            $('input[name="customRadio2"][value="' + lang + '"]').prop('checked', true);
         }
     });
 </script>
