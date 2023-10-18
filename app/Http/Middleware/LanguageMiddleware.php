@@ -17,30 +17,40 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // $user = Auth::user();
-        // $employee_id = $user->employee_id;
-        // $browserLanguage = DB::select("SELECT * 
-        // FROM mes_check_permission
-        // WHERE employee_id = '$employee_id'");
+       
 
-        // if ( $browserLanguage[0]->lang_default) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $employee_id = $user->employee_id;
+            $browserLanguage = DB::select("SELECT * 
+        FROM mes_check_permission
+        WHERE employee_id = '$employee_id'");
 
-        //     app()->setLocale($browserLanguage[0]->lang_default);
-        // }else{
-        //     $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-        //     app()->setLocale($browserLanguage);
-        // }
-        // 獲取瀏覽器的語言
-        $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            if ($browserLanguage[0]->lang_default) {
 
-        // 根據瀏覽器的語言設置應用程序的語言
-        if ($browserLanguage === 'zh') {
-            // 如果瀏覽器語言是中文，設置應用程序語言為中文
-            app()->setLocale('zh');
+                app()->setLocale($browserLanguage[0]->lang_default);
+            } else {
+                $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+                app()->setLocale($browserLanguage);
+            }
         } else {
-            // 否則，使用默認語言（例如英文）
-            app()->setLocale('en');
+            $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            app()->setLocale($browserLanguage);
         }
+
+
+
+        // // 獲取瀏覽器的語言
+        // $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+        // // 根據瀏覽器的語言設置應用程序的語言
+        // if ($browserLanguage === 'zh') {
+        //     // 如果瀏覽器語言是中文，設置應用程序語言為中文
+        //     app()->setLocale('zh');
+        // } else {
+        //     // 否則，使用默認語言（例如英文）
+        //     app()->setLocale('en');
+        // }
 
         return $next($request);
     }

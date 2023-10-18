@@ -520,7 +520,7 @@ class MesController extends BaseController
                 ->select('*')
                 ->whereBetween('DAT_POR', [$today, $daytime])
                 ->where('DAT_POR', '>', 0)
-                ->whereNotIn('STS_BUY', [99, 85]) // 新增的條件
+                ->whereNotIn('STS_BUY', [99, 85,55]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);
@@ -531,7 +531,7 @@ class MesController extends BaseController
                         ->orWhere('DAT_POR', '')
                         ->whereBetween('DAT_REQ', [$today, $daytime]);
                 })
-                ->whereNotIn('STS_BUY', [99, 85]) // 新增的條件
+                ->whereNotIn('STS_BUY', [99, 85,55]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
 

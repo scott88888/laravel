@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div id="checkPermissionForm" style="display: block;">
-                                    <!-- <div class="form-row">
+                                    <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">語系</b>
                                         </div>
@@ -60,7 +60,7 @@
                                             <input type="radio" id="customRadio5" name="customRadio2" value="en" class="custom-control-input">
                                             <label class="custom-control-label" for="customRadio5">English</label>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">
