@@ -155,9 +155,11 @@
                     if (data < 0) {
                         return "即將到期 " + days + " 天";
                     } else if (data > 0) {
-                        return "已預期 " + data + " 天";
-                    } else {
+                        return "已逾期 " + data + " 天";
+                    } else if (data == 0) {
                         return "今天到貨";
+                    }else {
+                        return data;
                     }
                 }
             }, {
