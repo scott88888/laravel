@@ -157,7 +157,7 @@
                     } else if (data > 0) {
                         return "已逾期 " + data + " 天";
                     } else if (data == 0) {
-                        return "今天到貨";
+                        return data;
                     }else {
                         return data;
                     }
