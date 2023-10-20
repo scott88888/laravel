@@ -61,30 +61,30 @@
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>  
-                                                <th>COD_ITEM</th>                                             
+                                            <tr>
+                                                <th>COD_ITEM</th>
                                                 <th>NUM_BUY</th>
                                                 <th>NAM_FACT</th>
                                                 <th>DAT_REQ</th>
                                                 <th>DAT_POR</th>
                                                 <th>COD_ITEM</th>
-                                                <th>NAM_ITEM</th>                                             
+                                                <th>NAM_ITEM</th>
                                                 <th>QTY_BUY</th>
                                                 <th>QTY_DEL</th>
                                                 <th>QTY_BACK</th>
-                                                <th>UN_QTY</th>                                              
+                                                <th>UN_QTY</th>
                                                 <th>DAT_NEED</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr> 
-                                                <td></td>          
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>                                           
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -117,26 +117,26 @@
                 "data": "COD_ITEM",
                 "title": "照片",
                 "render": function(data, type, row) {
-                        if (data.length > 0) {
-                            var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
-                            var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
-                            return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:50px;" src="' + imageUrls + '"></a>';
-                        } else {
-                            return '';
-                        }
+                    if (data.length > 0) {
+                        var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
+                        var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
+                        return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:50px;" src="' + imageUrls + '"></a>';
+                    } else {
+                        return '';
                     }
-            },{
+                }
+            }, {
                 "data": "NUM_BUY",
                 "title": "採購單號"
             }, {
                 "data": "NAM_FACT",
                 "title": "廠商",
                 "render": function(data, type, row) {
-                if (type === 'display' && data.length > 6) {
-                    return data.substring(0, 6);
+                    if (type === 'display' && data.length > 6) {
+                        return data.substring(0, 6);
+                    }
+                    return data;
                 }
-                return data;
-            }
             }, {
                 "title": "日期",
                 "render": function(data, type, row) {
@@ -147,14 +147,26 @@
                 }
             }, {
                 "data": "DIFF_DAYS",
-                "title": "逾期天數"
+                "title": "逾期天數",
+                "render": function(data, type, row) {
+                    // 轉換data為正整數
+                    var days = Math.abs(parseInt(data)); 
+
+                    if (data < 0) {
+                        return "即將到期 " + days + " 天";
+                    } else if (data > 0) {
+                        return "已預期 " + data + " 天";
+                    } else {
+                        return "今天到貨";
+                    }
+                }
             }, {
                 "data": "COD_ITEM",
                 "title": "料號"
             }, {
                 "data": "NAM_ITEM",
                 "title": "料件名稱"
-            },{
+            }, {
                 "data": "QTY_BUY",
                 "title": "數量"
             }, {
@@ -169,7 +181,7 @@
                 "render": function(data, type, row) {
                     return '<span style="color:red">' + data + '</span>';
                 }
-            },{
+            }, {
                 "data": "DAT_NEED",
                 "title": "產線需求日"
             }, ],

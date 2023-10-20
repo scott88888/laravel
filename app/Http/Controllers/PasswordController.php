@@ -28,6 +28,16 @@ class PasswordController extends Controller
         return view('password.update', compact('langArray', 'sidebarLang'));
    
     }
+    public function showUpdateForm2()
+    {
+        $lang = app()->getLocale();
+        $page = 'passwordupdate';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('userSetup', compact('langArray', 'sidebarLang'));
+   
+    }
 
     public function update(Request $request)
     {
@@ -45,9 +55,9 @@ class PasswordController extends Controller
             $user->def_pass = $request->password;
             $user->save();
 
-            return redirect()->route('password.update')->with('success', 'Password updated successfully.');
+            return $this->showUpdateForm2();
         } else {
-            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+           echo 'error';
         }
     }
 }

@@ -127,7 +127,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/inventoryItemList', [MesController::class, 'inventoryItemList'])
         ->middleware(CheckPermission::class . ':inventoryItemList');
     Route::match(['get', 'post'], '/inventoryItemPartList', [MesController::class, 'inventoryItemPartList'])
-        ->middleware(CheckPermission::class . ':inventoryItemPartList');    
+        ->middleware(CheckPermission::class . ':inventoryItemPartList');
     Route::match(['get', 'post'], '/inventoryItemPartListAjax', [MesController::class, 'inventoryItemPartListAjax']);
     Route::match(['get', 'post'], '/inventoryListUpload', [InventoryListController::class, 'inventoryListUpload'])
         ->middleware(CheckPermission::class . ':inventoryListUpload');
@@ -136,9 +136,15 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], 'inventoryList', [InventoryListController::class, 'inventoryList'])
         ->middleware(CheckPermission::class . ':inventoryList');
     //設定
-    Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
-    Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-    Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+    // Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
+    // Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+    // Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
+    Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm2']);
+     
+
+    Route::match(['get', 'post'], '/userPasswordUpdate', [PasswordController::class, 'update']);
+        
+
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog'])
         ->middleware(CheckPermission::class . ':userLoginLog');
     Route::match(['get', 'post'], '/userCheckPermission', [SetupController::class, 'userCheckPermission'])
