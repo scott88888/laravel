@@ -26,13 +26,13 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">{{$country}}庫存查詢，更新時間{{$time}}</h4>
+                                <h4 class="header-title">{{$country}}:{{ $langArray->庫存查詢 }}，{{ $langArray->更新時間 }}:{{$time}}</h4>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>                                                
-                                                <th>產品型號</th>                                               
-                                                <th>庫存</th>                                               
+                                                <th>{{ $langArray->產品型號 }}</th>                                               
+                                                <th>{{ $langArray->庫存 }}</th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
