@@ -159,7 +159,7 @@
                     } else if (data == 0 && row.DAT_POR > 0 ) {
                         return '今天到貨';
                     }else {
-                        return data;
+                        return '';
                     }
                 }
             }, {
