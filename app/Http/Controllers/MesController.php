@@ -537,13 +537,6 @@ class MesController extends BaseController
 
             return response()->json($value);
         }
-
-        // if ($searchtype) {
-        //     $mesBuyDelayAjax = MesModelList::getBuyDelayAjax($searchtype);
-        //     return response()->json($mesBuyDelayAjax);
-        // } else {
-        //     return response()->json('nodata');
-        // }
     }
 
     public function mesECNList(Request $request)
@@ -752,5 +745,21 @@ class MesController extends BaseController
             }
         }
         return response()->json($mesBOMItem);
+    }
+
+
+
+    public function mesRmaEdit(Request $request)
+    {
+
+
+        $lang = app()->getLocale();
+        $page = 'mesRmaEdit';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang'));
+       
     }
 }
