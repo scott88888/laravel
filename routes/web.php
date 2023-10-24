@@ -139,7 +139,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     // Route::put('/password/update', [PasswordController::class, 'update'])->name('password.update');
     // Route::post('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
     // Route::get('/password/update', [PasswordController::class, 'showUpdateForm'])->name('password.update');
-    Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm2']);
+    Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm']);
      
 
     Route::match(['get', 'post'], '/userPasswordUpdate', [PasswordController::class, 'update']);

@@ -78,7 +78,7 @@
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
                             <span>{{ $sidebarLang->使用者管理 }}</span></a>
                         <ul class="collapse">
-                            <!-- <li id="updatePasswordBtn"><a href="showUpdateForm">{{ $sidebarLang->修改密碼 }}</a></li> -->
+                            <li id="showUpdateFormBtn"><a href="showUpdateForm">{{ $sidebarLang->修改密碼 }}</a></li>
                             <li id="userLoginLogBtn"><a href="userLoginLog">{{ $sidebarLang->登入紀錄 }}</a></li>
                             <li id="userCheckPermissionBtn"><a href="userCheckPermission">{{ $sidebarLang->權限設定 }}</a></li>
                             <li id="userEditBtn"><a href="userEdit">{{ $sidebarLang->使用者列表刪除 }}</a></li>

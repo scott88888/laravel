@@ -18,17 +18,8 @@ class PasswordController extends Controller
     {
         $this->langService = $langService;
     }
+
     public function showUpdateForm()
-    {
-        $lang = app()->getLocale();
-        $page = 'passwordupdate';
-        $langArray = $this->langService->getLang($lang, $page);
-        $page = 'sidebar';
-        $sidebarLang = $this->langService->getLang($lang, $page);
-        return view('password.update', compact('langArray', 'sidebarLang'));
-   
-    }
-    public function showUpdateForm2()
     {
         $lang = app()->getLocale();
         $page = 'passwordupdate';
@@ -46,6 +37,7 @@ class PasswordController extends Controller
             'current_password' => 'required',
             'password' => 'required|confirmed|min:4',
         ]);
+        
 
         $user = Auth::user();
 
@@ -54,10 +46,10 @@ class PasswordController extends Controller
             $user->updated_at = now();
             $user->def_pass = $request->password;
             $user->save();
-
-            return $this->showUpdateForm2();
+     
+            return $this->showUpdateForm();
         } else {
-           echo 'error';
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect']);
         }
     }
 }

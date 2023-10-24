@@ -20,7 +20,7 @@ if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList
 } else if (page == "inventoryList" || page == "inventoryItemList" || page == "inventoryItemPartList" || page == "inventoryListUpload") {
   setActive('#inventoryList');
   removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter', 'salesManagement']);
-} else if (page == "update" || page == "userLoginLog" || page == "userCheckPermission" || page == "userEdit") {
+} else if (page == "showUpdateForm" || page == "userLoginLog" || page == "userCheckPermission" || page == "userEdit") {
   setActive('#setup');
   removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', 'salesManagement']);
 } else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement" || page == "mesBOM") {
@@ -131,8 +131,8 @@ switch (page) {
   case 'fileECNEdit':
     $('#fileECNEditBtn').last().addClass("active");
     break;
-  case 'update':
-    $('#updatePasswordBtn').last().addClass("active");
+  case 'showUpdateForm':
+    $('#showUpdateFormBtn').last().addClass("active");
     break;
   case 'userLoginLog':
     $('#userLoginLogBtn').last().addClass("active");

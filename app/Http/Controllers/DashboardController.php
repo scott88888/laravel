@@ -31,7 +31,7 @@ class DashboardController extends BaseController
         $seasonDates = $this->getPreviousSeasonDates();
         $startSeasonDate = $seasonDates['start'];
         $endSeasonDate = $seasonDates['end'];
-        $seasonDates['Season']= substr($seasonDates['start'],0,6).'-'.substr($seasonDates['end'],0,6);
+        $seasonDates['Season'] = substr($seasonDates['start'], 0, 6) . '-' . substr($seasonDates['end'], 0, 6);
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
           SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
@@ -63,7 +63,7 @@ class DashboardController extends BaseController
             GROUP BY COD_ITEM;");
             $shipmentRanking[$i]->QTY_STK = $lcst[0]->QTY_STK;
         }
-       
+
 
 
         //今日生產維修狀況
@@ -98,29 +98,36 @@ class DashboardController extends BaseController
                                         AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
         //維修其它
         $warrantyCountOther = $warrantyCount[0]->result_count - $warrantyCountOut[0]->result_count - $warrantyCountIn[0]->result_count;
-        //計算全部維修的百分比      
-        $warrantyPercent[0] = ['warrantyCountIn', $warrantyCountIn[0]->result_count, number_format(($warrantyCountIn[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
-        $warrantyPercent[1] = ['warrantyCountOut', $warrantyCountOut[0]->result_count, number_format(($warrantyCountOut[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
-        $warrantyPercent[2] = ['warrantyCountOther', $warrantyCountOther, number_format(($warrantyCountOther / $warrantyCount[0]->result_count) * 100, 1) . '%'];
-        $warrantyPercent[3] = ['warrantyCount', $warrantyCount[0]->result_count, number_format(($warrantyCount[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
 
-        //測試正常數量
-        $warrantyTest = DB::select("SELECT COUNT(*) AS result_count
+        if ($warrantyCountIn[0]->result_count == 0) {
+            $warrantyPercent[0] = ['warrantyCountIn', 0, 0];
+            $warrantyPercent[1] = ['warrantyCountOut', 0, 0];
+            $warrantyPercent[2] = ['warrantyCountOther', 0, 0];
+            $warrantyPercent[3] = ['warrantyCount', 0, 0];
+            $warrantyPercent[4] = ['warrantyTest', 0, 0];
+            $warrantyPercent[5] = ['warrantyQty', 0, 0];
+            $warrantyPercent[6] = ['warrantyDuty', 0, 0];
+        } else {
+            //計算全部維修的百分比      
+            $warrantyPercent[0] = ['warrantyCountIn', $warrantyCountIn[0]->result_count, number_format(($warrantyCountIn[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            $warrantyPercent[1] = ['warrantyCountOut', $warrantyCountOut[0]->result_count, number_format(($warrantyCountOut[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            $warrantyPercent[2] = ['warrantyCountOther', $warrantyCountOther, number_format(($warrantyCountOther / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            $warrantyPercent[3] = ['warrantyCount', $warrantyCount[0]->result_count, number_format(($warrantyCount[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            //測試正常數量
+            $warrantyTest = DB::select("SELECT COUNT(*) AS result_count
                         FROM mes_rma_analysis
                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                         AND ps1_2 = '測試正常'");
 
-        //維修數量
-        $warrantyQty = DB::select("SELECT COUNT(*) AS result_count
+            //維修數量
+            $warrantyQty = DB::select("SELECT COUNT(*) AS result_count
                         FROM mes_rma_analysis
                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
                         AND (ps1_2 != '測試正常' OR ps1_2 IS NULL)");
 
-        $warrantyPercent[4] = ['warrantyTest', $warrantyTest[0]->result_count, number_format(($warrantyTest[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
-        $warrantyPercent[5] = ['warrantyQty', $warrantyQty[0]->result_count, number_format(($warrantyQty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
-
-
-        $warrantyDuty = DB::select("SELECT COUNT(*) AS result_count
+            $warrantyPercent[4] = ['warrantyTest', $warrantyTest[0]->result_count, number_format(($warrantyTest[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            $warrantyPercent[5] = ['warrantyQty', $warrantyQty[0]->result_count, number_format(($warrantyQty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+            $warrantyDuty = DB::select("SELECT COUNT(*) AS result_count
                                     FROM (
                                         SELECT *
                                         FROM mes_rma_analysis
@@ -129,14 +136,11 @@ class DashboardController extends BaseController
                                         AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
                                         GROUP BY NUM_ONCA
                                     ) AS grouped_data");
-        //                                     $sql = "SELECT COUNT(*) AS result_count
-        //                                     FROM mes_rma_analysis
-        //                                     WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-        //                                     AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
-        //                                     AND (PS1_3 = '廠商' OR PS1_3 = '本廠')";
-        //                                     var_dump($sql);
-        //                                     exit;
-        $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+
+            $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
+        }
+
+
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
                                     FROM mes_rma_analysis
@@ -183,13 +187,13 @@ class DashboardController extends BaseController
         $description = $this->description();
 
         $lang = app()->getLocale();
-        $page ='dashboardLeader';
-        $langArray = $this->langService->getLang($lang,$page);
-        $page ='sidebar';
-        $sidebarLang = $this->langService->getLang($lang,$page);   
+        $page = 'dashboardLeader';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
 
-        
-        return view('dashboardLeader', compact('langArray','sidebarLang','productionData','seasonDates' ,'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
+
+        return view('dashboardLeader', compact('langArray', 'sidebarLang', 'productionData', 'seasonDates', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description'));
     }
 
 
