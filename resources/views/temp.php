@@ -1,18 +1,22 @@
-$lang = app()->getLocale();
-$page ='mesModelList';
-$langArray = $this->langService->getLang($lang,$page);
-$page ='sidebar';
-$sidebarLang = $this->langService->getLang($lang,$page);
-return view('mesModelList', compact('MesModelList','langArray','sidebarLang'));
+SELECT BROM.COD_DPT,BROW.LIN_BROW, BROW.NUM_BROW,EEMPB.NAM_EMP,fact.NAM_FACTS , BROM.NAM_ATTN, BROW.COD_ITEM,BROW.QTY_BROW,BROM.DAT_BROW ,
+       BROW.DAT_RRTN, BROW.DAT_ARTN,  BROW.CNT_ARTN,BROW.PRC_BROW,  BROM.CLS_BROW,
+       BROW.STS_BROW,  BROM.EMP_BROW
+FROM ITEM,   BROW,  BROM, eempb ,fact
+WHERE  1 = 1
+and ( BROW.NUM_BROW = BROM.NUM_BROW ) and ( BROW.COD_ITEM = ITEM.COD_ITEM )
+and (EEMPB.COD_EMP = BROM.EMP_BROW )
+and (fact.COD_fact = BROM.COD_CUST)
+and ( BROW.STS_BROW >= '10' ) and  ( BROW.STS_BROW < '50' ) and ( brow.cls_bp = '1')
+
+union
 
 
-
-
-protected $langService;
-
-public function __construct(LangService $langService)
-{
-$this->langService = $langService;
-}
-
-use App\Services\LangService;
+SELECT BROM.COD_DPT,BROW.LIN_BROW, BROW.NUM_BROW,EEMPB.NAM_EMP,cust.nam_custs , BROM.NAM_ATTN, BROW.COD_ITEM,BROW.QTY_BROW,BROM.DAT_BROW ,
+       BROW.DAT_RRTN, BROW.DAT_ARTN,  BROW.CNT_ARTN,BROW.PRC_BROW,  BROM.CLS_BROW,
+       BROW.STS_BROW , BROM.EMP_BROW
+FROM ITEM,   BROW,  BROM, eempb ,cust
+WHERE  1 = 1
+and ( BROW.NUM_BROW = BROM.NUM_BROW ) and ( BROW.COD_ITEM = ITEM.COD_ITEM )
+and (EEMPB.COD_EMP = BROM.EMP_BROW )
+and (CUST.COD_CUST = BROM.COD_CUST)
+and ( BROW.STS_BROW >= '10' ) and  ( BROW.STS_BROW < '50' ) and ( brow.cls_bp = '1')

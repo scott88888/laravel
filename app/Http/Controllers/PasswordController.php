@@ -22,7 +22,7 @@ class PasswordController extends Controller
     public function showUpdateForm()
     {
         $lang = app()->getLocale();
-        $page = 'passwordupdate';
+        $page = 'userSetup';
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);

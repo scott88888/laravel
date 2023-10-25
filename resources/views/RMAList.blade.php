@@ -29,43 +29,43 @@
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">RMA退貨授權查詢</h4>
+                                <h4 class="header-title">{{ $langArray->RMA退貨授權查詢 }}</h4>
                                 <div class="form-row">
                                     <div class="col-md-3 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">查詢類型</label>
+                                        <label class="col-form-label" style="padding-top: 0;">{{ $langArray->查詢類型 }}</label>
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option>select</option>
-                                            <option value="NUM_ONCA">報修單號</option>
-                                            <option value="NUM_MTRM">派修單號</option>
-                                            <option value="COD_ITEM">產品型號</option>
-                                            <option value="NUM_SER">出廠序號</option>
-                                            <option value="COD_CUST">客戶代碼</option>
+                                            <option value="NUM_ONCA">{{ $langArray->報修單號 }}</option>
+                                            <option value="NUM_MTRM">{{ $langArray->派修單號 }}</option>
+                                            <option value="COD_ITEM">{{ $langArray->產品型號 }}</option>
+                                            <option value="NUM_SER">{{ $langArray->出廠序號 }}</option>
+                                            <option value="COD_CUST">{{ $langArray->客戶代碼 }}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                        <label>查詢內容</label>
+                                        <label>{{ $langArray->查詢內容 }}</label>
                                         <input class="form-control" id="search">
                                     </div>
                                     <div class="col-md-3">
-                                        <label>條件查詢</label>
+                                        <label>{{ $langArray->條件查詢 }}</label>
                                         <div class="col">
-                                            <button id="submit" class="btn btn-primary">查詢</button>
+                                            <button id="submit" class="btn btn-primary">{{ $langArray->查詢 }}</button>
                                         </div>
-                                    </div>                                          
+                                    </div>
                                     <div class="col-md-1">
-                                        <label for="">製造日期1年內故障</label>
+                                        <label for="">{{ $langArray->製造日期1年內故障 }}</label>
                                         <div class="col">
-                                            <button id="errorItem" class="btn btn-primary">查詢</button>
+                                            <button id="errorItem" class="btn btn-primary">{{ $langArray->查詢 }}</button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <label for="">快查</label>
+                                        <label for="">{{ $langArray->查詢30天 }}</label>
                                         <div class="col">
-                                            <button id="30ds" class="btn btn-primary">30天查詢</button>
+                                            <button id="30ds" class="btn btn-primary">{{ $langArray->客戶代碼 }}</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row">                                  
+                                <div class="form-row">
                                 </div>
                             </div>
                             <div class="data-tables datatable-dark">
@@ -74,7 +74,7 @@
                                         <th>DAT_ONCA</th>
                                         <th>NUM_ONCA</th>
                                         <th>NUM_MTRM</th>
-                                        <th>NAM_CUSTS</th>
+
                                         <th>COD_MODL</th>
                                         <th>NUM_SER</th>
                                         <th>DAT_ACTB</th>
@@ -82,11 +82,15 @@
                                         <th>EMP_ORD</th>
                                         <th>MTRM_PS</th>
                                         <th>PS1_1</th>
-                                        <th>STS_ONCA</th>                                       
+                                        <th>STS_ONCA</th>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                        <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -94,10 +98,6 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>       
-                                            <td></td>                                       
                                         </tr>
                                     </tbody>
                                 </table>
@@ -113,6 +113,7 @@
     @include('layouts/settings')
 </body>
 @include('layouts/footerjs')
+
 <script>
     var table;
     $(document).ready(function() {
@@ -121,91 +122,90 @@
         $('#rang').hide();
         table = $('#ListData').DataTable({
             ...tableConfig,
+            order: [
+                [4, 'desc']
+               
+            ],
             columnDefs: [{
                     targets: [0], // 所在的 index（從 0 開始）
                     data: "DAT_ONCA",
-                    title: "報修日期"
+                    title: `{{ $langArray->報修日期 }}`
                 },
                 {
                     targets: [1], // 所在的 index（從 0 開始）
                     data: "NUM_ONCA",
-                    title: "報修單號"
+                    title: `{{ $langArray->報修單號 }}`
                 },
                 {
                     targets: [2], // 所在的 index（從 0 開始）
                     data: "NUM_MTRM",
-                    title: "派修單號"
+                    title: `{{ $langArray->派修單號 }}`
                 },
                 {
                     targets: [3], // 所在的 index（從 0 開始）
-                    data: "NAM_CUSTS",
-                    title: "客戶"
+                    data: "COD_ITEM",
+                    title: `{{ $langArray->產品型號 }}`
                 },
                 {
                     targets: [4], // 所在的 index（從 0 開始）
-                    data: "COD_ITEM",
-                    title: "產品型號"
+                    data: "NUM_SER",
+                    title: `{{ $langArray->出廠序號 }}`
+                }, {
+                    targets: [5], // 所在的 index（從 0 開始）
+                    data: "MTRM_PS",
+                    title: `{{ $langArray->維修零件 }}`
+                }, {
+                    targets: [6], // 所在的 index（從 0 開始）
+                    data: "PS1_1",
+                    title: `{{ $langArray->不良原因 }}`
                 },
                 {
-                    targets: [5], // 所在的 index（從 0 開始）
-                    data: "NUM_SER",
-                    title: "出廠序號"
-                },  {
-                    targets: [6], // 所在的 index（從 0 開始）
-                    data: "MTRM_PS",
-                    title: "維修零件"
-                },  {
                     targets: [7], // 所在的 index（從 0 開始）
-                    data: "PS1_1",
-                    title: "不良原因"
+                    data: "DAT_ACTB",
+                    title: `{{ $langArray->實際開工 }}`
                 },
                 {
                     targets: [8], // 所在的 index（從 0 開始）
-                    data: "DAT_ACTB",
-                    title: "實際開工"
+                    data: "DAT_ACTE",
+                    title: `{{ $langArray->實際完工 }}`
                 },
                 {
                     targets: [9], // 所在的 index（從 0 開始）
-                    data: "DAT_ACTE",
-                    title: "實際完工"
+                    data: "EMP_ORD",
+                    title: `{{ $langArray->維修人員 }}`
                 },
                 {
                     targets: [10], // 所在的 index（從 0 開始）
-                    data: "EMP_ORD",
-                    title: "維修人員"
-                },
-                {
-                    targets: [11], // 所在的 index（從 0 開始）
                     data: "STS_ONCA",
-                    title: "維修單狀況",
+                    title: `{{ $langArray->維修單狀況 }}`,
                     render: function(data, type, row, meta) {
                         switch (data) {
                             case '00':
-                                return '<span style="color:red">' + '尚未處理' + '</span>';
+                                return '<span style="color:red">' + `{{ $langArray->尚未處理 }}` + '</span>';
                             case '05':
-                                return '<span style="color:blue">' + '已轉公文' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->已轉公文 }}` + '</span>';
                             case '07':
-                                return '<span style="color:blue">' + '報價中' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->報價中 }}` + '</span>';
                             case '10':
-                                return '<span style="color:blue">' + '已確認' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->已確認 }}` + '</span>';
                             case '15':
-                                return '<span style="color:blue">' + '通知生產' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->通知生產 }}` + '</span>';
                             case '20':
-                                return '<span style="color:blue">' + '已派工' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->已派工 }}` + '</span>';
                             case '25':
-                                return '<span style="color:blue">' + '轉單' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->轉單 }}` + '</span>';
                             case '30':
-                                return '<span style="color:blue">' + '已完工' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->已完工 }}` + '</span>';
                             case '35':
-                                return '<span style="color:blue">' + '通知驗收' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->通知驗收 }}` + '</span>';
                             case '40':
-                                return '<span style="color:blue">' + '客戶驗收' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->客戶驗收 }}` + '</span>';
                             case '50':
-                                return '<span style="color:blue">' + '已轉應收' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->已轉應收 }}` + '</span>';
                             case '90':
-                                return '<span style="color:blue">' + '撤銷' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->撤銷 }}` + '</span>';
                             case '99':
-                                return '<span style="color:blue">' + '結案' + '</span>';
+                                return '<span style="color:blue">' + `{{ $langArray->結案 }}` + '</span>';
                             default:
                                 return data;
                         }
@@ -247,7 +247,7 @@
                 }
             });
 
-        });        
+        });
 
         $('#errorItem').click(function() {
             $('#loading').show();

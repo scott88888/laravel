@@ -5,17 +5,25 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Redirect;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\PasswordController;
 
 class CheckPermission
 {
     public function handle($request, Closure $next, $permission)
     {
         try {
+            
             // 當前user
             $user = Auth::user();
+            if ($user->def_pass == 'pass' && $user->employee_id != 'B001') {
+                // 使用 action() 函数指定控制器的动作
+                return Redirect::action([PasswordController::class, 'showUpdateForm'])->with('message', 'change password');
+            }
+           
             $user->employee_id;
             if ($user->employee_id == 'unitest') {
                 return $next($request);
@@ -42,4 +50,6 @@ class CheckPermission
             abort(500, 'Internal Server Error');
         }
     }
+   
+  
 }

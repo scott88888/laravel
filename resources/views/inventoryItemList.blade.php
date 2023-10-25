@@ -26,16 +26,16 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">成品庫存查詢</h4>
+                                <h4 class="header-title">{{ $langArray->成品庫存查詢 }}</h4>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>                                                
-                                                <th>產品型號</th>
-                                                <th>產品敘述</th>
-                                                <th>庫存</th>
-                                                <th>停產通知</th>
-                                                <th>倉位</th>
+                                                <th>{{ $langArray->產品型號 }}</th>
+                                                <th>{{ $langArray->產品敘述 }}</th>
+                                                <th>{{ $langArray->庫存 }}</th>
+                                                <th>{{ $langArray->停產通知 }}</th>
+                                                <th>{{ $langArray->倉位 }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -64,17 +64,17 @@
                                                 <td>
                                                     @switch($ListData->COD_LOC)
                                                     @case('GO-001')
-                                                    <p style="color:blue">內銷成品倉</p>
+                                                    <p style="color:blue">{{ $langArray->內銷成品倉 }}</p>
                                                     @break
 
                                                     @case('WO-003')
-                                                    <p style="color:green">外銷成品倉</p>
+                                                    <p style="color:green">{{ $langArray->外銷成品倉 }}</p>
                                                     @break
                                                     @case('AO-111')
-                                                    <<p style="color:purple">內銷借品專用倉</p>
+                                                    <<p style="color:purple">{{ $langArray->內銷借品專用倉 }}</p>
                                                         @break
                                                         @case('LL-000')
-                                                        <p style="color:red">內銷借品專用倉</p>
+                                                        <p style="color:red">{{ $langArray->內銷借品專用倉 }}</p>
                                                         @break
 
                                                         @default
