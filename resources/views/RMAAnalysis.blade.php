@@ -34,9 +34,9 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">{{ $langArray->查詢類型 }} </label>
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="COD_ITEM" selected>{{ $langArray->產品型號 }}</option>
+                                            <option value="COD_ITEM">{{ $langArray->產品型號 }}</option>
                                             <option value="NUM_MTRM">{{ $langArray->派修單號 }}</option>
-                                            <option value="NUM_SER">{{ $langArray->出廠序號 }}</option>
+                                            <option value="NUM_SER" selected>{{ $langArray->出廠序號 }}</option>
                                             <option value="MTRM_PS">{{ $langArray->零件料號 }}</option>
                                             <option value="COD_CUST">{{ $langArray->客戶代碼 }}</option>
                                         </select>
