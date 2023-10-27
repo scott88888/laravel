@@ -140,6 +140,8 @@ class MesModelList extends Authenticatable
     public static function getMesMfrList()
     {
         $value = DB::select("SELECT * ,datediff(`DAT_RRTN`,now()) as DATE_GAP FROM `mes_mfr05_view` WHERE `CLS_BROW` <> 6  ORDER BY `DAT_BROW` DESC");
+
+        //$value = DB::select("SELECT *  FROM `mes_mfrlist` ");
         return $value;
     }
 

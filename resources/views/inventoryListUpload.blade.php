@@ -43,7 +43,7 @@
                                                         <option value="country">{{ $langArray->國家 }}</option>
                                                         <option value="US">{{ $langArray->美國 }}</option>
                                                         <option value="UK">{{ $langArray->英國 }}</option>
-                                                        <option value="AUS">{{ $langArray->歐洲 }}</option>
+                                                        <option value="AUS">{{ $langArray->澳洲 }}</option>
                                                         <option value="IT">{{ $langArray->義大利 }}</option>
                                                         <option value="MY">{{ $langArray->馬來西亞 }}</option>
                                                     </select>
