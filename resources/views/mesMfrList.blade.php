@@ -53,8 +53,8 @@
                                         <tr>
                                             <td>{{$ListData->NUM_BROW}}</td>
                                             <td>{{$ListData->COD_DPT}}</td>
-                                            <td>{{$ListData->NUM_BROW}}||{{$ListData->NAM_EMP}}</td>
-                                            <td>{{$ListData->NAM_FACTS}}</td>
+                                            <td>{{$ListData->NAM_EMP}}</td>
+                                            <td>{{$ListData->NAM_CUSTS}}</td>
                                             <td>{{$ListData->COD_ITEM}}</td>
                                             <td>{{$ListData->QTY_BROW}}</td>
                                             <td>{{$ListData->DAT_BROW}}</td>
