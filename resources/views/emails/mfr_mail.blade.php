@@ -20,7 +20,7 @@
         <tr>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->NUM_BROW }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->NAM_EMP }}</td>
-            <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->NAM_FACTS }}</td>
+            <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->NAM_CUSTS }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->COD_ITEM }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->QTY_BROW }}</td>
             <td style="border: 1px solid black;padding: 1rem;text-align: center;">{{ $data->CNT_ARTN }}</td>

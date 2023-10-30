@@ -38,7 +38,7 @@
                                             <option value="NUM_ONCA">{{ $langArray->報修單號 }}</option>
                                             <option value="NUM_MTRM">{{ $langArray->派修單號 }}</option>
                                             <option value="COD_ITEM">{{ $langArray->產品型號 }}</option>
-                                            <option value="NUM_SER">{{ $langArray->出廠序號 }}</option>
+                                            <option value="NUM_SER" selected >{{ $langArray->出廠序號 }}</option>
                                             <option value="COD_CUST">{{ $langArray->客戶代碼 }}</option>
                                         </select>
                                     </div>

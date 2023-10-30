@@ -18,14 +18,14 @@ class MailController extends Controller
         $dueUserList = $this->getMfrOverdueUser();
         //獲得內容        
         foreach ($dueUserList as $key => $value) {
-             $EMP_BROW = $value->EMP_BROW; 
-            // $EMP_BROW = 'E242';
+            $EMP_BROW = $value->EMP_BROW;
+            // $EMP_BROW = 'E545';
             if ($value->COD_DPT == '0300' || $value->COD_DPT == '0350' || $value->COD_DPT == '0360' || $value->COD_DPT == '0400') {
                 //獲得未歸還單號內容列表
                 $dueNumlist = DB::select("SELECT * , DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
-                                            FROM `mes_mfr05_view`
-                                            WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW()) < 0 
-                                            AND `EMP_BROW` =  '$EMP_BROW'
+                                            FROM `mes_mfrlist`
+                                            WHERE `EMP_BROW` =  '$EMP_BROW'
+                                            AND DAT_RRTN < NOW()
                                             ORDER BY `DAT_RRTN` DESC;");
             }
             //如果沒有資料 或六日 則該業務不用寄發通知信
@@ -42,6 +42,7 @@ class MailController extends Controller
                 $this->sendMail($msg,$dueNumlist, $recipients, $combinedRecipients, $subject);
             }
         };
+      
         //即將到期通知-------------------------------------
         //獲得標題 
         $subject = '【MES】' . date('m') . '月份。借品即將到期 | 提醒通知。' . date('Y-m-d');
@@ -50,12 +51,12 @@ class MailController extends Controller
 
         //獲得內容        
         foreach ($dueUserList as $key => $value) {
-            $EMP_BROW = $value->EMP_BROW;
-            // $EMP_BROW = 'E242';   
+           $EMP_BROW = $value->EMP_BROW;
+            // $EMP_BROW = 'E545';  
             if ($value->COD_DPT == '0300' || $value->COD_DPT == '0350' || $value->COD_DPT == '0360' || $value->COD_DPT == '0400') {
                 //獲得未歸還單號內容列表
                 $dueNumlist = DB::select("SELECT * , DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
-                                            FROM `mes_mfr05_view`
+                                            FROM `mes_mfrlist`
                                             WHERE `CLS_BROW` <> 6 AND `COD_DPT` > 0 AND DATEDIFF(`DAT_RRTN`, NOW())  = 7
                                             AND `EMP_BROW` = '$EMP_BROW'
                                             ORDER BY `DAT_RRTN` DESC;");
@@ -93,15 +94,13 @@ class MailController extends Controller
             $saleListSql .= "`EMP_BROW` = '" . $saleList[$i] . "' OR ";
         }
         $saleListSql = rtrim($saleListSql, ' OR');
+
         //取得未歸還名單 (測試使用第一筆而已 DESC limit 1 )
         $value = DB::select("SELECT *, DATEDIFF(`DAT_RRTN`, NOW()) AS DATE_GAP
-        FROM `mes_mfr05_view`
-        WHERE `CLS_BROW` <> 6 
-        AND `COD_DPT` > 0         
-        AND `DAT_ARTN` = '0000-00-00'
-        AND ($saleListSql)
+        FROM `mes_mfrlist`
+        WHERE ($saleListSql)
         GROUP BY `NAM_EMP`
-        ORDER BY `NAM_EMP`");
+        limit 1 ");
         return $value;
     }
 
