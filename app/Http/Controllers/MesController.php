@@ -62,10 +62,12 @@ class MesController extends BaseController
         $rans = date('Y-m-d', strtotime($request->input('rangS')));
         $rane = date('Y-m-d', strtotime($request->input('rangE') + 1));
         if ($searchtype == 'upload_date') {
-            $mesUploadListAjax = DB::table('fw_index')
-                ->whereBetween('upload_date', [DB::raw("'$rans'"), DB::raw("'$rane'")])
-                ->orderBy('fw_id', 'asc')
-                ->get();
+            // $mesUploadListAjax = DB::table('fw_index')
+            //     ->whereBetween('upload_date', [DB::raw("'$rans'"), DB::raw("'$rane'")])
+            //     ->orderBy('fw_id', 'asc')
+            //     ->get();
+
+            $mesUploadListAjax = DB::select("SELECT * FROM `fw_index` WHERE upload_date BETWEEN '0000-00-00 00:00:00' AND '2099-10-31 23:59:59'");
         } else {
             $mesUploadListAjax = DB::table('fw_index')
                 ->where($searchtype, 'like', '%' . $search . '%')
@@ -79,12 +81,17 @@ class MesController extends BaseController
     public function editFirmware(Request $request)
     {
 
+
+        $lang = app()->getLocale();
+        $page = 'editFirmware';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
         $editFirmware = DB::table('fw_index')
             ->where('fw_id', $request->id)
             ->get();
 
-
-        return view('editFirmware', ['editFirmware' => $editFirmware]);
+            return view('editFirmware', compact('langArray', 'sidebarLang','editFirmware'));
     }
 
     public function delFirmwareAjax(Request $request)

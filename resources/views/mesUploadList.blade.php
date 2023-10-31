@@ -351,9 +351,10 @@
         $('#allds').click(function() {
             var search = $('#search').val();
             var searchtype = 'upload_date';
-            var rangS = 00000000;
+            var rangS = '00000000';
             var today = new Date();
             var rangE = formatDate(new Date(today));
+            console.log(search, searchtype, rangS, rangE);
             loadData(search, searchtype, rangS, rangE);
         });
         $('#submit').click(function() {
@@ -397,6 +398,7 @@
             var searchtype = 'upload_date';
             var rangS = dateRange.startFormatted;
             var rangE = dateRange.endFormatted;
+            console.log(rangE);
             loadData(search, searchtype, rangS, rangE);
         });
     }
