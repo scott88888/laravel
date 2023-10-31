@@ -91,7 +91,7 @@ class MesController extends BaseController
             ->where('fw_id', $request->id)
             ->get();
 
-            return view('editFirmware', compact('langArray', 'sidebarLang','editFirmware'));
+        return view('editFirmware', compact('langArray', 'sidebarLang', 'editFirmware'));
     }
 
     public function delFirmwareAjax(Request $request)
@@ -235,24 +235,32 @@ class MesController extends BaseController
 
     public function dateFunction()
     {
-        //獲取月份
         $date = [];
-        $lastyear = [];
         $year = date('Y');
         $month = date('m');
         for ($i = 0; $i < 12; $i++) {
-            // 當前月份減去 $i 個月
-            $timestamp = strtotime("-{$i} month");
-            // 取得年份和月份
-            $year = date('Y', $timestamp);
-            $month = date('m', $timestamp);
-            // 將年份和月份存入陣列中
-            $date[] = (object)['year' => $year, 'month' => $month];
+            // 當前年份和月份
+            $currentYear = $year;
+            $currentMonth = $month;
+
+            // 使用减去 $i
+            if ($currentMonth - $i <= 0) {
+                $currentYear -= 1;
+                $currentMonth = 12 - ($i - $currentMonth);
+            } else {
+                $currentMonth -= $i;
+            }
+            // 格式化月份为两位数
+            $formattedMonth = sprintf("%02d", $currentMonth);
+            // 将年份和月份存入数组中
+            $date[] = (object)['year' => $currentYear, 'month' => $formattedMonth];
         }
-        // 生成從 2019 到最後一個年份的資料，並加入到 $date 陣列中
-        for ($i = 2019; $i <= $date[11]->year; $i++) {
+
+        $lastyear = [];
+        for ($i = 2019; $i <= $date[0]->year; $i++) {
             $lastyear[] = (object) ['lastyear' => $i];
         }
+        
         return [$date, $lastyear];
     }
 
@@ -406,6 +414,7 @@ class MesController extends BaseController
     public function mesRuncardListNotin(Request $request)
     {
         list($date, $lastyear) = $this->dateFunction();
+
         if ($date && $lastyear) {
             $lang = app()->getLocale();
             $page = 'mesRuncardListNotin';
@@ -527,7 +536,7 @@ class MesController extends BaseController
                 ->select('*')
                 ->whereBetween('DAT_POR', [$today, $daytime])
                 ->where('DAT_POR', '>', 0)
-                ->whereNotIn('STS_BUY', [99, 85,55,54]) // 新增的條件
+                ->whereNotIn('STS_BUY', [99, 85, 55, 54]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
             return response()->json($value);
@@ -538,7 +547,7 @@ class MesController extends BaseController
                         ->orWhere('DAT_POR', '')
                         ->whereBetween('DAT_REQ', [$today, $daytime]);
                 })
-                ->whereNotIn('STS_BUY', [99, 85,55,54]) // 新增的條件
+                ->whereNotIn('STS_BUY', [99, 85, 55, 54]) // 新增的條件
                 ->orderBy('DAT_BUY', 'desc')
                 ->get();
 
@@ -767,6 +776,5 @@ class MesController extends BaseController
         $sidebarLang = $this->langService->getLang($lang, $page);
 
         return view('mesRmaEdit', compact('langArray', 'sidebarLang'));
-       
     }
 }

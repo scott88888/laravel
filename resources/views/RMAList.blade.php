@@ -74,7 +74,6 @@
                                         <th>DAT_ONCA</th>
                                         <th>NUM_ONCA</th>
                                         <th>NUM_MTRM</th>
-
                                         <th>COD_MODL</th>
                                         <th>NUM_SER</th>
                                         <th>DAT_ACTB</th>

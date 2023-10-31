@@ -5,10 +5,10 @@ const searchParams = new URLSearchParams(url.search);
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
 
-if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList" ) {
+if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
   setActive('#documentSearch');
   removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
-} else if (page == "RMAList" || page == "RMAAnalysis") {
+} else if (page == "RMAList" || page == "RMAAnalysis" || page == "mesRmaEdit") {
   setActive('#RMA');
   removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "dashboardLeader") {
@@ -121,6 +121,9 @@ switch (page) {
     break;
   case 'RMAAnalysis':
     $('#RMAAnalysisBtn').last().addClass("active");
+    break;
+  case 'mesRmaEdit':
+    $('#mesRmaEditBtn').last().addClass("active");
     break;
   case 'mesShipmentList':
     $('#mesShipmentListBtn').last().addClass("active");

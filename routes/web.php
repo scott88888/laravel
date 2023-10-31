@@ -99,7 +99,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/RMAAnalysisAjax', [MesController::class, 'RMAAnalysisAjax']);
     Route::match(['get', 'post'], '/RMAbadPartAjax', [MesController::class, 'RMAbadPartAjax']);
     Route::match(['get', 'post'], '/mesRmaEdit', [MesController::class, 'mesRmaEdit']);
-    
+        // ->middleware(CheckPermission::class . ':mesRmaEdit');
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
@@ -139,10 +139,10 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':inventoryList');
     //設定
     Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm']);
-     
+
 
     Route::match(['get', 'post'], '/userPasswordUpdate', [PasswordController::class, 'update']);
-        
+
 
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog'])
         ->middleware(CheckPermission::class . ':userLoginLog');
