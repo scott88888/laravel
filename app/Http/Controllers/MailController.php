@@ -31,7 +31,7 @@ class MailController extends Controller
             //如果沒有資料 或六日 則該業務不用寄發通知信
             if (count($dueNumlist) == 0 || $dayOfWeek == 6 || $dayOfWeek == 7) {
                 continue;
-            } else {
+            } else {      
                 $msg= '已逾期';                
                 $result = $this->getMfrOverdueCC($EMP_BROW);
                 //獲得主要收件人
@@ -100,7 +100,7 @@ class MailController extends Controller
         FROM `mes_mfrlist`
         WHERE ($saleListSql)
         GROUP BY `NAM_EMP`
-        limit 1 ");
+        ");
         return $value;
     }
 

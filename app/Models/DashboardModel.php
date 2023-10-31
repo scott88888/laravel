@@ -90,10 +90,11 @@ class DashboardModel extends Authenticatable
 
         $value = DB::select("SELECT nam_emp, SUM(qty_brow) as total_qty
         FROM mes_mfrlist
-        WHERE `EMP_BROW` = 'E201' OR `EMP_BROW` = 'E220' OR `EMP_BROW` = 'E230' OR `EMP_BROW` = 'E235' OR `EMP_BROW` = 'E242' OR `EMP_BROW` = 'E802' OR `EMP_BROW` = 'E708' OR `EMP_BROW` = 'E712' OR `EMP_BROW` = 'E718' OR `EMP_BROW` = 'E810' OR `EMP_BROW` = 'E302' OR `EMP_BROW` = 'E105' OR `EMP_BROW` = 'E107' OR `EMP_BROW` = 'E150' OR `EMP_BROW` = 'E151' OR `EMP_BROW` = 'E152' OR `EMP_BROW` = 'E153'
         GROUP BY nam_emp
         ORDER BY total_qty DESC
         LIMIT 10");
+        //  WHERE `EMP_BROW` = 'E201' OR `EMP_BROW` = 'E220' OR `EMP_BROW` = 'E230' OR `EMP_BROW` = 'E235' OR `EMP_BROW` = 'E242' OR `EMP_BROW` = 'E802' OR `EMP_BROW` = 'E708' OR `EMP_BROW` = 'E712' OR `EMP_BROW` = 'E718' OR `EMP_BROW` = 'E810' OR `EMP_BROW` = 'E302' OR `EMP_BROW` = 'E105' OR `EMP_BROW` = 'E107' OR `EMP_BROW` = 'E150' OR `EMP_BROW` = 'E151' OR `EMP_BROW` = 'E152' OR `EMP_BROW` = 'E153'
+        
         return $value;
     }
     public static function getUnsalableProducts()
