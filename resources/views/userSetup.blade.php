@@ -40,7 +40,7 @@
                                         <label for="current_password" class="col-md-4 col-form-label text-md-right">{{ $langArray->原密碼 }}</label>
 
                                         <div class="col-md-6">
-                                            <input id="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" required autocomplete="current-password">
+                                            <input id="current_password" type="password" value='{{ $def_pass }}' class="form-control @error('current_password') is-invalid @enderror" name="current_password" required autocomplete="current-password">
 
                                             @error('current_password')
                                             <span class="invalid-feedback" role="alert">
