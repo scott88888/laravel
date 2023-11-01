@@ -12,6 +12,7 @@ use App\Services\LangService;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ConditionalRules;
 
 class MesController extends BaseController
 {
@@ -260,7 +261,7 @@ class MesController extends BaseController
         for ($i = 2019; $i <= $date[0]->year; $i++) {
             $lastyear[] = (object) ['lastyear' => $i];
         }
-        
+
         return [$date, $lastyear];
     }
 
@@ -679,6 +680,10 @@ class MesController extends BaseController
         return response()->json($response);
     }
 
+
+
+
+
     public function mesShipmentListAjax(Request $request)
     {
         $searchtype = $request->input('searchtype');
@@ -775,6 +780,36 @@ class MesController extends BaseController
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
 
+
         return view('mesRmaEdit', compact('langArray', 'sidebarLang'));
+    }
+    public function mesRmaEditAjax(Request $request)
+    {
+        $search = $request->input('serchCon');
+
+        if (strpos($search, ":") !== false) {           
+            $data = DB::select(" SELECT * FROM mac_query 
+            LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
+            LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
+            WHERE PS2  = '$search'
+            limit 1");
+        }else{
+            $data = DB::select(" SELECT * FROM mac_query 
+            LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
+            LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
+            WHERE SEQ_MITEM = '$search'
+            limit 1");
+        }
+        if (count($data)==0) {
+            $data = DB::select(" SELECT * FROM mac_query 
+            LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
+            LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
+            WHERE SEQ_ITEM = '$search'
+            limit 1");
+        }
+        //    LEFT JOIN mes_mbom AS mes_mbom on mes_mbom.COD_ITEM = pops.COD_ITEM 
+
+
+        return response()->json($data);
     }
 }

@@ -16,11 +16,16 @@
 </script>
 <style>
     textarea {
-        width: 100%; /* 设置宽度为100% */
-        height: 100px; /* 设置高度为200像素 */
-        padding: 10px; /* 添加一些内边距 */
-        border: 1px solid #ccc; /* 添加边框 */
-        border-radius: 4px; /* 添加边框半径（圆角） */
+        width: 100%;
+        /* 设置宽度为100% */
+        height: 100px;
+        /* 设置高度为200像素 */
+        padding: 10px;
+        /* 添加一些内边距 */
+        border: 1px solid #ccc;
+        /* 添加边框 */
+        border-radius: 4px;
+        /* 添加边框半径（圆角） */
     }
 </style>
 
@@ -28,7 +33,9 @@
     <div id="preloader">
         <div class="loader"></div>
     </div>
-
+    <div id="loading">
+        <img src="{{ asset('images/icon/loading.gif') }}" alt="Loading...">
+    </div>
     <div class="page-container">
         @include('layouts/sidebar')
         <div class="main-content">
@@ -45,52 +52,45 @@
                                         <label>單號</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                  
-                                    <!-- <div class="col-md-1">
-                                        <div class="col" style="padding-top: 13px;">
-                                            <button id="查詢單號" class="btn btn-primary">新增</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="col" style="padding-top: 13px;">
-                                            <button id="查詢單號" class="btn btn-primary">列印</button>
-                                        </div>
-                                    </div> -->
                                 </div>
                                 <div class="form-row align-items-center" style="margin:0px 0px 37px -6px">
                                     <div class="col-6" id="">
                                         <label>產品序號/零件序號/MAC</label>
-                                        <input id="macNum" type="text" class="form-control" placeholder="" required="">
+                                        <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
                                         <div class="col" style="text-align: center;">
-                                        <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
+                                            <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-3" id="">
                                         <label>客戶編號</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="customerNumber" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-3" id="">
                                         <label>客戶名稱</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="customerName" type="text" class="form-control" placeholder="" required="">
                                     </div>
+                                
+
                                     <div class="col-3" id="">
-                                        <label>送修日期</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                      
+                                            <label >送修日期</label>
+                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
+                                       
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-3" id="">
                                         <label>產品型號</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="productNum" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-3" id="">
                                         <label>產品名稱</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="productName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-3" id="">
                                         <label>故障原因</label>
@@ -168,9 +168,9 @@
                                 </div>
 
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                <label>維修紀錄</label>
+                                    <label>維修紀錄</label>
                                     <div class="col-12" id="">
-                                       
+
                                         <textarea rows="4" cols="200" placeholder="在此输入..."></textarea>
 
                                     </div>
@@ -206,36 +206,48 @@
 @include('layouts/footerjs')
 
 <script>
+    $(document).ready(function() {
+        $('#loading').hide();
+    });
+
+    $('#submitSearch').click(function() {
+        var serchCon = $('#serchCon').val();
+      
+        $('#loading').show();
+        $.ajax({
+            url: 'mesRmaEditAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                serchCon: serchCon
+            },
+            success: function(response) {
 
 
-$('#launchDate').on('change', function() {
-            var macNum = $('#macNum').val();
-            $('#loading').show();
-            $.ajax({
-                url: 'mesRmaEditAjax',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    macNum: macNum
-                },
-                success: function(response) {
-                    // 清空表格資料
-                    table.clear();
-                    // 將回應資料加入表格
-                    table.rows.add(response);
-                    // 重新繪製表格
-                    table.draw();
-                    $('#loading').hide();
-                    // 處理 AJAX 請求成功後的回應
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    // 處理 AJAX 請求失敗後的回應
-                    console.log('no');
-                    $('#loading').hide();
-                }
-            });
 
+
+                pullData(response)
+                console.log(response);
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+                // 處理 AJAX 請求失敗後的回應
+                console.log('no');
+                $('#loading').hide();
+            }
         });
+    });
+
+    function pullData(response) {
+        var customerName = response[0]['NAM_CUSTS'];
+        var customerNumber = response[0]['COD_CUST'];
+        var productNum = response[0]['COD_ITEM'];
+        var productName = response[0]['NAM_ITEM'];
+        $('#customerName').val(customerName);
+        $('#customerNumber').val(customerNumber);
+        $('#productNum').val(productNum);
+        $('#productName').val(productName);
+    }
 </script>
+
 </html>
