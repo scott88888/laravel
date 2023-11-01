@@ -45,12 +45,8 @@
                                         <label>單號</label>
                                         <input id="search" type="text" class="form-control" placeholder="" required="">
                                     </div>
-                                    <div class="col-md-1">
-                                        <div class="col" style="padding-top: 13px;">
-                                            <button id="查詢單號" class="btn btn-primary">查詢</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
+                                  
+                                    <!-- <div class="col-md-1">
                                         <div class="col" style="padding-top: 13px;">
                                             <button id="查詢單號" class="btn btn-primary">新增</button>
                                         </div>
@@ -59,12 +55,18 @@
                                         <div class="col" style="padding-top: 13px;">
                                             <button id="查詢單號" class="btn btn-primary">列印</button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <div class="form-row align-items-center">
+                                <div class="form-row align-items-center" style="margin:0px 0px 37px -6px">
                                     <div class="col-6" id="">
                                         <label>產品序號/零件序號/MAC</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="macNum" type="text" class="form-control" placeholder="" required="">
+                                    </div>
+                                    <div class="col-2" style="margin-left: 3rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                        <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
@@ -120,34 +122,34 @@
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">必須重新包裝</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox1">
+                                            <label class="custom-control-label" for="checkbox1">必須重新包裝</label>
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">電線</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox2">
+                                            <label class="custom-control-label" for="checkbox2">電線</label>
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">鏡頭</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox3">
+                                            <label class="custom-control-label" for="checkbox3">鏡頭</label>
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">HDD</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox4">
+                                            <label class="custom-control-label" for="checkbox4">HDD</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">擦拭包裝</label>
+                                            <input type="checkbox" class="custom-control-input" id="checkbox5">
+                                            <label class="custom-control-label" for="checkbox5">擦拭包裝</label>
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
@@ -158,9 +160,9 @@
                                     </div>
                                     <div class="col-6" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox7">
                                             <label class="custom-control-label" style="margin-right: 10px;" for="">其他</label>
-                                            <input type="text" class="" placeholder="输入内容" id="input6">
+                                            <input type="text" class="" placeholder="输入内容" id="input7">
                                         </div>
                                     </div>
                                 </div>
@@ -203,5 +205,37 @@
 </body>
 @include('layouts/footerjs')
 
+<script>
 
+
+$('#launchDate').on('change', function() {
+            var macNum = $('#macNum').val();
+            $('#loading').show();
+            $.ajax({
+                url: 'mesRmaEditAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    macNum: macNum
+                },
+                success: function(response) {
+                    // 清空表格資料
+                    table.clear();
+                    // 將回應資料加入表格
+                    table.rows.add(response);
+                    // 重新繪製表格
+                    table.draw();
+                    $('#loading').hide();
+                    // 處理 AJAX 請求成功後的回應
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // 處理 AJAX 請求失敗後的回應
+                    console.log('no');
+                    $('#loading').hide();
+                }
+            });
+
+        });
+</script>
 </html>
