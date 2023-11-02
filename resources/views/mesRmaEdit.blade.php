@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="col-3" id="">
                                         <label>維修人員</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="user" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-3" id="">
                                         <label>完修日期</label>
@@ -243,10 +243,12 @@
         var customerNumber = response[0]['COD_CUST'];
         var productNum = response[0]['COD_ITEM'];
         var productName = response[0]['NAM_ITEM'];
+        var user = response[0]['employee_id'];
         $('#customerName').val(customerName);
         $('#customerNumber').val(customerNumber);
         $('#productNum').val(productNum);
-        $('#productName').val(productName);
+        $('#productName').val(productName);        
+        $('#user').val(user); 
     }
 </script>
 

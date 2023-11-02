@@ -7,7 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
 use App\Services\LangService;
-
+use Illuminate\Support\Facades\Auth;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -533,24 +533,10 @@ class MesController extends BaseController
         }
 
         if ($searchtype == 'MaterialDeliveryDate') {
-            $value = DB::table('mes_purchase_overdue')
-                ->select('*')
-                ->whereBetween('DAT_POR', [$today, $daytime])
-                ->where('DAT_POR', '>', 0)
-                ->whereNotIn('STS_BUY', [99, 85, 55, 54]) // 新增的條件
-                ->orderBy('DAT_BUY', 'desc')
-                ->get();
+            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR IS NOT NULL");
             return response()->json($value);
         } else {
-            $value = DB::table('mes_purchase_overdue')
-                ->where(function ($query) use ($today, $daytime) {
-                    $query->whereNull('DAT_POR')
-                        ->orWhere('DAT_POR', '')
-                        ->whereBetween('DAT_REQ', [$today, $daytime]);
-                })
-                ->whereNotIn('STS_BUY', [99, 85, 55, 54]) // 新增的條件
-                ->orderBy('DAT_BUY', 'desc')
-                ->get();
+            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR IS NULL");
 
             return response()->json($value);
         }
@@ -809,7 +795,8 @@ class MesController extends BaseController
         }
         //    LEFT JOIN mes_mbom AS mes_mbom on mes_mbom.COD_ITEM = pops.COD_ITEM 
 
-
+       
+        $data[0]->employee_id = Auth::user()->employee_id;
         return response()->json($data);
     }
 }
