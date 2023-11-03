@@ -533,10 +533,10 @@ class MesController extends BaseController
         }
 
         if ($searchtype == 'MaterialDeliveryDate') {
-            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR IS NOT NULL");
+            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR > 0");
             return response()->json($value);
         } else {
-            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR IS NULL");
+            $value = DB::SELECT("SELECT * FROM mes_purchase_overdue WHERE DAT_POR = 0");
 
             return response()->json($value);
         }
