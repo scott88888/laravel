@@ -614,19 +614,16 @@
             }
         });
     }
-
-
     var chartData = [
-        @foreach($maintenData['maintenPie'] as $item) {
+        @foreach ($maintenData['maintenPie'] as $item)
+        {
             "country": "{{ $item->comr_desc }}",
-            "litres": {
-                {
-                    $item - > COUNT
-                }
-            },
+            "litres": {{ $item->COUNT }},
         },
         @endforeach
     ];
+
+
     var chart = AmCharts.makeChart("chartdiv", {
         "type": "pie",
         "dataProvider": chartData, // 使用 chartData 作为数据提供程序
