@@ -31,7 +31,6 @@
     .amcharts-main-div {
         margin-left: -40px;
     }
-    
 </style>
 
 <body>
@@ -82,10 +81,10 @@
                                                     <p>SP</p>
                                                     @elseif ($item->TYP_CODE == 6)
                                                     <p>周邊</p>
-                                                    @elseif  ($item->TYP_CODE == 7)
-                                                    <p>外購NVR/DVR/NAV/Camera</p>    
+                                                    @elseif ($item->TYP_CODE == 7)
+                                                    <p>外購NVR/DVR/NAV/Camera</p>
                                                     @else ($item->TYP_CODE == 8)
-                                                    <p>腳架/投射器</p>                                                  
+                                                    <p>腳架/投射器</p>
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->QTY }}</td>
@@ -145,13 +144,13 @@
                                             <tr>
                                                 <td>{{ $item->COD_ITEM }}</td>
                                                 <td>{{ $item->QTY_STK }}</td>
-                                                
+
                                                 @if ($item->sellQty > 0 )
                                                 <td>{{ $item->sellQty }}</td>
                                                 @else
                                                 <td>0</td>
                                                 @endif
-                                                                                          
+
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -163,8 +162,8 @@
                 </div>
             </div>
             <div class="row">
-                
-           
+
+
             </div>
             <div class="row">
                 <div class="col-4" style="padding: 2px;">
@@ -215,14 +214,14 @@
                 <div class="col-5">
                     <div class="card">
                         <div class="card-body" style="padding: 0;">
-                        <div style="text-align: center;">
+                            <div style="text-align: center;">
                                 <h4 class="header-title" style="text-align: center;">
                                     {{$maintenData['maintenDate'] }}
                                     製程不良狀況佔比
                                 </h4>
                             </div>
                             <div id="chartdiv"></div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -257,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-5" style="padding: 2px;">
+                <div class="col-6" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -281,13 +280,13 @@
                                             @foreach ($productionData['productionStatus'] as $status)
                                             <tr>
                                                 <td>
-                                                <img style="max-width:56px;" src={{ asset("/show-image/mesitempartlist").'/'.$status->COD_MITEM.'/'.$status->COD_MITEM.'-s.jpg' }} >
+                                                    <img style="max-width:56px;" src={{ asset("/show-image/mesitempartlist").'/'.$status->COD_MITEM.'/'.$status->COD_MITEM.'-s.jpg' }}>
                                                 </td>
                                                 <td>{{ $status->NUM_PS }}</td>
                                                 <td>{{ $status->qty_pcs }}</td>
                                                 <td>{{ $status->count }}</td>
-                                                <td>{{ $status->COD_MITEM }}</td> 
-                                               @if ($status->operation == 'A0')
+                                                <td>{{ $status->COD_MITEM }}</td>
+                                                @if ($status->operation == 'A0')
                                                 <td>前置作業</td>
                                                 @elseif ($status->operation == 'B0')
                                                 <td>組裝</td>
@@ -303,7 +302,7 @@
                                                 <td style="color:red">重工</td>
                                                 @else
                                                 <td>{{ $status->operation }}</td>
-                                                @endif     
+                                                @endif
                                                 <td>{{ $status->average_time }}</td>
                                             </tr>
                                             @endforeach
@@ -314,51 +313,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0.5rem;">
-                            <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天) <span style="color: green;">調整中</span> </h4>
-                            </div>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table id="ListData" class="table text-center">
-                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th style="text-align: center;"></th>
-                                            <th style="text-align: center;">數量</th>
-                                            <th style="text-align: center;">百分比</th>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($warrantyPercent as $status)
-                                            <tr>
-                                                @if( $status[0] == 'warrantyCountIn' )
-                                                <td>製造日期1年內</td>
-                                                @elseif( $status[0] == 'warrantyCountOut' )
-                                                <td>製造日期1年外</td>
-                                                @elseif( $status[0] == 'warrantyCountOther' )
-                                                <td>其它</td>
-                                                @elseif( $status[0] == 'warrantyCount' )
-                                                <td>維修總數</td>
-                                                @elseif( $status[0] == 'warrantyTest' )
-                                                <td>測試正常</td>
-                                                @elseif( $status[0] == 'warrantyQty' )
-                                                <td>維修數量</td>
-                                                @elseif( $status[0] == 'warrantyDuty' )
-                                                <td>製造日期1年內故障數量(本廠)</td>
-                                                @endif
-                                                <td>{{ $status[1] }}</td>
-                                                <td>{{ $status[2] }}</td>
-                                            </tr>
-                                            @endforeach
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-5" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -411,6 +367,108 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="ListData" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th style="text-align: center;"></th>
+                                            <th style="text-align: center;">數量</th>
+                                            <th style="text-align: center;">百分比</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($warrantyPercent as $status)
+                                            <tr>
+                                                @if( $status[0] == 'warrantyCountIn' )
+                                                <td>製造日期1年內</td>
+                                                @elseif( $status[0] == 'warrantyCountOut' )
+                                                <td>製造日期1年外</td>
+                                                @elseif( $status[0] == 'warrantyCountOther' )
+                                                <td>其它</td>
+                                                @elseif( $status[0] == 'warrantyCount' )
+                                                <td>維修總數</td>
+                                                @elseif( $status[0] == 'warrantyTest' )
+                                                <td>測試正常</td>
+                                                @elseif( $status[0] == 'warrantyQty' )
+                                                <td>維修數量</td>
+                                                @elseif( $status[0] == 'warrantyDuty' )
+                                                <td>製造日期1年內故障數量(本廠)</td>
+                                                @endif
+                                                <td>{{ $status[1] }}</td>
+                                                <td>{{ $status[2] }}</td>
+                                            </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">RMA不良原因(過去30天)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="ListData" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+
+                                            <th style="text-align: center;">原因</th>
+                                            <th style="text-align: center;">次數</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ramRMAbadReason as $status)
+
+                                            <tr>
+                                                <td>{{ $status->reason }}</td>
+                                                <td>{{ $status->count }}</td>
+                                            </tr>
+
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">RMA不良零件(過去30天)</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table id="ListData" class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th style="text-align: center;">原因</th>
+                                            <th style="text-align: center;">次數</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ramRMAbadPart as $status)
+                                            <tr>
+                                                <td>{{ $status->part }}</td>
+                                                <td>{{ $status->count }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -424,14 +482,16 @@
 <script src="{{ asset('js/pie.js') }}"></script>
 @if(isset($shipmentMon))
 <script>
-    $('#maintenTable').DataTable({       
-        "info": false, 
+    $('#maintenTable').DataTable({
+        "info": false,
         "lengthChange": false,
-        "searching": false ,
+        "searching": false,
         "paging": false,
-        "order": [[4, "desc"]]
+        "order": [
+            [4, "desc"]
+        ]
     });
-  
+
     var currentDate = new Date();
 
     var recentMonths = [];
@@ -452,11 +512,11 @@
             dvrnvr: (item[1] && item[1]['TYP_CODE'] == '2') ? item[1]['QTY'] : 0,
             ipcam: (item[2] && item[2]['TYP_CODE'] == '3') ? item[2]['QTY'] : 0,
             nav: (item[3] && item[3]['TYP_CODE'] == '4') ? item[3]['QTY'] : 0,
-            sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,    
- 
+            sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,
+
             // outsourcing: (item[6] && item[6]['TYP_CODE'] == '7') ? item[6]['QTY'] : 0,
             // tripod: (item[7] && item[7]['TYP_CODE'] == '8') ? item[7]['QTY'] : 0,
-        }; 
+        };
         chartData.push(monthData);
         i = i - 1;
     });
@@ -471,71 +531,71 @@
             "dataProvider": chartData,
             "startDuration": 0.5,
             "graphs": [{
-                "balloonText": "AHD CAM [[category]]: [[value]]",
-                "bullet": "round",
-                "title": "AHD CAM",
-                "valueField": "ahdcam",
-                "fillAlphas": 0,
-                "lineColor": "#e67e22",
-                "lineThickness": 2,
-                "negativeLineColor": "#e67e22",
-            }, {
-                "balloonText": "DVR/NVR [[category]]: [[value]]",
-                "bullet": "round",
-                "title": "DVR/NVR",
-                "valueField": "dvrnvr",
-                "fillAlphas": 0,
-                "lineColor": "#2ecc71",
-                "lineThickness": 2,
-                "negativeLineColor": "#2ecc71"
-            }, {
-                "balloonText": "IPCAM [[category]]: [[value]]",
-                "bullet": "round",
-                "title": "IPCAM",
-                "valueField": "ipcam",
-                "fillAlphas": 0,
-                "lineColor": "#3498db",
-                "lineThickness": 2,
-                "negativeLineColor": "#3498db",
-            }, {
-                "balloonText": "NAV [[category]]: [[value]]",
-                "bullet": "round",
-                "title": "NAV",
-                "valueField": "nav",
-                "fillAlphas": 0,
-                "lineColor": "#9b59b6",
-                "lineThickness": 2,
-                "negativeLineColor": "#9b59b6",
-            }, {
-                "balloonText": "SP [[category]]: [[value]]",
-                "bullet": "round",
-                "title": "SP",
-                "valueField": "sp",
-                "fillAlphas": 0,
-                "lineColor": "#f1c40f",
-                "lineThickness": 2,
-                "negativeLineColor": "#f1c40f",
-            }
-            // ,{
-            //     "balloonText": "外購NVR/DVR/NAV主機 [[category]]: [[value]]",
-            //     "bullet": "round",
-            //     "title": "外購NVR/DVR/NAV主機",
-            //     "valueField": "outsourcing",
-            //     "fillAlphas": 0,
-            //     "lineColor": "#B9B973",
-            //     "lineThickness": 2,
-            //     "negativeLineColor": "#B9B973",
-            // }, {
-            //     "balloonText": "腳架/投射器 [[category]]: [[value]]",
-            //     "bullet": "round",
-            //     "title": "腳架/投射器",
-            //     "valueField": "tripod",
-            //     "fillAlphas": 0,
-            //     "lineColor": "#B87070",
-            //     "lineThickness": 2,
-            //     "negativeLineColor": "#B87070",
-            // }
-        ],
+                    "balloonText": "AHD CAM [[category]]: [[value]]",
+                    "bullet": "round",
+                    "title": "AHD CAM",
+                    "valueField": "ahdcam",
+                    "fillAlphas": 0,
+                    "lineColor": "#e67e22",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#e67e22",
+                }, {
+                    "balloonText": "DVR/NVR [[category]]: [[value]]",
+                    "bullet": "round",
+                    "title": "DVR/NVR",
+                    "valueField": "dvrnvr",
+                    "fillAlphas": 0,
+                    "lineColor": "#2ecc71",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#2ecc71"
+                }, {
+                    "balloonText": "IPCAM [[category]]: [[value]]",
+                    "bullet": "round",
+                    "title": "IPCAM",
+                    "valueField": "ipcam",
+                    "fillAlphas": 0,
+                    "lineColor": "#3498db",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#3498db",
+                }, {
+                    "balloonText": "NAV [[category]]: [[value]]",
+                    "bullet": "round",
+                    "title": "NAV",
+                    "valueField": "nav",
+                    "fillAlphas": 0,
+                    "lineColor": "#9b59b6",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#9b59b6",
+                }, {
+                    "balloonText": "SP [[category]]: [[value]]",
+                    "bullet": "round",
+                    "title": "SP",
+                    "valueField": "sp",
+                    "fillAlphas": 0,
+                    "lineColor": "#f1c40f",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#f1c40f",
+                }
+                // ,{
+                //     "balloonText": "外購NVR/DVR/NAV主機 [[category]]: [[value]]",
+                //     "bullet": "round",
+                //     "title": "外購NVR/DVR/NAV主機",
+                //     "valueField": "outsourcing",
+                //     "fillAlphas": 0,
+                //     "lineColor": "#B9B973",
+                //     "lineThickness": 2,
+                //     "negativeLineColor": "#B9B973",
+                // }, {
+                //     "balloonText": "腳架/投射器 [[category]]: [[value]]",
+                //     "bullet": "round",
+                //     "title": "腳架/投射器",
+                //     "valueField": "tripod",
+                //     "fillAlphas": 0,
+                //     "lineColor": "#B87070",
+                //     "lineThickness": 2,
+                //     "negativeLineColor": "#B87070",
+                // }
+            ],
             "chartCursor": {
                 "cursorAlpha": 0,
                 "zoomable": false
@@ -557,10 +617,13 @@
 
 
     var chartData = [
-        @foreach ($maintenData['maintenPie'] as $item)
-        {
+        @foreach($maintenData['maintenPie'] as $item) {
             "country": "{{ $item->comr_desc }}",
-            "litres": {{ $item->COUNT }},
+            "litres": {
+                {
+                    $item - > COUNT
+                }
+            },
         },
         @endforeach
     ];

@@ -31,7 +31,7 @@
                             <div class="card-body">
                                 <h4 class="header-title">{{ $langArray->RMA不良原因查詢 }}</h4>
                                 <div class="form-row">
-                                    <div class="col-md-2 mb-3">
+                                    <div class="col-md-1 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">{{ $langArray->查詢類型 }} </label>
                                         <select id="searchtype" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="COD_ITEM">{{ $langArray->產品型號 }}</option>
@@ -41,7 +41,7 @@
                                             <option value="COD_CUST">{{ $langArray->客戶代碼 }}</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3 mb-3">
+                                    <div class="col-md-2 mb-3">
                                         <div class="form-group">
                                             <label>{{ $langArray->查詢內容 }}</label>
                                             <input class="form-control" id="search">
@@ -53,7 +53,15 @@
                                     </div>
                                     <div class="col-2">
                                         <label style="color:white;">{{ $langArray->查詢 }}</label>
-                                        <button type="button" id="badPart" class="btn btn-primary btn-block">{{ $langArray->不良零件不良原因 }}</button>
+                                        <button type="button" id="badPart" class="btn btn-primary btn-block">{{ $langArray->不良零件不良原因全 }}</button>
+                                    </div>
+                                    <div class="col-2">
+                                        <label style="color:white;">{{ $langArray->查詢 }}</label>
+                                        <button type="button" id="badPart90" class="btn btn-primary btn-block">{{ $langArray->不良零件不良原因九十 }}</button>
+                                    </div>
+                                    <div class="col-2">
+                                        <label style="color:white;">{{ $langArray->查詢 }}</label>
+                                        <button type="button" id="badPart30" class="btn btn-primary btn-block">{{ $langArray->不良零件不良原因三十 }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +84,7 @@
                                     <th>PS1_3</th>
                                     <th>OUT_LIST5</th>
                                     <th>EMP_ORD</th>
-                                    <th>STS_ONCA</th>                                   
+                                    <th>STS_ONCA</th>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -95,7 +103,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>                                       
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -332,19 +340,14 @@
                     rangS: rangS,
                     rangE: rangE
                 },
-                success: function(response) {
-                    // 清空表格資料
-                    table.clear();
-                    // 將回應資料加入表格
-                    table.rows.add(response);
-                    // 重新繪製表格
+                success: function(response) {                 
+                    table.clear();               
+                    table.rows.add(response);                  
                     table.draw();
-                    $('#loading').hide();
-                    // 處理 AJAX 請求成功後的回應    
+                    $('#loading').hide();                    
                     console.log(response);
                 },
-                error: function(xhr, status, error) {
-                    // 處理 AJAX 請求失敗後的回應
+                error: function(xhr, status, error) {                 
                     console.log('no data');
                     $('#loading').hide();
                 }
@@ -352,10 +355,23 @@
 
         });
         $('#badPart').click(function() {
+            badPartClick('full'); 
+        });
+
+        $('#badPart90').click(function() {
+            badPartClick('ninety'); 
+        });
+
+        $('#badPart30').click(function() {
+            badPartClick('thirty'); 
+        });
+        
+        function badPartClick(timeInterval)  {
             $("#hidetable").css("display", "none");
             $("#badTable").css("display", "block");
             var search = $('#search').val();
             var searchtype = $('#searchtype').val();
+            console.log(timeInterval);
             $('#loading').show();
             $.ajax({
                 url: 'RMAbadPartAjax',
@@ -363,7 +379,8 @@
                 dataType: 'json',
                 data: {
                     search: search,
-                    searchtype: searchtype
+                    searchtype: searchtype,
+                    timeInterval: timeInterval
                 },
                 success: function(response) {
                     $('#loading').hide();
@@ -423,7 +440,7 @@
                 }
             });
 
-        });
+        };
     });
 </script>
 

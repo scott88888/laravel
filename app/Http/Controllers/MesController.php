@@ -642,22 +642,34 @@ class MesController extends BaseController
     {
         $searchtype = $request->input('searchtype');
         $search = $request->input('search');
-        $mesRMAbadPartAjax = DB::table('mes_rma_analysis')
-            ->select('MTRM_PS AS part', DB::raw('COUNT(MTRM_PS) AS count'))
-            ->where($searchtype, 'like', '%' . $search . '%')
+        $timeInterval = $request->input('timeInterval');
 
-            ->groupBy('MTRM_PS')
-            ->orderByDesc('count')
-            ->take(10)
-            ->get();
+        $currentDate = date('Ymd');
+        $thirtyDaysAgo = date('Ymd', strtotime('-30 days'));
+        $ninetyDaysAgo = date('Ymd', strtotime('-90 days'));
 
-        $mesRMAbadReasonAjax = DB::table('mes_rma_analysis')
-            ->select('PS1_1 AS reason', DB::raw('COUNT(PS1_1) AS count'))
-            ->where($searchtype, 'like', '%' . $search . '%')
-            ->groupBy('PS1_1')
-            ->orderByDesc('count')
-            ->take(10)
-            ->get();
+        $dateFilter = "";
+
+        if ($timeInterval == 'ninety') {
+            $dateFilter = "AND (DAT_ONCA BETWEEN $ninetyDaysAgo AND $currentDate)";
+        } elseif ($timeInterval == 'thirty') {
+            $dateFilter = "AND (DAT_ONCA BETWEEN $thirtyDaysAgo AND $currentDate)";
+        }
+
+        $mesRMAbadPartAjax = DB::select("SELECT MTRM_PS AS part, COUNT(MTRM_PS) AS count
+        FROM mes_rma_analysis
+        WHERE $searchtype LIKE '%$search%' $dateFilter
+        GROUP BY MTRM_PS
+        ORDER BY count DESC
+        LIMIT 10;");
+
+        $mesRMAbadReasonAjax = DB::select("SELECT PS1_1 AS reason, COUNT(PS1_1) AS count
+        FROM mes_rma_analysis
+        WHERE $searchtype LIKE '%$search%' $dateFilter
+        GROUP BY PS1_1
+        ORDER BY count DESC
+        LIMIT 10;");
+
         $response = [
             'badPart' => $mesRMAbadPartAjax,
             'badReason' => $mesRMAbadReasonAjax
@@ -765,28 +777,47 @@ class MesController extends BaseController
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
+        $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
+        $faultcodeA = [];
+        foreach ($codeA as $row) {
+            $faultcodeA[] = $row->faultcode;
+        }
+        $codeAMap = [];
+        foreach ($codeA as $code) {
+            $codeAMap[$code->faultcode] = $code->fault;
+        }
 
-
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang'));
+        $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
+        $faultcodeB = [];
+        foreach ($codeB as $row) {
+            $faultcodeB[] = $row->faultcode;
+        }
+        $codeBMap = [];
+        foreach ($codeB as $code) {
+            $codeBMap[$code->faultcode] = $code->fault;
+        }
+        
+        
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang','faultcodeA','codeAMap','faultcodeB','codeBMap'));
     }
     public function mesRmaEditAjax(Request $request)
     {
         $search = $request->input('serchCon');
 
-        if (strpos($search, ":") !== false) {           
+        if (strpos($search, ":") !== false) {
             $data = DB::select(" SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
             WHERE PS2  = '$search'
             limit 1");
-        }else{
+        } else {
             $data = DB::select(" SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
             WHERE SEQ_MITEM = '$search'
             limit 1");
         }
-        if (count($data)==0) {
+        if (count($data) == 0) {
             $data = DB::select(" SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
@@ -795,7 +826,7 @@ class MesController extends BaseController
         }
         //    LEFT JOIN mes_mbom AS mes_mbom on mes_mbom.COD_ITEM = pops.COD_ITEM 
 
-       
+
         $data[0]->employee_id = Auth::user()->employee_id;
         return response()->json($data);
     }

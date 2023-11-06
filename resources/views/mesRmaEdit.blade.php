@@ -168,8 +168,10 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-1" id="">
                                         <label>責任</label>
-                                        <select id="faultSituationCode" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value=""></option>
+                                        <select id="" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="">本場</option>
+                                            <option value="">場商</option>
+                                            <option value="">客戶</option>
                                         </select>
                                     </div>
                                     <div class="col-3" id="">
@@ -202,7 +204,7 @@
                                     <div class="col-1" id="">
                                         <label>收費</label>
 
-                                        <select id="faultSituationCode" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <select id="" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="no">否</option>
                                             <option value="yes">是</option>
 
@@ -244,7 +246,7 @@
                                 </div>
 
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                <div class="col-2" id="">
+                                    <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox3">
                                             <label class="custom-control-label" for="checkbox3">鏡頭</label>
@@ -306,33 +308,35 @@
         $('#loading').hide();
 
         // 输入框和建议框的数据
+        const faultcodesBackA = <?php echo json_encode($faultcodeA); ?>;
+        const faultcodesBackB = <?php echo json_encode($faultcodeB); ?>;
         const inputElements = [{
                 inputId: 'faultSituationCode',
                 suggestionListId: 'suggestionList',
-                data: ['A001', 'A002', 'A003', 'A004', 'A005', 'A006', 'A007', 'A008', 'A009', 'A010']
+                data: faultcodesBackA
             },
             {
                 inputId: 'faultCauseCode',
                 suggestionListId: 'faultCauseCodeSuggestionList',
-                data: ['B001', 'B002', 'B003', 'B004', 'B005', 'B006', 'B007', 'B008', 'B009', 'B010']
+                data: faultcodesBackB
             }
         ];
 
         inputElements.forEach(element => {
-            const input = document.getElementById(element.inputId);
-            const suggestionList = document.getElementById(element.suggestionListId);
+            const input = $('#' + element.inputId);
+            const suggestionList = $('#' + element.suggestionListId);
             const data = element.data;
 
             let selectedOptionIndex = -1;
 
-            input.addEventListener('input', function() {
-                const query = input.value.toLowerCase();
+            input.on('input', function() {
+                const query = input.val().toLowerCase();
                 const matches = data.filter(item => item.toLowerCase().startsWith(query));
                 displaySuggestions(matches);
             });
 
-            input.addEventListener('keydown', function(e) {
-                const suggestionItems = suggestionList.querySelectorAll('li');
+            input.on('keydown', function(e) {
+                const suggestionItems = suggestionList.find('li');
                 if (e.key === 'ArrowDown') {
                     selectedOptionIndex = Math.min(selectedOptionIndex + 1, suggestionItems.length - 1);
                     updateSelectedOption();
@@ -341,46 +345,64 @@
                     updateSelectedOption();
                 } else if (e.key === 'Enter') {
                     if (selectedOptionIndex >= 0) {
-                        input.value = suggestionItems[selectedOptionIndex].textContent;
-                        suggestionList.style.display = 'none';
+                        input.val(suggestionItems.eq(selectedOptionIndex).text());
+                        suggestionList.css('display', 'none');
                     }
                 }
             });
 
             function displaySuggestions(matches) {
                 if (matches.length === 0) {
-                    suggestionList.style.display = 'none';
+                    suggestionList.css('display', 'none');
                     return;
                 }
 
-                suggestionList.innerHTML = '';
+                suggestionList.html('');
                 matches.forEach(match => {
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item');
-                    listItem.textContent = match;
-                    listItem.addEventListener('click', () => {
-                        input.value = match;
-                        suggestionList.style.display = 'none';
+                    const listItem = $('<li class="list-group-item"></li>');
+                    listItem.text(match);
+                    listItem.on('click', () => {
+                        input.val(match);
+                        suggestionList.css('display', 'none');
                     });
-                    suggestionList.appendChild(listItem);
+                    suggestionList.append(listItem);
                 });
 
-                suggestionList.style.display = 'block';
+                suggestionList.css('display', 'block');
                 selectedOptionIndex = -1;
             }
 
             function updateSelectedOption() {
-                const suggestionItems = suggestionList.querySelectorAll('li');
-                suggestionItems.forEach((item, index) => {
+                const suggestionItems = suggestionList.find('li');
+                suggestionItems.each((index, item) => {
                     if (index === selectedOptionIndex) {
-                        item.classList.add('active');
+                        $(item).addClass('active');
                     } else {
-                        item.classList.remove('active');
+                        $(item).removeClass('active');
                     }
                 });
             }
         });
+
+        const codeAMap = <?php echo json_encode($codeAMap); ?>;
+        const faultSituationCodeInput = $('#faultSituationCode');
+        const faultSituationInput = $('#faultSituation');
+        faultSituationCodeInput.on('change', function() {
+            const selectedFaultCode = $(this).val();
+            const matchingFault = codeAMap[selectedFaultCode]; 
+            $('#faultSituation').val(matchingFault);
+        });
+        const codeBMap = <?php echo json_encode($codeBMap); ?>; 
+        const faultCauseCodeInput = $('#faultCauseCode');
+        const faultCauseInput = $('#faultCause');
+        faultCauseCodeInput.on('change', function() {
+            const selectedCauseCode = $(this).val();
+            const matchingFault = codeBMap[selectedCauseCode]; 
+            $('#faultCause').val(matchingFault);
+           
+        });
     });
+
     $('#submitSearch').click(function() {
         var serchCon = $('#serchCon').val();
 
