@@ -411,7 +411,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <!-- <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -468,7 +468,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
