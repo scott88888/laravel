@@ -796,9 +796,7 @@ class MesController extends BaseController
         foreach ($codeB as $code) {
             $codeBMap[$code->faultcode] = $code->fault;
         }
-        
-        
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang','faultcodeA','codeAMap','faultcodeB','codeBMap'));
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'faultcodeA', 'codeAMap', 'faultcodeB', 'codeBMap'));
     }
     public function mesRmaEditAjax(Request $request)
     {
@@ -829,5 +827,25 @@ class MesController extends BaseController
 
         $data[0]->employee_id = Auth::user()->employee_id;
         return response()->json($data);
+    }
+
+    public function mesRmaGetNumAjax(Request $request)
+    {
+        $numTitle = $request->input('numTitle');
+        $numData = DB::select(" SELECT * FROM mes_rma_edit
+            WHERE NUM LIKE '$numTitle%'
+            ORDER BY NUM desc
+            limit 1");
+        if (count($numData) > 0) {
+            $num = $numData[0]->NUM;          
+            $numberPart = preg_replace('/[^0-9]/', '', $num); 
+            $newNumber = $numberPart + 1;
+            $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
+        } else {
+            $today = date('Ymd');
+            $newCode = $numTitle.$today.'001';
+        }
+
+        return response()->json($newCode);
     }
 }

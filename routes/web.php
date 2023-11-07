@@ -101,6 +101,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRmaEdit', [MesController::class, 'mesRmaEdit'])
     ->middleware(CheckPermission::class . ':mesRmaEdit');
     Route::get('/mesRmaEditAjax', [MesController::class, 'mesRmaEditAjax']);
+    Route::get('/mesRmaGetNumAjax', [MesController::class, 'mesRmaGetNumAjax']);
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);

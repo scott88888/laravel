@@ -68,16 +68,21 @@
                                 <div class="form-row">
                                     <div class="">
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
-                                        <select id="depository" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <select id="numTitle" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="FA">FA</option>
                                             <option value="FE">FE</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2 mb-3" id="searchBox">
+                                    <div class="col-md-2 mb-3" >
                                         <label for="">單號</label>
-                                        <input id="search" type="text" class="form-control" placeholder="" required="">
+                                        <input id="repairNum" type="text" class="form-control" placeholder="" required="" disabled>
                                     </div>
-
+                                    <div class="col-2" style="margin-left: 3rem;">
+                                        <label for="">建立單號(測試)</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button type="button" id="getNum" class="btn btn-primary btn-block">送出</button>
+                                        </div>
+                                    </div>
 
                                     <div class="col-4" id="">
                                         <label>產品序號/零件序號/MAC</label>
@@ -157,7 +162,7 @@
                                     </div>
                                     <div class="col-2">
                                         <label>故障零件</label>
-                                        <input id="faultLocation" type="text" class="form-control" placeholder="" required="">
+                                        <input id="faultPart" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-2">
                                         <label>故障位置</label>
@@ -168,7 +173,7 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-1" id="">
                                         <label>責任</label>
-                                        <select id="" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="">本場</option>
                                             <option value="">場商</option>
                                             <option value="">客戶</option>
@@ -176,19 +181,19 @@
                                     </div>
                                     <div class="col-3" id="">
                                         <label>整新前序號</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="SN" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-3" id="">
                                         <label>序號</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="newSN" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-2" id="">
                                         <label>QA</label>
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
                                     </div>
                                     <div class="col-2" id="">
                                         <label>完修</label>
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
                                     </div>
                                 </div>
 
@@ -204,7 +209,7 @@
                                     <div class="col-1" id="">
                                         <label>收費</label>
 
-                                        <select id="" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="no">否</option>
                                             <option value="yes">是</option>
 
@@ -212,35 +217,35 @@
                                     </div>
                                     <div class="col-3" id="">
                                         <label>工時</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="workingHours" type="text" class="form-control" placeholder="" required="">
                                     </div>
 
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox1">
-                                            <label class="custom-control-label" for="checkbox1">必須整新包裝</label>
+                                            <input type="checkbox" class="custom-control-input" id="newPackaging">
+                                            <label class="custom-control-label" for="newPackaging">必須整新包裝</label>
                                         </div>
                                     </div>
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox2">
-                                            <label class="custom-control-label" for="checkbox2">電線</label>
+                                            <input type="checkbox" class="custom-control-input" id="wire">
+                                            <label class="custom-control-label" for="wire">電線</label>
                                         </div>
                                     </div>
 
 
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox5">
-                                            <label class="custom-control-label" for="checkbox5">擦拭包裝</label>
+                                            <input type="checkbox" class="custom-control-input" id="wipePackaging">
+                                            <label class="custom-control-label" for="wipePackaging">擦拭包裝</label>
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox6">
-                                            <label class="custom-control-label" for="checkbox6">整流器</label>
+                                            <input type="checkbox" class="custom-control-input" id="rectifier">
+                                            <label class="custom-control-label" for="rectifier">整流器</label>
                                         </div>
                                     </div>
                                 </div>
@@ -248,24 +253,24 @@
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox3">
-                                            <label class="custom-control-label" for="checkbox3">鏡頭</label>
-                                            <input type="text" class="" placeholder="输入内容" id="input7">
+                                            <input type="checkbox" class="custom-control-input" id="lens">
+                                            <label class="custom-control-label" for="lens">鏡頭</label>
+                                            <input type="text" class="" placeholder="输入内容" id="lensText">
                                         </div>
                                     </div>
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox4">
-                                            <label class="custom-control-label" for="checkbox4">HDD</label>
-                                            <input type="text" class="" placeholder="输入内容" id="input7">
+                                            <input type="checkbox" class="custom-control-input" id="HDD">
+                                            <label class="custom-control-label" for="HDD">HDD</label>
+                                            <input type="text" class="" placeholder="输入内容" id="HDDText">
                                         </div>
                                     </div>
 
                                     <div class="col-6" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="checkbox7">
-                                            <label class="custom-control-label" style="margin-right: 10px;" for="">其他</label>
-                                            <input type="text" class="" placeholder="输入内容" id="input7">
+                                            <input type="checkbox" class="custom-control-input" id="other">
+                                            <label class="custom-control-label" style="margin-right: 10px;" for="other">其他</label>
+                                            <input type="text" class="" placeholder="输入内容" id="otherText">
                                         </div>
                                     </div>
                                 </div>
@@ -431,6 +436,30 @@
         });
     });
 
+    $('#getNum').click(function() {
+        var numTitle = $('#numTitle').val();
+
+        $('#loading').show();
+        $.ajax({
+            url: 'mesRmaGetNumAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                numTitle: numTitle
+            },
+            success: function(response) {
+                
+                $('#repairNum').val(response);
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+            
+                console.log('no');
+                $('#loading').hide();
+            }
+        });
+    });
+    
     function pullData(response) {
         var customerName = response[0]['NAM_CUSTS'];
         var customerNumber = response[0]['COD_CUST'];
