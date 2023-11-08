@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <label for="">{{ $langArray->查詢30天 }}</label>
+                                        <label for="">{{ $langArray->查詢上個月 }}</label>
                                         <div class="col">
                                             <button id="oneMonth" class="btn btn-primary">{{ $langArray->查詢 }}</button>
                                         </div>
