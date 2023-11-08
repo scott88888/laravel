@@ -84,7 +84,7 @@ class DashboardController extends BaseController
         //維修總數
         // $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
         // FROM mes_rma_analysis
-        // WHERE NUM_MTRM BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay");
+        // WHERE NUM_MTRM BETWEEN '$thirteenMonthsAgoNumber AND $lastMonthLastDay'");
 
         $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
                                     FROM mes_rma_analysis
@@ -94,13 +94,20 @@ class DashboardController extends BaseController
         $warrantyCountOut = DB::select("SELECT COUNT(*) AS result_count
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay
+                                        AND NUM_SER NOT BETWEEN '$thirteenMonthsAgoNumber AND $lastMonthLastDay'
                                         AND (LENGTH(NUM_SER) = 10 AND NUM_SER REGEXP '^[0-9]+$')");
         //維修保固內
         $warrantyCountIn = DB::select("SELECT COUNT(*) AS result_count
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay");
+                                        AND NUM_SER BETWEEN '$thirteenMonthsAgoNumber AND $lastMonthLastDay'");
+
+        echo  $warrantyDateS;
+        echo  $warrantyDateE;
+        echo  $thirteenMonthsAgoNumber;
+        echo  $lastMonthLastDay;
+        var_dump($warrantyCountIn);
+        exit;
         //維修其它
         $warrantyCountOther = $warrantyCount[0]->result_count - $warrantyCountOut[0]->result_count - $warrantyCountIn[0]->result_count;
 
@@ -137,7 +144,7 @@ class DashboardController extends BaseController
                                         SELECT *
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay
+                                        AND NUM_SER BETWEEN '$thirteenMonthsAgoNumber AND $lastMonthLastDay'
                                         AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
                                         GROUP BY NUM_ONCA
                                     ) AS grouped_data");
