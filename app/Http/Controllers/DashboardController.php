@@ -145,29 +145,21 @@ class DashboardController extends BaseController
 
             $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
         }
-        //RAM維修 上個月 該年度
-        $currentDate = date('Ymd');
-        $thirtyDaysAgo = date('Ymd', strtotime('-30 days'));
-        $ramRMAbadPart = DB::select("SELECT MTRM_PS AS part, COUNT(MTRM_PS) AS count
-        FROM mes_rma_analysis
-        WHERE (DAT_ONCA BETWEEN $thirtyDaysAgo AND $currentDate)
-        AND MTRM_PS <> 'N/N'
-        AND MTRM_PS <> 'NO/N'
-        AND MTRM_PS <> 'NO'
-        GROUP BY MTRM_PS
-        ORDER BY count DESC
-        LIMIT 10;");
+        //RAM維修 上個月明細
+        $mesRMAErrorList = DB::select("SELECT *  FROM mes_rma_analysis 
+        WHERE NUM_MTRM BETWEEN '$warrantyDateS' 
+        AND '$warrantyDateE' 
+        AND (NUM_SER BETWEEN '$thirteenMonthsAgoNumber'
+        AND '$lastMonthLastDay' )
+        AND (PS1_3 = '廠商' OR PS1_3 = '本廠')         
+        GROUP BY `NUM_ONCA`
+        ORDER BY COD_ITEM ASC, MTRM_PS ASC");
 
-        $ramRMAbadReason = DB::select("SELECT PS1_1 AS reason, COUNT(PS1_1) AS count
-        FROM mes_rma_analysis
-        WHERE (DAT_ONCA BETWEEN $thirtyDaysAgo AND $currentDate)
-        AND PS1_1 <> '無故障'
-        GROUP BY PS1_1
-        ORDER BY count DESC
-        LIMIT 10;");
+        //AA重工
+        $lastMonth = date('ym', strtotime('first day of last month'));
+        $mesRemakeAAList = DB::select("SELECT * FROM mac_query WHERE  NUM_PS LIKE 'AA$lastMonth%' GROUP BY CLDS_COD_ITEM");
 
-
-
+        
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
                                     FROM mes_rma_analysis
@@ -210,7 +202,7 @@ class DashboardController extends BaseController
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
-        return view('dashboardLeader', compact('langArray', 'sidebarLang', 'productionData', 'seasonDates', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description','ramRMAbadReason','ramRMAbadPart'));
+        return view('dashboardLeader', compact('langArray', 'sidebarLang', 'productionData', 'seasonDates', 'borrowItem', 'unsalableProducts', 'shipmentMon', 'shipmentThisMon', 'shipmentRanking', 'maintenData', 'warrantyPercent', 'description','mesRMAErrorList','mesRemakeAAList'));
     }
 
 

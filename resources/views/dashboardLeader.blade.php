@@ -256,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6" style="padding: 2px;">
+                <div class="col-5" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -313,8 +313,42 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-5" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
+                    <div class="card">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <div style="text-align: center;">
+                                <h4 class="header-title" style="text-align: center;">上月累計重工明細表</h4>
+                            </div>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
+                                            <th scope="col">工單</th>
+                                            <th scope="col">生產料號</th>
+                                            <th scope="col">生產數量</th>
+                                            <th scope="col">計劃日</th>
+                                            <th scope="col">預定交貨日</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($mesRemakeAAList as $item)
+                                            <tr>
+                                                <td>{{ $item->NUM_PS }}</td>
+                                                <td>{{ $item->COD_MITEM }}</td>
+                                                <td>{{ $item->QTY_PCS }}</td>
+                                                <td>{{ $item->DAT_BEGS }}</td>
+                                                <td>{{ $item->DAT_DEL }}</td>                                               
+                                            </tr>
+                                            @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -325,10 +359,11 @@
                                     <table class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
                                             <th scope="col">品名</th>
-                                            <th scope="col">分類</th>
+                                            <th scope="col">分類</th˙ˊ------->
                                             <th scope="col">季出貨</th>
                                             <th scope="col">成品庫存</th>
                                         </thead>
+                                        
                                         <tbody>
                                             <tr>
                                                 @foreach ($shipmentRanking as $item)
@@ -411,28 +446,29 @@
                         </div>
                     </div>
                 </div>
-                 <!-- <div class="col-4" style="padding: 2px;">
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA不良原因(上個月)</h4>
+                                <h4 class="header-title" style="text-align: center;">RMA維修(上月出廠1年內故障明細)</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table id="ListData" class="table text-center">
                                         <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-
-                                            <th style="text-align: center;">原因</th>
-                                            <th style="text-align: center;">次數</th>
+                                            <th style="text-align: center;">產品型號</th>
+                                            <th style="text-align: center;">出廠序號</th>
+                                            <th style="text-align: center;">維修零件</th>
+                                            <th style="text-align: center;">不良原因</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($ramRMAbadReason as $status)
-
+                                            @foreach ($mesRMAErrorList as $status)
                                             <tr>
-                                                <td>{{ $status->reason }}</td>
-                                                <td>{{ $status->count }}</td>
+                                            <td>{{ $status->COD_ITEM }}</td>
+                                            <td>{{ $status->NUM_SER }}</td>
+                                            <td>{{ $status->MTRM_PS }}</td>
+                                            <td>{{ $status->COD_ITEM }}</td>
                                             </tr>
-
                                             @endforeach
 
                                         </tbody>
@@ -441,34 +477,8 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
-               <!-- <div class="col-4" style="padding: 2px;">
-                    <div class="card">
-                        <div class="card-body" style="padding: 0.5rem;">
-                            <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA不良零件(過去30天)</h4>
-                            </div>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table id="ListData" class="table text-center">
-                                        <thead class="text-capitalize text-uppercase" style="background: #5C5C5C;color: white;">
-                                            <th style="text-align: center;">原因</th>
-                                            <th style="text-align: center;">次數</th>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($ramRMAbadPart as $status)
-                                            <tr>
-                                                <td>{{ $status->part }}</td>
-                                                <td>{{ $status->count }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
+               
             </div>
         </div>
 

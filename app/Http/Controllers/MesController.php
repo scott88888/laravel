@@ -613,8 +613,8 @@ class MesController extends BaseController
         $mesRMAErrorItemAjax = DB::select("SELECT *  FROM mes_rma_analysis 
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' 
         AND '$warrantyDateE' 
-        AND NUM_SER BETWEEN $resultDate
-        AND $lastMonthLastDay 
+        AND (NUM_SER BETWEEN '$resultDate'
+        AND '$lastMonthLastDay' )
         AND (PS1_3 = '廠商' OR PS1_3 = '本廠') 
         GROUP BY `NUM_ONCA`");
         return response()->json($mesRMAErrorItemAjax);
