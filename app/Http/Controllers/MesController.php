@@ -615,9 +615,11 @@ class MesController extends BaseController
     }
     public function RMA30dsAjax(Request $request)
     {
-        $warrantyDateE = 'FB' . date('ymd') . '9999';
+        
         $lastMonthFirstDay = date('ym01', strtotime('first day of last month'));
+        $lastMonthLastDay = date('ymd', strtotime('last day of last month'));
         $warrantyDateS = 'FB' . $lastMonthFirstDay . '0000';
+        $warrantyDateE = 'FB' . $lastMonthLastDay . '9999';
         // $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
         $mesRMA30dsAjax = DB::select("SELECT *
         FROM mes_rma_analysis
