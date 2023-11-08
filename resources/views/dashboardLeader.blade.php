@@ -313,7 +313,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3" style="padding: 2px;">
+                <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -348,7 +348,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-3" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -363,7 +363,7 @@
                                             <th scope="col">季出貨</th>
                                             <th scope="col">成品庫存</th>
                                         </thead>
-                                        
+
                                         <tbody>
                                             <tr>
                                                 @foreach ($shipmentRanking as $item)
