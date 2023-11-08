@@ -69,17 +69,22 @@ class DashboardController extends BaseController
         //今日生產維修狀況
         $maintenData = $this->mainten();
         //今日生產維修狀況end
+        $lastMonthFirstDay = date('ym01', strtotime('first day of last month'));
+        $lastMonthLastDay = date('ymd', strtotime('last day of last month'));
+        $warrantyDateS = 'FB' . $lastMonthFirstDay . '0000';
+        $warrantyDateE = 'FB' . $lastMonthLastDay . '9999';
+        $targetDateTime = \DateTime::createFromFormat('ymd', $lastMonthLastDay);
+        $firstDayOfPrevious13Months = $targetDateTime->sub(new \DateInterval('P13M'))->modify('first day of this month');
+        $thirteenMonthsAgoNumber = $firstDayOfPrevious13Months->format('ymd');
 
-        $warrantyDateE = 'FB' . date('ymd') . '9999';
-        $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
-        $todayNumber = date('ym') . '999999';
-        $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
+        // $lastMonthLastDay = date('ym') . '999999';
+        // $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
 
 
         //維修總數
         // $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
         // FROM mes_rma_analysis
-        // WHERE NUM_MTRM BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
+        // WHERE NUM_MTRM BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay");
 
         $warrantyCount = DB::select("SELECT COUNT(*) AS result_count
                                     FROM mes_rma_analysis
@@ -89,13 +94,13 @@ class DashboardController extends BaseController
         $warrantyCountOut = DB::select("SELECT COUNT(*) AS result_count
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+                                        AND NUM_SER NOT BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay
                                         AND (LENGTH(NUM_SER) = 10 AND NUM_SER REGEXP '^[0-9]+$')");
         //維修保固內
         $warrantyCountIn = DB::select("SELECT COUNT(*) AS result_count
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber");
+                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay");
         //維修其它
         $warrantyCountOther = $warrantyCount[0]->result_count - $warrantyCountOut[0]->result_count - $warrantyCountIn[0]->result_count;
 
@@ -132,14 +137,14 @@ class DashboardController extends BaseController
                                         SELECT *
                                         FROM mes_rma_analysis
                                         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE'
-                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $todayNumber
+                                        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber AND $lastMonthLastDay
                                         AND (PS1_3 = '廠商' OR PS1_3 = '本廠')
                                         GROUP BY NUM_ONCA
                                     ) AS grouped_data");
 
             $warrantyPercent[6] = ['warrantyDuty', $warrantyDuty[0]->result_count, number_format(($warrantyDuty[0]->result_count / $warrantyCount[0]->result_count) * 100, 1) . '%'];
         }
-        //RAM維修 原因跟零件30天
+        //RAM維修 上個月 該年度
         $currentDate = date('Ymd');
         $thirtyDaysAgo = date('Ymd', strtotime('-30 days'));
         $ramRMAbadPart = DB::select("SELECT MTRM_PS AS part, COUNT(MTRM_PS) AS count

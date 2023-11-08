@@ -583,6 +583,8 @@ class MesController extends BaseController
 
     public function RMAList(Request $request)
     {
+
+ 
         $lang = app()->getLocale();
         $page = 'RMAList';
         $langArray = $this->langService->getLang($lang, $page);
@@ -600,22 +602,26 @@ class MesController extends BaseController
 
     public function RMAErrorItemAjax(Request $request)
     {
-        $warrantyDateE = 'FB' . date('ymd') . '9999';
-        $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
-        $todayNumber = date('ym') . '999999';
-        $thirteenMonthsAgoNumber = date('ym', strtotime('-13 months')) . '000000';
+        $lastMonthFirstDay = date('ym01', strtotime('first day of last month'));
+        $lastMonthLastDay = date('ymd', strtotime('last day of last month'));
+        $warrantyDateS = 'FB' . $lastMonthFirstDay . '0000';
+        $warrantyDateE = 'FB' . $lastMonthLastDay . '9999';
+        $targetDateTime = \DateTime::createFromFormat('ymd', $lastMonthLastDay);
+        $firstDayOfPrevious13Months = $targetDateTime->sub(new \DateInterval('P13M'))->modify('first day of this month');
+        $resultDate = $firstDayOfPrevious13Months->format('ymd');
+
         $mesRMAErrorItemAjax = DB::select("SELECT *  FROM mes_rma_analysis 
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' 
         AND '$warrantyDateE' 
-        AND NUM_SER BETWEEN $thirteenMonthsAgoNumber 
-        AND $todayNumber 
+        AND NUM_SER BETWEEN $resultDate
+        AND $lastMonthLastDay 
         AND (PS1_3 = '廠商' OR PS1_3 = '本廠') 
         GROUP BY `NUM_ONCA`");
         return response()->json($mesRMAErrorItemAjax);
     }
     public function RMA30dsAjax(Request $request)
     {
-        
+
         $lastMonthFirstDay = date('ym01', strtotime('first day of last month'));
         $lastMonthLastDay = date('ymd', strtotime('last day of last month'));
         $warrantyDateS = 'FB' . $lastMonthFirstDay . '0000';

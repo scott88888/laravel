@@ -371,7 +371,7 @@
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA維修(過去30天)</h4>
+                                <h4 class="header-title" style="text-align: center;">RMA維修(上個月)</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -411,11 +411,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-4" style="padding: 2px;">
+                 <!-- <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
-                                <h4 class="header-title" style="text-align: center;">RMA不良原因(過去30天)</h4>
+                                <h4 class="header-title" style="text-align: center;">RMA不良原因(上個月)</h4>
                             </div>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -441,8 +441,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-4" style="padding: 2px;">
+                </div> -->
+               <!-- <div class="col-4" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
