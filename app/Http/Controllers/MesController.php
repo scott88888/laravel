@@ -616,7 +616,9 @@ class MesController extends BaseController
     public function RMA30dsAjax(Request $request)
     {
         $warrantyDateE = 'FB' . date('ymd') . '9999';
-        $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
+        $lastMonthFirstDay = date('ym01', strtotime('first day of last month'));
+        $warrantyDateS = 'FB' . $lastMonthFirstDay . '0000';
+        // $warrantyDateS = 'FB' . date('ymd', strtotime('-30 days', strtotime(date('ymd')))) . '0000';
         $mesRMA30dsAjax = DB::select("SELECT *
         FROM mes_rma_analysis
         WHERE NUM_MTRM BETWEEN '$warrantyDateS' AND '$warrantyDateE '");
@@ -837,13 +839,13 @@ class MesController extends BaseController
             ORDER BY NUM desc
             limit 1");
         if (count($numData) > 0) {
-            $num = $numData[0]->NUM;          
-            $numberPart = preg_replace('/[^0-9]/', '', $num); 
+            $num = $numData[0]->NUM;
+            $numberPart = preg_replace('/[^0-9]/', '', $num);
             $newNumber = $numberPart + 1;
             $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
         } else {
             $today = date('Ymd');
-            $newCode = $numTitle.$today.'001';
+            $newCode = $numTitle . $today . '001';
         }
 
         return response()->json($newCode);

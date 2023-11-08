@@ -61,7 +61,7 @@
                                     <div class="col-md-2">
                                         <label for="">{{ $langArray->查詢30天 }}</label>
                                         <div class="col">
-                                            <button id="30ds" class="btn btn-primary">{{ $langArray->客戶代碼 }}</button>
+                                            <button id="oneMonth" class="btn btn-primary">{{ $langArray->查詢 }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@
 
         });
 
-        $('#30ds').click(function() {
+        $('#oneMonth').click(function() {
             $('#loading').show();
             $.ajax({
                 url: 'RMA30dsAjax',
