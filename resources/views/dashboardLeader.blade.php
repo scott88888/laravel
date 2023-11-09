@@ -446,7 +446,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4" style="padding: 2px;">
+                <div class="col-8" style="padding: 2px;">
                     <div class="card">
                         <div class="card-body" style="padding: 0.5rem;">
                             <div style="text-align: center;">
@@ -467,7 +467,7 @@
                                             <td>{{ $status->COD_ITEM }}</td>
                                             <td>{{ $status->NUM_SER }}</td>
                                             <td>{{ $status->MTRM_PS }}</td>
-                                            <td>{{ $status->COD_ITEM }}</td>
+                                            <td>{{ $status->PS1_1 }}</td>
                                             </tr>
                                             @endforeach
 
