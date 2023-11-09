@@ -584,7 +584,7 @@ class MesController extends BaseController
     public function RMAList(Request $request)
     {
 
- 
+
         $lang = app()->getLocale();
         $page = 'RMAList';
         $langArray = $this->langService->getLang($lang, $page);
@@ -742,8 +742,6 @@ class MesController extends BaseController
     public function mesBOMSelectAjax(Request $request)
     {
         $search = $request->input('modalValue');
-
-        // $search = 'Z6R6452X3';
         $mesBOMItem = DB::select("SELECT * FROM mes_mbom WHERE COD_ITEM = '$search' ORDER BY COD_ITEM ASC, COD_ITEMS ASC ");
 
         for ($i = 0; $i < count($mesBOMItem); $i++) {
@@ -788,25 +786,12 @@ class MesController extends BaseController
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
-        $faultcodeA = [];
-        foreach ($codeA as $row) {
-            $faultcodeA[] = $row->faultcode;
-        }
-        $codeAMap = [];
-        foreach ($codeA as $code) {
-            $codeAMap[$code->faultcode] = $code->fault;
-        }
+
+
 
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
-        $faultcodeB = [];
-        foreach ($codeB as $row) {
-            $faultcodeB[] = $row->faultcode;
-        }
-        $codeBMap = [];
-        foreach ($codeB as $code) {
-            $codeBMap[$code->faultcode] = $code->fault;
-        }
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'faultcodeA', 'codeAMap', 'faultcodeB', 'codeBMap'));
+
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB'));
     }
     public function mesRmaEditAjax(Request $request)
     {
@@ -838,12 +823,96 @@ class MesController extends BaseController
         $data[0]->employee_id = Auth::user()->employee_id;
         return response()->json($data);
     }
+    public function mesRmaeEditSave(Request $request)
+    {
+        $numTitle = $request->input('numTitle');
+        $repairNum = $request->input('repairNum');
+        $num = $numTitle . $repairNum;
+        $selectedValue = $request->input('selectedValue');
+        $customerNumber = $request->input('customerNumber');
+        $customerName = $request->input('customerName');
+        $productNum = $request->input('productNum');
+        $productName = $request->input('productName');
+        $noticeDate = $request->input('noticeDate');
+
+        $faultSituationCodes = 'A002-POE不良';
+        $faultSituation = explode('-', $faultSituationCodes);
+        $faultCauseCodes = 'B003-換新';
+        $faultCause = explode('-', $faultCauseCodes);
+
+        $faultPart = $request->input('faultPart');
+        $faultLocation = $request->input('faultLocation');
+        $responsibility = $request->input('responsibility');
+        $SN = $request->input('SN');
+        $newSN = $request->input('newSN');
+        $QADate = $request->input('QADate');
+        $completedDate = $request->input('completedDate');
+        $employeeID = $request->input('employeeID');
+        $employeeName = $request->input('employeeName');
+        $toll = $request->input('toll');
+        $workingHours = $request->input('workingHours');
+        $newPackaging = $request->input('newPackaging');
+        $wire = $request->input('wire');
+        $wipePackaging = $request->input('wipePackaging');
+        $rectifier = $request->input('rectifier');
+        $lens = $request->input('lens');
+        $lensText = $request->input('lensText');
+        $HDD = $request->input('HDD');
+        $HDDText = $request->input('HDDText');
+        $other = $request->input('other');
+        $otherText = $request->input('otherText');
+
+
+        $data = DB::table('mes_rma_edit')->insert([
+            'ID' => '',
+            'NUM' => $num,
+            'repairType' => $selectedValue,
+            'customerNumber' => $customerNumber,
+            'customerName' => $customerName,
+            'productNum' => $productNum,
+            'productName' => $productName,
+            'noticeDate' => $noticeDate,
+            'faultSituationCode' => $faultSituation[0],
+            'faultSituation' => $faultSituation[1],
+            'faultCauseCode' => $faultCause[0],
+            'faultCause' => $faultCause[1],
+            'faultPart' => $faultPart,
+            'faultLocation' => $faultLocation,
+            'responsibility' => $responsibility,
+            'SN' => $SN,
+            'newSN' => $newSN,
+            'QADate' => $QADate,
+            'completedDate' => $completedDate,
+            'userID' => $employeeID,
+            'userName' => $employeeName,
+            'toll' => $toll,
+            'workingHours' => $workingHours,
+            'newPackaging' => $newPackaging,
+            'wire' => $wire,
+            'wipePackaging' => $wipePackaging,
+            'rectifier' => $rectifier,
+            'lens' => $lens,
+            'lensText' => $lensText,
+            'HDD' => $HDD,
+            'HDDText' => $HDDText,
+            'other' => $other,
+            'otherText' => $otherText
+        ]);
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json($data);
+        }
+        
+    }
+
 
     public function mesRmaGetNumAjax(Request $request)
     {
         $numTitle = $request->input('numTitle');
+        $today = date('Ymd');
         $numData = DB::select(" SELECT * FROM mes_rma_edit
-            WHERE NUM LIKE '$numTitle%'
+            WHERE NUM LIKE '$numTitle$today%'
             ORDER BY NUM desc
             limit 1");
         if (count($numData) > 0) {
@@ -851,11 +920,11 @@ class MesController extends BaseController
             $numberPart = preg_replace('/[^0-9]/', '', $num);
             $newNumber = $numberPart + 1;
             $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
-        } else {
-            $today = date('Ymd');
+        } else {           
             $newCode = $numTitle . $today . '001';
+            $newNumber = $today . '001';
         }
 
-        return response()->json($newCode);
+        return response()->json($newNumber);
     }
 }

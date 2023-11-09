@@ -73,15 +73,9 @@
                                             <option value="FE">FE</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2 mb-3" >
+                                    <div class="col-md-2 mb-3">
                                         <label for="">單號</label>
                                         <input id="repairNum" type="text" class="form-control" placeholder="" required="" disabled>
-                                    </div>
-                                    <div class="col-2" style="margin-left: 3rem;">
-                                        <label for="">建立單號(測試)</label>
-                                        <div class="col" style="text-align: center;">
-                                            <button type="button" id="getNum" class="btn btn-primary btn-block">送出</button>
-                                        </div>
                                     </div>
 
                                     <div class="col-4" id="">
@@ -140,25 +134,23 @@
                                         <label>送修日期</label>
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
                                     </div>
-                                    <div class="col-1 custom-dropdown">
-                                        <label for="faultSituationCode">故障情形(代碼)</label>
-                                        <input id="faultSituationCode" type="text" class="form-control" placeholder="" required="">
-                                        <ul class="list-group" id="suggestionList"></ul>
+                                    <div class="col-3">
+                                        <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
+                                        <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
+                                        <datalist id="faultSituationCodes">
+                                            @foreach ($codeA as $codeA)
+                                            <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
+                                            @endforeach
+                                        </datalist>
                                     </div>
-
-                                    <div class="col-2">
-                                        <label>故障情形</label>
-                                        <input id="faultSituation" type="text" class="form-control" placeholder="" required="" disabled>
-                                    </div>
-                                    <div class="col-1 custom-dropdown">
-                                        <label for="faultCauseCode">故障原因(代碼)</label>
-                                        <input id="faultCauseCode" type="text" class="form-control" placeholder="" required="">
-                                        <!-- 下拉建议框 -->
-                                        <ul class="list-group" id="faultCauseCodeSuggestionList"></ul>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>故障原因</label>
-                                        <input id="faultCause" type="text" class="form-control" placeholder="" required="" disabled>
+                                    <div class="col-3">
+                                        <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
+                                        <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
+                                        <datalist id="faultCauseCodes">
+                                            @foreach ($codeB as $codeB)
+                                            <option value="{{ $codeB->faultcode}}-{{ $codeB->fault}}">{{ $codeB->faultcode}}-{{ $codeB->fault}}</option>
+                                            @endforeach
+                                        </datalist>
                                     </div>
                                     <div class="col-2">
                                         <label>故障零件</label>
@@ -169,14 +161,13 @@
                                         <input id="faultLocation" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                 </div>
-
                                 <div class="form-row align-items-center">
                                     <div class="col-1" id="">
                                         <label>責任</label>
                                         <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="">本場</option>
-                                            <option value="">場商</option>
-                                            <option value="">客戶</option>
+                                            <option value="本場">本場</option>
+                                            <option value="場商">場商</option>
+                                            <option value="客戶">客戶</option>
                                         </select>
                                     </div>
                                     <div class="col-3" id="">
@@ -200,11 +191,11 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-2" id="">
                                         <label>人員編號</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="employeeID" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-2" id="">
                                         <label>人員</label>
-                                        <input id="" type="text" class="form-control" placeholder="" required="">
+                                        <input id="employeeName" type="text" class="form-control" placeholder="" required="">
                                     </div>
                                     <div class="col-1" id="">
                                         <label>收費</label>
@@ -251,14 +242,14 @@
                                 </div>
 
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                    <div class="col-2" id="">
+                                    <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="lens">
                                             <label class="custom-control-label" for="lens">鏡頭</label>
                                             <input type="text" class="" placeholder="输入内容" id="lensText">
                                         </div>
                                     </div>
-                                    <div class="col-2" id="">
+                                    <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="HDD">
                                             <label class="custom-control-label" for="HDD">HDD</label>
@@ -312,100 +303,7 @@
     $(document).ready(function() {
         $('#loading').hide();
 
-        // 输入框和建议框的数据
-        const faultcodesBackA = <?php echo json_encode($faultcodeA); ?>;
-        const faultcodesBackB = <?php echo json_encode($faultcodeB); ?>;
-        const inputElements = [{
-                inputId: 'faultSituationCode',
-                suggestionListId: 'suggestionList',
-                data: faultcodesBackA
-            },
-            {
-                inputId: 'faultCauseCode',
-                suggestionListId: 'faultCauseCodeSuggestionList',
-                data: faultcodesBackB
-            }
-        ];
 
-        inputElements.forEach(element => {
-            const input = $('#' + element.inputId);
-            const suggestionList = $('#' + element.suggestionListId);
-            const data = element.data;
-
-            let selectedOptionIndex = -1;
-
-            input.on('input', function() {
-                const query = input.val().toLowerCase();
-                const matches = data.filter(item => item.toLowerCase().startsWith(query));
-                displaySuggestions(matches);
-            });
-
-            input.on('keydown', function(e) {
-                const suggestionItems = suggestionList.find('li');
-                if (e.key === 'ArrowDown') {
-                    selectedOptionIndex = Math.min(selectedOptionIndex + 1, suggestionItems.length - 1);
-                    updateSelectedOption();
-                } else if (e.key === 'ArrowUp') {
-                    selectedOptionIndex = Math.max(selectedOptionIndex - 1, -1);
-                    updateSelectedOption();
-                } else if (e.key === 'Enter') {
-                    if (selectedOptionIndex >= 0) {
-                        input.val(suggestionItems.eq(selectedOptionIndex).text());
-                        suggestionList.css('display', 'none');
-                    }
-                }
-            });
-
-            function displaySuggestions(matches) {
-                if (matches.length === 0) {
-                    suggestionList.css('display', 'none');
-                    return;
-                }
-
-                suggestionList.html('');
-                matches.forEach(match => {
-                    const listItem = $('<li class="list-group-item"></li>');
-                    listItem.text(match);
-                    listItem.on('click', () => {
-                        input.val(match);
-                        suggestionList.css('display', 'none');
-                    });
-                    suggestionList.append(listItem);
-                });
-
-                suggestionList.css('display', 'block');
-                selectedOptionIndex = -1;
-            }
-
-            function updateSelectedOption() {
-                const suggestionItems = suggestionList.find('li');
-                suggestionItems.each((index, item) => {
-                    if (index === selectedOptionIndex) {
-                        $(item).addClass('active');
-                    } else {
-                        $(item).removeClass('active');
-                    }
-                });
-            }
-        });
-
-        const codeAMap = <?php echo json_encode($codeAMap); ?>;
-        const faultSituationCodeInput = $('#faultSituationCode');
-        const faultSituationInput = $('#faultSituation');
-        faultSituationCodeInput.on('change', function() {
-            const selectedFaultCode = $(this).val();
-            const matchingFault = codeAMap[selectedFaultCode]; 
-            $('#faultSituation').val(matchingFault);
-        });
-        const codeBMap = <?php echo json_encode($codeBMap); ?>; 
-        const faultCauseCodeInput = $('#faultCauseCode');
-        const faultCauseInput = $('#faultCause');
-        faultCauseCodeInput.on('change', function() {
-            const selectedCauseCode = $(this).val();
-            const matchingFault = codeBMap[selectedCauseCode]; 
-            $('#faultCause').val(matchingFault);
-           
-        });
     });
 
     $('#submitSearch').click(function() {
@@ -423,20 +321,25 @@
 
 
 
-
                 pullData(response)
+
                 console.log(response);
                 $('#loading').hide();
             },
             error: function(xhr, status, error) {
-                // 處理 AJAX 請求失敗後的回應
+
                 console.log('no');
                 $('#loading').hide();
             }
         });
     });
 
-    $('#getNum').click(function() {
+
+    $('#submit').click(function() {
+        rmaGetNum();
+    });
+
+    function rmaGetNum() {
         var numTitle = $('#numTitle').val();
 
         $('#loading').show();
@@ -448,18 +351,102 @@
                 numTitle: numTitle
             },
             success: function(response) {
-                
                 $('#repairNum').val(response);
-                $('#loading').hide();
+
+                // 在这里执行提交表单的代码
+                submitForm();
             },
             error: function(xhr, status, error) {
-            
                 console.log('no');
                 $('#loading').hide();
             }
         });
-    });
-    
+    }
+
+    function submitForm() {
+        const numTitle = $('#numTitle').val();
+        const repairNum = $('#repairNum').val();
+        const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
+        const customerNumber = $('#customerNumber').val();
+        const customerName = $('#customerName').val();
+        const productNum = $('#productNum').val();
+        const productName = $('#productName').val();
+        const noticeDate = $('#noticeDate').val();
+        const faultSituationCodes = $('#faultSituationCodes').val();
+        const faultCauseCodes = $('#faultCauseCodes').val();
+        const faultPart = $('#faultPart').val();
+        const faultLocation = $('#faultLocation').val();
+        const responsibility = $('#responsibility').val();
+        const SN = $('#SN').val();
+        const newSN = $('#newSN').val();
+        const QADate = $('#QADate').val();
+        const completedDate = $('#completedDate').val();
+        const employeeID = $('#employeeID').val();
+        const employeeName = $('#employeeName').val();
+        const toll = $('#toll').val();
+        const workingHours = $('#workingHours').val();
+        const newPackaging = $('#newPackaging').prop('checked');
+        const wire = $('#wire').prop('checked');
+        const wipePackaging = $('#wipePackaging').prop('checked');
+        const rectifier = $('#rectifier').prop('checked');
+        const lens = $('#lens').prop('checked');
+        const HDD = $('#HDD').prop('checked');
+        const other = $('#other').prop('checked');
+        const lensText = $('#lensText').val();
+        const HDDText = $('#HDDText').val();
+        const otherText = $('#otherText').val();
+
+        const formData = {
+            numTitle,
+            repairNum,
+            selectedValue,
+            customerNumber,
+            customerName,
+            productNum,
+            productName,
+            noticeDate,
+            faultSituationCodes,
+            faultCauseCodes,
+            faultPart,
+            faultLocation,
+            responsibility,
+            SN,
+            newSN,
+            QADate,
+            completedDate,
+            employeeID,
+            employeeName,
+            toll,
+            workingHours,
+            newPackaging,
+            wire,
+            wipePackaging,
+            rectifier,
+            lens,
+            HDD,
+            other,
+            lensText,
+            HDDText,
+            otherText
+        };
+
+        $('#loading').show();
+
+        $.ajax({
+            url: 'mesRmaeEditSave',
+            type: 'GET',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+                $('#loading').hide();
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+            }
+        });
+    }
+
     function pullData(response) {
         var customerName = response[0]['NAM_CUSTS'];
         var customerNumber = response[0]['COD_CUST'];
