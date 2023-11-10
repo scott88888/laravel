@@ -716,8 +716,8 @@ class MesController extends BaseController
     public function mesRmaSer30daysAjax(Request $request)
     { 
         $todayDate = date('Y-m-d');
-        $currentDate = new \DateTime($todayDate); // 当前日期
-        $currentDate->modify('last month'); // 获取上个月的日期
+        $currentDate = new \DateTime($todayDate);
+        $currentDate->modify('last month'); 
         $previousMonthDate = $currentDate->format('Y-m-d');
 
         $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
