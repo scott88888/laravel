@@ -103,6 +103,10 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::get('/mesRmaEditAjax', [MesController::class, 'mesRmaEditAjax']);
     Route::get('/mesRmaGetNumAjax', [MesController::class, 'mesRmaGetNumAjax']);
     Route::get('/mesRmaeEditSave', [MesController::class, 'mesRmaeEditSave']);
+    Route::get('/mesRmaSer', [MesController::class, 'mesRmaSer']);
+    Route::get('/mesRmaSerAjax', [MesController::class, 'mesRmaSerAjax']);
+    Route::get('/mesRmaSer30daysAjax', [MesController::class, 'mesRmaSer30daysAjax']);
+
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);

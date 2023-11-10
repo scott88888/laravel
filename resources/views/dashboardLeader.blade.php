@@ -524,8 +524,6 @@
             nav: (item[3] && item[3]['TYP_CODE'] == '4') ? item[3]['QTY'] : 0,
             sp: (item[4] && item[4]['TYP_CODE'] == '5') ? item[4]['QTY'] : 0,
 
-            // outsourcing: (item[6] && item[6]['TYP_CODE'] == '7') ? item[6]['QTY'] : 0,
-            // tripod: (item[7] && item[7]['TYP_CODE'] == '8') ? item[7]['QTY'] : 0,
         };
         chartData.push(monthData);
         i = i - 1;
@@ -586,25 +584,7 @@
                     "lineThickness": 2,
                     "negativeLineColor": "#f1c40f",
                 }
-                // ,{
-                //     "balloonText": "外購NVR/DVR/NAV主機 [[category]]: [[value]]",
-                //     "bullet": "round",
-                //     "title": "外購NVR/DVR/NAV主機",
-                //     "valueField": "outsourcing",
-                //     "fillAlphas": 0,
-                //     "lineColor": "#B9B973",
-                //     "lineThickness": 2,
-                //     "negativeLineColor": "#B9B973",
-                // }, {
-                //     "balloonText": "腳架/投射器 [[category]]: [[value]]",
-                //     "bullet": "round",
-                //     "title": "腳架/投射器",
-                //     "valueField": "tripod",
-                //     "fillAlphas": 0,
-                //     "lineColor": "#B87070",
-                //     "lineThickness": 2,
-                //     "negativeLineColor": "#B87070",
-                // }
+
             ],
             "chartCursor": {
                 "cursorAlpha": 0,
@@ -646,16 +626,6 @@
         "marginBottom": 0
     });
 
-    // chart2.dataProvider[0].color = "#E89F7B";
-    // chart2.dataProvider[1].color = "#FFAF87";
-    // chart2.dataProvider[2].color = "#FF9F7D";
-    // chart2.dataProvider[3].color = "#FF8E72";
-    chart.dataProvider[3].color = "#F67C68";
-    // chart2.dataProvider[5].color = "#ED6A5E";
-    // chart2.dataProvider[6].color = "#9DA589";
-    // chart2.dataProvider[7].color = "#4CE0B3";
-    // chart2.dataProvider[8].color = "#42AC92";
-    // chart2.dataProvider[9].color = "#377771";
     chart.validateData();
 </script>
 @endif

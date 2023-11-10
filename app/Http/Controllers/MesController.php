@@ -687,9 +687,42 @@ class MesController extends BaseController
 
         return response()->json($response);
     }
+    public function mesRmaSer(Request $request)
+    {
+        $lang = app()->getLocale();
+        $page = 'mesECNList';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+        return view('mesRmaSer', compact('langArray', 'sidebarLang'));
+    }
 
 
+    public function mesRmaSerAjax(Request $request)
+    {
 
+        $numTitle = $request->input('numTitle');
+        $repairNum = $request->input('repairNum');
+        $noticeDate = $request->input('noticeDate');
+
+        if ($repairNum) {
+            $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
+        } else {
+            $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$noticeDate' ");
+        }
+
+        return response()->json($mesRmaSerData);
+    }
+    public function mesRmaSer30daysAjax(Request $request)
+    { 
+        $todayDate = date('Y-m-d');
+        $currentDate = new \DateTime($todayDate); // 当前日期
+        $currentDate->modify('last month'); // 获取上个月的日期
+        $previousMonthDate = $currentDate->format('Y-m-d');
+
+        $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
+        return response()->json($mesRmaSerData);
+    }
 
 
     public function mesShipmentListAjax(Request $request)
@@ -903,7 +936,6 @@ class MesController extends BaseController
         } else {
             return response()->json($data);
         }
-        
     }
 
 
@@ -920,7 +952,7 @@ class MesController extends BaseController
             $numberPart = preg_replace('/[^0-9]/', '', $num);
             $newNumber = $numberPart + 1;
             $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
-        } else {           
+        } else {
             $newCode = $numTitle . $today . '001';
             $newNumber = $today . '001';
         }
