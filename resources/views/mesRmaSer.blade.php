@@ -81,14 +81,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>NUM</td>
-                                        <td>customerName</td>
-                                        <td>productName</td>
-                                        <td>workingHours</td>
-                                        <td>userName</td>
-                                        <td>repairType</td>
-                                        <td>faultSituation</td>
-                                        <td>faultCause</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
