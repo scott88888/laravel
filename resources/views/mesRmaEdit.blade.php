@@ -65,6 +65,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">產品維修單</h4>
+                               
                                 <div class="form-row">
                                     <div class="">
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
@@ -88,6 +89,11 @@
                                             <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
+                                    <div class="col-2" style="margin-left: 3rem;">
+                                    {!! $qrcode !!}
+                                        
+                                    </div>
+                                  
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" checked id="customRadio1" name="customRadio1" class="custom-control-input">

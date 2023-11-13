@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\MesModelList;
 use App\Services\LangService;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -819,12 +820,10 @@ class MesController extends BaseController
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
-
-
-
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
+        $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
 
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB'));
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB','qrcode'));
     }
     public function mesRmaEditAjax(Request $request)
     {
