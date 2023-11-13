@@ -8,7 +8,7 @@ const prefix = page.substring(0, 3);
 if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
   setActive('#documentSearch');
   removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
-} else if (page == "RMAList" || page == "RMAAnalysis" || page == "mesRmaEdit") {
+} else if (page == "RMAList" || page == "RMAAnalysis" || page == "mesRmaEdit" || page == "mesRmasear") {
   setActive('#RMA');
   removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
 } else if (page == "dashboardLeader") {
@@ -151,6 +151,9 @@ switch (page) {
     break;
   case 'mesBOM':
     $('#mesBOMBtn').last().addClass("active");
+    break;
+  case 'mesRmasear':
+    $('#mesRmasearBtn').last().addClass("active");
     break;
 
   default:

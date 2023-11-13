@@ -186,6 +186,14 @@
                                                 <input type="checkbox" class="custom-control-input" id="checkbox19">
                                                 <label class="custom-control-label" for="checkbox19">RMA不良原因查詢</label>
                                             </div>
+                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox32">
+                                            <label class="custom-control-label" for="checkbox32">產品維修單</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox33">
+                                            <label class="custom-control-label" for="checkbox33">產品維修單查詢</label>
+                                        </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="custom-checkbox custom-control-inline">

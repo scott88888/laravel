@@ -87,7 +87,7 @@
                                 <table id="ListData" class="display text-center" style="width:100%">
                                     <thead class="text-capitalize" style=" background: darkgrey;">
                                         <th>DAT_DEL</th>
-                                        <th>NAM_CUSTS</th>
+                                   
                                         <th>NUM_CUST</th>
                                         <th id="col1">NAM_ITEMS</th>
                                         <th>TYP_ITEM</th>
@@ -106,7 +106,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
+                                         
                                         </tr>
                                     </tbody>
                                 </table>
@@ -134,43 +134,38 @@
                     "title": "出貨日期"
                 },
                 {
-                    "data": "NAM_CUSTS",
-                    "targets": 1,
-                    "title": "客戶名稱"
-                },
-                {
                     "data": "NUM_CUST",
-                    "targets": 2,
+                    "targets": 1,
                     "title": "客戶代號"
                 },
                 {
                     "data": "NAM_ITEMS",
-                    "targets": 3,
+                    "targets": 2,
                     "title": "品名"
                 },
                 {
                     "data": "TYP_ITEM",
-                    "targets": 4,
+                    "targets": 3,
                     "title": "部別"
                 },
                 {
                     "data": "NUM_DEL",
-                    "targets": 5,
+                    "targets": 4,
                     "title": "出貨單號"
                 },
                 {
                     "data": "NUM_PO",
-                    "targets": 6,
+                    "targets": 5,
                     "title": "訂單編號"
                 },
                 {
                     "data": "COD_ITEM",
-                    "targets": 7,
+                    "targets": 6,
                     "title": "產品型號"
                 },
                 {
                     "data": "QTY_DEL",
-                    "targets": 8,
+                    "targets": 7,
                     "title": "數量"
                 }
             ]

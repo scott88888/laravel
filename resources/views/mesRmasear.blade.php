@@ -168,7 +168,7 @@
             var noticeDate = $('#noticeDate').val();
             $('#loading').show();
             $.ajax({
-                url: 'mesRmaSerAjax',
+                url: 'mesRmasearAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -195,7 +195,7 @@
         $('#submit30days').click(function() {
             $('#loading').show();
             $.ajax({
-                url: 'mesRmaSer30daysAjax',
+                url: 'mesRmasear30daysAjax',
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {

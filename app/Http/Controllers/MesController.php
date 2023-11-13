@@ -687,18 +687,18 @@ class MesController extends BaseController
 
         return response()->json($response);
     }
-    public function mesRmaSer(Request $request)
+    public function mesRmaSear(Request $request)
     {
         $lang = app()->getLocale();
         $page = 'mesECNList';
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
-        return view('mesRmaSer', compact('langArray', 'sidebarLang'));
+        return view('mesRmaSear', compact('langArray', 'sidebarLang'));
     }
 
 
-    public function mesRmaSerAjax(Request $request)
+    public function mesRmasearAjax(Request $request)
     {
 
         $numTitle = $request->input('numTitle');
@@ -706,22 +706,22 @@ class MesController extends BaseController
         $noticeDate = $request->input('noticeDate');
 
         if ($repairNum) {
-            $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
         } else {
-            $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$noticeDate' ");
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$noticeDate' ");
         }
 
-        return response()->json($mesRmaSerData);
+        return response()->json($mesRmaSearData);
     }
-    public function mesRmaSer30daysAjax(Request $request)
+    public function mesRmasear30daysAjax(Request $request)
     { 
         $todayDate = date('Y-m-d');
         $currentDate = new \DateTime($todayDate);
         $currentDate->modify('last month'); 
         $previousMonthDate = $currentDate->format('Y-m-d');
 
-        $mesRmaSerData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
-        return response()->json($mesRmaSerData);
+        $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
+        return response()->json($mesRmaSearData);
     }
 
 
