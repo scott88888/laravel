@@ -51,7 +51,7 @@
                             <li id="RMAListBtn"><a href="RMAList">{{ $sidebarLang->RMA退貨授權查詢 }}</a></li>
                             <li id="RMAAnalysisBtn"><a href="RMAAnalysis">{{ $sidebarLang->RMA不良原因查詢 }}</a></li>
                             <li id="mesRmaEditBtn"><a href="mesRmaEdit">{{ $sidebarLang->產品維修單 }}</a></li>        
-                            <li id="mesRmasearBtn"><a href="mesRmasear">{{ $sidebarLang->產品維修單查詢 }}</a></li>                         
+                            <li id="mesRmasearBtn"><a href="mesRmasear">{{ $sidebarLang->產品維修單明細表 }}</a></li>                         
                         </ul>
                     </li>
                     <li id="fileCenter">

@@ -191,7 +191,7 @@
                                         </div>
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="checkbox33">
-                                            <label class="custom-control-label" for="checkbox33">產品維修單查詢</label>
+                                            <label class="custom-control-label" for="checkbox33">產品維修單明細表</label>
                                         </div>
                                     </div>
                                     <div class="form-row">

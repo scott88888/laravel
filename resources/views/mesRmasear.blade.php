@@ -34,7 +34,7 @@
                     <div class="col-12" style="padding: 8px;">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">產品維修單查詢</h4>
+                                <h4 class="header-title">產品維修單明細表</h4>
                                 <div class="form-row">
                                     <div class="">
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
