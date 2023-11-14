@@ -715,10 +715,10 @@ class MesController extends BaseController
         return response()->json($mesRmaSearData);
     }
     public function mesRmasear30daysAjax(Request $request)
-    { 
+    {
         $todayDate = date('Y-m-d');
         $currentDate = new \DateTime($todayDate);
-        $currentDate->modify('last month'); 
+        $currentDate->modify('last month');
         $previousMonthDate = $currentDate->format('Y-m-d');
 
         $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
@@ -814,6 +814,52 @@ class MesController extends BaseController
     {
 
 
+        if ($request->num) {
+            $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
+
+            
+        } else {
+            $nullData = [
+                'ID' => null,
+                'NUM' => null,
+                'repairType' => null,
+                'customerNumber' => null,
+                'customerName' => null,
+                'productNum' => null,
+                'productName' => null,
+                'noticeDate' => null,
+                'faultSituationCode' => null,
+                'faultSituation' => null,
+                'faultCauseCode' => null,
+                'faultCause' => null,
+                'faultPart' => null,
+                'faultLocation' => null,
+                'responsibility' => null,
+                'SN' => null,
+                'newSN' => null,
+                'QADate' => null,
+                'completedDate' => null,
+                'userID' => null,
+                'userName' => null,
+                'toll' => null,
+                'workingHours' => null,
+                'newPackaging' => null,
+                'wire' => null,
+                'wipePackaging' => null,
+                'rectifier' => null,
+                'lens' => null,
+                'lensText' => null,
+                'HDD' => null,
+                'HDDText' => null,
+                'other' => null,
+                'otherText' => null           
+            ];
+
+            // 将包含所有列都为null的数组赋值给$ramData
+            $ramData = [(object)$nullData];
+        }
+        
+
         $lang = app()->getLocale();
         $page = 'mesRmaEdit';
         $langArray = $this->langService->getLang($lang, $page);
@@ -823,7 +869,7 @@ class MesController extends BaseController
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
         $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
 
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB','qrcode'));
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'qrcode', 'ramData'));
     }
     public function mesRmaEditAjax(Request $request)
     {
@@ -850,9 +896,11 @@ class MesController extends BaseController
             limit 1");
         }
         //    LEFT JOIN mes_mbom AS mes_mbom on mes_mbom.COD_ITEM = pops.COD_ITEM 
-
-
+        $COD_ITEM = $data[0]->COD_ITEM;
+        $modal = DB::select("SELECT * FROM `mes_lcst_parts` WHERE COD_ITEM = '$COD_ITEM' limit 1");
+        $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
         $data[0]->employee_id = Auth::user()->employee_id;
+        $data[0]->userName = Auth::user()->name;
         return response()->json($data);
     }
     public function mesRmaeEditSave(Request $request)

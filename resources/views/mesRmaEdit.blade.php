@@ -62,10 +62,15 @@
                 <div class="row" style="margin: 0;">
                     <!-- Dark table start -->
                     <div class="col-12" style="padding: 8px;">
+                        @foreach ($ramData as $ListData)
+
+                        {{$ListData->NUM}}
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">產品維修單</h4>
-                               
+
+
+
                                 <div class="form-row">
                                     <div class="">
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
@@ -90,10 +95,10 @@
                                         </div>
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
-                                    {!! $qrcode !!}
-                                        
+                                        {!! $qrcode !!}
+
                                     </div>
-                                  
+
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" checked id="customRadio1" name="customRadio1" class="custom-control-input">
@@ -117,106 +122,44 @@
                                 </div>
 
 
-                                <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
+                                <div class="form-row align-items-center" style="margin-top: 2rem;">
                                     <div class="col-1" id="">
                                         <label>客戶編號</label>
-                                        <input id="customerNumber" type="text" class="form-control" placeholder="" required="">
+                                        <input id="customerNumber" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
                                     </div>
-                                    <div class="col-3" id="">
+                                    <div class="col-1" id="">
                                         <label>客戶名稱</label>
-                                        <input id="customerName" type="text" class="form-control" placeholder="" required="">
+                                        <input id="customerName" type="text" class="form-control" placeholder="" value="{{$ListData->customerName}}">
+                                    </div>
+                                    <div class="col-1" id="">
+                                        <label>產品型號</label>
+                                        <input id="productNum" type="text" class="form-control" placeholder="" value="{{$ListData->productNum}}">
                                     </div>
                                     <div class="col-3" id="">
-                                        <label>產品型號</label>
-                                        <input id="productNum" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-5" id="">
                                         <label>產品名稱</label>
-                                        <input id="productName" type="text" class="form-control" placeholder="" required="">
+                                        <input id="productName" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
                                     </div>
-                                </div>
-                                <div class="form-row align-items-center">
+                                    <div class="col-1" id="">
+                                        <label>收貨人員編號</label>
+                                        <input id="userID" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
+                                    </div>
+                                    <div class="col-2" id="">
+                                        <label>收貨人員</label>
+                                        <input id="userName" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
+                                    </div>
                                     <div class="col-2">
                                         <label>送修日期</label>
+
+                                        @if($ListData->noticeDate)
+                                        <input class="form-control" type="date" value="{{$ListData->noticeDate}}" id="noticeDate">
+                                        @else
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
-                                        <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
-                                        <datalist id="faultSituationCodes">
-                                            @foreach ($codeA as $codeA)
-                                            <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
-                                            @endforeach
-                                        </datalist>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
-                                        <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
-                                        <datalist id="faultCauseCodes">
-                                            @foreach ($codeB as $codeB)
-                                            <option value="{{ $codeB->faultcode}}-{{ $codeB->fault}}">{{ $codeB->faultcode}}-{{ $codeB->fault}}</option>
-                                            @endforeach
-                                        </datalist>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>故障零件</label>
-                                        <input id="faultPart" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-2">
-                                        <label>故障位置</label>
-                                        <input id="faultLocation" type="text" class="form-control" placeholder="" required="">
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-1" id="">
-                                        <label>責任</label>
-                                        <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="本場">本場</option>
-                                            <option value="場商">場商</option>
-                                            <option value="客戶">客戶</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>整新前序號</label>
-                                        <input id="SN" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>序號</label>
-                                        <input id="newSN" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>QA</label>
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>完修</label>
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-2" id="">
-                                        <label>人員編號</label>
-                                        <input id="employeeID" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>人員</label>
-                                        <input id="employeeName" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-                                    <div class="col-1" id="">
-                                        <label>收費</label>
-
-                                        <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="no">否</option>
-                                            <option value="yes">是</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>工時</label>
-                                        <input id="workingHours" type="text" class="form-control" placeholder="" required="">
-                                    </div>
-
+                                <div class="form-row align-items-center" style="">
+                                   
+                                    
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
@@ -252,14 +195,14 @@
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="lens">
                                             <label class="custom-control-label" for="lens">鏡頭</label>
-                                            <input type="text" class="" placeholder="输入内容" id="lensText">
+                                            <input type="text" class="" placeholder="输入内容" id="lensText" value="{{$ListData->lensText}}">
                                         </div>
                                     </div>
                                     <div class="col-3" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="HDD">
                                             <label class="custom-control-label" for="HDD">HDD</label>
-                                            <input type="text" class="" placeholder="输入内容" id="HDDText">
+                                            <input type="text" class="" placeholder="输入内容" id="HDDText" value="{{$ListData->HDDText}}">
                                         </div>
                                     </div>
 
@@ -267,10 +210,103 @@
                                         <div class="custom-control custom-checkbox custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="other">
                                             <label class="custom-control-label" style="margin-right: 10px;" for="other">其他</label>
-                                            <input type="text" class="" placeholder="输入内容" id="otherText">
+                                            <input type="text" class="" placeholder="输入内容" id="otherText" value="{{$ListData->otherText}}">
                                         </div>
                                     </div>
                                 </div>
+                                <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
+                                    <button type="button" id="" class="btn btn-primary btn-block">
+                                        <li class="fa fa-cloud-upload"></li> 儲存
+                                    </button>
+                                </div>
+                                <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
+                                   
+                                    <div class="col-3">
+                                        <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
+                                        <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
+                                        <datalist id="faultSituationCodes">
+                                            @foreach ($codeA as $codeA)
+                                            <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
+                                        <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
+                                        <datalist id="faultCauseCodes">
+                                            @foreach ($codeB as $codeB)
+                                            <option value="{{ $codeB->faultcode}}-{{ $codeB->fault}}">{{ $codeB->faultcode}}-{{ $codeB->fault}}</option>
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="col-2">
+                                        <label>故障零件</label>
+                                        <input id="faultPart" type="text" class="form-control" placeholder="" value="{{$ListData->faultPart}}">
+                                    </div>
+                                    <div class="col-2">
+                                        <label>故障位置</label>
+                                        <input id="faultLocation" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-1" id="">
+                                        <label>責任</label>
+                                        <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="本場">本場</option>
+                                            <option value="場商">場商</option>
+                                            <option value="客戶">客戶</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3" id="">
+                                        <label>整新前序號</label>
+                                        <input id="SN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                    </div>
+                                    <div class="col-3" id="">
+                                        <label>序號</label>
+                                        <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                    </div>
+                                    <div class="col-2" id="">
+                                        <label>QA</label>
+                                        @if($ListData->QADate)
+                                        <input class="form-control" type="date" value="{{$ListData->QADate}}" id="QADate">
+                                        @else
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
+                                        @endif
+
+                                    </div>
+                                    <div class="col-2" id="">
+                                        <label>完修</label>
+                                        @if($ListData->completedDate)
+                                        <input class="form-control" type="date" value="{{$ListData->completedDate}}" id="completedDate">
+                                        @else
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-2" id="">
+                                        <label>人員編號</label>
+                                        <input id="employeeID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
+                                    </div>
+                                    <div class="col-2" id="">
+                                        <label>人員</label>
+                                        <input id="employeeName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
+                                    </div>
+                                    <div class="col-1" id="">
+                                        <label>收費</label>
+                                        <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="no">否</option>
+                                            <option value="yes">是</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3" id="">
+                                        <label>工時</label>
+                                        <input id="workingHours" type="text" class="form-control" placeholder="" value="{{$ListData->workingHours}}">
+                                    </div>
+
+                                </div>
+
 
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <label>維修紀錄</label>
@@ -284,11 +320,13 @@
 
                             </div>
                         </div>
+                        @endforeach
                         <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
                             <button type="button" id="submit" class="btn btn-primary btn-block">
                                 <li class="fa fa-cloud-upload"></li> 儲存
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -308,13 +346,11 @@
 <script>
     $(document).ready(function() {
         $('#loading').hide();
-
-
+        getRmaData()
     });
 
     $('#submitSearch').click(function() {
         var serchCon = $('#serchCon').val();
-
         $('#loading').show();
         $.ajax({
             url: 'mesRmaEditAjax',
@@ -324,17 +360,10 @@
                 serchCon: serchCon
             },
             success: function(response) {
-
-
-
                 pullData(response)
-
-                console.log(response);
                 $('#loading').hide();
             },
             error: function(xhr, status, error) {
-
-                console.log('no');
                 $('#loading').hide();
             }
         });
@@ -344,6 +373,32 @@
     $('#submit').click(function() {
         rmaGetNum();
     });
+
+    function getRmaData() {
+        var num = '{{$ramData[0]->NUM}}';
+        if (num != null && $.trim(num) !== '') {
+            var numTitle = num.slice(0, 2); 
+            var repairNum = num.slice(2);
+        $('#numTitle').val(numTitle);
+        $('#repairNum').val(repairNum);
+        }else{
+            $('#numTitle').val('FA');
+        }
+        var faultSituationText = '{{$ramData[0]->faultSituationCode.'-'.$ramData[0]->faultSituation }}';
+        var faultCauseText = '{{$ramData[0]->faultCauseCode.'-'.$ramData[0]->faultCause }}';        
+        $('#responsibility').val('{{$ramData[0]->responsibility }}');
+        $('#toll').val('{{$ramData[0]->toll }}');
+        $('#newPackaging').prop('checked',  {{$ramData[0]->newPackaging }});
+        $('#wire').prop('checked',  {{$ramData[0]->wire }});
+        $('#wipePackaging').prop('checked',  {{$ramData[0]->wipePackaging }});
+        $('#rectifier').prop('checked',  {{$ramData[0]->rectifier }});
+        $('#HDD').prop('checked',  {{$ramData[0]->HDD }});
+        $('#lens').prop('checked',  {{$ramData[0]->lens }});
+        $('#other').prop('checked',  {{$ramData[0]->other }});
+        $('#faultSituationCode').val(faultSituationText).trigger('input');
+        $('#faultCauseCode').val(faultCauseText).trigger('input');
+      
+    };
 
     function rmaGetNum() {
         var numTitle = $('#numTitle').val();
@@ -458,12 +513,16 @@
         var customerNumber = response[0]['COD_CUST'];
         var productNum = response[0]['COD_ITEM'];
         var productName = response[0]['NAM_ITEM'];
-        var user = response[0]['employee_id'];
+        var userID = response[0]['employee_id'];
+        var userName = response[0]['userName'];
+        
+
         $('#customerName').val(customerName);
         $('#customerNumber').val(customerNumber);
         $('#productNum').val(productNum);
         $('#productName').val(productName);
-        $('#user').val(user);
+        $('#userID').val(userID);
+        $('#userName').val(userName);
     }
 </script>
 

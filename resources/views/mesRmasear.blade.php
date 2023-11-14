@@ -70,6 +70,7 @@
                         <div class="data-tables datatable-dark">
                             <table id="ListData" class="display text-center" style="width:100%">
                                 <thead class="text-capitalize" style=" background: darkgrey;">
+                                    <th>修改</th>
                                     <th>報修單號</th>
                                     <th>客戶</th>
                                     <th>產品型號</th>
@@ -81,6 +82,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><a href="mesRmaEdit?id="><span class="ti-pencil"></span>
+                                        </td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -121,43 +124,52 @@
                 [0, 'desc']
 
             ],
-            columnDefs: [{
-                    targets: [0], // 所在的 index（從 0 開始）
-                    data: "NUM",
-                    title: "報修單號"
+            columns: [{
+                "data": "NUM",
+                "title": "照片",
+                "render": function(data, type, row) {
+
+                   
+                    return '<a href=mesRmaEdit?num=' + data +' target="_blank"><span class="ti-pencil"></span>';
+                }
+            },
+                {
+                  
+                    "data": "NUM",
+                    "title": "報修單號"
                 },
                 {
-                    targets: [1], // 所在的 index（從 0 開始）
-                    data: "customerName",
-                    title: "客戶"
+                   
+                    "data": "customerName",
+                    "title": "客戶"
                 },
                 {
-                    targets: [2], // 所在的 index（從 0 開始）
-                    data: "productName",
-                    title: "產品型號"
+                 
+                    "data": "productName",
+                    "title": "產品型號"
                 },
                 {
-                    targets: [3], // 所在的 index（從 0 開始）
-                    data: "workingHours",
-                    title: "工時"
+             
+                    "data": "workingHours",
+                    "title": "工時"
                 },
                 {
-                    targets: [4], // 所在的 index（從 0 開始）
-                    data: "userName",
-                    title: "維修人員"
+                 
+                    "data": "userName",
+                    "title": "維修人員"
                 }, {
-                    targets: [5], // 所在的 index（從 0 開始）
-                    data: "repairType",
-                    title: "維修類別"
+                    
+                    "data": "repairType",
+                    "title": "維修類別"
                 }, {
-                    targets: [6], // 所在的 index（從 0 開始）
-                    data: "faultSituation",
-                    title: "故障情形"
+               
+                    "data": "faultSituation",
+                    "title": "故障情形"
                 },
                 {
-                    targets: [7], // 所在的 index（從 0 開始）
-                    data: "faultCause",
-                    title: "故障原因"
+                  
+                    "data": "faultCause",
+                    "title": "故障原因"
                 }
             ]
         });
