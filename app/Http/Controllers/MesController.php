@@ -812,12 +812,9 @@ class MesController extends BaseController
 
     public function mesRmaEdit(Request $request)
     {
-
-
+       
         if ($request->num) {
             $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
-
-            
         } else {
             $nullData = [
                 'ID' => null,
@@ -852,13 +849,13 @@ class MesController extends BaseController
                 'HDD' => null,
                 'HDDText' => null,
                 'other' => null,
-                'otherText' => null           
+                'otherText' => null
             ];
 
             // 将包含所有列都为null的数组赋值给$ramData
             $ramData = [(object)$nullData];
         }
-        
+
 
         $lang = app()->getLocale();
         $page = 'mesRmaEdit';
@@ -867,8 +864,8 @@ class MesController extends BaseController
         $sidebarLang = $this->langService->getLang($lang, $page);
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
-        $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
-
+        // $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
+        $qrcode = '';
         return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'qrcode', 'ramData'));
     }
     public function mesRmaEditAjax(Request $request)
@@ -876,19 +873,19 @@ class MesController extends BaseController
         $search = $request->input('serchCon');
 
         if (strpos($search, ":") !== false) {
-            $data = DB::select(" SELECT * FROM mac_query 
+            $data = DB::select("SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
             WHERE PS2  = '$search'
             limit 1");
         } else {
-            $data = DB::select(" SELECT * FROM mac_query 
+            $data = DB::select("SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
             WHERE SEQ_MITEM = '$search'
             limit 1");
         }
-        if (count($data) == 0) {
+        if (empty($data)) {
             $data = DB::select(" SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
@@ -901,8 +898,28 @@ class MesController extends BaseController
         $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
         $data[0]->employee_id = Auth::user()->employee_id;
         $data[0]->userName = Auth::user()->name;
+        // $COD_CUST = $data[0]->COD_CUST;
+        // $customer = DB::select("SELECT * FROM CUST WHERE COD_CUST = '$COD_CUST' limit 1");
+        // $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
+        // $customer
+
         return response()->json($data);
     }
+
+    public function mesRmaeEditReceiptSaveAjax(Request $request)
+    {
+
+        $numTitle = $request->input('numTitle');
+        $newCodeNum = $this->mesRmaGetNumAjax($numTitle);
+        $newNumber = $newCodeNum[0]->newNumber;
+        
+        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num='.$newNumber);
+        $base64 = base64_encode($qrCodeUrl);
+    
+   
+        return response()->json(['newNumber' => $newNumber,'qrCode' => $base64]);
+    }
+
     public function mesRmaeEditSave(Request $request)
     {
         $numTitle = $request->input('numTitle');
@@ -915,9 +932,10 @@ class MesController extends BaseController
         $productName = $request->input('productName');
         $noticeDate = $request->input('noticeDate');
 
-        $faultSituationCodes = 'A002-POE不良';
+
+        $faultSituationCodes = $request->input('faultSituationCodes');
         $faultSituation = explode('-', $faultSituationCodes);
-        $faultCauseCodes = 'B003-換新';
+        $faultCauseCodes = $request->input('faultCauseCodes');
         $faultCause = explode('-', $faultCauseCodes);
 
         $faultPart = $request->input('faultPart');
@@ -986,9 +1004,9 @@ class MesController extends BaseController
     }
 
 
-    public function mesRmaGetNumAjax(Request $request)
+    public function mesRmaGetNumAjax($numTitle)
     {
-        $numTitle = $request->input('numTitle');
+
         $today = date('Ymd');
         $numData = DB::select(" SELECT * FROM mes_rma_edit
             WHERE NUM LIKE '$numTitle$today%'
@@ -1004,6 +1022,12 @@ class MesController extends BaseController
             $newNumber = $today . '001';
         }
 
-        return response()->json($newNumber);
+        $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];
+        return $newCodeNum;
+    }
+    public function mesRmaGetQRcode(Request $request)
+    {
+
+        return;
     }
 }

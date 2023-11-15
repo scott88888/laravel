@@ -48,6 +48,7 @@
 
 
 <body>
+    
     <div id="preloader">
         <div class="loader"></div>
     </div>
@@ -94,11 +95,13 @@
                                             <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
+                               
                                     <div class="col-2" style="margin-left: 3rem;">
-                                        {!! $qrcode !!}
+                                    <div id="qrCodeContainer"></div>
+                                    <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">
 
                                     </div>
-
+                                 
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" checked id="customRadio1" name="customRadio1" class="custom-control-input">
@@ -123,19 +126,35 @@
 
 
                                 <div class="form-row align-items-center" style="margin-top: 2rem;">
-                                    <div class="col-1" id="">
+                                    <div class="col-2" id="">
                                         <label>客戶編號</label>
                                         <input id="customerNumber" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
                                     </div>
-                                    <div class="col-1" id="">
+                                    <div class="col-3" id="">
                                         <label>客戶名稱</label>
                                         <input id="customerName" type="text" class="form-control" placeholder="" value="{{$ListData->customerName}}">
                                     </div>
-                                    <div class="col-1" id="">
+                                    <div class="col-2" id="">
+                                        <label>收件人</label>
+                                        <input id="customerAttn" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
+                                    </div>
+                                    <div class="col-2" id="">
+                                        <label>電話</label>
+                                        <input id="customerTel" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
+                                    </div> 
+                                    <div class="col-3" id="">
+                                        <label>地址</label>
+                                        <input id="customerAdd" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
+                                    </div>
+                                   
+                                                                   
+                                </div>
+                                <div class="form-row align-items-center" style="">
+                                <div class="col-2" id="">
                                         <label>產品型號</label>
                                         <input id="productNum" type="text" class="form-control" placeholder="" value="{{$ListData->productNum}}">
                                     </div>
-                                    <div class="col-3" id="">
+                                    <div class="col-5" id="">
                                         <label>產品名稱</label>
                                         <input id="productName" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
                                     </div>
@@ -156,10 +175,7 @@
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
                                         @endif
                                     </div>
-                                </div>
-                                <div class="form-row align-items-center" style="">
-                                   
-                                    
+                               
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
@@ -214,13 +230,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
-                                    <button type="button" id="" class="btn btn-primary btn-block">
-                                        <li class="fa fa-cloud-upload"></li> 儲存
+                                    <button type="button" id="createRMA" class="btn btn-primary btn-block">
+                                        <li class="fa fa-cloud-upload"> 收貨人員建檔</li>
                                     </button>
                                 </div>
                                 <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
-                                   
+
                                     <div class="col-3">
                                         <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
                                         <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
@@ -347,6 +364,7 @@
     $(document).ready(function() {
         $('#loading').hide();
         getRmaData()
+       
     });
 
     $('#submitSearch').click(function() {
@@ -397,7 +415,27 @@
         $('#other').prop('checked',  {{$ramData[0]->other }});
         $('#faultSituationCode').val(faultSituationText).trigger('input');
         $('#faultCauseCode').val(faultCauseText).trigger('input');
-      
+       var customRadio = '{{$ramData[0]->repairType }}';
+       switch (customRadio) {
+        case '維修':
+            $('#customRadio1').prop('checked', true);
+            break;
+            case '借':
+            $('#customRadio2').prop('checked', true);
+            break;
+            case '退':
+            $('#customRadio3').prop('checked', true);
+            break;
+            case '換':
+            $('#customRadio4').prop('checked', true);
+            break;
+            case 'LZ':
+            $('#customRadio5').prop('checked', true);
+            break;
+        default:
+        $('#customRadio1').prop('checked', true);
+            break;
+       }
     };
 
     function rmaGetNum() {
@@ -515,15 +553,42 @@
         var productName = response[0]['NAM_ITEM'];
         var userID = response[0]['employee_id'];
         var userName = response[0]['userName'];
-        
-
+        var NAM_ATTN = response[0]['NAM_ATTN'];
+        var NUM_TEL1 = response[0]['NUM_TEL1'];
+        var ADD_REG = response[0]['ADD_REG'];
         $('#customerName').val(customerName);
         $('#customerNumber').val(customerNumber);
         $('#productNum').val(productNum);
         $('#productName').val(productName);
         $('#userID').val(userID);
         $('#userName').val(userName);
+        $('#customerAttn').val(NAM_ATTN);
+        $('#customerTel').val(NUM_TEL1);
+        $('#customerAdd').val(ADD_REG);
     }
+    $('#createRMA').click(function() {
+        var numTitle = $('#numTitle').val();
+        $.ajax({
+            url: 'mesRmaeEditReceiptSaveAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                numTitle: numTitle
+            },
+            success: function(response) {
+                $('#loading').hide();
+                var svgImage = document.getElementById('svgImage');
+                
+                $('#repairNum').val(response.newNumber);
+                svgImage.src = 'data:image/svg+xml;base64,' + response.qrCode;
+                
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+            }
+        });
+    });
+    
 </script>
 
 </html>
