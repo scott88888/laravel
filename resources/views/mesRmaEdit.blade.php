@@ -65,13 +65,10 @@
                     <div class="col-12" style="padding: 8px;">
                         @foreach ($ramData as $ListData)
 
-                        {{$ListData->NUM}}
+                        
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">產品維修單</h4>
-
-
-
                                 <div class="form-row">
                                     <div class="">
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
@@ -87,7 +84,7 @@
 
                                     <div class="col-4" id="">
                                         <label>產品序號/零件序號/MAC</label>
-                                        <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="">
+                                        <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="{{$ListData->serchCon}}">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
@@ -97,8 +94,12 @@
                                     </div>
                                
                                     <div class="col-2" style="margin-left: 3rem;">
-                                    <div id="qrCodeContainer"></div>
-                                    <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">
+                                    @if($ListData->svgImage)
+                                    <img id="svgImage" src="{{$ListData->svgImage}}" alt="SVG Image">   
+                                        @else
+                                        <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">   
+                                        @endif
+                                     
 
                                     </div>
                                  
@@ -160,11 +161,11 @@
                                     </div>
                                     <div class="col-1" id="">
                                         <label>收貨人員編號</label>
-                                        <input id="userID" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
+                                        <input id="userID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
                                     </div>
                                     <div class="col-2" id="">
                                         <label>收貨人員</label>
-                                        <input id="userName" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
+                                        <input id="userName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
                                     </div>
                                     <div class="col-2">
                                         <label>送修日期</label>
@@ -234,6 +235,12 @@
                                 <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
                                     <button type="button" id="createRMA" class="btn btn-primary btn-block">
                                         <li class="fa fa-cloud-upload"> 收貨人員建檔</li>
+                                    </button>
+                                    <button type="button" id="updateRMA" class="btn btn-info btn-block">
+                                        <li class="fa fa-cloud-upload"> 收貨人員修改</li>
+                                    </button>
+                                    <button type="button" id="saveUpdateRMA" class="btn btn-primary btn-block">
+                                        <li class="fa fa-cloud-upload"> 收貨人員修改儲存</li>
                                     </button>
                                 </div>
                                 <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
@@ -364,7 +371,15 @@
     $(document).ready(function() {
         $('#loading').hide();
         getRmaData()
-       
+        displayBtn()
+        const pagetype = '{{$pagetype}}';
+        if (pagetype == 'create') {
+            $("#createRMA").show();
+        }else if(pagetype == 'update'){
+            $("#updateRMA").show();
+            
+        }
+        
     });
 
     $('#submitSearch').click(function() {
@@ -440,7 +455,6 @@
 
     function rmaGetNum() {
         var numTitle = $('#numTitle').val();
-
         $('#loading').show();
         $.ajax({
             url: 'mesRmaGetNumAjax',
@@ -462,89 +476,7 @@
         });
     }
 
-    function submitForm() {
-        const numTitle = $('#numTitle').val();
-        const repairNum = $('#repairNum').val();
-        const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
-        const customerNumber = $('#customerNumber').val();
-        const customerName = $('#customerName').val();
-        const productNum = $('#productNum').val();
-        const productName = $('#productName').val();
-        const noticeDate = $('#noticeDate').val();
-        const faultSituationCodes = $('#faultSituationCodes').val();
-        const faultCauseCodes = $('#faultCauseCodes').val();
-        const faultPart = $('#faultPart').val();
-        const faultLocation = $('#faultLocation').val();
-        const responsibility = $('#responsibility').val();
-        const SN = $('#SN').val();
-        const newSN = $('#newSN').val();
-        const QADate = $('#QADate').val();
-        const completedDate = $('#completedDate').val();
-        const employeeID = $('#employeeID').val();
-        const employeeName = $('#employeeName').val();
-        const toll = $('#toll').val();
-        const workingHours = $('#workingHours').val();
-        const newPackaging = $('#newPackaging').prop('checked');
-        const wire = $('#wire').prop('checked');
-        const wipePackaging = $('#wipePackaging').prop('checked');
-        const rectifier = $('#rectifier').prop('checked');
-        const lens = $('#lens').prop('checked');
-        const HDD = $('#HDD').prop('checked');
-        const other = $('#other').prop('checked');
-        const lensText = $('#lensText').val();
-        const HDDText = $('#HDDText').val();
-        const otherText = $('#otherText').val();
-
-        const formData = {
-            numTitle,
-            repairNum,
-            selectedValue,
-            customerNumber,
-            customerName,
-            productNum,
-            productName,
-            noticeDate,
-            faultSituationCodes,
-            faultCauseCodes,
-            faultPart,
-            faultLocation,
-            responsibility,
-            SN,
-            newSN,
-            QADate,
-            completedDate,
-            employeeID,
-            employeeName,
-            toll,
-            workingHours,
-            newPackaging,
-            wire,
-            wipePackaging,
-            rectifier,
-            lens,
-            HDD,
-            other,
-            lensText,
-            HDDText,
-            otherText
-        };
-
-        $('#loading').show();
-
-        $.ajax({
-            url: 'mesRmaeEditSave',
-            type: 'GET',
-            dataType: 'json',
-            data: formData,
-            success: function(response) {
-                $('#loading').hide();
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                $('#loading').hide();
-            }
-        });
-    }
+    
 
     function pullData(response) {
         var customerName = response[0]['NAM_CUSTS'];
@@ -569,7 +501,7 @@
     $('#createRMA').click(function() {
         var numTitle = $('#numTitle').val();
         $.ajax({
-            url: 'mesRmaeEditReceiptSaveAjax',
+            url: 'mesRmaEditReceiptCreateAjax',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -577,10 +509,13 @@
             },
             success: function(response) {
                 $('#loading').hide();
-                var svgImage = document.getElementById('svgImage');
-                
+                var svgImage = document.getElementById('svgImage');                
                 $('#repairNum').val(response.newNumber);
                 svgImage.src = 'data:image/svg+xml;base64,' + response.qrCode;
+                submitCreateForm();
+                displayBtn();
+                $("#updateRMA").show();
+               
                 
             },
             error: function(xhr, status, error) {
@@ -588,6 +523,80 @@
             }
         });
     });
+    function submitCreateForm() {
+        const numTitle = $('#numTitle').val();
+        const repairNum = $('#repairNum').val();
+        const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
+        const serchCon = $('#serchCon').val();        
+        const svgImage = $("#svgImage").attr("src");
+        const customerNumber = $('#customerNumber').val();
+        const customerName = $('#customerName').val();
+        const customerAttn = $('#customerAttn').val();
+        const customerTel = $('#customerTel').val();
+        const customerAdd = $('#customerAdd').val();
+        const productNum = $('#productNum').val();
+        const productName = $('#productName').val();
+        const userID = $('#userID').val();
+        const userName = $('#userName').val();
+        const noticeDate = $('#noticeDate').val();
+        const newPackaging = $('#newPackaging').prop('checked');
+        const wire = $('#wire').prop('checked');
+        const wipePackaging = $('#wipePackaging').prop('checked');
+        const rectifier = $('#rectifier').prop('checked');
+        const lens = $('#lens').prop('checked');
+        const HDD = $('#HDD').prop('checked');
+        const other = $('#other').prop('checked');
+        const lensText = $('#lensText').val();
+        const HDDText = $('#HDDText').val();
+        const otherText = $('#otherText').val();
+        const formData = {
+                            numTitle,
+                            repairNum,
+                            selectedValue,
+                            serchCon,
+                            svgImage,
+                            customerNumber,
+                            customerName,
+                            customerAttn,
+                            customerTel,
+                            customerAdd,
+                            productNum,
+                            productName,
+                            userID,
+                            userName,
+                            noticeDate,
+                            newPackaging,
+                            wire,
+                            wipePackaging,
+                            rectifier,
+                            lens,
+                            HDD,
+                            other,
+                            lensText,
+                            HDDText,
+                            otherText
+                        };
+        $('#loading').show();
+        $.ajax({
+            url: 'mesRmaEditReceiptSaveAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+                $('#loading').hide();
+
+                
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+            }
+        });
+    }
+    function displayBtn() {
+        $("#createRMA").hide();
+        $("#updateRMA").hide();
+        $("#saveUpdateRMA").hide();
+    }
     
 </script>
 

@@ -812,9 +812,10 @@ class MesController extends BaseController
 
     public function mesRmaEdit(Request $request)
     {
-       
+
         if ($request->num) {
             $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
+            $pagetype = "update";
         } else {
             $nullData = [
                 'ID' => null,
@@ -822,6 +823,11 @@ class MesController extends BaseController
                 'repairType' => null,
                 'customerNumber' => null,
                 'customerName' => null,
+                'serchCon' => null,
+                'svgImage' => null,
+                'customerAttn' => null,
+                'customerTel' => null,
+                'customerAdd' => null,
                 'productNum' => null,
                 'productName' => null,
                 'noticeDate' => null,
@@ -851,7 +857,7 @@ class MesController extends BaseController
                 'other' => null,
                 'otherText' => null
             ];
-
+            $pagetype = "create";
             // 将包含所有列都为null的数组赋值给$ramData
             $ramData = [(object)$nullData];
         }
@@ -865,8 +871,8 @@ class MesController extends BaseController
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
         // $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
-        $qrcode = '';
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'qrcode', 'ramData'));
+         
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'ramData' ,'pagetype'));
     }
     public function mesRmaEditAjax(Request $request)
     {
@@ -898,26 +904,86 @@ class MesController extends BaseController
         $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
         $data[0]->employee_id = Auth::user()->employee_id;
         $data[0]->userName = Auth::user()->name;
-        // $COD_CUST = $data[0]->COD_CUST;
-        // $customer = DB::select("SELECT * FROM CUST WHERE COD_CUST = '$COD_CUST' limit 1");
-        // $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
-        // $customer
-
+        
         return response()->json($data);
     }
 
-    public function mesRmaeEditReceiptSaveAjax(Request $request)
+    public function mesRmaEditReceiptCreateAjax(Request $request)
     {
 
         $numTitle = $request->input('numTitle');
         $newCodeNum = $this->mesRmaGetNumAjax($numTitle);
         $newNumber = $newCodeNum[0]->newNumber;
-        
-        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num='.$newNumber);
-        $base64 = base64_encode($qrCodeUrl);
-    
-   
-        return response()->json(['newNumber' => $newNumber,'qrCode' => $base64]);
+
+        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num=' . $newNumber);
+        $qrCode = base64_encode($qrCodeUrl);
+
+
+
+        $this->mesRmaGetNumAjax($request);
+        return response()->json(['newNumber' => $newNumber, 'qrCode' => $qrCode]);
+    }
+
+    public function mesRmaEditReceiptSaveAjax(Request $request)
+    {
+        $numTitle = $request->input('numTitle');
+        $repairNum = $request->input('repairNum');
+        $num = $numTitle . $repairNum;
+        $selectedValue = $request->input('selectedValue');
+        $serchCon = $request->input('serchCon');
+        $svgImage = $request->input('svgImage');
+        $customerNumber = $request->input('customerNumber');
+        $customerName = $request->input('customerName');
+        $customerAttn = $request->input('customerAttn');
+        $customerTel = $request->input('customerTel');
+        $customerAdd = $request->input('customerAdd');
+        $productNum = $request->input('productNum');
+        $productName = $request->input('productName');
+        $userID = $request->input('userID');
+        $userName = $request->input('userName');
+        $noticeDate = $request->input('noticeDate');
+        $newPackaging = $request->input('newPackaging');
+        $wire = $request->input('wire');
+        $wipePackaging = $request->input('wipePackaging');
+        $rectifier = $request->input('rectifier');
+        $lens = $request->input('lens');
+        $HDD = $request->input('HDD');
+        $other = $request->input('other');
+        $lensText = $request->input('lensText');
+        $HDDText = $request->input('HDDText');
+        $otherText = $request->input('otherText');
+        $data = DB::table('mes_rma_edit')->insert([
+            'ID' => '',
+            'NUM' => $num,
+            'repairType' => $selectedValue,
+            'serchCon' => $serchCon,
+            'svgImage' => $svgImage,
+            'customerNumber' => $customerNumber,
+            'customerName' => $customerName,
+            'customerAttn' => $customerAttn,
+            'customerTel' => $customerTel,
+            'customerAdd' => $customerAdd,
+            'productNum' => $productNum,
+            'productName' => $productName,
+            'userID' => $userID,
+            'userName' => $userName,
+            'noticeDate' => $noticeDate,
+            'newPackaging' => $newPackaging,
+            'wire' => $wire,
+            'wipePackaging' => $wipePackaging,
+            'rectifier' => $rectifier,
+            'lens' => $lens,
+            'lensText' => $lensText,
+            'HDD' => $HDD,
+            'HDDText' => $HDDText,
+            'other' => $other,
+            'otherText' => $otherText
+        ]);
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json($data);
+        }
     }
 
     public function mesRmaeEditSave(Request $request)
@@ -1025,9 +1091,5 @@ class MesController extends BaseController
         $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];
         return $newCodeNum;
     }
-    public function mesRmaGetQRcode(Request $request)
-    {
 
-        return;
-    }
 }
