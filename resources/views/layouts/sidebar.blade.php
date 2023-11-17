@@ -40,7 +40,7 @@
                             <li id="mesDefectiveListBtn"><a href="mesDefectiveList">{{ $sidebarLang->生產維修紀錄查詢 }}</a></li>
                             <li id="mesDefectiveRateBtn"><a href="mesDefectiveRate">{{ $sidebarLang->產品維修不良率分析 }}</a></li>
                             <li id="mesRepairNGListBtn"><a href="mesRepairNGList">{{ $sidebarLang->產線零件維修不良排行 }}</a></li>
-                            <li id="mesBuyDelayBtn"><a href="mesBuyDelay">{{ $sidebarLang->入料逾期明細表 }}</a></li>
+                            <li id="mesBuyDelayBtn"><a href="mesBuyDelay">{{ $sidebarLang->未入料明細表 }}</a></li>
                             <li id="mesECNListBtn"><a href="mesECNList">{{ $sidebarLang->ECRECN查詢 }} </a></li> 
                         </ul>
                     </li>

@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="custom-control custom-checkbox custom-control-inline">
                                                 <input type="checkbox" class="custom-control-input" id="checkbox15">
-                                                <label class="custom-control-label" for="checkbox15">入料逾期明細表</label>
+                                                <label class="custom-control-label" for="checkbox15">未入料明細表</label>
                                             </div>
                                             <div class="custom-control custom-checkbox custom-control-inline">
                                                 <input type="checkbox" class="custom-control-input" id="checkbox16">

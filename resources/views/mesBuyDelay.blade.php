@@ -23,12 +23,12 @@
                     <div class="col-12 mt-1">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">入料逾期明細表</h4>
+                                <h4 class="header-title">未入料明細表</h4>
                                 <div class="form-row">
                                     <div class="col-md-3 mb-3">
                                         <label class="col-form-label">排行月份(年)</label>
                                         <select id="searchtype" class="form-control" style="padding: 0;">
-                                            <option value="MaterialDeliveryDate">入料逾期明細表</option>
+                                            <option value="MaterialDeliveryDate">未入料明細表</option>
                                             <option value="UnconfirmedDeliveryDate">交期未回覆明細</option>
                                         </select>
                                     </div>
