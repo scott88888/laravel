@@ -48,7 +48,7 @@
 
 
 <body>
-    
+
     <div id="preloader">
         <div class="loader"></div>
     </div>
@@ -65,12 +65,12 @@
                     <div class="col-12" style="padding: 8px;">
                         @foreach ($ramData as $ListData)
 
-                        
+
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">產品維修單</h4>
+                                <h4 class="header-title">產品維修單 <span id="numer">{{$ListData->NUM}}</span> </h4>
                                 <div class="form-row">
-                                    <div class="">
+                                    <div class=""><input type="text" id="idNum" value="{{$ListData->ID}}" style="display: none;"></h4>
                                         <label class="col-form-label" style="padding-top: 0;">字碼</label>
                                         <select id="numTitle" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="FA">FA</option>
@@ -92,17 +92,17 @@
                                             <button type="button" id="submitSearch" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
-                               
+
                                     <div class="col-2" style="margin-left: 3rem;">
-                                    @if($ListData->svgImage)
-                                    <img id="svgImage" src="{{$ListData->svgImage}}" alt="SVG Image">   
+                                        @if($ListData->svgImage)
+                                        <img id="svgImage" src="{{$ListData->svgImage}}" alt="SVG Image">
                                         @else
-                                        <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">   
+                                        <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">
                                         @endif
-                                     
+
 
                                     </div>
-                                 
+
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" checked id="customRadio1" name="customRadio1" class="custom-control-input">
@@ -137,21 +137,21 @@
                                     </div>
                                     <div class="col-2" id="">
                                         <label>收件人</label>
-                                        <input id="customerAttn" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
+                                        <input id="customerAttn" type="text" class="form-control" placeholder="" value="{{$ListData->customerAttn}}">
                                     </div>
                                     <div class="col-2" id="">
                                         <label>電話</label>
-                                        <input id="customerTel" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
-                                    </div> 
+                                        <input id="customerTel" type="text" class="form-control" placeholder="" value="{{$ListData->customerTel}}">
+                                    </div>
                                     <div class="col-3" id="">
                                         <label>地址</label>
-                                        <input id="customerAdd" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
+                                        <input id="customerAdd" type="text" class="form-control" placeholder="" value="{{$ListData->customerAdd}}">
                                     </div>
-                                   
-                                                                   
+
+
                                 </div>
                                 <div class="form-row align-items-center" style="">
-                                <div class="col-2" id="">
+                                    <div class="col-2" id="">
                                         <label>產品型號</label>
                                         <input id="productNum" type="text" class="form-control" placeholder="" value="{{$ListData->productNum}}">
                                     </div>
@@ -176,7 +176,7 @@
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
                                         @endif
                                     </div>
-                               
+
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
                                     <button type="button" id="createRMA" class="btn btn-primary btn-block">
                                         <li class="fa fa-cloud-upload"> 收貨人員建檔</li>
@@ -242,115 +242,119 @@
                                     <button type="button" id="saveUpdateRMA" class="btn btn-primary btn-block">
                                         <li class="fa fa-cloud-upload"> 收貨人員修改儲存</li>
                                     </button>
+                                    <button type="button" id="saveUpdateRMASuccess" class="btn btn-primary btn-block">
+                                        <li class="fa fa-cloud-upload"> 儲存成功</li>
+                                    </button>
                                 </div>
-                                <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
+                                <div id="MaintenanceForm">
+                                    <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
+                                        <div class="col-3">
+                                            <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
+                                            <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
+                                            <datalist id="faultSituationCodes">
+                                                @foreach ($codeA as $codeA)
+                                                <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
+                                                @endforeach
+                                            </datalist>
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
+                                            <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
+                                            <datalist id="faultCauseCodes">
+                                                @foreach ($codeB as $codeB)
+                                                <option value="{{ $codeB->faultcode}}-{{ $codeB->fault}}">{{ $codeB->faultcode}}-{{ $codeB->fault}}</option>
+                                                @endforeach
+                                            </datalist>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>故障零件</label>
+                                            <input id="faultPart" type="text" class="form-control" placeholder="" value="{{$ListData->faultPart}}">
+                                        </div>
+                                        <div class="col-2">
+                                            <label>故障位置</label>
+                                            <input id="faultLocation" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-1" id="">
+                                            <label>責任</label>
+                                            <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                                <option value="本場">本場</option>
+                                                <option value="場商">場商</option>
+                                                <option value="客戶">客戶</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3" id="">
+                                            <label>整新前序號</label>
+                                            <input id="SN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                        </div>
+                                        <div class="col-3" id="">
+                                            <label>序號</label>
+                                            <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                        </div>
+                                        <div class="col-2" id="">
+                                            <label>QA</label>
+                                            @if($ListData->QADate)
+                                            <input class="form-control" type="date" value="{{$ListData->QADate}}" id="QADate">
+                                            @else
+                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
+                                            @endif
 
-                                    <div class="col-3">
-                                        <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
-                                        <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
-                                        <datalist id="faultSituationCodes">
-                                            @foreach ($codeA as $codeA)
-                                            <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
-                                            @endforeach
-                                        </datalist>
+                                        </div>
+                                        <div class="col-2" id="">
+                                            <label>完修</label>
+                                            @if($ListData->completedDate)
+                                            <input class="form-control" type="date" value="{{$ListData->completedDate}}" id="completedDate">
+                                            @else
+                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="col-3">
-                                        <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
-                                        <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
-                                        <datalist id="faultCauseCodes">
-                                            @foreach ($codeB as $codeB)
-                                            <option value="{{ $codeB->faultcode}}-{{ $codeB->fault}}">{{ $codeB->faultcode}}-{{ $codeB->fault}}</option>
-                                            @endforeach
-                                        </datalist>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-2" id="">
+                                            <label>人員編號</label>
+                                            <input id="employeeID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
+                                        </div>
+                                        <div class="col-2" id="">
+                                            <label>人員</label>
+                                            <input id="employeeName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
+                                        </div>
+                                        <div class="col-1" id="">
+                                            <label>收費</label>
+                                            <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                                <option value="no">否</option>
+                                                <option value="yes">是</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3" id="">
+                                            <label>工時</label>
+                                            <input id="workingHours" type="text" class="form-control" placeholder="" value="{{$ListData->workingHours}}">
+                                        </div>
                                     </div>
-                                    <div class="col-2">
-                                        <label>故障零件</label>
-                                        <input id="faultPart" type="text" class="form-control" placeholder="" value="{{$ListData->faultPart}}">
+                                    <div class="form-row align-items-center" style="padding-top: 2rem;">
+                                        <label>維修紀錄</label>
+                                        <div class="col-12" id="">
+                                            <textarea rows="4" cols="200" placeholder="在此输入..."></textarea>
+                                        </div>
                                     </div>
-                                    <div class="col-2">
-                                        <label>故障位置</label>
-                                        <input id="faultLocation" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+
+                                    <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
+                                        <button type="button" id="maintenanceEdit" class="btn btn-info btn-block">
+                                            <li class="fa fa-cloud-upload"></li> 維修人員新增 \ 修改
+                                        </button>
+                                    </div>
+                                    <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
+                                        <button type="button" id="maintenanceUpdate" class="btn btn-info btn-block">
+                                            <li class="fa fa-cloud-upload"></li> 儲存
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-1" id="">
-                                        <label>責任</label>
-                                        <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="本場">本場</option>
-                                            <option value="場商">場商</option>
-                                            <option value="客戶">客戶</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>整新前序號</label>
-                                        <input id="SN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>序號</label>
-                                        <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>QA</label>
-                                        @if($ListData->QADate)
-                                        <input class="form-control" type="date" value="{{$ListData->QADate}}" id="QADate">
-                                        @else
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
-                                        @endif
-
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>完修</label>
-                                        @if($ListData->completedDate)
-                                        <input class="form-control" type="date" value="{{$ListData->completedDate}}" id="completedDate">
-                                        @else
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-2" id="">
-                                        <label>人員編號</label>
-                                        <input id="employeeID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
-                                    </div>
-                                    <div class="col-2" id="">
-                                        <label>人員</label>
-                                        <input id="employeeName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
-                                    </div>
-                                    <div class="col-1" id="">
-                                        <label>收費</label>
-                                        <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="no">否</option>
-                                            <option value="yes">是</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-3" id="">
-                                        <label>工時</label>
-                                        <input id="workingHours" type="text" class="form-control" placeholder="" value="{{$ListData->workingHours}}">
-                                    </div>
-
-                                </div>
-
-
-                                <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                    <label>維修紀錄</label>
-                                    <div class="col-12" id="">
-
-                                        <textarea rows="4" cols="200" placeholder="在此输入..."></textarea>
-
-                                    </div>
-
-                                </div>
-
                             </div>
-                        </div>
-                        @endforeach
-                        <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                            <button type="button" id="submit" class="btn btn-primary btn-block">
-                                <li class="fa fa-cloud-upload"></li> 儲存
-                            </button>
-                        </div>
 
+
+
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -375,11 +379,25 @@
         const pagetype = '{{$pagetype}}';
         if (pagetype == 'create') {
             $("#createRMA").show();
-        }else if(pagetype == 'update'){
+            $('#MaintenanceForm').hide();
+        } else if (pagetype == 'update') {
+            disabled(true);
+            disabledMaintenance(true) 
             $("#updateRMA").show();
-            
+            $('#MaintenanceForm').show();
+            $('#maintenanceEdit').show();
+
         }
-        
+        var svgImage = document.getElementById('svgImage');
+        var img = new Image();
+        img.src = svgImage.src;
+        img.onload = function() {
+            svgImage.style.display = 'inline';
+        };
+        img.onerror = function() {
+            svgImage.style.display = 'none';
+        };
+
     });
 
     $('#submitSearch').click(function() {
@@ -403,8 +421,59 @@
     });
 
 
-    $('#submit').click(function() {
-        rmaGetNum();
+    
+
+    $('#maintenanceEdit').click(function() {
+        disabledMaintenance(false);             
+        $('#maintenanceUpdate').show();
+        $('#maintenanceEdit').hide();
+    });
+
+    $('#maintenanceUpdate').click(function() {
+        const idNum = $('#idNum').val();
+        const faultSituationCode = $('#faultSituationCode').val();
+        const faultCauseCode = $('#faultCauseCode').val();
+        const faultPart = $('#faultPart').val();
+        const faultLocation = $('#faultLocation').val();
+        const responsibility = $('#responsibility').val();
+        const SN = $('#SN').val();
+        const newSN = $('#newSN').val();
+        const QADate = $('#QADate').val();
+        const completedDate = $('#completedDate').val();
+        const employeeID = $('#employeeID').val();
+        const employeeName = $('#employeeName').val();
+        const toll = $('#toll').val();
+        const workingHours = $('#workingHours').val();
+        $('#loading').show();
+        $.ajax({
+            url: 'mesMaintenanceUpdateAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                    idNum:idNum,
+                    faultSituationCode:faultSituationCode,
+                    faultCauseCode:faultCauseCode,
+                    faultPart:faultPart,
+                    faultLocation:faultLocation,
+                    responsibility:responsibility,
+                    SN:SN,
+                    newSN:newSN,
+                    QADate:QADate,
+                    completedDate:completedDate,
+                    employeeID:employeeID,
+                    employeeName:employeeName,
+                    toll:toll,
+                    workingHours:workingHours
+            },
+            success: function(response) {
+                $('#loading').hide();
+            },
+            error: function(xhr, status, error) {
+                console.log('no');
+                $('#loading').hide();
+            }
+        });
+
     });
 
     function getRmaData() {
@@ -476,7 +545,7 @@
         });
     }
 
-    
+
 
     function pullData(response) {
         var customerName = response[0]['NAM_CUSTS'];
@@ -499,6 +568,7 @@
         $('#customerAdd').val(ADD_REG);
     }
     $('#createRMA').click(function() {
+
         var numTitle = $('#numTitle').val();
         $.ajax({
             url: 'mesRmaEditReceiptCreateAjax',
@@ -509,25 +579,36 @@
             },
             success: function(response) {
                 $('#loading').hide();
-                var svgImage = document.getElementById('svgImage');                
+                var svgImage = document.getElementById('svgImage');
                 $('#repairNum').val(response.newNumber);
                 svgImage.src = 'data:image/svg+xml;base64,' + response.qrCode;
                 submitCreateForm();
                 displayBtn();
                 $("#updateRMA").show();
-               
-                
+                disabled(true);
+
             },
             error: function(xhr, status, error) {
                 $('#loading').hide();
             }
         });
     });
-    function submitCreateForm() {
+
+    $('#updateRMA').click(function() {
+        disabled(false);
+        displayBtn();
+        $("#saveUpdateRMA").show();
+    });
+    $('#saveUpdateRMA').click(function() {
+        const idNum = $('#idNum').val();
+        if (idNum == null && $.trim(idNum) == '') {         
+            return;
+        }
+
         const numTitle = $('#numTitle').val();
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
-        const serchCon = $('#serchCon').val();        
+        const serchCon = $('#serchCon').val();
         const svgImage = $("#svgImage").attr("src");
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
@@ -550,32 +631,106 @@
         const HDDText = $('#HDDText').val();
         const otherText = $('#otherText').val();
         const formData = {
-                            numTitle,
-                            repairNum,
-                            selectedValue,
-                            serchCon,
-                            svgImage,
-                            customerNumber,
-                            customerName,
-                            customerAttn,
-                            customerTel,
-                            customerAdd,
-                            productNum,
-                            productName,
-                            userID,
-                            userName,
-                            noticeDate,
-                            newPackaging,
-                            wire,
-                            wipePackaging,
-                            rectifier,
-                            lens,
-                            HDD,
-                            other,
-                            lensText,
-                            HDDText,
-                            otherText
-                        };
+            idNum,
+            numTitle,
+            repairNum,
+            selectedValue,
+            serchCon,
+            svgImage,
+            customerNumber,
+            customerName,
+            customerAttn,
+            customerTel,
+            customerAdd,
+            productNum,
+            productName,
+            userID,
+            userName,
+            noticeDate,
+            newPackaging,
+            wire,
+            wipePackaging,
+            rectifier,
+            lens,
+            HDD,
+            other,
+            lensText,
+            HDDText,
+            otherText
+        };
+        $('#loading').show();
+        $.ajax({
+            url: 'mesRmaEditReceiptUpdateAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+                $('#loading').hide();
+                displayBtn();
+                $("#saveUpdateRMASuccess").show();
+                disabled(true);
+
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+            }
+        });
+    });
+
+
+    function submitCreateForm() {
+        const numTitle = $('#numTitle').val();
+        const repairNum = $('#repairNum').val();
+        const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
+        const serchCon = $('#serchCon').val();
+        const svgImage = $("#svgImage").attr("src");
+        const customerNumber = $('#customerNumber').val();
+        const customerName = $('#customerName').val();
+        const customerAttn = $('#customerAttn').val();
+        const customerTel = $('#customerTel').val();
+        const customerAdd = $('#customerAdd').val();
+        const productNum = $('#productNum').val();
+        const productName = $('#productName').val();
+        const userID = $('#userID').val();
+        const userName = $('#userName').val();
+        const noticeDate = $('#noticeDate').val();
+        const newPackaging = $('#newPackaging').prop('checked');
+        const wire = $('#wire').prop('checked');
+        const wipePackaging = $('#wipePackaging').prop('checked');
+        const rectifier = $('#rectifier').prop('checked');
+        const lens = $('#lens').prop('checked');
+        const HDD = $('#HDD').prop('checked');
+        const other = $('#other').prop('checked');
+        const lensText = $('#lensText').val();
+        const HDDText = $('#HDDText').val();
+        const otherText = $('#otherText').val();
+        const formData = {
+            numTitle,
+            repairNum,
+            selectedValue,
+            serchCon,
+            svgImage,
+            customerNumber,
+            customerName,
+            customerAttn,
+            customerTel,
+            customerAdd,
+            productNum,
+            productName,
+            userID,
+            userName,
+            noticeDate,
+            newPackaging,
+            wire,
+            wipePackaging,
+            rectifier,
+            lens,
+            HDD,
+            other,
+            lensText,
+            HDDText,
+            otherText
+        };
         $('#loading').show();
         $.ajax({
             url: 'mesRmaEditReceiptSaveAjax',
@@ -584,20 +739,68 @@
             data: formData,
             success: function(response) {
                 $('#loading').hide();
+                $('#idNum').val(response);
+                console.log(response);
 
-                
             },
             error: function(xhr, status, error) {
                 $('#loading').hide();
             }
         });
     }
+
     function displayBtn() {
         $("#createRMA").hide();
         $("#updateRMA").hide();
         $("#saveUpdateRMA").hide();
+        $("#saveUpdateRMASuccess").hide();
+        $('#maintenanceEdit').hide();
+        $('#maintenanceUpdate').hide();
+
     }
+
+    function disabled(type) {
+        $('#numTitle').prop('disabled', type);
+        $('#serchCon').prop('disabled', type);
+        $('#customerNumber').prop('disabled', type);
+        $('#customerName').prop('disabled', type);
+        $('#customerAttn').prop('disabled', type);
+        $('#customerTel').prop('disabled', type);
+        $('#customerAdd').prop('disabled', type);
+        $('#productNum').prop('disabled', type);
+        $('#productName').prop('disabled', type);
+        $('#userID').prop('disabled', type);
+        $('#userName').prop('disabled', type);
+        $('#noticeDate').prop('disabled', type);
+        $('#newPackaging').prop('disabled', type);
+        $('#wire').prop('disabled', type);
+        $('#wipePackaging').prop('disabled', type);
+        $('#rectifier').prop('disabled', type);
+        $('#lens').prop('disabled', type);
+        $('#HDD').prop('disabled', type);
+        $('#other').prop('disabled', type);
+        $('#lensText').prop('disabled', type);
+        $('#HDDText').prop('disabled', type);
+        $('#otherText').prop('disabled', type);
+    }
+
     
+    function disabledMaintenance(type) {
+        $('#faultSituationCode').prop('disabled', type);
+        $('#faultCauseCode').prop('disabled', type);
+        $('#faultPart').prop('disabled', type);
+        $('#faultLocation').prop('disabled', type);
+        $('#responsibility').prop('disabled', type);
+        $('#SN').prop('disabled', type);
+        $('#newSN').prop('disabled', type);
+        $('#QADate').prop('disabled', type);
+        $('#completedDate').prop('disabled', type);
+        $('#employeeID').prop('disabled', type);
+        $('#employeeName').prop('disabled', type);
+        $('#toll').prop('disabled', type);
+        $('#workingHours').prop('disabled', type);
+      
+    }
 </script>
 
 </html>

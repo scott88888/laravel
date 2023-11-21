@@ -1,57 +1,45 @@
-numTitle
-repairNum
-selectedValue
-serchCon
-svgImage
-customerNumber
-customerName
-customerAttn
-customerTel
-customerAdd
-productNum
-productName
-userID
-userName
-noticeDate
-newPackaging
-wire
-wipePackaging
-rectifier
-lens
-HDD
-other
-lensText
-HDDText
-otherText
-
-'faultSituationCode' => $faultSituation[0],
-            'faultSituation' => $faultSituation[1],
-            'faultCauseCode' => $faultCause[0],
-            'faultCause' => $faultCause[1],
-            'faultPart' => $faultPart,
-            'faultLocation' => $faultLocation,
-            'responsibility' => $responsibility,
-            'SN' => $SN,
-            'newSN' => $newSN,
-            'QADate' => $QADate,
-            'completedDate' => $completedDate,
-            'userID' => $employeeID,
-            'userName' => $employeeName,
-            'toll' => $toll,
-            'workingHours' => $workingHours,
-
-
-            
-        const faultSituationCodes = $('#faultSituationCodes').val();
-        const faultCauseCodes = $('#faultCauseCodes').val();
-        const faultPart = $('#faultPart').val();
-        const faultLocation = $('#faultLocation').val();
-        const responsibility = $('#responsibility').val();
-        const SN = $('#SN').val();
-        const newSN = $('#newSN').val();
-        const QADate = $('#QADate').val();
-        const completedDate = $('#completedDate').val();
-        const employeeID = $('#employeeID').val();
-        const employeeName = $('#employeeName').val();
-        const toll = $('#toll').val();
-        const workingHours = $('#workingHours').val();
+function getRmaData() {
+        var num = '{{$ramData[0]->NUM}}';
+        if (num != null && $.trim(num) !== '') {
+            var numTitle = num.slice(0, 2); 
+            var repairNum = num.slice(2);
+        $('#numTitle').val(numTitle);
+        $('#repairNum').val(repairNum);
+        }else{
+            $('#numTitle').val('FA');
+        }
+        var faultSituationText = '{{$ramData[0]->faultSituationCode.'-'.$ramData[0]->faultSituation }}';
+        var faultCauseText = '{{$ramData[0]->faultCauseCode.'-'.$ramData[0]->faultCause }}';        
+        $('#responsibility').val('{{$ramData[0]->responsibility }}');
+        $('#toll').val('{{$ramData[0]->toll }}');
+        $('#newPackaging').prop('checked',  {{$ramData[0]->newPackaging }});
+        $('#wire').prop('checked',  {{$ramData[0]->wire }});
+        $('#wipePackaging').prop('checked',  {{$ramData[0]->wipePackaging }});
+        $('#rectifier').prop('checked',  {{$ramData[0]->rectifier }});
+        $('#HDD').prop('checked',  {{$ramData[0]->HDD }});
+        $('#lens').prop('checked',  {{$ramData[0]->lens }});
+        $('#other').prop('checked',  {{$ramData[0]->other }});
+        $('#faultSituationCode').val(faultSituationText).trigger('input');
+        $('#faultCauseCode').val(faultCauseText).trigger('input');
+       var customRadio = '{{$ramData[0]->repairType }}';
+       switch (customRadio) {
+        case '維修':
+            $('#customRadio1').prop('checked', true);
+            break;
+            case '借':
+            $('#customRadio2').prop('checked', true);
+            break;
+            case '退':
+            $('#customRadio3').prop('checked', true);
+            break;
+            case '換':
+            $('#customRadio4').prop('checked', true);
+            break;
+            case 'LZ':
+            $('#customRadio5').prop('checked', true);
+            break;
+        default:
+        $('#customRadio1').prop('checked', true);
+            break;
+       }
+    };

@@ -871,8 +871,8 @@ class MesController extends BaseController
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
         // $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
-         
-        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'ramData' ,'pagetype'));
+
+        return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'ramData', 'pagetype'));
     }
     public function mesRmaEditAjax(Request $request)
     {
@@ -904,7 +904,7 @@ class MesController extends BaseController
         $data[0]->NAM_ITEM = $modal[0]->NAM_ITEM;
         $data[0]->employee_id = Auth::user()->employee_id;
         $data[0]->userName = Auth::user()->name;
-        
+
         return response()->json($data);
     }
 
@@ -952,7 +952,7 @@ class MesController extends BaseController
         $lensText = $request->input('lensText');
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
-        $data = DB::table('mes_rma_edit')->insert([
+        $data = DB::table('mes_rma_edit')->insertGetId([
             'ID' => '',
             'NUM' => $num,
             'repairType' => $selectedValue,
@@ -983,6 +983,78 @@ class MesController extends BaseController
             return response()->json($data);
         } else {
             return response()->json($data);
+        }
+    }
+
+
+    public function mesRmaEditReceiptUpdateAjax(Request $request)
+    {
+        $idNum = $request->input('idNum');
+        $numTitle = $request->input('numTitle');
+        $repairNum = $request->input('repairNum');
+        $num = $numTitle . $repairNum;
+        $selectedValue = $request->input('selectedValue');
+        $serchCon = $request->input('serchCon');
+        $svgImage = $request->input('svgImage');
+        $customerNumber = $request->input('customerNumber');
+        $customerName = $request->input('customerName');
+        $customerAttn = $request->input('customerAttn');
+        $customerTel = $request->input('customerTel');
+        $customerAdd = $request->input('customerAdd');
+        $productNum = $request->input('productNum');
+        $productName = $request->input('productName');
+        $userID = $request->input('userID');
+        $userName = $request->input('userName');
+        $noticeDate = $request->input('noticeDate');
+        $newPackaging = $request->input('newPackaging');
+        $wire = $request->input('wire');
+        $wipePackaging = $request->input('wipePackaging');
+        $rectifier = $request->input('rectifier');
+        $lens = $request->input('lens');
+        $HDD = $request->input('HDD');
+        $other = $request->input('other');
+        $lensText = $request->input('lensText');
+        $HDDText = $request->input('HDDText');
+        $otherText = $request->input('otherText');
+
+        // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
+
+        $data = [
+            'NUM' => $num,
+            'repairType' => $selectedValue,
+            'serchCon' => $serchCon,
+            'svgImage' => $svgImage,
+            'customerNumber' => $customerNumber,
+            'customerName' => $customerName,
+            'customerAttn' => $customerAttn,
+            'customerTel' => $customerTel,
+            'customerAdd' => $customerAdd,
+            'productNum' => $productNum,
+            'productName' => $productName,
+            'userID' => $userID,
+            'userName' => $userName,
+            'noticeDate' => $noticeDate,
+            'newPackaging' => $newPackaging,
+            'wire' => $wire,
+            'wipePackaging' => $wipePackaging,
+            'rectifier' => $rectifier,
+            'lens' => $lens,
+            'lensText' => $lensText,
+            'HDD' => $HDD,
+            'HDDText' => $HDDText,
+            'other' => $other,
+            'otherText' => $otherText
+        ];
+
+        // 使用 update 方法来更新数据，并获取更新是否成功的结果
+        $updateResult = DB::table('mes_rma_edit')
+            ->where('ID', $idNum)
+            ->update($data);
+
+        if ($updateResult) {
+            return response()->json($data);
+        } else {
+            return response()->json('error');
         }
     }
 
@@ -1091,5 +1163,4 @@ class MesController extends BaseController
         $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];
         return $newCodeNum;
     }
-
 }
