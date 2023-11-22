@@ -1,3 +1,4 @@
+
 <title>LILIN MES Site</title>
 <link rel="icon" type="image/png" href="{{ asset('images/icon/lilinlogo.png') }}">
 

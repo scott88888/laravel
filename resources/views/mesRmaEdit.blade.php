@@ -16,24 +16,19 @@
 </script>
 <style>
     .custom-dropdown {
-        position: relative;
-        /* 相对定位，以便下拉框相对于其父元素进行定位 */
+        position: relative;    
     }
 
     .custom-dropdown ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        position: absolute;
-        /* 绝对定位，相对于父元素进行定位 */
+        position: absolute;     
         width: 100%;
         display: none;
-        background-color: #fff;
-        /* 底色 */
-        border: 1px solid #ccc;
-        /* 边框样式 */
-        z-index: 2;
-        /* 提高z-index以覆盖下方元素 */
+        background-color: #fff;      
+        border: 1px solid #ccc;      
+        z-index: 2;     
     }
 
     .custom-dropdown ul li {
@@ -41,8 +36,7 @@
     }
 
     .custom-dropdown.active ul {
-        display: block;
-        /* 显示下拉框 */
+        display: block;     
     }
 </style>
 
@@ -239,10 +233,10 @@
                                     <button type="button" id="updateRMA" class="btn btn-info btn-block">
                                         <li class="fa fa-cloud-upload"> 收貨人員修改</li>
                                     </button>
-                                    <button type="button" id="saveUpdateRMA" class="btn btn-primary btn-block">
+                                    <button type="button" id="saveUpdateRMA" class="btn btn-warning btn-block">
                                         <li class="fa fa-cloud-upload"> 收貨人員修改儲存</li>
                                     </button>
-                                    <button type="button" id="saveUpdateRMASuccess" class="btn btn-primary btn-block">
+                                    <button type="button" id="saveUpdateRMASuccess" class="btn btn-Success btn-block">
                                         <li class="fa fa-cloud-upload"> 儲存成功</li>
                                     </button>
                                 </div>
@@ -251,8 +245,8 @@
                                         <div class="col-3">
                                             <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
                                             <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
-                                            <datalist id="faultSituationCodes">
-                                                @foreach ($codeA as $codeA)
+                                            <datalist id="faultSituationCodes">            
+                                            @foreach ($codeA as $codeA)
                                                 <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
                                                 @endforeach
                                             </datalist>
@@ -313,11 +307,11 @@
                                     <div class="form-row align-items-center">
                                         <div class="col-2" id="">
                                             <label>人員編號</label>
-                                            <input id="employeeID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
+                                            <input id="maintenanceStaffID" type="text" class="form-control" placeholder="" value="{{$ListData->maintenanceStaffID}}">
                                         </div>
                                         <div class="col-2" id="">
-                                            <label>人員</label>
-                                            <input id="employeeName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
+                                            <label>人員姓名</label>
+                                            <input id="maintenanceStaff" type="text" class="form-control" placeholder="" value="{{$ListData->maintenanceStaff}}">
                                         </div>
                                         <div class="col-1" id="">
                                             <label>收費</label>
@@ -344,10 +338,16 @@
                                         </button>
                                     </div>
                                     <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                                        <button type="button" id="maintenanceUpdate" class="btn btn-info btn-block">
+                                        <button type="button" id="maintenanceUpdate" class="btn btn-warning btn-block">
                                             <li class="fa fa-cloud-upload"></li> 儲存
                                         </button>
                                     </div>
+                                    <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
+                                        <button type="button" id="maintenanceUpdateSuccess" class="btn btn-Success btn-block">
+                                            <li class="fa fa-cloud-upload"> 儲存成功</li>
+                                        </button>
+                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -373,6 +373,7 @@
 
 <script>
     $(document).ready(function() {
+     
         $('#loading').hide();
         getRmaData()
         displayBtn()
@@ -388,6 +389,10 @@
             $('#maintenanceEdit').show();
 
         }
+        qrCode();
+    });
+
+    function qrCode(){
         var svgImage = document.getElementById('svgImage');
         var img = new Image();
         img.src = svgImage.src;
@@ -397,8 +402,7 @@
         img.onerror = function() {
             svgImage.style.display = 'none';
         };
-
-    });
+    }
 
     $('#submitSearch').click(function() {
         var serchCon = $('#serchCon').val();
@@ -427,21 +431,47 @@
         disabledMaintenance(false);             
         $('#maintenanceUpdate').show();
         $('#maintenanceEdit').hide();
+        const faultSituationCode = $('#faultSituationCode').val();
+        const faultCauseCode = $('#faultCauseCode').val();
+        const maintenanceStaff = $('#maintenanceStaff').val();
+        const maintenanceStaffID = $('#maintenanceStaffID').val();
+        const SN = $('#SN').val();
+        if (faultSituationCode == '-') {
+            $('#faultSituationCode').val('A001-無');
+        }
+        if (faultCauseCode == '-') {
+            $('#faultCauseCode').val('B001-測試正常');
+        }     
+        if (SN == null || $.trim(SN) == '') {
+            const SN = $('#serchCon').val()
+            $('#SN').val(SN);
+            
+        }
+      
+        
+        
     });
+    
+
+    
 
     $('#maintenanceUpdate').click(function() {
         const idNum = $('#idNum').val();
         const faultSituationCode = $('#faultSituationCode').val();
+        
         const faultCauseCode = $('#faultCauseCode').val();
+        console.log(faultSituationCode);
+
+        console.log(faultCauseCode);
         const faultPart = $('#faultPart').val();
         const faultLocation = $('#faultLocation').val();
         const responsibility = $('#responsibility').val();
         const SN = $('#SN').val();
         const newSN = $('#newSN').val();
         const QADate = $('#QADate').val();
-        const completedDate = $('#completedDate').val();
-        const employeeID = $('#employeeID').val();
-        const employeeName = $('#employeeName').val();
+        const completedDate = $('#completedDate').val();    
+        const maintenanceStaffID = $('#maintenanceStaffID').val();
+        const maintenanceStaff = $('#maintenanceStaff').val();
         const toll = $('#toll').val();
         const workingHours = $('#workingHours').val();
         $('#loading').show();
@@ -460,13 +490,18 @@
                     newSN:newSN,
                     QADate:QADate,
                     completedDate:completedDate,
-                    employeeID:employeeID,
-                    employeeName:employeeName,
+                    maintenanceStaffID:maintenanceStaffID,
+                    maintenanceStaff:maintenanceStaff,
                     toll:toll,
                     workingHours:workingHours
             },
             success: function(response) {
                 $('#loading').hide();
+                displayBtn();
+                $('#maintenanceUpdateSuccess').show();
+                $('#updateRMA').show();
+                disabledMaintenance(true);
+                console.log(response)     
             },
             error: function(xhr, status, error) {
                 console.log('no');
@@ -486,8 +521,8 @@
         }else{
             $('#numTitle').val('FA');
         }
-        var faultSituationText = '{{$ramData[0]->faultSituationCode.'-'.$ramData[0]->faultSituation }}';
-        var faultCauseText = '{{$ramData[0]->faultCauseCode.'-'.$ramData[0]->faultCause }}';        
+        var faultSituationText = '{{$ramData[0]->faultSituationCode. $ramData[0]->faultSituation }}';
+        var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';        
         $('#responsibility').val('{{$ramData[0]->responsibility }}');
         $('#toll').val('{{$ramData[0]->toll }}');
         $('#newPackaging').prop('checked',  {{$ramData[0]->newPackaging }});
@@ -522,28 +557,7 @@
        }
     };
 
-    function rmaGetNum() {
-        var numTitle = $('#numTitle').val();
-        $('#loading').show();
-        $.ajax({
-            url: 'mesRmaGetNumAjax',
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                numTitle: numTitle
-            },
-            success: function(response) {
-                $('#repairNum').val(response);
 
-                // 在这里执行提交表单的代码
-                submitForm();
-            },
-            error: function(xhr, status, error) {
-                console.log('no');
-                $('#loading').hide();
-            }
-        });
-    }
 
 
 
@@ -586,7 +600,7 @@
                 displayBtn();
                 $("#updateRMA").show();
                 disabled(true);
-
+                qrCode();
             },
             error: function(xhr, status, error) {
                 $('#loading').hide();
@@ -598,6 +612,7 @@
         disabled(false);
         displayBtn();
         $("#saveUpdateRMA").show();
+        disabledMaintenance(true);
     });
     $('#saveUpdateRMA').click(function() {
         const idNum = $('#idNum').val();
@@ -756,6 +771,7 @@
         $("#saveUpdateRMASuccess").hide();
         $('#maintenanceEdit').hide();
         $('#maintenanceUpdate').hide();
+        $('#maintenanceUpdateSuccess').hide();
 
     }
 
@@ -795,8 +811,8 @@
         $('#newSN').prop('disabled', type);
         $('#QADate').prop('disabled', type);
         $('#completedDate').prop('disabled', type);
-        $('#employeeID').prop('disabled', type);
-        $('#employeeName').prop('disabled', type);
+        $('#maintenanceStaffID').prop('disabled', type);
+        $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', type);
       

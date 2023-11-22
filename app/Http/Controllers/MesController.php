@@ -855,11 +855,18 @@ class MesController extends BaseController
                 'HDD' => null,
                 'HDDText' => null,
                 'other' => null,
-                'otherText' => null
+                'otherText' => null,
+                'maintenanceStaffID' => null,
+                'maintenanceStaff' => null
             ];
             $pagetype = "create";
             // 将包含所有列都为null的数组赋值给$ramData
             $ramData = [(object)$nullData];
+        }
+
+        if ($ramData[0]->maintenanceStaffID == null) {
+            $ramData[0]->maintenanceStaffID = Auth::user()->employee_id;
+            $ramData[0]->maintenanceStaff = Auth::user()->name;
         }
 
 
@@ -870,7 +877,6 @@ class MesController extends BaseController
         $sidebarLang = $this->langService->getLang($lang, $page);
         $codeA = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'A%'");
         $codeB = DB::select(" SELECT * FROM mes_faultcode WHERE faultcode LIKE  'B%'");
-        // $qrcode = QrCode::generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear');
 
         return view('mesRmaEdit', compact('langArray', 'sidebarLang', 'codeA', 'codeB', 'ramData', 'pagetype'));
     }
@@ -1057,6 +1063,54 @@ class MesController extends BaseController
             return response()->json('error');
         }
     }
+    public function mesMaintenanceUpdateAjax(Request $request)
+    {
+        $idNum = $request->input('idNum');
+        $faultSituationCode = $request->input('faultSituationCode');
+        $faultCauseCode = $request->input('faultCauseCode');
+        $faultPart = $request->input('faultPart');
+        $faultLocation = $request->input('faultLocation');
+        $responsibility = $request->input('responsibility');
+        $SN = $request->input('SN');
+        $newSN = $request->input('newSN');
+        $QADate = $request->input('QADate');
+        $completedDate = $request->input('completedDate');
+        $maintenanceStaffID = $request->input('maintenanceStaffID');
+        $maintenanceStaff = $request->input('maintenanceStaff');
+        $toll = $request->input('toll');
+        $workingHours = $request->input('workingHours');
+
+
+        // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
+
+        $data = [
+            'faultSituationCode'=>$faultSituationCode,
+            'faultCauseCode'=>$faultCauseCode,
+            'faultPart'=>$faultPart,
+            'faultLocation'=>$faultLocation,
+            'responsibility'=>$responsibility,
+            'SN'=>$SN,
+            'newSN'=>$newSN,
+            'QADate'=>$QADate,
+            'completedDate'=>$completedDate,
+            'maintenanceStaffID'=>$maintenanceStaffID,
+            'maintenanceStaff'=>$maintenanceStaff,
+            'toll'=>$toll,
+            'workingHours'=>$workingHours
+        ];
+
+        // 使用 update 方法来更新数据，并获取更新是否成功的结果
+        $updateResult = DB::table('mes_rma_edit')
+            ->where('ID', $idNum)
+            ->update($data);
+
+        if ($updateResult) {
+            return response()->json($faultSituationCode);
+        } else {
+            return response()->json('error');
+        }
+    }
+
 
     public function mesRmaeEditSave(Request $request)
     {

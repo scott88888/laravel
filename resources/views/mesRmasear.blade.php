@@ -115,6 +115,7 @@
 <script>
     var table;
     $(document).ready(function() {
+        $('title').text('產品維修單明細表');
         let Model;
         $('#loading').hide();
         $('#rang').hide();
