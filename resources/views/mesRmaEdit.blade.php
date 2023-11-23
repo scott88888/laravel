@@ -77,7 +77,7 @@
                                     </div>
 
                                     <div class="col-4" id="">
-                                        <label>產品序號/零件序號/MAC</label>
+                                        <label>產品序號/零件序號/MAC/產品型號</label>
                                         <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="{{$ListData->serchCon}}">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
@@ -268,6 +268,12 @@
                                             <label>故障位置</label>
                                             <input id="faultLocation" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
                                         </div>
+                                        <div class="col-1" style="margin-left: 3rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button type="button" id="" class="btn btn-primary btn-block">BOM</button>
+                                        </div>
+                                    </div>
                                     </div>
                                     <div class="form-row align-items-center">
                                         <div class="col-1" id="">
@@ -280,11 +286,11 @@
                                         </div>
                                         <div class="col-3" id="">
                                             <label>整新前序號</label>
-                                            <input id="SN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                            <input id="SN" type="text" class="form-control" placeholder="" value="{{$ListData->SN}}">
                                         </div>
                                         <div class="col-3" id="">
                                             <label>序號</label>
-                                            <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
+                                            <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->newSN}}">
                                         </div>
                                         <div class="col-2" id="">
                                             <label>QA</label>
@@ -315,9 +321,9 @@
                                         </div>
                                         <div class="col-1" id="">
                                             <label>收費</label>
-                                            <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                                <option value="no">否</option>
-                                                <option value="yes">是</option>
+                                            <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">                                         
+                                            <option value="yes" {{$ListData->toll == 'yes' ? 'selected' : ''}}>是</option>
+                                            <option value="no" {{$ListData->toll == 'no' ? 'selected' : ''}}>否</option>
                                             </select>
                                         </div>
                                         <div class="col-3" id="">
@@ -343,7 +349,7 @@
                                         </button>
                                     </div>
                                     <div class="0" style="margin: 2% 25%;width: 50%;text-align: center;">
-                                        <button type="button" id="maintenanceUpdateSuccess" class="btn btn-Success btn-block">
+                                        <button type="button" id="maintenanceUpdateSuccess" class="btn btn-success btn-block">
                                             <li class="fa fa-cloud-upload"> 儲存成功</li>
                                         </button>
                                     </div>
@@ -436,18 +442,30 @@
         const maintenanceStaff = $('#maintenanceStaff').val();
         const maintenanceStaffID = $('#maintenanceStaffID').val();
         const SN = $('#SN').val();
-        if (faultSituationCode == '-') {
+        const newSN = $('#newSN').val();
+        const toll = $('#toll').val();
+        const workingHours = $('#newSN').val();
+        if (faultSituationCode == '') {
             $('#faultSituationCode').val('A001-無');
         }
-        if (faultCauseCode == '-') {
+        if (faultCauseCode == '') {
             $('#faultCauseCode').val('B001-測試正常');
         }     
         if (SN == null || $.trim(SN) == '') {
             const SN = $('#serchCon').val()
-            $('#SN').val(SN);
+            $('#SN').val(SN);            
+        }
+        if (newSN == null || $.trim(newSN) == '') {
+            const newSN = $('#serchCon').val()
+            $('#newSN').val(newSN);
             
         }
-      
+        if (workingHours == null || $.trim(workingHours) == '') {         
+            $('#workingHours').val('1');            
+        }
+        if (toll == null) {         
+            $('#toll').val('yes');            
+        }
         
         
     });

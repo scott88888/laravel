@@ -15,7 +15,13 @@
     });
 </script>
 
-
+<style>
+    @media print {
+        .no-print {
+            display: none;
+        }
+    }
+</style>
 
 <body>
     <div id="preloader">
@@ -24,6 +30,7 @@
     <div id="loading">
         <img src="{{ asset('images/icon/loading.gif') }}" alt="Loading...">
     </div>
+
     <div class="page-container">
         @include('layouts/sidebar')
         <div class="main-content">
@@ -74,7 +81,9 @@
                                     <th>報修單號</th>
                                     <th>客戶</th>
                                     <th>產品型號</th>
+                                    <th>產品名稱</th>
                                     <th>工時</th>
+                                    <th>收貨人員</th>
                                     <th>維修人員</th>
                                     <th>維修類別</th>
                                     <th>故障情形</th>
@@ -82,8 +91,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><a href="mesRmaEdit?id="><span class="ti-pencil"></span>
+                                        <td class="no-print"><a href="mesRmaEdit?id="><span class="ti-pencil"></span>
                                         </td>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -115,10 +126,35 @@
 <script>
     var table;
     $(document).ready(function() {
-        $('title').text('產品維修單明細表');
+       
         let Model;
         $('#loading').hide();
         $('#rang').hide();
+        var tableConfig = {
+            language: dataTableLanguage,
+            dom: 'lBfrtip',
+            buttons: [
+                'csv',
+                'excel',
+                'copy',
+                {
+                    extend: 'print',
+                    footer: true,
+                    title: "產品維修單明細表",
+                    autoPrint: false,
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7,8,9,10]
+                    }                    
+                }
+            ],
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            responsive: true,
+            order: [0, "desc"],
+        };
+
         table = $('#ListData').DataTable({
             ...tableConfig,
             order: [
@@ -126,49 +162,59 @@
 
             ],
             columns: [{
-                "data": "NUM",
-                "title": "照片",
-                "render": function(data, type, row) {
 
-                   
-                    return '<a href=mesRmaEdit?num=' + data +' target="_blank"><span class="ti-pencil"></span>';
-                }
-            },
+                    "data": "NUM",
+                    "title": "修改",
+                    "render": function(data, type, row) {
+                        return '<a href=mesRmaEdit?num=' + data + ' target="_blank"><span class="ti-pencil"></span>';
+                    }
+
+                },
                 {
-                  
+
                     "data": "NUM",
                     "title": "報修單號"
                 },
                 {
-                   
+
                     "data": "customerName",
                     "title": "客戶"
                 },
                 {
-                 
-                    "data": "productName",
+
+                    "data": "productNum",
                     "title": "產品型號"
                 },
                 {
-             
+
+                    "data": "productName",
+                    "title": "產品名稱"
+                },
+                {
+
                     "data": "workingHours",
                     "title": "工時"
                 },
+
                 {
-                 
+
                     "data": "userName",
+                    "title": "收貨人員"
+                }, {
+
+                    "data": "maintenanceStaff",
                     "title": "維修人員"
                 }, {
-                    
+
                     "data": "repairType",
                     "title": "維修類別"
                 }, {
-               
+
                     "data": "faultSituation",
                     "title": "故障情形"
                 },
                 {
-                  
+
                     "data": "faultCause",
                     "title": "故障原因"
                 }
