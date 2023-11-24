@@ -16,19 +16,19 @@
 </script>
 <style>
     .custom-dropdown {
-        position: relative;    
+        position: relative;
     }
 
     .custom-dropdown ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        position: absolute;     
+        position: absolute;
         width: 100%;
         display: none;
-        background-color: #fff;      
-        border: 1px solid #ccc;      
-        z-index: 2;     
+        background-color: #fff;
+        border: 1px solid #ccc;
+        z-index: 2;
     }
 
     .custom-dropdown ul li {
@@ -36,7 +36,7 @@
     }
 
     .custom-dropdown.active ul {
-        display: block;     
+        display: block;
     }
 </style>
 
@@ -75,7 +75,6 @@
                                         <label for="">單號</label>
                                         <input id="repairNum" type="text" class="form-control" placeholder="" required="" disabled>
                                     </div>
-
                                     <div class="col-4" id="">
                                         <label>產品序號/零件序號/MAC/產品型號</label>
                                         <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="{{$ListData->serchCon}}">
@@ -163,7 +162,6 @@
                                     </div>
                                     <div class="col-2">
                                         <label>送修日期</label>
-
                                         @if($ListData->noticeDate)
                                         <input class="form-control" type="date" value="{{$ListData->noticeDate}}" id="noticeDate">
                                         @else
@@ -242,16 +240,16 @@
                                 </div>
                                 <div id="MaintenanceForm">
                                     <div class="form-row align-items-center" style="margin:2rem 0px 37px -6px">
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <label for="faultSituationCode" class="form-label">故障情形(代碼)</label>
                                             <input type="text" id="faultSituationCode" list="faultSituationCodes" class="form-control">
-                                            <datalist id="faultSituationCodes">            
-                                            @foreach ($codeA as $codeA)
+                                            <datalist id="faultSituationCodes">
+                                                @foreach ($codeA as $codeA)
                                                 <option value="{{ $codeA->faultcode}}-{{ $codeA->fault}}">{{ $codeA->faultcode}}-{{ $codeA->fault}}</option>
                                                 @endforeach
                                             </datalist>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <label for="faultCauseCode" class="form-label">故障原因(代碼)</label>
                                             <input type="text" id="faultCauseCode" list="faultCauseCodes" class="form-control">
                                             <datalist id="faultCauseCodes">
@@ -268,19 +266,24 @@
                                             <label>故障位置</label>
                                             <input id="faultLocation" type="text" class="form-control" placeholder="" value="{{$ListData->faultLocation}}">
                                         </div>
-                                        <div class="col-1" style="margin-left: 3rem;">
-                                        <label for="">查詢</label>
-                                        <div class="col" style="text-align: center;">
-                                            <button type="button" id="" class="btn btn-primary btn-block">BOM</button>
+                                        <div class="col-1" style="">
+                                            <label for="">查詢</label>
+                                            <div class="col" style="text-align: center;">
+                                                <a href="#" id="openModalButton"><button type="button" id="bombtn" class="btn btn-primary btn-block">BOM</button></a>
+                                            </div>
+                                           
                                         </div>
-                                    </div>
+                                        <div class="col-2">
+                                                <label >查詢</label>
+                                                <a href="{{ asset('RMAAnalysis') }}" target="_blank"><button type="button" id="" class="btn btn-primary btn-block">不良零件/不良原因</button></a>
+                                            </div>
                                     </div>
                                     <div class="form-row align-items-center">
                                         <div class="col-1" id="">
                                             <label>責任</label>
                                             <select id="responsibility" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                                <option value="本場">本場</option>
-                                                <option value="場商">場商</option>
+                                                <option value="本場">本廠</option>
+                                                <option value="場商">廠商</option>
                                                 <option value="客戶">客戶</option>
                                             </select>
                                         </div>
@@ -321,9 +324,9 @@
                                         </div>
                                         <div class="col-1" id="">
                                             <label>收費</label>
-                                            <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">                                         
-                                            <option value="yes" {{$ListData->toll == 'yes' ? 'selected' : ''}}>是</option>
-                                            <option value="no" {{$ListData->toll == 'no' ? 'selected' : ''}}>否</option>
+                                            <select id="toll" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                                <option value="yes" {{$ListData->toll == 'yes' ? 'selected' : ''}}>是</option>
+                                                <option value="no" {{$ListData->toll == 'no' ? 'selected' : ''}}>否</option>
                                             </select>
                                         </div>
                                         <div class="col-3" id="">
@@ -353,22 +356,58 @@
                                             <li class="fa fa-cloud-upload"> 儲存成功</li>
                                         </button>
                                     </div>
-                                   
+
                                 </div>
                             </div>
-
-
-
                             @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document" style="max-width: 70%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">BOM</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="data-tables datatable-dark">
+                                    <table id="BOMData" class="display text-center" style="width:100%">
+                                        <thead class="text-capitalize" style=" background: darkgrey;">
+                                            <tr>
+                                                <th>照片</th>
+                                                <th>料件</th>
+                                                <th>料號說明</th>
+                                                <th>在庫庫存</th>
+                                                <th>在途量</th>
+                                                <th>交期</th>
+                                                <th>預計庫存</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 1px;"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div id="autocomplete">
-            <input type="text" id="input" placeholder="Type something...">
-            <div id="suggestions"></div>
-        </div> -->
     </div>
     </div>
     @include('layouts/footer')
@@ -379,8 +418,74 @@
 
 <script>
     $(document).ready(function() {
-     
+
         $('#loading').hide();
+        BOMtable = $('#BOMData').DataTable({
+            ...tableConfig,
+            "info": false,
+            "lengthChange": false,
+            "paging": false,
+            "scrollCollapse": true, // 啟用捲動條收縮
+            columnDefs: [{
+                    "targets": "_all",
+                    "className": "dt-center"
+                },
+                {
+                    "data": "COD_ITEMS",
+                    "targets": 0,
+                    "title": "料件照片",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var imageUrl = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '.jpg';
+                            var imageUrls = '{{ asset("/show-image/mesitempartlist/") }}' + '/' + data + '/' + data + '-s.jpg';
+                            return '<a href="' + imageUrl + '" target="_blank"><img style="max-width:50px;" src="' + imageUrls + '"></a>';
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
+                    "data": "COD_ITEMS",
+                    "targets": 1,
+                    "title": "料號",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            var itemUrl = '{{ asset("/inventoryItemPartList?target=") }}' + data;
+
+                            return '<a href="' + itemUrl + '" target="_blank">' + data + '</a>';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "data": "NAM_ITEM",
+                    "targets": 2,
+                    "title": "料號說明"
+                },
+                {
+                    "data": "qty",
+                    "targets": 3,
+                    "title": "在庫庫存"
+                },
+                {
+                    "data": "SUN_QTY",
+                    "targets": 4,
+                    "title": "在途料件"
+                },
+                {
+                    "data": "DAT_REQ",
+                    "targets": 5,
+                    "title": "料件預計到廠日"
+                },
+                {
+                    "data": "inventory",
+                    "targets": 6,
+                    "title": "預期庫存"
+                }
+            ]
+
+
+        });
         getRmaData()
         displayBtn()
         const pagetype = '{{$pagetype}}';
@@ -389,7 +494,7 @@
             $('#MaintenanceForm').hide();
         } else if (pagetype == 'update') {
             disabled(true);
-            disabledMaintenance(true) 
+            disabledMaintenance(true)
             $("#updateRMA").show();
             $('#MaintenanceForm').show();
             $('#maintenanceEdit').show();
@@ -398,7 +503,7 @@
         qrCode();
     });
 
-    function qrCode(){
+    function qrCode() {
         var svgImage = document.getElementById('svgImage');
         var img = new Image();
         img.src = svgImage.src;
@@ -431,10 +536,10 @@
     });
 
 
-    
+
 
     $('#maintenanceEdit').click(function() {
-        disabledMaintenance(false);             
+        disabledMaintenance(false);
         $('#maintenanceUpdate').show();
         $('#maintenanceEdit').hide();
         const faultSituationCode = $('#faultSituationCode').val();
@@ -450,33 +555,33 @@
         }
         if (faultCauseCode == '') {
             $('#faultCauseCode').val('B001-測試正常');
-        }     
+        }
         if (SN == null || $.trim(SN) == '') {
             const SN = $('#serchCon').val()
-            $('#SN').val(SN);            
+            $('#SN').val(SN);
         }
         if (newSN == null || $.trim(newSN) == '') {
             const newSN = $('#serchCon').val()
             $('#newSN').val(newSN);
-            
-        }
-        if (workingHours == null || $.trim(workingHours) == '') {         
-            $('#workingHours').val('1');            
-        }
-        if (toll == null) {         
-            $('#toll').val('yes');            
-        }
-        
-        
-    });
-    
 
-    
+        }
+        if (workingHours == null || $.trim(workingHours) == '') {
+            $('#workingHours').val('1');
+        }
+        if (toll == null) {
+            $('#toll').val('yes');
+        }
+
+
+    });
+
+
+
 
     $('#maintenanceUpdate').click(function() {
         const idNum = $('#idNum').val();
         const faultSituationCode = $('#faultSituationCode').val();
-        
+
         const faultCauseCode = $('#faultCauseCode').val();
         console.log(faultSituationCode);
 
@@ -487,7 +592,7 @@
         const SN = $('#SN').val();
         const newSN = $('#newSN').val();
         const QADate = $('#QADate').val();
-        const completedDate = $('#completedDate').val();    
+        const completedDate = $('#completedDate').val();
         const maintenanceStaffID = $('#maintenanceStaffID').val();
         const maintenanceStaff = $('#maintenanceStaff').val();
         const toll = $('#toll').val();
@@ -498,20 +603,20 @@
             type: 'GET',
             dataType: 'json',
             data: {
-                    idNum:idNum,
-                    faultSituationCode:faultSituationCode,
-                    faultCauseCode:faultCauseCode,
-                    faultPart:faultPart,
-                    faultLocation:faultLocation,
-                    responsibility:responsibility,
-                    SN:SN,
-                    newSN:newSN,
-                    QADate:QADate,
-                    completedDate:completedDate,
-                    maintenanceStaffID:maintenanceStaffID,
-                    maintenanceStaff:maintenanceStaff,
-                    toll:toll,
-                    workingHours:workingHours
+                idNum: idNum,
+                faultSituationCode: faultSituationCode,
+                faultCauseCode: faultCauseCode,
+                faultPart: faultPart,
+                faultLocation: faultLocation,
+                responsibility: responsibility,
+                SN: SN,
+                newSN: newSN,
+                QADate: QADate,
+                completedDate: completedDate,
+                maintenanceStaffID: maintenanceStaffID,
+                maintenanceStaff: maintenanceStaff,
+                toll: toll,
+                workingHours: workingHours
             },
             success: function(response) {
                 $('#loading').hide();
@@ -519,7 +624,7 @@
                 $('#maintenanceUpdateSuccess').show();
                 $('#updateRMA').show();
                 disabledMaintenance(true);
-                console.log(response)     
+                console.log(response)
             },
             error: function(xhr, status, error) {
                 console.log('no');
@@ -575,9 +680,41 @@
        }
     };
 
+    $('#openModalButton').click(function() {
 
 
+        const modalValue = $('#productNum').val();
+        selectBOM(modalValue);
+        console.log(modalValue);
 
+    });
+
+    function selectBOM(modalValue) {
+        $('#loading').show();
+        $.ajax({
+            url: 'mesBOMSelectAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                modalValue: modalValue,
+            },
+            success: function(response) {
+
+                $('#loading').hide();
+                var BOMtable = $('#BOMData').DataTable();
+                BOMtable.clear().rows.add(response).draw();
+                console.log(response);
+                $('#myModalLabel').text('「推估訂單BOM」-' + modalValue);
+                $('#delModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.log('no data');
+                table.clear();
+                $('#loading').hide();
+            }
+        });
+
+    }
 
     function pullData(response) {
         var customerName = response[0]['NAM_CUSTS'];
@@ -634,7 +771,7 @@
     });
     $('#saveUpdateRMA').click(function() {
         const idNum = $('#idNum').val();
-        if (idNum == null && $.trim(idNum) == '') {         
+        if (idNum == null && $.trim(idNum) == '') {
             return;
         }
 
@@ -818,7 +955,7 @@
         $('#otherText').prop('disabled', type);
     }
 
-    
+
     function disabledMaintenance(type) {
         $('#faultSituationCode').prop('disabled', type);
         $('#faultCauseCode').prop('disabled', type);
@@ -833,7 +970,7 @@
         $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', type);
-      
+
     }
 </script>
 
