@@ -818,7 +818,7 @@ class MesController extends BaseController
 
             $encryptedDataWithIV = $request->num;
             $iv = openssl_random_pseudo_bytes(16);
-            var_dump($encryptedDataWithIV);
+            // var_dump($encryptedDataWithIV);
             list($encryptedData, $iv) = explode('::', base64_decode($encryptedDataWithIV), 2);
             $key = 'meritlilin0123456789012345678901';
             $decryptedData = openssl_decrypt($encryptedData, 'AES-256-CBC', $key, 0, $iv);         
