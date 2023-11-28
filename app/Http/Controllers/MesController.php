@@ -944,7 +944,7 @@ class MesController extends BaseController
         $encryptedData = openssl_encrypt($num, 'AES-256-CBC', $key, 0, $iv);
         $encryptedDataWithIV = base64_encode($encryptedData . '::' . $iv);    
         $newNumber = $newCodeNum[0]->newNumber;
-        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num=' . urlencode($encryptedDataWithIV));
+        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmaEdit?num=' . urlencode($encryptedDataWithIV));
         $qrCode = base64_encode($qrCodeUrl);
         $this->mesRmaGetNumAjax($request);
         $data = DB::table('mes_rma_qrcode')->insertGetId([
