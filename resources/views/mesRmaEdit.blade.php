@@ -779,7 +779,7 @@
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-        const svgImage = $("#svgImage").attr("src");
+        
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -806,7 +806,7 @@
             repairNum,
             selectedValue,
             serchCon,
-            svgImage,
+          
             customerNumber,
             customerName,
             customerAttn,
@@ -853,7 +853,7 @@
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-        const svgImage = $("#svgImage").attr("src");
+        
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -879,7 +879,7 @@
             repairNum,
             selectedValue,
             serchCon,
-            svgImage,
+          
             customerNumber,
             customerName,
             customerAttn,

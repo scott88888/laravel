@@ -812,9 +812,19 @@ class MesController extends BaseController
 
     public function mesRmaEdit(Request $request)
     {
+       
 
         if ($request->num) {
-            $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
+
+            $encryptedDataWithIV = $request->num;
+            $iv = openssl_random_pseudo_bytes(16);
+            var_dump($encryptedDataWithIV);
+            list($encryptedData, $iv) = explode('::', base64_decode($encryptedDataWithIV), 2);
+            $key = 'meritlilin0123456789012345678901';
+            $decryptedData = openssl_decrypt($encryptedData, 'AES-256-CBC', $key, 0, $iv);         
+            $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$decryptedData' limit 1");
+
+            // $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
             $pagetype = "update";
         } else {
             $nullData = [
@@ -903,7 +913,8 @@ class MesController extends BaseController
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
             WHERE SEQ_ITEM = '$search'
             limit 1");
-        }if (empty($data)) {
+        }
+        if (empty($data)) {
             $data = DB::select(" SELECT * FROM mac_query 
             LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
             LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
@@ -925,25 +936,39 @@ class MesController extends BaseController
 
         $numTitle = $request->input('numTitle');
         $newCodeNum = $this->mesRmaGetNumAjax($numTitle);
+
+
+        $num = $numTitle.$newCodeNum[0]->newNumber;
+        $key = 'meritlilin0123456789012345678901';
+        $iv = openssl_random_pseudo_bytes(16);
+        $encryptedData = openssl_encrypt($num, 'AES-256-CBC', $key, 0, $iv);
+        $encryptedDataWithIV = base64_encode($encryptedData . '::' . $iv);    
         $newNumber = $newCodeNum[0]->newNumber;
-
-        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num=' . $newNumber);
+        $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmasear?num=' . urlencode($encryptedDataWithIV));
         $qrCode = base64_encode($qrCodeUrl);
-
-
-
         $this->mesRmaGetNumAjax($request);
+        $data = DB::table('mes_rma_qrcode')->insertGetId([
+            'ID' => '',
+            'NUM' => $num,
+            'num256'=> urlencode($encryptedDataWithIV),
+            'qrcode' => $qrCode,
+        ]);
+
         return response()->json(['newNumber' => $newNumber, 'qrCode' => $qrCode]);
     }
 
     public function mesRmaEditReceiptSaveAjax(Request $request)
     {
+
         $numTitle = $request->input('numTitle');
         $repairNum = $request->input('repairNum');
         $num = $numTitle . $repairNum;
         $selectedValue = $request->input('selectedValue');
         $serchCon = $request->input('serchCon');
-        $svgImage = $request->input('svgImage');
+        // $svgImage = $request->input('svgImage');
+        $qrcode = DB::select("SELECT * FROM `mes_rma_qrcode` WHERE NUM = '$num' limit 1");
+        $svgImage = 'data:image/svg+xml;base64,'.$qrcode[0]->qrcode;
+        $num256 = $qrcode[0]->num256;
         $customerNumber = $request->input('customerNumber');
         $customerName = $request->input('customerName');
         $customerAttn = $request->input('customerAttn');
@@ -989,7 +1014,8 @@ class MesController extends BaseController
             'HDD' => $HDD,
             'HDDText' => $HDDText,
             'other' => $other,
-            'otherText' => $otherText
+            'otherText' => $otherText,
+            'num256' => $num256
         ]);
         if ($data) {
             return response()->json($data);
@@ -1007,7 +1033,7 @@ class MesController extends BaseController
         $num = $numTitle . $repairNum;
         $selectedValue = $request->input('selectedValue');
         $serchCon = $request->input('serchCon');
-        $svgImage = $request->input('svgImage');
+        
         $customerNumber = $request->input('customerNumber');
         $customerName = $request->input('customerName');
         $customerAttn = $request->input('customerAttn');
@@ -1035,7 +1061,6 @@ class MesController extends BaseController
             'NUM' => $num,
             'repairType' => $selectedValue,
             'serchCon' => $serchCon,
-            'svgImage' => $svgImage,
             'customerNumber' => $customerNumber,
             'customerName' => $customerName,
             'customerAttn' => $customerAttn,
@@ -1090,19 +1115,19 @@ class MesController extends BaseController
         // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
 
         $data = [
-            'faultSituationCode'=>$faultSituationCode,
-            'faultCauseCode'=>$faultCauseCode,
-            'faultPart'=>$faultPart,
-            'faultLocation'=>$faultLocation,
-            'responsibility'=>$responsibility,
-            'SN'=>$SN,
-            'newSN'=>$newSN,
-            'QADate'=>$QADate,
-            'completedDate'=>$completedDate,
-            'maintenanceStaffID'=>$maintenanceStaffID,
-            'maintenanceStaff'=>$maintenanceStaff,
-            'toll'=>$toll,
-            'workingHours'=>$workingHours
+            'faultSituationCode' => $faultSituationCode,
+            'faultCauseCode' => $faultCauseCode,
+            'faultPart' => $faultPart,
+            'faultLocation' => $faultLocation,
+            'responsibility' => $responsibility,
+            'SN' => $SN,
+            'newSN' => $newSN,
+            'QADate' => $QADate,
+            'completedDate' => $completedDate,
+            'maintenanceStaffID' => $maintenanceStaffID,
+            'maintenanceStaff' => $maintenanceStaff,
+            'toll' => $toll,
+            'workingHours' => $workingHours
         ];
 
         // 使用 update 方法来更新数据，并获取更新是否成功的结果

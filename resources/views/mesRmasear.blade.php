@@ -91,7 +91,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="no-print"><a href="mesRmaEdit?id="><span class="ti-pencil"></span>
+                                        <td>
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -163,7 +163,7 @@
             ],
             columns: [{
 
-                    "data": "NUM",
+                    "data": "num256",
                     "title": "修改",
                     "render": function(data, type, row) {
                         return '<a href=mesRmaEdit?num=' + data + ' target="_blank"><span class="ti-pencil"></span>';
