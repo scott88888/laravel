@@ -550,12 +550,7 @@
         const newSN = $('#newSN').val();
         const toll = $('#toll').val();
         const workingHours = $('#newSN').val();
-        if (faultSituationCode == '') {
-            $('#faultSituationCode').val('A001-無');
-        }
-        if (faultCauseCode == '') {
-            $('#faultCauseCode').val('B001-測試正常');
-        }
+       
         if (SN == null || $.trim(SN) == '') {
             const SN = $('#serchCon').val()
             $('#SN').val(SN);
