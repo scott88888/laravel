@@ -103,11 +103,11 @@
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="customRadio2" name="customRadio1" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio2">借品</label>
+                                    <label class="custom-control-label" for="customRadio2">借</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="customRadio3" name="customRadio1" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio3">借品專用</label>
+                                    <label class="custom-control-label" for="customRadio3">退</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="customRadio4" name="customRadio1" class="custom-control-input">
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="customRadio5" name="customRadio1" class="custom-control-input">
-                                    <label class="custom-control-label" for="customRadio5">退</label>
+                                    <label class="custom-control-label" for="customRadio5">LZ</label>
                                 </div>
 
 

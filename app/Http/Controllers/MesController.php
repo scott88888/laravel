@@ -716,10 +716,10 @@ class MesController extends BaseController
     }
     public function mesRmasear30daysAjax(Request $request)
     {
-        $todayDate = date('Y-m-d');
+        $todayDate = date('Ymd');
         $currentDate = new \DateTime($todayDate);
         $currentDate->modify('last month');
-        $previousMonthDate = $currentDate->format('Y-m-d');
+        $previousMonthDate = $currentDate->format('Ymd');
 
         $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
         return response()->json($mesRmaSearData);
@@ -812,8 +812,358 @@ class MesController extends BaseController
 
     public function mesRmaEdit(Request $request)
     {
-       
 
+        // $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  'FA231212001' limit 1");
+        // $NUM = $ramData[0]->NUM;
+        // $noticeDate = $ramData[0]->noticeDate;
+        // $customerNumber = $ramData[0]->customerNumber;
+        // $repairType = $ramData[0]->repairType;
+        // $customerAttn = $ramData[0]->customerAttn;
+        // $customerTel = $ramData[0]->customerTel;
+        // $productNum = $ramData[0]->productNum;
+        // $repairType = $ramData[0]->repairType;
+        // switch ($repairType) {
+        //     case '維修':
+        //         $repairType = '1';
+        //         break;
+        //     case '借品':
+        //         $repairType = '2';
+        //         break;
+        //     case '借品專用':
+        //         $repairType = '3';
+        //         break;
+        //     case '換':
+        //         $repairType = '4';
+        //         break;
+        //     case '退':
+        //         $repairType = '5';
+        //         break;
+        //     default:
+        //         $repairType = '1';
+        //         break;
+        // }
+        
+        // $userID = $ramData[0]->userID;
+        // $customerAdd = $ramData[0]->customerAdd;
+        // $date = date("ymdHis").'0000';
+        // $date2 = date("YmdHis");
+        // $sql = "INSERT INTO onca ('NUM_ONCA',
+        // 'DAT_ONCA',
+        // 'COD_CUST',
+        // 'NUM_DPT',
+        // 'NAM_ATTN',
+        // 'TEL_ATTN',
+        // 'COD_ITEM',
+        // 'NUM_SER',
+        // 'COD_MAKER',
+        // 'COD_WAR',
+        // 'ONCA_LV',
+        // 'ONCA_IR',
+        // 'CNT_ONCA',
+        // 'DSC_ONCA',
+        // 'DAT_REQ',
+        // 'DAT_SCHE',
+        // 'NUM_MTRM',
+        // 'EMP_MT',
+        // 'DAT_MTRM',
+        // 'DAT_OK',
+        // 'MNY_CTR',
+        // 'DSC_ANS',
+        // 'DAT_TCKET',
+        // 'NUM_TCKET',
+        // 'TAX_TYPE',
+        // 'NUM_PS',
+        // 'NUM_ORD',
+        // 'ADD_DPT',
+        // 'NUM_ARMM',
+        // 'DAT_ARMM',
+        // 'EMP_SCHE',
+        // 'DAT_PLAN',
+        // 'STS_ONCA',
+        // 'COD_DOLA',
+        // 'VAL_RATE',
+        // 'DPT_ORD',
+        // 'EMP_ORD',
+        // 'FAX_ATTN',
+        // 'EMAIL',
+        // 'DOC_CONM',
+        // 'NUM_CNTL',
+        // 'HUR_MEN',
+        // 'HUR_MGET',
+        // 'HUR_RPT',
+        // 'DAT_CQC',
+        // 'STS_CQC',
+        // 'DSC_CQC',
+        // 'DPT_NOW',
+        // 'EMP_CQC',
+        // 'BIL_CUST',
+        // 'HUR_RECV',
+        // 'DM_KEYIN',
+        // 'EMP_MAIL',
+        // 'DM_MAIL',
+        // 'EMP_CANCEL',
+        // 'DM_CANCEL',
+        // 'DSC_CANCEL',
+        // 'DM_XFER',
+        // 'EMP_XFER',
+        // 'HUR_ACT',
+        // 'DAT_ACT',
+        // 'EMP_ACT',
+        // 'DTM_SCHE',
+        // 'EMP_COMP',
+        // 'DTM_OK',
+        // 'COD_AR',
+        // 'DSC_AR',
+        // 'HUR_CSAR',
+        // 'COD_CSAR',
+        // 'DSC_CSAR',
+        // 'AMT_INVM',
+        // 'AMT_TAXV',
+        // 'AMT_TOTV',
+        // 'RCV_ONCA',
+        // 'QTY_ONCA',
+        // 'NUM_ONCAM',
+        // 'LIN_ONCAM',
+        // 'ROT_ORD',
+        // 'DAT_BEGS',
+        // 'TIM_BEGS',
+        // 'EMP_KEYIN',
+        // 'ONCA2QS',
+        // 'CLS_TRN',
+        // 'NUM_TRN',
+        // 'DAT_TRN',
+        // 'SER_PCS',
+        // 'SRV_ONCA',
+        // 'REMARK',
+        // 'CLS_BREAK',
+        // 'ONCA_IRC',
+        // 'PS1',
+        // 'PS2',
+        // 'PS3',
+        // 'COD_PCST',
+        // 'NAM_PCST',
+        // 'COD_CUSTS',
+        // 'NAM_ATTNS',
+        // 'ADR_CUSTS',
+        // 'NUM_DPTS',
+        // 'DPT_CTL',
+        // 'EMP_QFAX',
+        // 'DTM_QFAX',
+        // 'DAT_CQCP',
+        // 'LEV_CQC',
+        // 'TELL_CHARG',
+        // 'LEV_ANY',
+        // 'DSC_CUSTS',
+        // 'FBAK2ANS',
+        // 'NUM_DOCM',
+        // 'LIN_DOCM',
+        // 'BONCA_RST1',
+        // 'BONCA_RST2',
+        // 'BONCA_RST3',
+        // 'STS_CFBAK',
+        // 'EMP_MAIL1',
+        // 'DM_MAIL1',
+        // 'NUM_CASE',
+        // 'EMP_CLDS',
+        // 'DAT_CLDS',
+        // 'TIM_CLDS',
+        // 'COD_ANS',
+        // 'DTM_FAXQT',
+        // 'EMP_FAXQT',
+        // 'CNT_FAXQT',
+        // 'DISC_ONCA',
+        // 'HUR_MENP',
+        // 'TIM_REQ',
+        // 'DTM_STOPB',
+        // 'DTM_STOPE',
+        // 'LIN_TRN',
+        // 'LEV_DSRV',
+        // 'UID_OK',
+        // 'TIM_OK',
+        // 'NAM_INVD',
+        // 'AMT_INVD',
+        // 'DAT_HAPN',
+        // 'TIM_HAPN',
+        // 'DPT_AR',
+        // 'COD_PAYM',
+        // 'TEL_ATTNS',
+        // 'POS_AREA',
+        // 'FAX_ATTNS',
+        // 'REGYN_INVD',
+        // 'CLS_CSTC',
+        // 'NUM_CSTC1',
+        // 'NUM_DONATE',
+        // 'DTM_2LINE',
+        // 'UID_2LINE',
+        // 'EMP_UPD',
+        // 'DTM_UPD',
+        // 'DAT_SUGB',
+        // 'TIM_SUGB',
+        // 'DAT_SUGE',
+        // 'TIM_SUGE',
+        // 'DTM_SXFER',
+        // 'UID_SXFER') 
+        // VALUES (
+        // '$NUM',
+        // '$noticeDate',
+        // '$customerNumber',
+        // '0000',
+        // '$customerAttn',
+        // '$customerTel',
+        // '$productNum',
+        // NULL,
+        // NULL,
+        // NULL,
+        // '1',
+        // '$repairType',
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '$userID',
+        // NULL,
+        // NULL,
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+        // '1',
+        // 'RA231201001',
+        // NULL,
+        // '$customerAdd',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '00',
+        // 'NTD',
+        // '1',
+        // '0810',
+        // 'G02',
+        // '',
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0',
+        // '0',
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0810',
+        // NULL,
+        // NULL,
+        // '0',
+        // '$date',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0',
+        // NULL,
+        // NULL,
+        // '0',
+        // '0',
+        // '0',
+        // '004',
+        // '1',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '$userID',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '01',
+        // NULL,
+        // NULL,
+        // '1',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '$customerNumber',
+        // '$customerAttn',
+        // '$customerAdd',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0',
+        // '0',
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '0',
+        // NULL,
+        // NULL,
+        // NULL,
+        // '24',
+        // NULL,
+        // NULL,
+        // NULL,
+        // 'Y',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // '$userID',
+        // '$date2',
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL,
+        // NULL);";
+
+        // echo $sql;
+        // exit;
         if ($request->num) {
 
             $encryptedDataWithIV = $request->num;
@@ -821,7 +1171,7 @@ class MesController extends BaseController
             // var_dump($encryptedDataWithIV);
             list($encryptedData, $iv) = explode('::', base64_decode($encryptedDataWithIV), 2);
             $key = 'meritlilin0123456789012345678901';
-            $decryptedData = openssl_decrypt($encryptedData, 'AES-256-CBC', $key, 0, $iv);         
+            $decryptedData = openssl_decrypt($encryptedData, 'AES-256-CBC', $key, 0, $iv);
             $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$decryptedData' limit 1");
 
             // $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  '$request->num' limit 1");
@@ -938,11 +1288,11 @@ class MesController extends BaseController
         $newCodeNum = $this->mesRmaGetNumAjax($numTitle);
 
 
-        $num = $numTitle.$newCodeNum[0]->newNumber;
+        $num = $numTitle . $newCodeNum[0]->newNumber;
         $key = 'meritlilin0123456789012345678901';
         $iv = openssl_random_pseudo_bytes(16);
         $encryptedData = openssl_encrypt($num, 'AES-256-CBC', $key, 0, $iv);
-        $encryptedDataWithIV = base64_encode($encryptedData . '::' . $iv);    
+        $encryptedDataWithIV = base64_encode($encryptedData . '::' . $iv);
         $newNumber = $newCodeNum[0]->newNumber;
         $qrCodeUrl = QrCode::format('svg')->generate('https://lilinmes.meritlilin.com.tw:778/mesRmaEdit?num=' . urlencode($encryptedDataWithIV));
         $qrCode = base64_encode($qrCodeUrl);
@@ -950,7 +1300,7 @@ class MesController extends BaseController
         $data = DB::table('mes_rma_qrcode')->insertGetId([
             'ID' => '',
             'NUM' => $num,
-            'num256'=> urlencode($encryptedDataWithIV),
+            'num256' => urlencode($encryptedDataWithIV),
             'qrcode' => $qrCode,
         ]);
 
@@ -967,7 +1317,7 @@ class MesController extends BaseController
         $serchCon = $request->input('serchCon');
         // $svgImage = $request->input('svgImage');
         $qrcode = DB::select("SELECT * FROM `mes_rma_qrcode` WHERE NUM = '$num' limit 1");
-        $svgImage = 'data:image/svg+xml;base64,'.$qrcode[0]->qrcode;
+        $svgImage = 'data:image/svg+xml;base64,' . $qrcode[0]->qrcode;
         $num256 = $qrcode[0]->num256;
         $customerNumber = $request->input('customerNumber');
         $customerName = $request->input('customerName');
@@ -1004,7 +1354,7 @@ class MesController extends BaseController
             'productName' => $productName,
             'userID' => $userID,
             'userName' => $userName,
-            'noticeDate' => $noticeDate,
+            'noticeDate' => str_replace("-", "", $noticeDate),
             'newPackaging' => $newPackaging,
             'wire' => $wire,
             'wipePackaging' => $wipePackaging,
@@ -1033,7 +1383,7 @@ class MesController extends BaseController
         $num = $numTitle . $repairNum;
         $selectedValue = $request->input('selectedValue');
         $serchCon = $request->input('serchCon');
-        
+
         $customerNumber = $request->input('customerNumber');
         $customerName = $request->input('customerName');
         $customerAttn = $request->input('customerAttn');
@@ -1230,7 +1580,7 @@ class MesController extends BaseController
     public function mesRmaGetNumAjax($numTitle)
     {
 
-        $today = date('Ymd');
+        $today = date('ymd');
         $numData = DB::select(" SELECT * FROM mes_rma_edit
             WHERE NUM LIKE '$numTitle$today%'
             ORDER BY NUM desc
