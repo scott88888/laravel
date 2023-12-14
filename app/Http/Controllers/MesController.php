@@ -640,7 +640,13 @@ class MesController extends BaseController
         $langArray = $this->langService->getLang($lang, $page);
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
-        return view('RMAAnalysis', compact('langArray', 'sidebarLang'));
+
+        $model = '';
+        if ($request->model) {
+            $model = $request->model;
+        }
+       
+        return view('RMAAnalysis', compact('langArray', 'sidebarLang', 'model'));
     }
     public function RMAAnalysisAjax(Request $request)
     {
@@ -813,7 +819,7 @@ class MesController extends BaseController
     public function mesRmaEdit(Request $request)
     {
 
-        // $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  'FA231212001' limit 1");
+        // $ramData = DB::select(" SELECT * FROM mes_rma_edit WHERE NUM =  'FA231213001' limit 1");
         // $NUM = $ramData[0]->NUM;
         // $noticeDate = $ramData[0]->noticeDate;
         // $customerNumber = $ramData[0]->customerNumber;
@@ -842,10 +848,10 @@ class MesController extends BaseController
         //         $repairType = '1';
         //         break;
         // }
-        
+
         // $userID = $ramData[0]->userID;
         // $customerAdd = $ramData[0]->customerAdd;
-        // $date = date("ymdHis").'0000';
+        // $date = date("YmdHis").'0000';
         // $date2 = date("YmdHis");
         // $sql = "INSERT INTO onca ('NUM_ONCA',
         // 'DAT_ONCA',
@@ -1164,6 +1170,7 @@ class MesController extends BaseController
 
         // echo $sql;
         // exit;
+
         if ($request->num) {
 
             $encryptedDataWithIV = $request->num;

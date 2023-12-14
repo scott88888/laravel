@@ -275,7 +275,7 @@
                                         </div>
                                         <div class="col-2">
                                                 <label >查詢</label>
-                                                <a href="{{ asset('RMAAnalysis') }}" target="_blank"><button type="button" id="" class="btn btn-primary btn-block">不良零件/不良原因</button></a>
+                                                <a href="{{ asset('RMAAnalysis?model=')}}{{$ListData->productNum}}" target="_blank"><button type="button" id="" class="btn btn-primary btn-block">不良零件/不良原因</button></a>
                                             </div>
                                     </div>
                                     <div class="form-row align-items-center">
