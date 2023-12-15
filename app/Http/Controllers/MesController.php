@@ -645,7 +645,7 @@ class MesController extends BaseController
         if ($request->model) {
             $model = $request->model;
         }
-       
+
         return view('RMAAnalysis', compact('langArray', 'sidebarLang', 'model'));
     }
     public function RMAAnalysisAjax(Request $request)
@@ -1604,5 +1604,28 @@ class MesController extends BaseController
 
         $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];
         return $newCodeNum;
+    }
+
+    public function mesMSDS()
+    {
+        $lang = app()->getLocale();
+        $page = 'mesMSDS';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
+
+        return view('mesMSDS', compact('langArray', 'sidebarLang'));
+    }
+    public function mesMSDSAjax(Request $request)
+    {
+
+        $COD_FACT = $request->input('COD_FACT');
+        $data = DB::select("SELECT * FROM mes_fitm
+        LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
+        WHERE mes_fitm.COD_FACT LIKE '$COD_FACT%'
+        ORDER BY mes_fitm.COD_FACT desc; ");
+        if ($data) {
+            return response()->json($data);
+        }
     }
 }

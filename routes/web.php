@@ -152,11 +152,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':inventoryList');
     //設定
     Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm']);
-
-
     Route::match(['get', 'post'], '/userPasswordUpdate', [PasswordController::class, 'update']);
-
-
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog'])
         ->middleware(CheckPermission::class . ':userLoginLog');
     Route::match(['get', 'post'], '/userCheckPermission', [SetupController::class, 'userCheckPermission'])
@@ -167,7 +163,6 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':userEdit');
     Route::match(['get', 'post'], '/userEditPer', [SetupController::class, 'userEditPer']);
     Route::match(['get', 'post'], '/userDeleteAjax', [SetupController::class, 'userDeleteAjax']);
-
     // 銷貨管理
     Route::match(['get', 'post'], '/shippingManagement', [salesManagementController::class, 'shippingManagement'])
         ->middleware(CheckPermission::class . ':shippingManagement');
@@ -175,6 +170,11 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
         ->middleware(CheckPermission::class . ':mesBOM');
     Route::match(['get', 'post'], '/mesBOMItemAjax', [MesController::class, 'mesBOMItemAjax']);
     Route::match(['get', 'post'], '/mesBOMSelectAjax', [MesController::class, 'mesBOMSelectAjax']);
-
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
+
+    // 供應商
+    Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS']);
+    Route::match(['get', 'post'], '/mesMSDSAjax', [MesController::class, 'mesMSDSAjax']);
+
+    
 });
