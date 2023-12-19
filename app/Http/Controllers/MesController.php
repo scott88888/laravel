@@ -1614,7 +1614,9 @@ class MesController extends BaseController
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
 
-        return view('mesMSDS', compact('langArray', 'sidebarLang'));
+        $casCode = DB::select(" SELECT * FROM mes_msds_cas");
+
+        return view('mesMSDS', compact('langArray', 'sidebarLang','casCode'));
     }
     public function mesMSDSAjax(Request $request)
     {
@@ -1628,4 +1630,15 @@ class MesController extends BaseController
             return response()->json($data);
         }
     }
+    public function MesCasCodeSearchAjax(Request $request)
+    {
+
+        $casCode = $request->input('casCode');
+        $data = DB::select(" SELECT * FROM mes_msds_cas WHERE CASNo = '$casCode' ");
+   
+        if ($data) {
+            return response()->json($data);
+        }
+    }
+    
 }

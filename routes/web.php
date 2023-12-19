@@ -175,6 +175,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     // 供應商
     Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS']);
     Route::match(['get', 'post'], '/mesMSDSAjax', [MesController::class, 'mesMSDSAjax']);
-
+    Route::match(['get', 'post'], '/MesCasCodeSearchAjax', [MesController::class, 'MesCasCodeSearchAjax']);
+    
     
 });
