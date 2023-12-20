@@ -94,54 +94,52 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-row align-items-center" style="margin: 2rem;">
-                                <div class="col-3" id="">
+                                <div class="col-4" id="">
                                     <label>料件名稱</label>
-                                    <input id="customerNumber" type="text" class="form-control" placeholder="" value="">
+                                    <input id="partName" type="text" class="form-control" placeholder="" value="">
                                 </div>
-                                <div class="col-3" id="">
+                                <div class="col-4" id="">
                                     <label>料件編號</label>
-                                    <input id="customerName" type="text" class="form-control" placeholder="" value="">
-                                </div>
-                               
-                                <div class="col-4">
-                                    <label for="casCode" class="form-label">CAS No(代碼)</label>
-                                    <input type="text" id="casCode" list="casCodes" class="form-control">
-                                    <datalist id="casCodes">
-                                        @foreach ($casCode as $casCode)
-                                        <option value="{{ $casCode->CASNo}}">{{ $casCode->CASNo}}</option>                          
-                                        @endforeach
-                                    </datalist>
-                                </div>
-                                <div class="col-2">
-                                <label class="form-label">CAS_No(中英)</label>
-                                   <button class="btn btn-primary" id="casCodeSearch">查詢</button>
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center" style="margin: 2rem;">
-                                <div class="col-6">
-                                    <label>CAS_No(英)</label>
-                                    <input id="CAS_NoE" type="text" class="form-control" placeholder="" value="" readonly>
-                                </div>
-                                <div class="col-6">
-                                    <label>CAS_No(中)</label>
-                                    <input id="CAS_NoC" type="text" class="form-control" placeholder="" value="" readonly>
-                                </div>                               
-                            </div>
-                            <div class="form-row align-items-center" style="margin: 2rem;">
-                                <div class="col-4" id="">
-                                    <label>化學物質</label>
-                                    <input id="customerTel" type="text" class="form-control" placeholder="" value="">
-                                </div>
-                                <div class="col-4" id="">
-                                    <label>物質含量(%)</label>
-                                    <input id="customerAdd" type="text" class="form-control" placeholder="" value="">
+                                    <input id="partNumber" type="text" class="form-control" placeholder="" value="" readonly>
                                 </div>
                                 <div class="col-4" id="">
                                     <label>重量</label>
                                     <input id="customerNumber" type="text" class="form-control" placeholder="" value="">
                                 </div>
                             </div>
-                            <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
+                            <div class="form-row align-items-center" style="margin: 2rem;">
+
+                                <div class="col-4">
+                                    <label for="casCode" class="form-label">CAS No(代碼)</label>
+                                    <input type="text" id="casCode" list="casCodes" class="form-control">
+                                    <datalist id="casCodes">
+                                        @foreach ($casCode as $casCode)
+                                        <option value="{{ $casCode->CASNo}}">{{ $casCode->CASNo}}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                                <div class="col-2" style="margin-left: 3rem;">
+                                    <label for="">查詢</label>
+                                    <div class="col" style="text-align: center;">
+                                        <button type="button" id="casCodeSearch" class="btn btn-primary btn-block">送出</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center" style="margin: 2rem;">
+                                <div class="col-5">
+                                    <label>化學物質(英)</label>
+                                    <input id="CAS_NoE" type="text" class="form-control" placeholder="" value="" readonly>
+                                </div>
+                                <div class="col-5">
+                                    <label>化學物質(中)</label>
+                                    <input id="CAS_NoC" type="text" class="form-control" placeholder="" value="" readonly>
+                                </div>
+                                <div class="col-2" id="">
+                                    <label>物質含量(%)</label>
+                                    <input id="customerAdd" type="text" class="form-control" placeholder="" value="">
+                                </div>
+                            </div>                        
+                            <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 0.5rem;">
                                 <button type="button" id="createRMA" class="btn btn-primary btn-block">
                                     <li class="fa fa-cloud-upload">新增</li>
                                 </button>
@@ -247,7 +245,7 @@
                     "title": "料號",
                     "render": function(data, type, row) {
                         if (data.length > 0) {
-                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '">' + data + '</a>';
+                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '" data-modal-name="' + row.NAM_ITEMF + '">' + data + '</a>';
                             return button[0].outerHTML;
                         } else {
                             return '';
@@ -308,8 +306,8 @@
         });
         $('#ListData').on('click', '#openModalButton', function() {
             var modalValue = $(this).data('modal-value');
-            selectBOM(modalValue);
-            console.log(modalValue);
+            var modalName = $(this).data('modal-name');
+            selectBOM(modalValue, modalName);
 
         });
 
@@ -339,7 +337,7 @@
 
         });
 
-        function selectBOM(modalValue) {
+        function selectBOM(modalValue, modalName) {
             $('#loading').show();
             $.ajax({
                 url: 'mesBOMSelectAjax',
@@ -354,7 +352,11 @@
                     var MSDStable = $('#MSDSData').DataTable();
                     MSDStable.clear().rows.add(response).draw();
 
-                    $('#myModalLabel').text('料件明細表-' + modalValue);
+                    $('#myModalLabel').text('料件明細表');
+                    $('#partNumber').val(modalValue);
+                    $('#partName').val(modalName);
+
+
                     $('#delModal').modal('show');
                 },
                 error: function(xhr, status, error) {
@@ -377,7 +379,7 @@
                     casCode: casCode
                 },
                 success: function(response) {
-                   
+
                     console.log(response);
                     $('#CAS_NoE').val(response[0]['SubstanceName']);
                     $('#CAS_NoC').val(response[0]['SubstanceName2']);
@@ -392,7 +394,7 @@
             });
 
         });
-        
+
     });
 </script>
 
