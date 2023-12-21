@@ -1616,7 +1616,7 @@ class MesController extends BaseController
 
         $casCode = DB::select(" SELECT * FROM mes_msds_cas");
 
-        return view('mesMSDS', compact('langArray', 'sidebarLang','casCode'));
+        return view('mesMSDS', compact('langArray', 'sidebarLang', 'casCode'));
     }
     public function mesMSDSAjax(Request $request)
     {
@@ -1635,10 +1635,36 @@ class MesController extends BaseController
 
         $casCode = $request->input('casCode');
         $data = DB::select(" SELECT * FROM mes_msds_cas WHERE CASNo = '$casCode' ");
-   
+
         if ($data) {
             return response()->json($data);
         }
     }
-    
+
+    public function MesCasInsertAjax(Request $request)
+    {
+
+        $partName = $request->input('partName');
+        $partNumber = $request->input('partNumber');
+        $casCode = $request->input('casCode');
+        $CAS_NoE = $request->input('CAS_NoE');
+        $CAS_NoC = $request->input('CAS_NoC');
+        $content = $request->input('content');
+        $weight = $request->input('weight');
+
+        $insertGetId = DB::table('mes_msds_list')->insertGetId([
+            'id' => '',
+            'partName' => $partName,
+            'partNumber' => $partNumber,
+            'casCode' => $casCode,
+            'CAS_NoE' => $CAS_NoE,
+            'CAS_NoC' => $CAS_NoC,
+            'content' => $content,
+            'weight' => $weight,
+        ]);
+
+
+
+        return response()->json($insertGetId);
+    }
 }

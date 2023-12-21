@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="col-4" id="">
                                     <label>重量</label>
-                                    <input id="customerNumber" type="text" class="form-control" placeholder="" value="">
+                                    <input id="weight" type="text" class="form-control" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-row align-items-center" style="margin: 2rem;">
@@ -136,11 +136,11 @@
                                 </div>
                                 <div class="col-2" id="">
                                     <label>物質含量(%)</label>
-                                    <input id="customerAdd" type="text" class="form-control" placeholder="" value="">
+                                    <input id="content" type="text" class="form-control" placeholder="" value="">
                                 </div>
-                            </div>                        
+                            </div>
                             <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 0.5rem;">
-                                <button type="button" id="createRMA" class="btn btn-primary btn-block">
+                                <button type="button" id="insertCOS" class="btn btn-primary btn-block">
                                     <li class="fa fa-cloud-upload">新增</li>
                                 </button>
                             </div>
@@ -150,12 +150,13 @@
                             <table id="MSDSData" class="display text-center" style="width:100%">
                                 <thead class="text-capitalize" style=" background: darkgrey;">
                                     <tr>
-                                        <th>照片</th>
-                                        <th>料件</th>
-                                        <th>料號說明</th>
-                                        <th>在庫庫存</th>
-                                        <th>在途量</th>
-                                        <th>交期</th>
+                                        <th>料件名稱</th>
+                                        <th>料件編號</th>
+                                        <th>No</th>
+                                        <th>化學物質(英)</th>
+                                        <th> 化學物質(中)</th>
+                                        <th>物質含量</th>
+                                        <th>重量</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,14 +167,16 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
 
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,34 +273,39 @@
                     "className": "dt-center"
                 },
                 {
-                    "data": "COD_ITEMS",
+                    "data": "partName",
                     "targets": 0,
                     "title": "料件名稱",
 
                 }, {
-                    "data": "COD_ITEMS",
+                    "data": "partNumber",
                     "targets": 1,
                     "title": "料件編號",
 
                 },
                 {
-                    "data": "NAM_ITEM",
+                    "data": "casCode",
                     "targets": 2,
                     "title": "CAS No"
                 },
                 {
-                    "data": "qty",
+                    "data": "CAS_NoE",
                     "targets": 3,
-                    "title": "化學物質"
+                    "title": "化學物質(英)"
                 },
                 {
-                    "data": "SUN_QTY",
+                    "data": "CAS_NoC",
                     "targets": 4,
+                    "title": "化學物質(中)"
+                },
+                {
+                    "data": "CAS_NoC",
+                    "targets": 5,
                     "title": "物質含量(%)"
                 },
                 {
-                    "data": "DAT_REQ",
-                    "targets": 5,
+                    "data": "content",
+                    "targets": 6,
                     "title": "重量"
                 }
             ]
@@ -394,6 +402,60 @@
             });
 
         });
+        $('#insertCOS').click(function() {
+            var addDataArray = [];
+            addDataArray['partName'] = $('#partName').val();
+            addDataArray['partNumber'] = $('#partNumber').val();
+            addDataArray['casCode'] = $('#casCode').val();
+            addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
+            addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
+            addDataArray['content'] = $('#content').val();
+            addDataArray['weight'] = $('#weight').val();
+
+
+            addData(addDataArray);
+            MesCasInsertAjax(addDataArray);
+        });
+
+        function addData(addDataArray) {
+            var data = {
+                partName: addDataArray['partName'],
+                partNumber: addDataArray['partNumber'],
+                casCode: addDataArray['casCode'],
+                CAS_NoE: addDataArray['CAS_NoE'],
+                CAS_NoC: addDataArray['CAS_NoC'],
+                content: addDataArray['content'],
+                weight: addDataArray['weight']
+            };
+            MSDStable.row.add(data).draw();
+        }
+
+        function MesCasInsertAjax(addDataArray) {
+
+            $.ajax({
+                url: 'MesCasInsertAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    partName: addDataArray['partName'],
+                    partNumber: addDataArray['partNumber'],
+                    casCode: addDataArray['casCode'],
+                    CAS_NoE: addDataArray['CAS_NoE'],
+                    CAS_NoC: addDataArray['CAS_NoC'],
+                    content: addDataArray['content'],
+                    weight: addDataArray['weight']
+                },
+                success: function(response) {
+
+                    console.log(response);
+                    $('#loading').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.log(response);
+                    $('#loading').hide();
+                }
+            });
+        }
 
     });
 </script>
