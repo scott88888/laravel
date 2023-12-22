@@ -1630,7 +1630,7 @@ class MesController extends BaseController
             return response()->json($data);
         }
     }
-    public function MesCasCodeSearchAjax(Request $request)
+    public function mesCasCodeSearchAjax(Request $request)
     {
 
         $casCode = $request->input('casCode');
@@ -1641,7 +1641,7 @@ class MesController extends BaseController
         }
     }
 
-    public function MesCasInsertAjax(Request $request)
+    public function mesCasInsertAjax(Request $request)
     {
 
         $partName = $request->input('partName');
@@ -1662,9 +1662,41 @@ class MesController extends BaseController
             'content' => $content,
             'weight' => $weight,
         ]);
-
-
-
         return response()->json($insertGetId);
     }
+
+    public function mesSelectMSDSAjax(Request $request)
+    {
+
+        $modalValue = $request->input('modalValue');
+      
+
+        $data = DB::select(" SELECT * FROM mes_msds_list WHERE partNumber = '$modalValue' ");
+        return response()->json($data);
+    }
+    public function mesDelMSDSAjax(Request $request)
+    {
+        $result = $request->input('result');
+
+        // for ($i=0; $i < ; $i++) { 
+        //     DB::table('fw_index')->where('fw_id', $result[$i])->delete();
+        // }
+        $sql = DB::delete('DELETE FROM mes_msds_list WHERE id IN (' . implode(',', $result) . ')');
+
+        $partNumber = $request->input('partNumber');
+      
+
+        
+      
+        if ( $sql>0) {
+            $data = DB::select(" SELECT * FROM mes_msds_list WHERE partNumber = '$partNumber' ");
+            return response()->json($data);
+        } else {
+            return response()->json('刪除失敗');
+        }
+        
+      
+    }
+
+   
 }

@@ -157,6 +157,7 @@
                                         <th> 化學物質(中)</th>
                                         <th>物質含量</th>
                                         <th>重量</th>
+                                        <th>選取</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -168,13 +169,14 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="delMSDS">刪除</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
                         </div>
                     </div>
@@ -273,41 +275,58 @@
                     "className": "dt-center"
                 },
                 {
-                    "data": "partName",
                     "targets": 0,
+                    "data": "check",
+                    "title": "選取",
+                    "type": "checkbox",
+                    "render": function(data, type, row, meta) {
+                        // 如果欄位值為 true，則顯示勾選圖示
+                        if (data === true) {
+                            return '<input type="checkbox" data-id="' + row.id + '">';
+                        } else {
+                            // 如果欄位值為 false，則顯示未勾選圖示
+                            return '<input type="checkbox" data-id="' + row.id + '">';
+                        }
+                    }
+                },
+                {
+                    "data": "partName",
+                    "targets": 1,
                     "title": "料件名稱",
 
                 }, {
                     "data": "partNumber",
-                    "targets": 1,
+                    "targets": 2,
                     "title": "料件編號",
 
                 },
                 {
                     "data": "casCode",
-                    "targets": 2,
+                    "targets": 3,
                     "title": "CAS No"
                 },
                 {
                     "data": "CAS_NoE",
-                    "targets": 3,
+                    "targets": 4,
                     "title": "化學物質(英)"
                 },
                 {
                     "data": "CAS_NoC",
-                    "targets": 4,
-                    "title": "化學物質(中)"
-                },
-                {
-                    "data": "CAS_NoC",
                     "targets": 5,
-                    "title": "物質含量(%)"
+                    "title": "化學物質(中)"
                 },
                 {
                     "data": "content",
                     "targets": 6,
+                    "title": "物質含量(%)"
+                },
+                {
+                    "data": "weight",
+                    "targets": 7,
                     "title": "重量"
-                }
+                },
+
+
             ]
 
 
@@ -315,7 +334,7 @@
         $('#ListData').on('click', '#openModalButton', function() {
             var modalValue = $(this).data('modal-value');
             var modalName = $(this).data('modal-name');
-            selectBOM(modalValue, modalName);
+            selectMSDS(modalValue, modalName);
 
         });
 
@@ -344,11 +363,14 @@
             });
 
         });
+        $('#delMSDS').click(function() {
+            delMSDSAjax();
 
-        function selectBOM(modalValue, modalName) {
+        });
+        function selectMSDS(modalValue, modalName) {
             $('#loading').show();
             $.ajax({
-                url: 'mesBOMSelectAjax',
+                url: 'mesSelectMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -363,7 +385,7 @@
                     $('#myModalLabel').text('料件明細表');
                     $('#partNumber').val(modalValue);
                     $('#partName').val(modalName);
-
+                    console.log(response);
 
                     $('#delModal').modal('show');
                 },
@@ -380,7 +402,7 @@
             var casCode = $('#casCode').val();
             $('#loading').show();
             $.ajax({
-                url: 'MesCasCodeSearchAjax',
+                url: 'mesCasCodeSearchAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -425,15 +447,17 @@
                 CAS_NoE: addDataArray['CAS_NoE'],
                 CAS_NoC: addDataArray['CAS_NoC'],
                 content: addDataArray['content'],
-                weight: addDataArray['weight']
+                weight: addDataArray['weight'],
+                check: false
             };
+
             MSDStable.row.add(data).draw();
         }
 
         function MesCasInsertAjax(addDataArray) {
 
             $.ajax({
-                url: 'MesCasInsertAjax',
+                url: 'mesCasInsertAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -457,6 +481,42 @@
             });
         }
 
+        function delMSDSAjax() {
+            // 選擇所有 checkbox 元素
+            var checkboxes = $(document).find('input[type="checkbox"]');
+            var result = [];
+            // 遍歷所有 checkbox 元素
+            checkboxes.each(function() {
+                // 如果 checkbox 元素的 checked 屬性為 true
+                if ($(this).prop('checked')) {
+                    // 獲取該元素的 data-modal-value 屬性值
+                    var delID = $(this).attr('data-id');
+
+                    // 將 data-modal-value 值加入到結果集合中
+                    result.push(delID);
+                }
+            });
+            var partNumber = $('#partNumber').val();
+            $.ajax({
+                url: 'mesDelMSDSAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    result: result,
+                    partNumber:partNumber
+                },
+                success: function(response) {
+
+                    var MSDStable = $('#MSDSData').DataTable();
+                    MSDStable.clear().rows.add(response).draw();
+                    $('#loading').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.log(response);
+                    $('#loading').hide();
+                }
+            });
+        }
     });
 </script>
 
