@@ -211,6 +211,21 @@
                                             <label class="custom-control-label" for="checkbox21">ECR/ECN新增</label>
                                         </div>
                                     </div>
+
+                                    <div class="form-row">
+                                        <div class="custom-checkbox custom-control-inline">
+                                            <b class="text-muted mb-3 mt-4 d-block">
+                                                經銷商管理 <input type="checkbox" id="selectAll7"> 全選
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" id="supplierMmanagement">
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox34">
+                                            <label class="custom-control-label" for="checkbox34">MSDS</label>
+                                        </div>
+                                    
+                                    </div>
                                     <div class="form-row">
                                         <div class="custom-checkbox custom-control-inline">
                                             <b class="text-muted mb-3 mt-4 d-block">
@@ -287,6 +302,7 @@
     const selectAllCheckbox4 = document.getElementById('selectAll4');
     const selectAllCheckbox5 = document.getElementById('selectAll5');
     const selectAllCheckbox6 = document.getElementById('selectAll6');
+    const selectAllCheckbox7 = document.getElementById('selectAll7');
 
     const checkboxesToToggle6 = document.querySelectorAll('#salesManagementcheck input[type="checkbox"]');
     const checkboxesToToggle = document.querySelectorAll('#queryAndDownload input[type="checkbox"]');
@@ -294,6 +310,7 @@
     const checkboxesToToggle3 = document.querySelectorAll('#fileManagement input[type="checkbox"]');
     const checkboxesToToggle4 = document.querySelectorAll('#stock input[type="checkbox"]');
     const checkboxesToToggle5 = document.querySelectorAll('#setup input[type="checkbox"]');
+    const checkboxesToToggle7 = document.querySelectorAll('#supplierMmanagement input[type="checkbox"]');
 
 
     function handleSelectAllCheckboxChange(checkbox, checkboxesToToggle) {
@@ -310,6 +327,7 @@
     handleSelectAllCheckboxChange(selectAllCheckbox4, checkboxesToToggle4);
     handleSelectAllCheckboxChange(selectAllCheckbox5, checkboxesToToggle5);
     handleSelectAllCheckboxChange(selectAllCheckbox6, checkboxesToToggle6);
+    handleSelectAllCheckboxChange(selectAllCheckbox7, checkboxesToToggle7);
 
     $(document).ready(function() {
         $('#loading').hide();

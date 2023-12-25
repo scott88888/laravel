@@ -7,25 +7,28 @@ const prefix = page.substring(0, 3);
 
 if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
   setActive('#documentSearch');
-  removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
+  removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', '#salesManagement','#supplierMmanagement']);
 } else if (page == "RMAList" || page == "RMAAnalysis" || page == "mesRmaEdit" || page == "mesRmasear") {
   setActive('#RMA');
-  removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
+  removeActive(['#documentSearch', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', '#salesManagement','#supplierMmanagement']);
 } else if (page == "dashboardLeader") {
   setActive('#dashBoard');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#fileCenter', '#inventoryList', 'salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#fileCenter', '#inventoryList', '#salesManagement','#supplierMmanagement']);
 } else if (page == "fileFirmwareUpload" || page == "fileECNEdit") {
   setActive('#fileCenter');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#inventoryList', 'salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#inventoryList', '#salesManagement','#supplierMmanagement']);
 } else if (page == "inventoryList" || page == "inventoryItemList" || page == "inventoryItemPartList" || page == "inventoryListUpload") {
   setActive('#inventoryList');
-  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter', 'salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#setup', '#dashBoard', '#fileCenter', '#salesManagement','#supplierMmanagement']);
 } else if (page == "showUpdateForm" || page == "userLoginLog" || page == "userCheckPermission" || page == "userEdit") {
   setActive('#setup');
-  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', 'salesManagement']);
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#salesManagement','#supplierMmanagement']);
 } else if (page == "mesShipmentList" || page == "mesMonProductionList" || page == "mesMfrList" || page == "shippingManagement" || page == "mesBOM") {
   setActive('#salesManagement');
-  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#setup']);
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#setup','#supplierMmanagement']);
+} else if (page == "mesMSDS") {
+  setActive('#supplierMmanagement');
+  removeActive(['#documentSearch', '#RMA', '#inventoryList', '#dashBoard', '#fileCenter', '#setup','#salesManagement']);
 }
 
 
@@ -155,7 +158,9 @@ switch (page) {
   case 'mesRmasear':
     $('#mesRmasearBtn').last().addClass("active");
     break;
-
+    case 'mesMSDS':
+      $('#mesMSDSBtn').last().addClass("active");
+      break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
 
@@ -184,6 +189,8 @@ $(document).ready(function () {
       checkAndHideCategory('fileCenter');
       checkAndHideCategory('inventoryList');
       checkAndHideCategory('setup');
+      checkAndHideCategory('mesMSDS');
+      
       if (pageName == 'inventoryList') {
         hideInventoryList();
 

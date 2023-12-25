@@ -173,7 +173,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 
     // 供應商
-    Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS']);
+    Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS'])
+    ->middleware(CheckPermission::class . ':mesMSDS');
     Route::match(['get', 'post'], '/mesMSDSAjax', [MesController::class, 'mesMSDSAjax']);
     Route::match(['get', 'post'], '/mesCasCodeSearchAjax', [MesController::class, 'mesCasCodeSearchAjax']);
     Route::match(['get', 'post'], '/mesCasInsertAjax', [MesController::class, 'mesCasInsertAjax']);

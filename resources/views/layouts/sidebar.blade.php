@@ -62,6 +62,13 @@
                             <li id="fileECNEditBtn"><a href="fileECNEdit">{{ $sidebarLang->ECRECN新增 }}</a></li>
                         </ul>
                     </li>
+                    <li id="supplierMmanagement">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-codepen"></i>
+                            <span>{{ $sidebarLang->供應商管理 }}</span></a>
+                        <ul class="collapse">
+                            <li id="mesMSDSBtn"><a href="mesMSDS">{{ $sidebarLang->MSDS }}</a></li>                   
+                        </ul>
+                    </li>
                     <li id="inventoryList">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-excel-o"></i>
                             <span>{{ $sidebarLang->庫存管理 }}</span></a>

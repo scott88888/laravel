@@ -364,6 +364,7 @@
 
         });
         $('#delMSDS').click(function() {
+           
             delMSDSAjax();
 
         });
@@ -510,6 +511,7 @@
                     var MSDStable = $('#MSDSData').DataTable();
                     MSDStable.clear().rows.add(response).draw();
                     $('#loading').hide();
+                    alert('刪除成功');
                 },
                 error: function(xhr, status, error) {
                     console.log(response);
