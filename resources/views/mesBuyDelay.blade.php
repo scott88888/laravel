@@ -65,6 +65,7 @@
                                                 <th>COD_ITEM</th>
                                                 <th>NUM_BUY</th>
                                                 <th>NAM_FACT</th>
+                                                <th>COD_FACT</th>
                                                 <th>DAT_REQ</th>
                                                 <th>DAT_POR</th>
                                                 <th>COD_ITEM</th>
@@ -78,6 +79,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -137,6 +139,9 @@
                     }
                     return data;
                 }
+            }, {
+                "data": "COD_FACT",
+                "title": "廠商編號"
             }, {
                 "title": "日期",
                 "render": function(data, type, row) {

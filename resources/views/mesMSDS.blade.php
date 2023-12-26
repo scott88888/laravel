@@ -103,8 +103,8 @@
                                     <input id="partNumber" type="text" class="form-control" placeholder="" value="" readonly>
                                 </div>
                                 <div class="col-4" id="">
-                                    <label>重量</label>
-                                    <input id="weight" type="text" class="form-control" placeholder="" value="">
+                                    <label>重量(mg)</label>
+                                    <input id="weight" type="number" class="form-control" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-row align-items-center" style="margin: 2rem;">
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="col-2" id="">
                                     <label>物質含量(%)</label>
-                                    <input id="content" type="text" class="form-control" placeholder="" value="">
+                                    <input id="content" type="number" class="form-control" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 0.5rem;">
@@ -323,7 +323,7 @@
                 {
                     "data": "weight",
                     "targets": 7,
-                    "title": "重量"
+                    "title": "重量(mg)"
                 },
 
 

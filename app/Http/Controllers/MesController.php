@@ -711,11 +711,14 @@ class MesController extends BaseController
         $numTitle = $request->input('numTitle');
         $repairNum = $request->input('repairNum');
         $noticeDate = $request->input('noticeDate');
+        $formatted_date = str_replace("-", "", $noticeDate);
+
+
 
         if ($repairNum) {
             $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
         } else {
-            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$noticeDate' ");
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$formatted_date' ");
         }
 
         return response()->json($mesRmaSearData);
