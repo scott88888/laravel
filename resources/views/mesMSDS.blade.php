@@ -87,13 +87,14 @@
                 <div class="modal-dialog" role="document" style="max-width: 70%;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myModalLabel">BOM</h5>
+                            <h5 class="modal-title" id="myModalLabel">料件明細表</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-row align-items-center" style="margin: 2rem;">
+
                                 <div class="col-4" id="">
                                     <label>料件名稱</label>
                                     <input id="partName" type="text" class="form-control" placeholder="" value="">
@@ -103,10 +104,27 @@
                                     <input id="partNumber" type="text" class="form-control" placeholder="" value="" readonly>
                                 </div>
                                 <div class="col-4" id="">
-                                    <label>重量(mg)</label>
-                                    <input id="weight" type="number" class="form-control" placeholder="" value="">
+                                    <label>廠商料件名稱</label>
+                                    <input id="factoryPartName" type="text" class="form-control" placeholder="" value="">
+                                </div>
+
+                            </div>
+                            <div class="form-row align-items-center" style="margin: 2rem;">
+                                <div class="col-3" id="">
+                                    <label>料件重量(mg)</label>
+                                    <input id="partWeight" type="number" class="form-control" placeholder="" value="" readonly>
+                                </div>
+
+                                <div class="col-2" style="margin-left: 3rem;">
+                                    <label for="">更新</label>
+                                    <div class="col" style="text-align: center;">
+                                        <button type="button" id="editWeight" class="btn btn-info ">編輯重量</button>
+                                        <button type="button" id="updateWeight" class="btn btn-primary ">更新重量</button>
+
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="form-row align-items-center" style="margin: 2rem;">
 
                                 <div class="col-4">
@@ -152,9 +170,9 @@
                                     <tr>
                                         <th>料件名稱</th>
                                         <th>料件編號</th>
-                                        <th>No</th>
+                                        <th>CNo</th>
                                         <th>化學物質(英)</th>
-                                        <th> 化學物質(中)</th>
+                                        <th>化學物質(中)</th>
                                         <th>物質含量</th>
                                         <th>重量</th>
                                         <th>選取</th>
@@ -195,11 +213,12 @@
 
 <script>
     var table;
+    var COD_FACT_part = $("#COD_FACT_part");
+    COD_FACT_part.css("visibility", "hidden");
     $(document).ready(function() {
-
         let Model;
         $('#loading').hide();
-
+        $('#updateWeight').hide();
         var tableConfig = {
             language: dataTableLanguage,
             dom: 'lBfrtip',
@@ -250,7 +269,7 @@
                     "title": "料號",
                     "render": function(data, type, row) {
                         if (data.length > 0) {
-                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '" data-modal-name="' + row.NAM_ITEMF + '">' + data + '</a>';
+                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '" data-modal-name="' + row.NAM_ITEMF + '"data-modal-fact="' + row.COD_FACT + '">' + data + '</a>';
                             return button[0].outerHTML;
                         } else {
                             return '';
@@ -334,7 +353,9 @@
         $('#ListData').on('click', '#openModalButton', function() {
             var modalValue = $(this).data('modal-value');
             var modalName = $(this).data('modal-name');
-            selectMSDS(modalValue, modalName);
+            var COD_FACT = $(this).data('modal-fact');
+
+            selectMSDS(modalValue, modalName, COD_FACT);
 
         });
 
@@ -364,11 +385,12 @@
 
         });
         $('#delMSDS').click(function() {
-           
+
             delMSDSAjax();
 
         });
-        function selectMSDS(modalValue, modalName) {
+
+        function selectMSDS(modalValue, modalName, COD_FACT) {
             $('#loading').show();
             $.ajax({
                 url: 'mesSelectMSDSAjax',
@@ -376,6 +398,7 @@
                 dataType: 'json',
                 data: {
                     modalValue: modalValue,
+                    COD_FACT: COD_FACT
                 },
                 success: function(response) {
 
@@ -386,8 +409,13 @@
                     $('#myModalLabel').text('料件明細表');
                     $('#partNumber').val(modalValue);
                     $('#partName').val(modalName);
-                    console.log(response);
 
+                    window.COD_FACT = COD_FACT;
+                    if (response.length === 0) {
+                        $('#partWeight').val('');
+                    } else {
+                        $('#partWeight').val(response[0]['partWeight']);
+                    }
                     $('#delModal').modal('show');
                 },
                 error: function(xhr, status, error) {
@@ -426,6 +454,7 @@
 
         });
         $('#insertCOS').click(function() {
+            var product = $('#partWeight').val() * $('#content').val() / 100;
             var addDataArray = [];
             addDataArray['partName'] = $('#partName').val();
             addDataArray['partNumber'] = $('#partNumber').val();
@@ -433,8 +462,8 @@
             addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
             addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
             addDataArray['content'] = $('#content').val();
-            addDataArray['weight'] = $('#weight').val();
-
+            addDataArray['weight'] = product;
+            addDataArray['COD_FACT_part'] = window.COD_FACT;
 
             addData(addDataArray);
             MesCasInsertAjax(addDataArray);
@@ -468,7 +497,8 @@
                     CAS_NoE: addDataArray['CAS_NoE'],
                     CAS_NoC: addDataArray['CAS_NoC'],
                     content: addDataArray['content'],
-                    weight: addDataArray['weight']
+                    weight: addDataArray['weight'],
+                    COD_FACT_part: addDataArray['COD_FACT_part']
                 },
                 success: function(response) {
 
@@ -504,7 +534,7 @@
                 dataType: 'json',
                 data: {
                     result: result,
-                    partNumber:partNumber
+                    partNumber: partNumber
                 },
                 success: function(response) {
 
@@ -519,6 +549,50 @@
                 }
             });
         }
+        $('#editWeight').click(function() {
+            $("#editWeight").hide();
+            $("#updateWeight").show();
+            $("#partWeight").add();
+            $("#partWeight").prop("readonly", false);
+        });
+
+        $('#updateWeight').click(function() {
+            $("#editWeight").show();
+            $("#updateWeight").hide();
+            $("#partWeight").prop("readonly", true);
+            var COD_FACT = window.COD_FACT;
+            var partNumber = $('#partNumber').val();
+            var partWeight = $('#partWeight').val();
+
+            updateWeightAjax(COD_FACT, partNumber, partWeight)
+        });
+
+        function updateWeightAjax(COD_FACT, partNumber, partWeight) {
+            console.log(COD_FACT+partNumber+partWeight);
+
+            $.ajax({
+                url: 'mesMSDSupdateWeightAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    COD_FACT: COD_FACT,
+                    partNumber: partNumber,
+                    partWeight: partWeight
+                },
+                success: function(response) {
+
+                    var MSDStable = $('#MSDSData').DataTable();
+                    MSDStable.clear().rows.add(response).draw();
+                    $('#loading').hide();
+                  
+                },
+                error: function(xhr, status, error) {
+                    console.log(response);
+                    $('#loading').hide();
+                }
+            });
+        }
+
     });
 </script>
 

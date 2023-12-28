@@ -1653,7 +1653,7 @@ class MesController extends BaseController
         $CAS_NoE = $request->input('CAS_NoE');
         $CAS_NoC = $request->input('CAS_NoC');
         $content = $request->input('content');
-        $weight = $request->input('weight');
+        $COD_FACT = $request->input('COD_FACT_part');
 
         $insertGetId = DB::table('mes_msds_list')->insertGetId([
             'id' => '',
@@ -1663,7 +1663,7 @@ class MesController extends BaseController
             'CAS_NoE' => $CAS_NoE,
             'CAS_NoC' => $CAS_NoC,
             'content' => $content,
-            'weight' => $weight,
+            'COD_FACT' => $COD_FACT
         ]);
         return response()->json($insertGetId);
     }
@@ -1672,9 +1672,13 @@ class MesController extends BaseController
     {
 
         $modalValue = $request->input('modalValue');
-      
+        $COD_FACT = $request->input('COD_FACT');
 
-        $data = DB::select(" SELECT * FROM mes_msds_list WHERE partNumber = '$modalValue' ");
+        $data = DB::select("SELECT * , (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
+        LEFT JOIN mes_msds_part ON mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
+        WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND partNumber = '$modalValue' ");
+
+
         return response()->json($data);
     }
     public function mesDelMSDSAjax(Request $request)
@@ -1687,19 +1691,29 @@ class MesController extends BaseController
         $sql = DB::delete('DELETE FROM mes_msds_list WHERE id IN (' . implode(',', $result) . ')');
 
         $partNumber = $request->input('partNumber');
-      
 
-        
-      
-        if ( $sql>0) {
+        if ($sql > 0) {
             $data = DB::select(" SELECT * FROM mes_msds_list WHERE partNumber = '$partNumber' ");
             return response()->json($data);
         } else {
             return response()->json('刪除失敗');
         }
-        
-      
     }
+    public function mesMSDSupdateWeightAjax(Request $request)
+    {
+        $COD_FACT = $request->input('COD_FACT');
+        $partNumber = $request->input('partNumber');        
+        $partWeight = $request->input('partWeight');
+        $selectPart = DB::select(" SELECT * FROM `mes_msds_part` WHERE COD_FACT = '$COD_FACT' AND COD_ITEM = '$partNumber'");
+        if ($selectPart) {
+             DB::delete(" DELETE FROM `mes_msds_part` WHERE COD_FACT = '$COD_FACT' AND COD_ITEM = '$partNumber'");
+            
+        }
+        DB::insert("INSERT INTO `mes_msds_part` (`id`, `COD_FACT`, `COD_ITEM`, `partWeight`) VALUES ('', '$COD_FACT', '$partNumber', '$partWeight')");
+        $data = DB::select("SELECT * , (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
+        LEFT JOIN mes_msds_part ON mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
+        WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND partNumber = '$partNumber' ");
+        return response()->json($data);
 
-   
+    }
 }
