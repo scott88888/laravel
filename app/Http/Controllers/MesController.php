@@ -1676,7 +1676,7 @@ class MesController extends BaseController
 
         $data = DB::select("SELECT * , (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
         LEFT JOIN mes_msds_part ON mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
-        WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND partNumber = '$modalValue' ");
+        WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND mes_msds_list.partNumber = '$modalValue' AND mes_msds_part.COD_ITEM ='$modalValue' ");
 
 
         return response()->json($data);

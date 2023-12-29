@@ -354,7 +354,11 @@
             var modalValue = $(this).data('modal-value');
             var modalName = $(this).data('modal-name');
             var COD_FACT = $(this).data('modal-fact');
-
+            $('#casCode').val('');
+            $('#CAS_NoE').val('');
+            $('#CAS_NoC').val('');
+            $('#content').val('');
+            $('#factoryPartName').val('');
             selectMSDS(modalValue, modalName, COD_FACT);
 
         });
@@ -428,6 +432,11 @@
         }
 
         $('#casCodeSearch').click(function() {
+
+            if ( $('#casCode').val() == '') {
+                alert('CAS No(代碼)欄位沒有輸入');
+                return;
+            }
             var casCode = $('#casCode').val();
             $('#loading').show();
             $.ajax({
@@ -454,19 +463,35 @@
 
         });
         $('#insertCOS').click(function() {
-            var product = $('#partWeight').val() * $('#content').val() / 100;
-            var addDataArray = [];
-            addDataArray['partName'] = $('#partName').val();
-            addDataArray['partNumber'] = $('#partNumber').val();
-            addDataArray['casCode'] = $('#casCode').val();
-            addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
-            addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
-            addDataArray['content'] = $('#content').val();
-            addDataArray['weight'] = product;
-            addDataArray['COD_FACT_part'] = window.COD_FACT;
 
-            addData(addDataArray);
-            MesCasInsertAjax(addDataArray);
+            const casCode = $('#casCode').val();
+            const partWeight = $('#partWeight').val();
+            const CAS_NoE = $('#CAS_NoE').val();
+            const content = $('#content').val();
+            const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
+
+            // 如果其中一個 input 欄位沒有值，則彈出警告
+            if (isEmpty === true) {
+                alert('尚有欄位沒有輸入');
+            } else {
+                var product = $('#partWeight').val() * $('#content').val() / 100;
+                var addDataArray = [];
+                addDataArray['partName'] = $('#partName').val();
+                addDataArray['partNumber'] = $('#partNumber').val();
+                addDataArray['casCode'] = $('#casCode').val();
+                addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
+                addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
+                addDataArray['content'] = $('#content').val();
+                addDataArray['weight'] = product;
+                addDataArray['COD_FACT_part'] = window.COD_FACT;
+
+                addData(addDataArray);
+                MesCasInsertAjax(addDataArray);
+            }
+
+
+
+
         });
 
         function addData(addDataArray) {
@@ -568,7 +593,7 @@
         });
 
         function updateWeightAjax(COD_FACT, partNumber, partWeight) {
-            console.log(COD_FACT+partNumber+partWeight);
+            console.log(COD_FACT + partNumber + partWeight);
 
             $.ajax({
                 url: 'mesMSDSupdateWeightAjax',
@@ -584,7 +609,7 @@
                     var MSDStable = $('#MSDSData').DataTable();
                     MSDStable.clear().rows.add(response).draw();
                     $('#loading').hide();
-                  
+
                 },
                 error: function(xhr, status, error) {
                     console.log(response);
