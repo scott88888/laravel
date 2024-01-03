@@ -41,15 +41,22 @@
                         <div class="card-body">
                             <h4 class="header-title">MSDS表</h4>
                             <div class="form-row">
+                                <div class="col-md-2 mb-3">
+                                    <label class="col-form-label" style="padding-top: 0;">查詢類型</label>
+                                    <select id="searchType" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option value="COD_FACT" selected>廠商編號</option>
+                                        <option value="COD_ITEM">料件編號</option>
+                                    </select>
+                                </div>
 
                                 <div class="col-md-2 mb-3">
-                                    <label for="">廠商編號</label>
-                                    <input id="COD_FACT" type="texy" class="form-control" placeholder="" required="">
+                                    <label class="col-form-label" style="padding-top: 0;">查詢內容</label>
+                                    <input id="searchName" type="texy" class="form-control" placeholder="" required="">
                                 </div>
 
 
-                                <div class="col-2" style="margin-left: 3rem;">
-                                    <label for="">查詢</label>
+                                <div class="col-md-2 mb-3">
+                                    <label for="" style="padding-top: 0;">查詢</label>
                                     <div class="col" style="text-align: center;">
                                         <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
                                     </div>
@@ -365,14 +372,16 @@
 
 
         $('#submit').click(function() {
-            var COD_FACT = $('#COD_FACT').val();
+            var searchType = $('#searchType').val();
+            var searchName = $('#searchName').val();
             $('#loading').show();
             $.ajax({
                 url: 'mesMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    COD_FACT: COD_FACT
+                    searchType: searchType,
+                    searchName: searchName
                 },
                 success: function(response) {
                     table.clear();
@@ -433,7 +442,7 @@
 
         $('#casCodeSearch').click(function() {
 
-            if ( $('#casCode').val() == '') {
+            if ($('#casCode').val() == '') {
                 alert('CAS No(代碼)欄位沒有輸入');
                 return;
             }
@@ -463,6 +472,7 @@
 
         });
         $('#insertCOS').click(function() {
+          
 
             const casCode = $('#casCode').val();
             const partWeight = $('#partWeight').val();
@@ -471,9 +481,11 @@
             const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
 
             // 如果其中一個 input 欄位沒有值，則彈出警告
-            if (isEmpty === true) {
+            if (isEmpty === true  ) {
                 alert('尚有欄位沒有輸入');
-            } else {
+            } else if(content >100) {
+                alert('物質含量超過100');
+            }else{
                 var product = $('#partWeight').val() * $('#content').val() / 100;
                 var addDataArray = [];
                 addDataArray['partName'] = $('#partName').val();

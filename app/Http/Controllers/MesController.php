@@ -1623,12 +1623,23 @@ class MesController extends BaseController
     }
     public function mesMSDSAjax(Request $request)
     {
+        $searchType = $request->input('searchType');
+        $searchName = $request->input('searchName');
+      
+        if ($searchType == 'COD_FACT') {
+            $data = DB::select("SELECT * FROM mes_fitm
+            LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
+            WHERE mes_fitm.COD_FACT LIKE '$searchName%'
+            ORDER BY mes_fitm.COD_FACT desc; ");
+        }else{
+            $data = DB::select("SELECT * FROM mes_fitm
+            LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
+            WHERE mes_fitm.COD_ITEM LIKE '$searchName%'
+            ORDER BY mes_fitm.COD_FACT desc; ");
+        }
 
-        $COD_FACT = $request->input('COD_FACT');
-        $data = DB::select("SELECT * FROM mes_fitm
-        LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
-        WHERE mes_fitm.COD_FACT LIKE '$COD_FACT%'
-        ORDER BY mes_fitm.COD_FACT desc; ");
+       
+      
         if ($data) {
             return response()->json($data);
         }
