@@ -61,13 +61,19 @@
                                         <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
                                     </div>
                                 </div>
-
+                                <div class="col-md-2 mb-3">
+                                    <label for="" style="padding-top: 0;">複製料號</label>
+                                    <div class="col" style="text-align: center;">
+                                        <button type="button" id="msdscopy" class="btn btn-primary btn-block">複製</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="data-tables datatable-dark">
                         <table id="ListData" class="display text-center" style="width:100%">
                             <thead class="text-capitalize" style=" background: darkgrey;">
+                                <th>選取</th>
                                 <th>照片</th>
                                 <th>廠商編號</th>
                                 <th>廠商名稱</th>
@@ -78,6 +84,7 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -149,6 +156,7 @@
                                         <button type="button" id="casCodeSearch" class="btn btn-primary btn-block">送出</button>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="form-row align-items-center" style="margin: 2rem;">
                                 <div class="col-5">
@@ -207,6 +215,55 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel">
+                <div class="modal-dialog" role="document" style="max-width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="copyModalLabel">複製料號MSDS</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-row align-items-center" style="margin: 2rem;">
+                                <div class="col-4" id="">
+                                    <label>來源料號</label>
+                                    <input id="sourceItem" type="text" class="form-control" placeholder="" value="" readonly>
+                                </div>
+
+                            </div>
+                            <div class="data-tables datatable-dark" style="margin: 2rem;">
+                                <label>目的料號(請勾選)</label>
+                                <table id="copyModalTable" class="display text-center" style="width:100%">
+                                    <thead class="text-capitalize" style=" background: darkgrey;">
+                                        <tr>
+                                            <th>選取</th>
+                                            <th>廠商編號</th>
+                                            <th>廠商名稱</th>
+                                            <th>料號</th>
+                                            <th>說明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 1px;"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="">取消</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -221,6 +278,7 @@
 <script>
     var table;
     var COD_FACT_part = $("#COD_FACT_part");
+    var rowData = '';
     COD_FACT_part.css("visibility", "hidden");
     $(document).ready(function() {
         let Model;
@@ -250,6 +308,20 @@
 
             ],
             columns: [{
+                    "targets": 0,
+                    "data": "check",
+                    "title": "選取",
+                    "type": "checkbox",
+                    "render": function(data, type, row, meta) {
+                        // 如果欄位值為 true，則顯示勾選圖示
+                        if (data === true) {
+                            return '<input type="checkbox" MSDSdata-id="' + row.id + '">';
+                        } else {
+                            // 如果欄位值為 false，則顯示未勾選圖示
+                            return '<input type="checkbox" MSDSdata-id="' + row.id + '">';
+                        }
+                    }
+                }, {
                     "data": "COD_ITEM",
                     "title": "照片",
                     "render": function(data, type, row) {
@@ -289,6 +361,99 @@
                 },
 
             ]
+        });
+
+        $('#ListData').on('click', 'input[type="checkbox"]', function() {
+
+            var isChecked = $(this).is(':checked');
+            rowData = table.row($(this).closest('tr')).data();
+            if (isChecked) {
+
+            }
+        });
+        copyModalTable = $('#copyModalTable').DataTable({
+            ...tableConfig,
+            order: [
+                [0, 'desc']
+
+            ],
+            columns: [{
+                    "targets": 0,
+                    "data": "check",
+                    "title": "選取",
+                    "type": "checkbox",
+                    "render": function(data, type, row, meta) {
+                        // 如果欄位值為 true，則顯示勾選圖示
+                        if (data === true) {
+                            return '<input type="checkbox" MSDSdata-id="' + row.id + '">';
+                        } else {
+                            // 如果欄位值為 false，則顯示未勾選圖示
+                            return '<input type="checkbox" MSDSdata-id="' + row.id + '">';
+                        }
+                    }
+                },
+                {
+                    "data": "COD_FACT",
+                    "title": "廠商編號"
+                },
+                {
+                    "data": "NAM_FACT",
+                    "title": "廠商名稱"
+                },
+                {
+                    "data": "COD_ITEM",
+                    "targets": 0,
+                    "title": "料號",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            return '<a href="#" id="openModalButton" data-modal-value="' + data + '" data-modal-name="' + row.NAM_ITEMF + '"data-modal-fact="' + row.COD_FACT + '">' + data + '</a>';
+                            return button[0].outerHTML;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "data": "NAM_ITEMF",
+                    "title": "說明"
+                },
+
+            ]
+        });
+
+        $('#msdscopy').on('click', function() {
+            if (rowData) {
+                var searchType = $('#searchType').val();
+                var searchName = $('#searchName').val();
+                $('#loading').show();
+                $.ajax({
+                    url: 'mesMSDSAjax',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        searchType: searchType,
+                        searchName: searchName
+                    },
+                    success: function(response) {
+                        copyModalTable.clear();
+                        copyModalTable.rows.add(response);
+                        copyModalTable.draw();
+                        console.log(response);
+
+                        $('#copyModal').modal('show');
+                        $('#sourceItem').val(rowData['COD_ITEM']);
+                        $('#loading').hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('no data');
+                        $('#loading').hide();
+                    }
+                });
+
+
+
+
+            }
         });
         MSDStable = $('#MSDSData').DataTable({
             ...tableConfig,
@@ -369,6 +534,7 @@
             selectMSDS(modalValue, modalName, COD_FACT);
 
         });
+
 
 
         $('#submit').click(function() {
@@ -472,7 +638,7 @@
 
         });
         $('#insertCOS').click(function() {
-          
+
 
             const casCode = $('#casCode').val();
             const partWeight = $('#partWeight').val();
@@ -481,11 +647,11 @@
             const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
 
             // 如果其中一個 input 欄位沒有值，則彈出警告
-            if (isEmpty === true  ) {
+            if (isEmpty === true) {
                 alert('尚有欄位沒有輸入');
-            } else if(content >100) {
+            } else if (content > 100) {
                 alert('物質含量超過100');
-            }else{
+            } else {
                 var product = $('#partWeight').val() * $('#content').val() / 100;
                 var addDataArray = [];
                 addDataArray['partName'] = $('#partName').val();
