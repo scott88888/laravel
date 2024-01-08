@@ -181,7 +181,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesSelectMSDSAjax', [MesController::class, 'mesSelectMSDSAjax']);
     Route::match(['get', 'post'], '/mesDelMSDSAjax', [MesController::class, 'mesDelMSDSAjax']);
     Route::match(['get', 'post'], '/mesMSDSupdateWeightAjax', [MesController::class, 'mesMSDSupdateWeightAjax']);
-    
+    Route::match(['get', 'post'], '/mesMSDSCopyListAjax', [MesController::class, 'mesMSDSCopyListAjax']);
+    Route::match(['get', 'post'], '/mesMSDSCopyAjax', [MesController::class, 'mesMSDSCopyAjax']);
     
     
 });

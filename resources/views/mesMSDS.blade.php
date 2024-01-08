@@ -258,8 +258,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="">取消</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" id="copyMSDSData" class="btn btn-success" data-dismiss="">確認</button>
                         </div>
                     </div>
                 </div>
@@ -425,14 +425,17 @@
             if (rowData) {
                 var searchType = $('#searchType').val();
                 var searchName = $('#searchName').val();
+                var sourceItem = rowData['COD_ITEM'];
+
                 $('#loading').show();
                 $.ajax({
-                    url: 'mesMSDSAjax',
+                    url: 'mesMSDSCopyListAjax',
                     type: 'GET',
                     dataType: 'json',
                     data: {
                         searchType: searchType,
-                        searchName: searchName
+                        searchName: searchName,
+                        sourceItem: sourceItem
                     },
                     success: function(response) {
                         copyModalTable.clear();
@@ -449,12 +452,60 @@
                         $('#loading').hide();
                     }
                 });
-
-
-
-
             }
         });
+
+        // 假设你的表格的 id 是 exampleTable
+        $('#copyMSDSData').on('click', function() {
+
+            var selectedCheckboxes = [];
+
+            // 遍历表格中的每一行
+            $('#copyModalTable tbody tr').each(function() {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                if (checkbox.is(':checked')) {
+                    var rowDataId = checkbox.attr('MSDSdata-id');
+                    selectedCheckboxes.push(rowDataId);
+                }
+            });
+
+            if (selectedCheckboxes.length > 0) {
+                console.log('被选中的复选框的 MSDSdata-id:', selectedCheckboxes);
+                var searchType = $('#searchType').val();
+                var searchName = $('#searchName').val();
+                var sourceItem = $('#sourceItem').val();
+
+                
+                $('#loading').show();
+                $.ajax({
+                    url: 'mesMSDSCopyAjax',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        searchType: searchType,
+                        searchName: searchName,
+                        sourceItem: sourceItem,
+                        selectedCheckboxes:selectedCheckboxes
+                    },
+                    success: function(response) {
+                       alert('複製成功'+response);
+                        console.log(response);
+                        $('#loading').hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('no data');
+                        $('#loading').hide();
+                    }
+                });
+
+            }
+
+        });
+
+
+
+
+
         MSDStable = $('#MSDSData').DataTable({
             ...tableConfig,
             "info": false,
