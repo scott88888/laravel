@@ -638,7 +638,7 @@
 
                     window.COD_FACT = COD_FACT;
                     if (response.length === 0) {
-                        $('#partWeight').val('100');
+                        $('#partWeight').val('');
                     } else {
                         $('#partWeight').val(response[0]['partWeight']);
                     }
