@@ -17,14 +17,15 @@ class LogUserActivity
             $url = $request->path(); 
             $time = now(); 
 
-            
-            DB::table('mes_loginlog')->insert([
-                'id' => '',
-                'user_name' => $user->name,                
-                'user_id' => $user->employee_id,
-                'log_url' => $url,
-                'log_time' => $time,
-            ]);
+            if (!str_starts_with($url, 'show-image')) {
+                DB::table('mes_loginlog')->insert([
+                    'id' => '',
+                    'user_name' => $user->name,                
+                    'user_id' => $user->employee_id,
+                    'log_url' => $url,
+                    'log_time' => $time,
+                ]);
+            }
         }
        
         return $response;

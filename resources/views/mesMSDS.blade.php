@@ -441,7 +441,6 @@
                         copyModalTable.clear();
                         copyModalTable.rows.add(response);
                         copyModalTable.draw();
-                        console.log(response);
 
                         $('#copyModal').modal('show');
                         $('#sourceItem').val(rowData['COD_ITEM']);
@@ -470,12 +469,12 @@
             });
 
             if (selectedCheckboxes.length > 0) {
-                console.log('被选中的复选框的 MSDSdata-id:', selectedCheckboxes);
+         
                 var searchType = $('#searchType').val();
                 var searchName = $('#searchName').val();
                 var sourceItem = $('#sourceItem').val();
 
-                
+
                 $('#loading').show();
                 $.ajax({
                     url: 'mesMSDSCopyAjax',
@@ -485,11 +484,10 @@
                         searchType: searchType,
                         searchName: searchName,
                         sourceItem: sourceItem,
-                        selectedCheckboxes:selectedCheckboxes
+                        selectedCheckboxes: selectedCheckboxes
                     },
                     success: function(response) {
-                       alert('複製成功'+response);
-                        console.log(response);
+                        alert('複製成功' + response);                        
                         $('#loading').hide();
                     },
                     error: function(xhr, status, error) {
@@ -604,7 +602,7 @@
                     table.clear();
                     table.rows.add(response);
                     table.draw();
-                    console.log(response);
+                   
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {
@@ -615,9 +613,7 @@
 
         });
         $('#delMSDS').click(function() {
-
             delMSDSAjax();
-
         });
 
         function selectMSDS(modalValue, modalName, COD_FACT) {
@@ -633,16 +629,16 @@
                 success: function(response) {
 
                     $('#loading').hide();
-                    var MSDStable = $('#MSDSData').DataTable();
-                    MSDStable.clear().rows.add(response).draw();
-
+                    MSDStable.clear();
+                    MSDStable.rows.add(response);
+                    MSDStable.draw();
                     $('#myModalLabel').text('料件明細表');
                     $('#partNumber').val(modalValue);
                     $('#partName').val(modalName);
 
                     window.COD_FACT = COD_FACT;
                     if (response.length === 0) {
-                        $('#partWeight').val('');
+                        $('#partWeight').val('100');
                     } else {
                         $('#partWeight').val(response[0]['partWeight']);
                     }
@@ -663,6 +659,7 @@
                 alert('CAS No(代碼)欄位沒有輸入');
                 return;
             }
+
             var casCode = $('#casCode').val();
             $('#loading').show();
             $.ajax({
@@ -673,8 +670,6 @@
                     casCode: casCode
                 },
                 success: function(response) {
-
-                    console.log(response);
                     $('#CAS_NoE').val(response[0]['SubstanceName']);
                     $('#CAS_NoC').val(response[0]['SubstanceName2']);
                     $('#loading').hide();
@@ -696,12 +691,18 @@
             const CAS_NoE = $('#CAS_NoE').val();
             const content = $('#content').val();
             const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
+            var displayValue = $('#updateWeight').css('display');
+
+            // 檢查 display 屬性的值是否為 'none'
 
             // 如果其中一個 input 欄位沒有值，則彈出警告
             if (isEmpty === true) {
                 alert('尚有欄位沒有輸入');
             } else if (content > 100) {
                 alert('物質含量超過100');
+            } else if (displayValue !== 'none') {
+                alert('請先更新重量');
+                return;
             } else {
                 var product = $('#partWeight').val() * $('#content').val() / 100;
                 var addDataArray = [];
@@ -755,8 +756,6 @@
                     COD_FACT_part: addDataArray['COD_FACT_part']
                 },
                 success: function(response) {
-
-                    console.log(response);
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {
@@ -781,19 +780,21 @@
                     result.push(delID);
                 }
             });
+           
             var partNumber = $('#partNumber').val();
             $.ajax({
                 url: 'mesDelMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
+                    COD_FACT:COD_FACT,
                     result: result,
                     partNumber: partNumber
                 },
                 success: function(response) {
-
-                    var MSDStable = $('#MSDSData').DataTable();
-                    MSDStable.clear().rows.add(response).draw();
+                    MSDStable.clear();
+                    MSDStable.rows.add(response);
+                    MSDStable.draw();
                     $('#loading').hide();
                     alert('刪除成功');
                 },
@@ -822,7 +823,6 @@
         });
 
         function updateWeightAjax(COD_FACT, partNumber, partWeight) {
-            console.log(COD_FACT + partNumber + partWeight);
 
             $.ajax({
                 url: 'mesMSDSupdateWeightAjax',
@@ -834,9 +834,9 @@
                     partWeight: partWeight
                 },
                 success: function(response) {
-
-                    var MSDStable = $('#MSDSData').DataTable();
-                    MSDStable.clear().rows.add(response).draw();
+                    MSDStable.clear();
+                    MSDStable.rows.add(response);
+                    MSDStable.draw();
                     $('#loading').hide();
 
                 },

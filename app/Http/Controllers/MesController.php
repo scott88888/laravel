@@ -1685,26 +1685,31 @@ class MesController extends BaseController
         $modalValue = $request->input('modalValue');
         $COD_FACT = $request->input('COD_FACT');
 
-        $data = DB::select("SELECT * , (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
+        $data = DB::select("SELECT mes_msds_list.* ,mes_msds_part.COD_ITEM,mes_msds_part.partWeight, (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
         LEFT JOIN mes_msds_part ON mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
         WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND mes_msds_list.partNumber = '$modalValue' AND mes_msds_part.COD_ITEM ='$modalValue' ");
-
 
         return response()->json($data);
     }
     public function mesDelMSDSAjax(Request $request)
     {
         $result = $request->input('result');
+        // 使用 array_filter() 過濾出數字
+        $numericValues = array_filter($result, 'is_numeric');
+        $firstNumber = reset($numericValues); // 取得第一個符合條件的元素
+        if (count($numericValues) == 1) {           
+            $sql = DB::delete("DELETE FROM mes_msds_list WHERE id = '$firstNumber'");
+        }else{
+            $sql = DB::delete('DELETE FROM mes_msds_list WHERE id IN (' . implode(',', $result) . ')');
+        }
 
-        // for ($i=0; $i < ; $i++) { 
-        //     DB::table('fw_index')->where('fw_id', $result[$i])->delete();
-        // }
-        $sql = DB::delete('DELETE FROM mes_msds_list WHERE id IN (' . implode(',', $result) . ')');
-
+        $COD_FACT = $request->input('COD_FACT');
         $partNumber = $request->input('partNumber');
-
+        
         if ($sql > 0) {
-            $data = DB::select(" SELECT * FROM mes_msds_list WHERE partNumber = '$partNumber' ");
+            $data = DB::select("SELECT mes_msds_list.* ,mes_msds_part.COD_ITEM,mes_msds_part.partWeight, (mes_msds_part.partWeight * mes_msds_list.content / 100 ) AS weight FROM mes_msds_list
+            LEFT JOIN mes_msds_part ON mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
+            WHERE mes_msds_list.COD_FACT = '$COD_FACT' AND mes_msds_list.partNumber = '$partNumber' AND mes_msds_part.COD_ITEM ='$partNumber' ");
             return response()->json($data);
         } else {
             return response()->json('刪除失敗');
