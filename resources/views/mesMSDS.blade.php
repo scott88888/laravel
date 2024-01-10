@@ -176,6 +176,9 @@
                                 <button type="button" id="insertCOS" class="btn btn-primary btn-block">
                                     <li class="fa fa-cloud-upload">新增</li>
                                 </button>
+                                <button type="button" id="editCOS" class="btn btn-info btn-block">
+                                    <li class="fa fa-cloud-upload">確認修改</li>
+                                </button>
                             </div>
 
                         </div>
@@ -209,7 +212,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="delMSDS">刪除</button>
+                            <button type="button" class="btn btn-info" id="editMSDS">修改</button>
+                            <button type="button" class="btn btn-danger" id="delMSDS">刪除</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
                         </div>
                     </div>
@@ -284,6 +288,7 @@
         let Model;
         $('#loading').hide();
         $('#updateWeight').hide();
+        $('#editCOS').hide();
         var tableConfig = {
             language: dataTableLanguage,
             dom: 'lBfrtip',
@@ -469,7 +474,7 @@
             });
 
             if (selectedCheckboxes.length > 0) {
-         
+
                 var searchType = $('#searchType').val();
                 var searchName = $('#searchName').val();
                 var sourceItem = $('#sourceItem').val();
@@ -487,7 +492,7 @@
                         selectedCheckboxes: selectedCheckboxes
                     },
                     success: function(response) {
-                        alert('複製成功' + response);                        
+                        alert('複製成功' + response);
                         $('#loading').hide();
                     },
                     error: function(xhr, status, error) {
@@ -602,7 +607,7 @@
                     table.clear();
                     table.rows.add(response);
                     table.draw();
-                   
+
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {
@@ -615,6 +620,32 @@
         $('#delMSDS').click(function() {
             delMSDSAjax();
         });
+        $('#editMSDS').click(function() {
+            var selectedRowsData = [];
+
+            // 找到被勾選的 checkbox
+            $('#MSDSData tbody input[type="checkbox"]:checked').each(function() {
+                var rowData = MSDStable.row($(this).closest('tr')).data();
+                selectedRowsData.push(rowData);
+            });
+            if (selectedRowsData.length == 1) {
+                $('#partName').val(selectedRowsData[0]['partName']);
+                $('#factoryPartName').val(selectedRowsData[0]['partName']);
+                $('#casCode').val(selectedRowsData[0]['casCode']);
+                $('#CAS_NoE').val(selectedRowsData[0]['CAS_NoE']);
+                $('#CAS_NoC').val(selectedRowsData[0]['CAS_NoC']);
+                $('#content').val(selectedRowsData[0]['content']);                
+                $('#editCOS').show();
+                $('#insertCOS').hide();
+            } else {
+                alert('請選擇單筆資料');
+                return;
+            }
+
+            console.log(selectedRowsData);
+            console.log(selectedRowsData.length);
+        });
+
 
         function selectMSDS(modalValue, modalName, COD_FACT) {
             $('#loading').show();
@@ -780,14 +811,14 @@
                     result.push(delID);
                 }
             });
-           
+
             var partNumber = $('#partNumber').val();
             $.ajax({
                 url: 'mesDelMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    COD_FACT:COD_FACT,
+                    COD_FACT: COD_FACT,
                     result: result,
                     partNumber: partNumber
                 },
