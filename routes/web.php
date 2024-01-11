@@ -14,6 +14,7 @@ use App\Http\Controllers\InventoryListController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\salesManagementController;
+use App\Http\Controllers\DealerController;
 
 
 //API
@@ -32,8 +33,8 @@ Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'm
 Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
 // test
 Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
-
-
+// 經銷
+Route::match(['get', 'post'], '/Dealer', [DealerController::class, 'Dealer']);
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //排行榜
@@ -183,6 +184,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesMSDSupdateWeightAjax', [MesController::class, 'mesMSDSupdateWeightAjax']);
     Route::match(['get', 'post'], '/mesMSDSCopyListAjax', [MesController::class, 'mesMSDSCopyListAjax']);
     Route::match(['get', 'post'], '/mesMSDSCopyAjax', [MesController::class, 'mesMSDSCopyAjax']);
-    
+    Route::match(['get', 'post'], '/mesEditMSDSAjax', [MesController::class, 'mesEditMSDSAjax']);
     
 });
+

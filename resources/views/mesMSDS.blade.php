@@ -283,6 +283,7 @@
     var table;
     var COD_FACT_part = $("#COD_FACT_part");
     var rowData = '';
+    var editCOSid;
     COD_FACT_part.css("visibility", "hidden");
     $(document).ready(function() {
         let Model;
@@ -634,7 +635,8 @@
                 $('#casCode').val(selectedRowsData[0]['casCode']);
                 $('#CAS_NoE').val(selectedRowsData[0]['CAS_NoE']);
                 $('#CAS_NoC').val(selectedRowsData[0]['CAS_NoC']);
-                $('#content').val(selectedRowsData[0]['content']);                
+                $('#content').val(selectedRowsData[0]['content']);
+                editCOSid = selectedRowsData[0]['id'];
                 $('#editCOS').show();
                 $('#insertCOS').hide();
             } else {
@@ -645,7 +647,72 @@
             console.log(selectedRowsData);
             console.log(selectedRowsData.length);
         });
+        $('#editCOS').click(function() {
 
+            const casCode = $('#casCode').val();
+            const partWeight = $('#partWeight').val();
+            const CAS_NoE = $('#CAS_NoE').val();
+            const content = $('#content').val();
+            const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
+            var displayValue = $('#updateWeight').css('display');
+            if (isEmpty === true) {
+                alert('請選擇單筆資料');
+            } else if (content > 100) {
+                alert('物質含量超過100');
+            } else if (displayValue !== 'none') {
+                alert('請先更新重量');
+                return;
+            }else {
+            var addDataArray = [];
+            addDataArray['id'] = editCOSid;
+            addDataArray['partName'] = $('#partName').val();
+            addDataArray['partNumber'] = $('#partNumber').val();
+            addDataArray['casCode'] = $('#casCode').val();
+            addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
+            addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
+            addDataArray['content'] = $('#content').val();
+            addDataArray['COD_FACT_part'] = window.COD_FACT;
+            console.log(addDataArray);
+
+            $('#loading').show();
+            $.ajax({
+                url: 'mesEditMSDSAjax',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    editCOSid: editCOSid,
+                    partName: $('#partName').val(),
+                    partNumber: $('#partNumber').val(),
+                    casCode: $('#casCode').val(),
+                    CAS_NoE: $('#CAS_NoE').val(),
+                    CAS_NoC: $('#CAS_NoC').val(),
+                    content: $('#content').val(),
+                    COD_FACT_part: COD_FACT,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    MSDStable.clear();
+                    MSDStable.rows.add(response);
+                    MSDStable.draw();
+                    $('#loading').hide();
+                    alert('修改成功');
+                    $('#partName').val('');
+                    $('#factoryPartName').val('');
+                    $('#casCode').val('');
+                    $('#CAS_NoE').val('');
+                    $('#CAS_NoC').val('');
+                    $('#content').val('');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(response);
+                    $('#loading').hide();
+                }
+            });
+            }
+
+            
+        });
 
         function selectMSDS(modalValue, modalName, COD_FACT) {
             $('#loading').show();
@@ -715,18 +782,12 @@
 
         });
         $('#insertCOS').click(function() {
-
-
             const casCode = $('#casCode').val();
             const partWeight = $('#partWeight').val();
             const CAS_NoE = $('#CAS_NoE').val();
             const content = $('#content').val();
             const isEmpty = casCode === '' || partWeight === '' || CAS_NoE === '' || content === '';
             var displayValue = $('#updateWeight').css('display');
-
-            // 檢查 display 屬性的值是否為 'none'
-
-            // 如果其中一個 input 欄位沒有值，則彈出警告
             if (isEmpty === true) {
                 alert('尚有欄位沒有輸入');
             } else if (content > 100) {
@@ -745,14 +806,9 @@
                 addDataArray['content'] = $('#content').val();
                 addDataArray['weight'] = product;
                 addDataArray['COD_FACT_part'] = window.COD_FACT;
-
                 addData(addDataArray);
                 MesCasInsertAjax(addDataArray);
             }
-
-
-
-
         });
 
         function addData(addDataArray) {
@@ -771,7 +827,7 @@
         }
 
         function MesCasInsertAjax(addDataArray) {
-
+            $('#loading').show();
             $.ajax({
                 url: 'mesCasInsertAjax',
                 type: 'GET',
@@ -797,22 +853,16 @@
         }
 
         function delMSDSAjax() {
-            // 選擇所有 checkbox 元素
             var checkboxes = $(document).find('input[type="checkbox"]');
             var result = [];
-            // 遍歷所有 checkbox 元素
             checkboxes.each(function() {
-                // 如果 checkbox 元素的 checked 屬性為 true
                 if ($(this).prop('checked')) {
-                    // 獲取該元素的 data-modal-value 屬性值
                     var delID = $(this).attr('data-id');
-
-                    // 將 data-modal-value 值加入到結果集合中
                     result.push(delID);
                 }
             });
-
             var partNumber = $('#partNumber').val();
+            $('#loading').show();
             $.ajax({
                 url: 'mesDelMSDSAjax',
                 type: 'GET',
@@ -854,7 +904,7 @@
         });
 
         function updateWeightAjax(COD_FACT, partNumber, partWeight) {
-
+            $('#loading').show();
             $.ajax({
                 url: 'mesMSDSupdateWeightAjax',
                 type: 'GET',
