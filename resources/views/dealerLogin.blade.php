@@ -6,37 +6,28 @@
 
         <x-validation-errors class="mb-4" />
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
 
-        <form method="POST" action="{{ route('login') }}">
+
+        <form method="POST" action="DealerCheckLogin">
             @csrf
 
             <div>
-                <x-label for="employee_id" value="{{ __('account') }}" />
-                <x-input id="employee_id" class="block mt-1 w-full" type="text" name="employee_id" :value="old('employee_id')" required autofocus autocomplete="username" />
+                <x-label for="dealer_id" value="account" />
+                <x-input id="dealer_id" class="block mt-1 w-full" type="text" name="dealer_id"  />
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-label for="password" value="Password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" />
             </div>
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+       
 
             <div class="flex items-center justify-end mt-4">
                 
 
                 <x-button class="ml-4">
-                    {{ __('Log in') }}
+                   Log in
                 </x-button>
             </div>
         </form>

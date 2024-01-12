@@ -35,6 +35,21 @@ Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadI
 Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
 // 經銷
 Route::match(['get', 'post'], '/Dealer', [DealerController::class, 'Dealer']);
+
+Route::match(['get', 'post'], '/DealerCheckLogin', [DealerController::class, 'DealerCheckLogin']);
+Route::match(['get', 'post'], '/dealerMSDS', [DealerController::class, 'dealerMSDS'])->name('dealerMSDS');
+
+
+Route::match(['get', 'post'], '/DealerMSDSAjax', [DealerController::class, 'DealerMSDSAjax']);
+Route::match(['get', 'post'], '/DealerCasCodeSearchAjax', [DealerController::class, 'DealerCasCodeSearchAjax']);
+Route::match(['get', 'post'], '/DealerCasInsertAjax', [DealerController::class, 'DealerCasInsertAjax']);
+Route::match(['get', 'post'], '/DealerSelectMSDSAjax', [DealerController::class, 'DealerSelectMSDSAjax']);
+Route::match(['get', 'post'], '/DealerDelMSDSAjax', [DealerController::class, 'DealerDelMSDSAjax']);
+Route::match(['get', 'post'], '/DealerMSDSupdateWeightAjax', [DealerController::class, 'DealerMSDSupdateWeightAjax']);
+Route::match(['get', 'post'], '/DealerMSDSCopyListAjax', [DealerController::class, 'DealerMSDSCopyListAjax']);
+Route::match(['get', 'post'], '/DealerMSDSCopyAjax', [DealerController::class, 'DealerMSDSCopyAjax']);
+Route::match(['get', 'post'], '/DealerEditMSDSAjax', [DealerController::class, 'DealerEditMSDSAjax']);
+
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //排行榜
