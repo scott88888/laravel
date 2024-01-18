@@ -2,7 +2,7 @@
 <html lang={{ app()->getLocale() }}>
 
 <head>
-    
+
     @include('layouts/head')
 </head>
 
@@ -27,20 +27,27 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">{{$country}}:{{ $langArray->庫存查詢 }}，{{ $langArray->更新時間 }}:{{$time}}</h4>
+                                <div class="col-md-2 mb-3">
+                                    <div class="col" style="text-align: center;">
+                                    <a href="{{ asset('csv_files/' . $country . 'inventory.csv') }}" download="{{ $country }}inventory.csv">
+                                            <button type="button" id="submit" class="btn btn-primary btn-block">download</button>
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class="data-tables datatable-dark">
                                     <table id="ListData" class="display text-center" style="width:100%">
                                         <thead class="text-capitalize" style=" background: darkgrey;">
-                                            <tr>                                                
-                                                <th>{{ $langArray->產品型號 }}</th>                                               
-                                                <th>{{ $langArray->庫存 }}</th>                                               
+                                            <tr>
+                                                <th>{{ $langArray->產品型號 }}</th>
+                                                <th>{{ $langArray->庫存 }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($inventoryList as $ListData)
                                             <tr>
-                                                
-                                               <td>{{$ListData->modal}}</td>
-                                               <td>{{$ListData->stock}}</td>
+
+                                                <td>{{$ListData->modal}}</td>
+                                                <td>{{$ListData->stock}}</td>
 
                                             </tr>
                                             @endforeach
@@ -61,7 +68,9 @@
 <script>
     $(ListData).DataTable({
         ...tableConfig,
-        "order": [[0, "desc"]]
+        "order": [
+            [0, "desc"]
+        ]
     })
 </script>
 

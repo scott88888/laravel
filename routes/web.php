@@ -14,7 +14,7 @@ use App\Http\Controllers\InventoryListController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\salesManagementController;
-use App\Http\Controllers\DealerController;
+use App\Http\Controllers\vendorController;
 
 
 //API
@@ -34,21 +34,21 @@ Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadI
 // test
 Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
 // 經銷
-Route::match(['get', 'post'], '/Dealer', [DealerController::class, 'Dealer']);
+Route::match(['get', 'post'], '/vendorLogin', [vendorController::class, 'vendorLogin']);
 
-Route::match(['get', 'post'], '/DealerCheckLogin', [DealerController::class, 'DealerCheckLogin']);
-Route::match(['get', 'post'], '/dealerMSDS', [DealerController::class, 'dealerMSDS'])->name('dealerMSDS');
+Route::match(['get', 'post'], '/vendorCheckLogin', [vendorController::class, 'vendorCheckLogin']);
+Route::match(['get', 'post'], '/vendorMSDS', [vendorController::class, 'vendorMSDS'])->name('vendorMSDS');
 
 
-Route::match(['get', 'post'], '/DealerMSDSAjax', [DealerController::class, 'DealerMSDSAjax']);
-Route::match(['get', 'post'], '/DealerCasCodeSearchAjax', [DealerController::class, 'DealerCasCodeSearchAjax']);
-Route::match(['get', 'post'], '/DealerCasInsertAjax', [DealerController::class, 'DealerCasInsertAjax']);
-Route::match(['get', 'post'], '/DealerSelectMSDSAjax', [DealerController::class, 'DealerSelectMSDSAjax']);
-Route::match(['get', 'post'], '/DealerDelMSDSAjax', [DealerController::class, 'DealerDelMSDSAjax']);
-Route::match(['get', 'post'], '/DealerMSDSupdateWeightAjax', [DealerController::class, 'DealerMSDSupdateWeightAjax']);
-Route::match(['get', 'post'], '/DealerMSDSCopyListAjax', [DealerController::class, 'DealerMSDSCopyListAjax']);
-Route::match(['get', 'post'], '/DealerMSDSCopyAjax', [DealerController::class, 'DealerMSDSCopyAjax']);
-Route::match(['get', 'post'], '/DealerEditMSDSAjax', [DealerController::class, 'DealerEditMSDSAjax']);
+Route::match(['get', 'post'], '/VendorMSDSAjax', [VendorController::class, 'VendorMSDSAjax']);
+Route::match(['get', 'post'], '/VendorCasCodeSearchAjax', [VendorController::class, 'VendorCasCodeSearchAjax']);
+Route::match(['get', 'post'], '/VendorCasInsertAjax', [VendorController::class, 'VendorCasInsertAjax']);
+Route::match(['get', 'post'], '/VendorSelectMSDSAjax', [VendorController::class, 'VendorSelectMSDSAjax']);
+Route::match(['get', 'post'], '/VendorDelMSDSAjax', [VendorController::class, 'VendorDelMSDSAjax']);
+Route::match(['get', 'post'], '/VendorMSDSupdateWeightAjax', [VendorController::class, 'VendorMSDSupdateWeightAjax']);
+Route::match(['get', 'post'], '/VendorMSDSCopyListAjax', [VendorController::class, 'VendorMSDSCopyListAjax']);
+Route::match(['get', 'post'], '/VendorMSDSCopyAjax', [VendorController::class, 'VendorMSDSCopyAjax']);
+Route::match(['get', 'post'], '/VendorEditMSDSAjax', [VendorController::class, 'VendorEditMSDSAjax']);
 
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {

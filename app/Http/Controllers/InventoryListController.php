@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Services\LangService;
+use Illuminate\Support\Facades\File;
+
+
 class InventoryListController extends Controller
 {
     /**
@@ -50,9 +53,22 @@ class InventoryListController extends Controller
                     'time' => $time,
                 ]);
             }
-            return redirect()->back()->with('success', 'CSV 檔案已匯入');
-        }
+            $filename = $request->country.'inventory';
+    
+            $destinationPath = public_path('csv_files/' . $filename . '.csv');
+            File::move($path, $destinationPath);
+            
+            // 檢查是否成功移動檔案
+            if (File::exists($destinationPath)) {
+               return redirect()->back()->with('success', 'CSV 檔案已匯入');
+            } else {
+                // 移動失敗的處理邏輯
+                dd('Move failed');
+            }
 
+          
+        }
+      
         return redirect()->back()->with('error', '請選擇一個 CSV 檔案');
     }
 

@@ -13,7 +13,7 @@
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-codepen"></i>
                             <span>供應商管理</span></a>
                         <ul class="collapse">
-                            <li id="dealerMSDSBtn"><a href="dealerMSDS">MSDS</a></li>                   
+                            <li id="vendorMSDSBtn"><a href="vendorMSDS">MSDS</a></li>                   
                         </ul>
                     </li>
                    

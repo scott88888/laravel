@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DealerUserModel extends Model
+class VendorUserModel extends Model
 {
     use HasFactory;
-    protected $table = 'dealer_users'; // 替換成你的資料表名稱
+    protected $table = 'mes_vendor_users'; // 替換成你的資料表名稱
     protected $fillable = [
         'dealer_id',
         'password',

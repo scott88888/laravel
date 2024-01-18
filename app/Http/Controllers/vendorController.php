@@ -11,50 +11,58 @@ use Illuminate\Support\Facades\Auth;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DealerUserModel;
+use App\Models\VendorUserModel;
 use Illuminate\Http\Request;
 
 
-class DealerController extends BaseController
+class vendorController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
     protected $langService;
-    public function Dealer(Request $request)
+    public function vendorLogin(Request $request)
     {
 
-        return view('dealerLogin');
+        return view('vendorLogin');
     }
 
-    public function DealerCheckLogin(Request $request)
+    public function vendorCheckLogin(Request $request)
     {
         $dealerId = $request->input('dealer_id');
         $password = $request->input('password');
 
         // 在資料庫中驗證帳號密碼
-        $user = DealerUserModel::where('COD_FACT', $dealerId)
-            ->where('NUM_REG', $password)
+        $user = VendorUserModel::where('NUM_REG', $dealerId)
+            ->where('COD_FACT', $password)
             ->first();
 
         if ($user) {
 
-            return redirect()->route('dealerMSDS');
+            return redirect()->route('vendorMSDS')->with('user', $user);
        
         } else {
             // 驗證失敗
-            return view('dealerLogin');
+            return view('vendorLogin');
         }
         // return view('DealerMsds');
 
     }
 
-    public function dealerMSDS(Request $request)
+    public function vendorMSDS(Request $request)
     {
-        $casCode = DB::select(" SELECT * FROM mes_msds_cas");
-        return view('dealerMSDS', compact('casCode'));
+        $user = $request->session()->get('user');
+        if ($user) {
+            $casCode = DB::select(" SELECT * FROM mes_msds_cas");
+            return view('vendorMSDS', compact('casCode'));
+        }
+        else {
+            return view('vendorLogin');
+        }
+      
+       
         
     }
-    public function DealerMSDSAjax(Request $request)
+    public function VendorMSDSAjax(Request $request)
     {
         $searchType = $request->input('searchType');
         $searchName = $request->input('searchName');
@@ -77,7 +85,7 @@ class DealerController extends BaseController
             return response()->json($data);
         }
     }
-    public function DealerCasCodeSearchAjax(Request $request)
+    public function VendorCasCodeSearchAjax(Request $request)
     {
 
         $casCode = $request->input('casCode');
@@ -88,7 +96,7 @@ class DealerController extends BaseController
         }
     }
 
-    public function DealerCasInsertAjax(Request $request)
+    public function VendorCasInsertAjax(Request $request)
     {
 
         $partName = $request->input('partName');
@@ -112,7 +120,7 @@ class DealerController extends BaseController
         return response()->json($insertGetId);
     }
 
-    public function DealerSelectMSDSAjax(Request $request)
+    public function VendorSelectMSDSAjax(Request $request)
     {
 
         $modalValue = $request->input('modalValue');
@@ -124,7 +132,7 @@ class DealerController extends BaseController
 
         return response()->json($data);
     }
-    public function DealerDelMSDSAjax(Request $request)
+    public function VendorDelMSDSAjax(Request $request)
     {
         $result = $request->input('result');
         // 使用 array_filter() 過濾出數字
@@ -148,7 +156,7 @@ class DealerController extends BaseController
             return response()->json('刪除失敗');
         }
     }
-    public function DealerMSDSupdateWeightAjax(Request $request)
+    public function VendorMSDSupdateWeightAjax(Request $request)
     {
         $COD_FACT = $request->input('COD_FACT');
         $partNumber = $request->input('partNumber');
@@ -166,7 +174,7 @@ class DealerController extends BaseController
         return response()->json($data);
     }
 
-    public function DealerMSDSCopyListAjax(Request $request)
+    public function VendorMSDSCopyListAjax(Request $request)
     {
         $searchType = $request->input('searchType');
         $searchName = $request->input('searchName');
@@ -186,7 +194,7 @@ class DealerController extends BaseController
         }
     }
 
-    public function DealerMSDSCopyAjax(Request $request)
+    public function VendorMSDSCopyAjax(Request $request)
     {
         $searchType = $request->input('searchType');
         $searchName = $request->input('searchName');
@@ -217,7 +225,7 @@ class DealerController extends BaseController
         return response()->json($data);
     }
 
-    public function DealerEditMSDSAjax(Request $request)
+    public function VendorEditMSDSAjax(Request $request)
     {
         $id = $request->input('editCOSid');
 

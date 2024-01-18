@@ -5,7 +5,7 @@ const searchParams = new URLSearchParams(url.search);
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
 
-if (page == "dealerMSDS") {
+if (page == "vendorMSDS") {
   setActive('#supplierMmanagement');
  
 }
@@ -24,11 +24,11 @@ function removeActive(elements) {
 }
 
 switch (page) {
-  case 'dealerMSDS':
-    $('#dealerMSDSBtn').last().addClass("active");
+  case 'vendorMSDS':
+    $('#vendorMSDSBtn').last().addClass("active");
     break;
-    case 'dealerMSDS#':
-    $('#dealerMSDSBtn').last().addClass("active");
+    case 'vendorMSDS#':
+    $('#vendorMSDSBtn').last().addClass("active");
     break;
   default:
     console.log('Sorry, we are out of ' + page + '.');

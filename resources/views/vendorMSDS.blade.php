@@ -30,9 +30,9 @@
     </div>
 
     <div class="page-container">
-        @include('layouts/dealerSidebar')
+        @include('layouts/VendorSidebar')
         <div class="main-content">
-            @include('layouts/dealerHeaderarea')
+            @include('layouts/VendorHeaderarea')
 
             <div class="row" style="margin: 0;">
                 <!-- Dark table start -->
@@ -277,7 +277,7 @@
     </div>
     @include('layouts/settings')
 </body>
-@include('layouts/dealerFooterjs')
+@include('layouts/VendorFooterjs')
 
 <script>
     var table;
@@ -435,7 +435,7 @@
 
                 $('#loading').show();
                 $.ajax({
-                    url: 'DealerMSDSCopyListAjax',
+                    url: 'VendorMSDSCopyListAjax',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -483,7 +483,7 @@
 
                 $('#loading').show();
                 $.ajax({
-                    url: 'DealerMSDSCopyAjax',
+                    url: 'VendorMSDSCopyAjax',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -597,7 +597,7 @@
             var searchName = $('#searchName').val();
             $('#loading').show();
             $.ajax({
-                url: 'DealerMSDSAjax',
+                url: 'VendorMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -676,7 +676,7 @@
 
             $('#loading').show();
             $.ajax({
-                url: 'DealerEditMSDSAjax',
+                url: 'VendorEditMSDSAjax',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -717,7 +717,7 @@
         function selectMSDS(modalValue, modalName, COD_FACT) {
             $('#loading').show();
             $.ajax({
-                url: 'DealerSelectMSDSAjax',
+                url: 'VendorSelectMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -761,7 +761,7 @@
             var casCode = $('#casCode').val();
             $('#loading').show();
             $.ajax({
-                url: 'DealerCasCodeSearchAjax',
+                url: 'VendorCasCodeSearchAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -829,7 +829,7 @@
         function MesCasInsertAjax(addDataArray) {
             $('#loading').show();
             $.ajax({
-                url: 'DealerCasInsertAjax',
+                url: 'VendorCasInsertAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -864,7 +864,7 @@
             var partNumber = $('#partNumber').val();
             $('#loading').show();
             $.ajax({
-                url: 'DealerDelMSDSAjax',
+                url: 'VendorDelMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -906,7 +906,7 @@
         function updateWeightAjax(COD_FACT, partNumber, partWeight) {
             $('#loading').show();
             $.ajax({
-                url: 'DealerMSDSupdateWeightAjax',
+                url: 'VendorMSDSupdateWeightAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {

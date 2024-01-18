@@ -8,7 +8,7 @@
 
 
 
-        <form method="POST" action="DealerCheckLogin">
+        <form method="POST" action="vendorCheckLogin">
             @csrf
 
             <div>
