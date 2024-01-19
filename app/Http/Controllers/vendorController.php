@@ -37,8 +37,8 @@ class vendorController extends BaseController
             ->first();
 
         if ($user) {
-
-            return redirect()->route('vendorMSDS')->with('user', $user);
+            session(['user' => $user]);
+            return redirect()->route('vendorMSDS');
        
         } else {
             // 驗證失敗
@@ -53,7 +53,14 @@ class vendorController extends BaseController
         $user = $request->session()->get('user');
         if ($user) {
             $casCode = DB::select(" SELECT * FROM mes_msds_cas");
-            return view('vendorMSDS', compact('casCode'));
+           
+            $COD_FACT=$user->COD_FACT;
+            $data = DB::select("SELECT * FROM mes_fitm
+            LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
+            WHERE mes_fitm.COD_FACT LIKE '$user->COD_FACT'
+            ORDER BY mes_fitm.COD_FACT desc; ");
+        //    var_dump($data);
+            return view('vendorMSDS', compact('casCode','data','COD_FACT'));
         }
         else {
             return view('vendorLogin');

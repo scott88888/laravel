@@ -48,7 +48,8 @@ class InventoryListController extends Controller
             foreach ($data as $row) {
                 DB::table('mes_stockcsv')->insert([
                     'modal' => $row[0],
-                    'stock' => $row[1],
+                    'description' => $row[1],
+                    'stock' => $row[2],
                     'country' => $request->country,
                     'time' => $time,
                 ]);

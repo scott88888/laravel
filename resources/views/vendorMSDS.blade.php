@@ -43,7 +43,7 @@
                             <div class="form-row">
                                 <div class="col-md-2 mb-3">
                                     <label class="col-form-label" style="padding-top: 0;">查詢類型</label>
-                                    <select id="searchType" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                    <select id="searchType" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);" disabled>
                                         <option value="COD_FACT" selected>廠商編號</option>
                                         <option value="COD_ITEM">料件編號</option>
                                     </select>
@@ -51,7 +51,7 @@
 
                                 <div class="col-md-2 mb-3">
                                     <label class="col-form-label" style="padding-top: 0;">查詢內容</label>
-                                    <input id="searchName" type="texy" class="form-control" placeholder="" required="">
+                                    <input id="searchName" type="texy" class="form-control" value="{{$COD_FACT}}" readonly >
                                 </div>
 
 
@@ -590,11 +590,37 @@
 
         });
 
+        var FACT = '{{$COD_FACT}}';
 
+        if (FACT.length > 1) {            
+            var searchType = 'COD_FACT';
+            var searchName = FACT;
+            $('#loading').show();
+            $.ajax({
+                url: 'VendorMSDSAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    searchType: searchType,
+                    searchName: searchName
+                },
+                success: function(response) {
+                    table.clear();
+                    table.rows.add(response);
+                    table.draw();
+
+                    $('#loading').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+        }
 
         $('#submit').click(function() {
-            var searchType = $('#searchType').val();
-            var searchName = $('#searchName').val();
+            var searchType = 'COD_FACT';
+            var searchName = FACT;
             $('#loading').show();
             $.ajax({
                 url: 'VendorMSDSAjax',
@@ -662,56 +688,56 @@
             } else if (displayValue !== 'none') {
                 alert('請先更新重量');
                 return;
-            }else {
-            var addDataArray = [];
-            addDataArray['id'] = editCOSid;
-            addDataArray['partName'] = $('#partName').val();
-            addDataArray['partNumber'] = $('#partNumber').val();
-            addDataArray['casCode'] = $('#casCode').val();
-            addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
-            addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
-            addDataArray['content'] = $('#content').val();
-            addDataArray['COD_FACT_part'] = window.COD_FACT;
-            console.log(addDataArray);
+            } else {
+                var addDataArray = [];
+                addDataArray['id'] = editCOSid;
+                addDataArray['partName'] = $('#partName').val();
+                addDataArray['partNumber'] = $('#partNumber').val();
+                addDataArray['casCode'] = $('#casCode').val();
+                addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
+                addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
+                addDataArray['content'] = $('#content').val();
+                addDataArray['COD_FACT_part'] = window.COD_FACT;
+                console.log(addDataArray);
 
-            $('#loading').show();
-            $.ajax({
-                url: 'VendorEditMSDSAjax',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    editCOSid: editCOSid,
-                    partName: $('#partName').val(),
-                    partNumber: $('#partNumber').val(),
-                    casCode: $('#casCode').val(),
-                    CAS_NoE: $('#CAS_NoE').val(),
-                    CAS_NoC: $('#CAS_NoC').val(),
-                    content: $('#content').val(),
-                    COD_FACT_part: COD_FACT,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    MSDStable.clear();
-                    MSDStable.rows.add(response);
-                    MSDStable.draw();
-                    $('#loading').hide();
-                    alert('修改成功');
-                    $('#partName').val('');
-                    $('#factoryPartName').val('');
-                    $('#casCode').val('');
-                    $('#CAS_NoE').val('');
-                    $('#CAS_NoC').val('');
-                    $('#content').val('');
+                $('#loading').show();
+                $.ajax({
+                    url: 'VendorEditMSDSAjax',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        editCOSid: editCOSid,
+                        partName: $('#partName').val(),
+                        partNumber: $('#partNumber').val(),
+                        casCode: $('#casCode').val(),
+                        CAS_NoE: $('#CAS_NoE').val(),
+                        CAS_NoC: $('#CAS_NoC').val(),
+                        content: $('#content').val(),
+                        COD_FACT_part: COD_FACT,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        MSDStable.clear();
+                        MSDStable.rows.add(response);
+                        MSDStable.draw();
+                        $('#loading').hide();
+                        alert('修改成功');
+                        $('#partName').val('');
+                        $('#factoryPartName').val('');
+                        $('#casCode').val('');
+                        $('#CAS_NoE').val('');
+                        $('#CAS_NoC').val('');
+                        $('#content').val('');
 
-                },
-                error: function(xhr, status, error) {
-                    console.log(response);
-                    $('#loading').hide();
-                }
-            });
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(response);
+                        $('#loading').hide();
+                    }
+                });
             }
 
-            
+
         });
 
         function selectMSDS(modalValue, modalName, COD_FACT) {

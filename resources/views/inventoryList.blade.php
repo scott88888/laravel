@@ -39,6 +39,7 @@
                                         <thead class="text-capitalize" style=" background: darkgrey;">
                                             <tr>
                                                 <th>{{ $langArray->產品型號 }}</th>
+                                                <th>{{ $langArray->產品說明 }}</th>
                                                 <th>{{ $langArray->庫存 }}</th>
                                             </tr>
                                         </thead>
@@ -47,8 +48,8 @@
                                             <tr>
 
                                                 <td>{{$ListData->modal}}</td>
+                                                <td>{{$ListData->description}}</td>
                                                 <td>{{$ListData->stock}}</td>
-
                                             </tr>
                                             @endforeach
                                         </tbody>

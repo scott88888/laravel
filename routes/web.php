@@ -34,7 +34,7 @@ Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadI
 // test
 Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
 // 經銷
-Route::match(['get', 'post'], '/vendorlongin', [vendorController::class, 'vendorLogin']);
+Route::match(['get', 'post'], '/vendorLogin', [vendorController::class, 'vendorLogin'])->name('vendorlogin');
 
 Route::match(['get', 'post'], '/vendorCheckLogin', [vendorController::class, 'vendorCheckLogin']);
 Route::match(['get', 'post'], '/vendorMSDS', [vendorController::class, 'vendorMSDS'])->name('vendorMSDS');
