@@ -19,6 +19,10 @@
             display: none;
         }
     }
+
+    .modal-footer .button-group {
+        float: left;
+    }
 </style>
 
 <body>
@@ -51,7 +55,7 @@
 
                                 <div class="col-md-2 mb-3">
                                     <label class="col-form-label" style="padding-top: 0;">查詢內容</label>
-                                    <input id="searchName" type="texy" class="form-control" value="{{$COD_FACT}}" readonly >
+                                    <input id="searchName" type="texy" class="form-control" value="{{$COD_FACT}}" readonly>
                                 </div>
 
 
@@ -211,11 +215,12 @@
                             </table>
                         </div>
 
-                        <div class="modal-footer">
+                        <div class="modal-footer" style="justify-content:center">
                             <button type="button" class="btn btn-info" id="editMSDS">修改</button>
-                            <button type="button" class="btn btn-danger" id="delMSDS">刪除</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                            <button type="button" class="btn btn-danger" style="margin-right: 60%;" id="delMSDS">刪除</button>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -592,7 +597,7 @@
 
         var FACT = '{{$COD_FACT}}';
 
-        if (FACT.length > 1) {            
+        if (FACT.length > 1) {
             var searchType = 'COD_FACT';
             var searchName = FACT;
             $('#loading').show();
@@ -869,6 +874,7 @@
                     COD_FACT_part: addDataArray['COD_FACT_part']
                 },
                 success: function(response) {
+                    $('#casCode').val('');
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {

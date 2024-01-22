@@ -29,9 +29,11 @@ class DashboardController extends BaseController
         $shipmentMon = $shipmentMon['shipmentMon'];
         //end
         $seasonDates = $this->getPreviousSeasonDates();
+ 
         $startSeasonDate = $seasonDates['start'];
         $endSeasonDate = $seasonDates['end'];
         $seasonDates['Season'] = substr($seasonDates['start'], 0, 6) . '-' . substr($seasonDates['end'], 0, 6);
+ 
         $shipmentRanking = DB::select("SELECT subquery.NAM_ITEMS, subquery.QTY_DEL, subquery.TYP_ITEM, subquery.TYP_CODE, subquery.COD_ITEM
         FROM (
           SELECT mes_deld_shipment.NAM_ITEMS, SUM(mes_deld_shipment.QTY_DEL) AS QTY_DEL, mes_deld_shipment.TYP_ITEM, mes_typ_item.TYP_CODE, mes_deld_shipment.COD_ITEM,
@@ -156,9 +158,9 @@ class DashboardController extends BaseController
         ORDER BY COD_ITEM ASC, MTRM_PS ASC");
 
         //AA重工
-        $lastMonth = date('ym', strtotime('first day of last month'));
+        $lastMonth = date('ym', strtotime('first day of last month'));        
         $mesRemakeAAList = DB::select("SELECT * FROM mac_query WHERE  NUM_PS LIKE 'AA$lastMonth%' GROUP BY CLDS_COD_ITEM");
-
+        
         
         //平均維修
         $warrantyAVG = DB::select("SELECT AVG(HUR_REQ) AS average_hur_req
@@ -347,44 +349,32 @@ class DashboardController extends BaseController
     function getPreviousSeasonDates()
     {
         $currentMonth = date('n'); // 获取当前月份，不带前导零
-
-        // 定义每个季节的开始月份
-        $seasons = [
-            1 => 1,  // 冬季
-            4 => 4,  // 春季
-            7 => 7,  // 夏季
-            10 => 10, // 秋季
-        ];
-
-        // 找到前一季度的开始月份
-        $startMonth = 1;
-        foreach ($seasons as $month => $seasonStartMonth) {
-            if ($currentMonth >= $month) {
-                $startMonth = $seasonStartMonth;
-            } else {
-                break;
-            }
+        $year= date('Y')  ;
+        if ($currentMonth <= 3) {
+            
+            $startSeasonDate =  $year -1 .'1001';
+            $endSeasonDate =   $year -1 .'1231';
+          
+        }elseif($currentMonth >= 4 && $currentMonth <= 6 ){
+            $startSeasonDate =  $year.'0101';
+            $endSeasonDate =  $year.'0331';
+           
+        }elseif($currentMonth >= 7 && $currentMonth <= 9 ){
+            $startSeasonDate =  $year.'0401';
+            $endSeasonDate =  $year.'0631';
+           
+        }else{
+            $startSeasonDate =  $year.'0701';
+            $endSeasonDate =  $year.'0930';
         }
-
-        // 计算前一季度的结束月份
-        $endMonth = $startMonth + 2;
-        if ($endMonth > 12) {
-            $endMonth = $endMonth - 12;
-        }
-
-        // 获取当前年份的后两位
-        $currentYear = date('Y');
-
-        // 格式化日期字符串
-        $startSeasonDate = $currentYear . sprintf('%02d', $startMonth - 3) . '01'; // 减去3个月获取前一季度的开始月份
-        $endSeasonDate = $currentYear . sprintf('%02d', $endMonth - 3) . '31'; // 减去3个月获取前一季度的结束月份
-
         return [
             'start' => $startSeasonDate,
             'end' => $endSeasonDate,
         ];
+
+        
     }
 
-    // 使用函数获取前一季度的日期范围
+    
 
 }

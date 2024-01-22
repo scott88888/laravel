@@ -211,10 +211,10 @@
                             </table>
                         </div>
 
-                        <div class="modal-footer">
+                        <div class="modal-footer" style="justify-content:center">
                             <button type="button" class="btn btn-info" id="editMSDS">修改</button>
-                            <button type="button" class="btn btn-danger" id="delMSDS">刪除</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                            <button type="button" class="btn btn-danger" style="margin-right: 30rem;" id="delMSDS">刪除</button>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
                         </div>
                     </div>
                 </div>
@@ -843,6 +843,7 @@
                     COD_FACT_part: addDataArray['COD_FACT_part']
                 },
                 success: function(response) {
+                    $('#casCode').val('');
                     $('#loading').hide();
                 },
                 error: function(xhr, status, error) {

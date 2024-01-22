@@ -42,7 +42,7 @@ class vendorController extends BaseController
        
         } else {
             // 驗證失敗
-            return view('vendorLogin');
+            return view('vendorLogin')->with('error', '帳號或密碼錯誤');
         }
         // return view('DealerMsds');
 
