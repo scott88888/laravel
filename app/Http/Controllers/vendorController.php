@@ -55,12 +55,11 @@ class vendorController extends BaseController
             $casCode = DB::select(" SELECT * FROM mes_msds_cas");
            
             $COD_FACT=$user->COD_FACT;
-            $data = DB::select("SELECT * FROM mes_fitm
-            LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
-            WHERE mes_fitm.COD_FACT LIKE '$user->COD_FACT'
-            ORDER BY mes_fitm.COD_FACT desc; ");
-        //    var_dump($data);
-            return view('vendorMSDS', compact('casCode','data','COD_FACT'));
+           
+           
+          
+            
+            return view('vendorMSDS', compact('casCode','COD_FACT'));
         }
         else {
             return view('vendorLogin');
@@ -74,11 +73,26 @@ class vendorController extends BaseController
         $searchType = $request->input('searchType');
         $searchName = $request->input('searchName');
 
+   
+
+
         if ($searchType == 'COD_FACT') {
+            $user = $request->session()->get('user');
             $data = DB::select("SELECT * FROM mes_fitm
             LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
-            WHERE mes_fitm.COD_FACT LIKE '$searchName%'
+            WHERE mes_fitm.COD_FACT LIKE '$user->COD_FACT'
             ORDER BY mes_fitm.COD_FACT desc; ");
+          
+            foreach ($data as $key => $value) {
+                $percentage = DB::select("SELECT *,CONCAT(FORMAT(SUM(mes_msds_list.content / mes_msds_part.partWeight) * 100, 2), '%') AS TAO
+                FROM mes_msds_list
+                LEFT JOIN mes_msds_part ON mes_msds_list.partNumber = mes_msds_part.COD_ITEM
+                                       AND mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
+                WHERE mes_msds_list.partNumber = '$value->COD_ITEM' AND mes_msds_list.COD_FACT = '$value->COD_FACT'");
+                    $value->NUM_FAX = 100;                   
+                $value->total = $percentage[0]->TAO;            
+            }
+    
         } else {
             $data = DB::select("SELECT * FROM mes_fitm
             LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT

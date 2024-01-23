@@ -83,11 +83,12 @@
                                 <th>廠商名稱</th>
                                 <th>料號</th>
                                 <th>說明</th>
-
+                                <th>加總</th>
 
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -112,24 +113,24 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-row align-items-center" style="margin: 2rem;">
-
-                                <div class="col-4" id="">
-                                    <label>料件名稱</label>
-                                    <input id="partName" type="text" class="form-control" placeholder="" value="">
-                                </div>
                                 <div class="col-4" id="">
                                     <label>料件編號</label>
                                     <input id="partNumber" type="text" class="form-control" placeholder="" value="" readonly>
                                 </div>
                                 <div class="col-4" id="">
-                                    <label>廠商料件名稱</label>
+                                    <label>料件名稱</label>
+                                    <input id="partName" type="text" class="form-control" placeholder="" value="">
+                                </div>
+
+                                <div class="col-4" id="">
+                                    <label>廠商料件名稱(可空白)</label>
                                     <input id="factoryPartName" type="text" class="form-control" placeholder="" value="">
                                 </div>
 
                             </div>
                             <div class="form-row align-items-center" style="margin: 2rem;">
                                 <div class="col-3" id="">
-                                    <label>料件重量(mg)</label>
+                                    <label>料件總重量(mg)</label>
                                     <input id="partWeight" type="number" class="form-control" placeholder="" value="" readonly>
                                 </div>
 
@@ -218,9 +219,9 @@
                         <div class="modal-footer" style="justify-content:center">
                             <button type="button" class="btn btn-info" id="editMSDS">修改</button>
                             <button type="button" class="btn btn-danger" style="margin-right: 60%;" id="delMSDS">刪除</button>
-                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -369,7 +370,10 @@
                 {
                     "data": "NAM_ITEMF",
                     "title": "說明"
-                },
+                }, {
+                    "data": "total",
+                    "title": "加總%"
+                }
 
             ]
         });
