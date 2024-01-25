@@ -713,7 +713,7 @@ class MesController extends BaseController
         $noticeDate = $request->input('noticeDate');
         $formatted_date = str_replace("-", "", $noticeDate);
 
-
+        
 
         if ($repairNum) {
             $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
@@ -1227,7 +1227,9 @@ class MesController extends BaseController
                 'other' => null,
                 'otherText' => null,
                 'maintenanceStaffID' => null,
-                'maintenanceStaff' => null
+                'maintenanceStaff' => null,
+                'records' => null,
+                
             ];
             $pagetype = "create";
             // 将包含所有列都为null的数组赋值给$ramData
@@ -1414,7 +1416,9 @@ class MesController extends BaseController
         $lensText = $request->input('lensText');
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
-
+        if ($noticeDate) {
+            $noticeDate = preg_replace('/-/', '', $noticeDate);
+        }
         // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
 
         $data = [
@@ -1470,7 +1474,7 @@ class MesController extends BaseController
         $maintenanceStaff = $request->input('maintenanceStaff');
         $toll = $request->input('toll');
         $workingHours = $request->input('workingHours');
-
+        $records = $request->input('records');
 
         // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
 
@@ -1487,7 +1491,8 @@ class MesController extends BaseController
             'maintenanceStaffID' => $maintenanceStaffID,
             'maintenanceStaff' => $maintenanceStaff,
             'toll' => $toll,
-            'workingHours' => $workingHours
+            'workingHours' => $workingHours,
+            'records' => $records
         ];
 
         // 使用 update 方法来更新数据，并获取更新是否成功的结果

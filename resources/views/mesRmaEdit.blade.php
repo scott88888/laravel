@@ -163,7 +163,10 @@
                                     <div class="col-2">
                                         <label>送修日期</label>
                                         @if($ListData->noticeDate)
-                                        <input class="form-control" type="date" value="{{$ListData->noticeDate}}" id="noticeDate">
+                                        @php
+                                        $date = new DateTime($ListData->noticeDate);
+                                        @endphp
+                                        <input class="form-control" type="date" value="{{$date->format('Y-m-d')}}" id="noticeDate">
                                         @else
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
                                         @endif
@@ -271,12 +274,12 @@
                                             <div class="col" style="text-align: center;">
                                                 <a href="#" id="openModalButton"><button type="button" id="bombtn" class="btn btn-primary btn-block">BOM</button></a>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-2">
-                                                <label >查詢</label>
-                                                <a href="{{ asset('RMAAnalysis?model=')}}{{$ListData->productNum}}" target="_blank"><button type="button" id="" class="btn btn-primary btn-block">不良零件/不良原因</button></a>
-                                            </div>
+                                            <label>查詢</label>
+                                            <a href="{{ asset('RMAAnalysis?model=')}}{{$ListData->productNum}}" target="_blank"><button type="button" id="" class="btn btn-primary btn-block">不良零件/不良原因</button></a>
+                                        </div>
                                     </div>
                                     <div class="form-row align-items-center">
                                         <div class="col-1" id="">
@@ -337,7 +340,7 @@
                                     <div class="form-row align-items-center" style="padding-top: 2rem;">
                                         <label>維修紀錄</label>
                                         <div class="col-12" id="">
-                                            <textarea rows="4" cols="200" placeholder="在此输入..."></textarea>
+                                            <textarea id='records' rows="4" cols="200" placeholder="在此输入..."></textarea>
                                         </div>
                                     </div>
 
@@ -543,14 +546,31 @@
         $('#maintenanceUpdate').show();
         $('#maintenanceEdit').hide();
         const faultSituationCode = $('#faultSituationCode').val();
+        if (faultSituationCode == '') {
+            $('#faultSituationCode').val('A001-無');
+        }
         const faultCauseCode = $('#faultCauseCode').val();
+        if (faultCauseCode == '') {
+            $('#faultCauseCode').val('B001-測試正常');
+        }
+        const responsibility = $("#responsibility");
+        if (responsibility.find("option:selected").length === 0) {
+            responsibility.find("option[value='客戶']").attr("selected", true);
+
+        }
+
+        const faultPart = $('#faultPart').val();
+        if (faultPart == '') {
+            $('#faultPart').val('N');
+        }
+
         const maintenanceStaff = $('#maintenanceStaff').val();
         const maintenanceStaffID = $('#maintenanceStaffID').val();
         const SN = $('#SN').val();
         const newSN = $('#newSN').val();
         const toll = $('#toll').val();
         const workingHours = $('#newSN').val();
-       
+
         if (SN == null || $.trim(SN) == '') {
             const SN = $('#serchCon').val()
             $('#SN').val(SN);
@@ -576,11 +596,7 @@
     $('#maintenanceUpdate').click(function() {
         const idNum = $('#idNum').val();
         const faultSituationCode = $('#faultSituationCode').val();
-
         const faultCauseCode = $('#faultCauseCode').val();
-        console.log(faultSituationCode);
-
-        console.log(faultCauseCode);
         const faultPart = $('#faultPart').val();
         const faultLocation = $('#faultLocation').val();
         const responsibility = $('#responsibility').val();
@@ -592,6 +608,8 @@
         const maintenanceStaff = $('#maintenanceStaff').val();
         const toll = $('#toll').val();
         const workingHours = $('#workingHours').val();
+        const records = $('#records').val();
+        
         $('#loading').show();
         $.ajax({
             url: 'mesMaintenanceUpdateAjax',
@@ -611,7 +629,8 @@
                 maintenanceStaffID: maintenanceStaffID,
                 maintenanceStaff: maintenanceStaff,
                 toll: toll,
-                workingHours: workingHours
+                workingHours: workingHours,
+                records:records
             },
             success: function(response) {
                 $('#loading').hide();
@@ -632,47 +651,52 @@
     function getRmaData() {
         var num = '{{$ramData[0]->NUM}}';
         if (num != null && $.trim(num) !== '') {
-            var numTitle = num.slice(0, 2); 
+            var numTitle = num.slice(0, 2);
             var repairNum = num.slice(2);
-        $('#numTitle').val(numTitle);
-        $('#repairNum').val(repairNum);
-        }else{
+            $('#numTitle').val(numTitle);
+            $('#repairNum').val(repairNum);
+        } else {
             $('#numTitle').val('FA');
         }
         var faultSituationText = '{{$ramData[0]->faultSituationCode. $ramData[0]->faultSituation }}';
-        var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';        
+        var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';
+        var recordsText = '{{$ramData[0]->records}}';
         $('#responsibility').val('{{$ramData[0]->responsibility }}');
         $('#toll').val('{{$ramData[0]->toll }}');
-        $('#newPackaging').prop('checked',  '{{$ramData[0]->newPackaging }}');
-        $('#wire').prop('checked',  '{{$ramData[0]->wire }}');
-        $('#wipePackaging').prop('checked',  '{{$ramData[0]->wipePackaging }}');
-        $('#rectifier').prop('checked',  '{{$ramData[0]->rectifier }}');
-        $('#HDD').prop('checked',  '{{$ramData[0]->HDD }}');
-        $('#lens').prop('checked',  '{{$ramData[0]->lens }}');
-        $('#other').prop('checked',  '{{$ramData[0]->other }}');
+        $('#newPackaging').prop('checked', {{$ramData[0]->newPackaging }});
+        $('#wire').prop('checked', {{$ramData[0]->wire }});
+        $('#wipePackaging').prop('checked', {{$ramData[0]->wipePackaging }});
+        $('#rectifier').prop('checked', {{$ramData[0]->rectifier }});
+        $('#HDD').prop('checked', {{$ramData[0]->HDD }});
+        $('#lens').prop('checked', {{$ramData[0]->lens }});
+        $('#other').prop('checked', {{$ramData[0]->other }});
         $('#faultSituationCode').val(faultSituationText).trigger('input');
         $('#faultCauseCode').val(faultCauseText).trigger('input');
-       var customRadio = '{{$ramData[0]->repairType }}';
-       switch (customRadio) {
-        case '維修':
-            $('#customRadio1').prop('checked', true);
-            break;
+        $('#records').val(recordsText).trigger('textarea');
+        var customRadio = '{{$ramData[0]->repairType }}';
+        switch (customRadio) {
+            case '維修':
+                $('#customRadio1').prop('checked', true);
+                break;
             case '借':
-            $('#customRadio2').prop('checked', true);
-            break;
+                $('#customRadio2').prop('checked', true);
+                break;
             case '退':
-            $('#customRadio3').prop('checked', true);
-            break;
+                $('#customRadio3').prop('checked', true);
+                break;
             case '換':
-            $('#customRadio4').prop('checked', true);
-            break;
+                $('#customRadio4').prop('checked', true);
+                break;
             case 'LZ':
-            $('#customRadio5').prop('checked', true);
-            break;
-        default:
-        $('#customRadio1').prop('checked', true);
-            break;
-       }
+                $('#customRadio5').prop('checked', true);
+                break;
+            default:
+                $('#customRadio1').prop('checked', true);
+                break;
+        }
+
+        
+
     };
 
     $('#openModalButton').click(function() {
@@ -774,7 +798,7 @@
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-        
+
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -801,7 +825,7 @@
             repairNum,
             selectedValue,
             serchCon,
-          
+
             customerNumber,
             customerName,
             customerAttn,
@@ -848,7 +872,7 @@
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-        
+
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -874,7 +898,7 @@
             repairNum,
             selectedValue,
             serchCon,
-          
+
             customerNumber,
             customerName,
             customerAttn,
@@ -948,6 +972,8 @@
         $('#lensText').prop('disabled', type);
         $('#HDDText').prop('disabled', type);
         $('#otherText').prop('disabled', type);
+      
+       
     }
 
 
@@ -965,8 +991,20 @@
         $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', type);
-
+        if (type == true) {           
+            $('textarea').css('background', '#e9ecef');
+            $('#records').prop('readonly', type);
+        }else{
+            $('textarea').css('background', '#ffffff');
+            $('#records').prop('readonly', type);
+        }
     }
+
+
+    // 添加點擊事件
+    window.addEventListener("beforeunload", function() {
+        alert('123')
+    });
 </script>
 
 </html>
