@@ -1229,6 +1229,8 @@ class MesController extends BaseController
                 'maintenanceStaffID' => null,
                 'maintenanceStaff' => null,
                 'records' => null,
+                'formStat' => null,
+                'remark' => null
                 
             ];
             $pagetype = "create";
@@ -1351,6 +1353,9 @@ class MesController extends BaseController
         $lensText = $request->input('lensText');
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
+        $formStat = $request->input('formStat');
+        $remark = $request->input('remark');
+  
         $data = DB::table('mes_rma_edit')->insertGetId([
             'ID' => '',
             'NUM' => $num,
@@ -1377,7 +1382,9 @@ class MesController extends BaseController
             'HDDText' => $HDDText,
             'other' => $other,
             'otherText' => $otherText,
-            'num256' => $num256
+            'num256' => $num256,
+            'formStat' => $formStat,
+            'remark' => $remark   
         ]);
         if ($data) {
             return response()->json($data);
@@ -1416,6 +1423,8 @@ class MesController extends BaseController
         $lensText = $request->input('lensText');
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
+        $formStat = $request->input('formStat');
+        $remark = $request->input('remark');
         if ($noticeDate) {
             $noticeDate = preg_replace('/-/', '', $noticeDate);
         }
@@ -1444,7 +1453,9 @@ class MesController extends BaseController
             'HDD' => $HDD,
             'HDDText' => $HDDText,
             'other' => $other,
-            'otherText' => $otherText
+            'otherText' => $otherText,
+            'formStat' => $formStat,
+            'remark' => $remark   
         ];
 
         // 使用 update 方法来更新数据，并获取更新是否成功的结果

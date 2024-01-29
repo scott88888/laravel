@@ -86,16 +86,23 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-2" style="margin-left: 3rem;">
+                                    
+                                    <div class="col-1">
+                                            <label>狀態</label>
+                                            <select id="formStat" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                                <option value="0">已維修完結案</option>
+                                                <option value="1">不維修結案</option>
+                                                <option value="2">待客戶回復</option>
+                                                <option value="3">待外廠維修</option>
+                                            </select>
+                                    </div>
+                                        <div class="col-1" style="margin-left: 3rem;">
                                         @if($ListData->svgImage)
                                         <img id="svgImage" src="{{$ListData->svgImage}}" alt="SVG Image">
                                         @else
                                         <img id="svgImage" src="data:image/svg+xml;base64,Base64EncodedSVGData" alt="SVG Image">
                                         @endif
-
-
                                     </div>
-
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" checked id="customRadio1" name="customRadio1" class="custom-control-input">
@@ -226,6 +233,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-row align-items-center" style="padding-top: 2rem;">
+                                        <label>備註:</label>
+                                        <div class="col-12" id="">
+                                            <textarea id='remark' rows="4" cols="200" placeholder="在此输入...">{{$ListData->remark}}</textarea>
+                                        </div>
+                                    </div>
 
                                 <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
                                     <button type="button" id="createRMA" class="btn btn-primary btn-block">
@@ -340,7 +353,7 @@
                                     <div class="form-row align-items-center" style="padding-top: 2rem;">
                                         <label>維修紀錄</label>
                                         <div class="col-12" id="">
-                                            <textarea id='records' rows="4" cols="200" placeholder="在此输入..."></textarea>
+                                            <textarea id='records' rows="4" cols="200" placeholder="在此输入...">{{$ListData->records}}</textarea>
                                         </div>
                                     </div>
 
@@ -658,6 +671,10 @@
         } else {
             $('#numTitle').val('FA');
         }
+        var formStat = '{{$ramData[0]->formStat}}';
+        $('#formStat').val(formStat);
+        var remark = '{{$ramData[0]->remark}}';
+        
         var faultSituationText = '{{$ramData[0]->faultSituationCode. $ramData[0]->faultSituation }}';
         var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';
         var recordsText = '{{$ramData[0]->records}}';
@@ -793,12 +810,10 @@
         if (idNum == null && $.trim(idNum) == '') {
             return;
         }
-
         const numTitle = $('#numTitle').val();
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -819,13 +834,14 @@
         const lensText = $('#lensText').val();
         const HDDText = $('#HDDText').val();
         const otherText = $('#otherText').val();
+        const formStat = $('#formStat').val();
+        const remark = $('#remark').val();
         const formData = {
             idNum,
             numTitle,
             repairNum,
             selectedValue,
             serchCon,
-
             customerNumber,
             customerName,
             customerAttn,
@@ -845,7 +861,9 @@
             other,
             lensText,
             HDDText,
-            otherText
+            otherText,
+            formStat,
+            remark
         };
         $('#loading').show();
         $.ajax({
@@ -872,7 +890,6 @@
         const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
-
         const customerNumber = $('#customerNumber').val();
         const customerName = $('#customerName').val();
         const customerAttn = $('#customerAttn').val();
@@ -893,12 +910,15 @@
         const lensText = $('#lensText').val();
         const HDDText = $('#HDDText').val();
         const otherText = $('#otherText').val();
+        const formStat = $('#formStat').val();
+        const remark = $('#remark').val();
+        
+            
         const formData = {
             numTitle,
             repairNum,
             selectedValue,
             serchCon,
-
             customerNumber,
             customerName,
             customerAttn,
@@ -918,7 +938,9 @@
             other,
             lensText,
             HDDText,
-            otherText
+            otherText,
+            formStat,
+            remark
         };
         $('#loading').show();
         $.ajax({
@@ -972,7 +994,14 @@
         $('#lensText').prop('disabled', type);
         $('#HDDText').prop('disabled', type);
         $('#otherText').prop('disabled', type);
-      
+        $('#formStat').prop('disabled', type);
+        if (type == true) {           
+            $('#remark').css('background', '#e9ecef');
+            $('#remark').prop('readonly', type);
+        }else{
+            $('#remark').css('background', '#ffffff');
+            $('#remark').prop('readonly', type);
+        }
        
     }
 
@@ -992,10 +1021,10 @@
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', type);
         if (type == true) {           
-            $('textarea').css('background', '#e9ecef');
+            $('#records').css('background', '#e9ecef');
             $('#records').prop('readonly', type);
         }else{
-            $('textarea').css('background', '#ffffff');
+            $('#records').css('background', '#ffffff');
             $('#records').prop('readonly', type);
         }
     }
