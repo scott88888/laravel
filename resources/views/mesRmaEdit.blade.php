@@ -312,20 +312,20 @@
                                             <input id="newSN" type="text" class="form-control" placeholder="" value="{{$ListData->newSN}}">
                                         </div>
                                         <div class="col-2" id="">
-                                            <label>QA</label>
+                                            <label>RMA開始時間</label>
                                             @if($ListData->QADate)
-                                            <input class="form-control" type="date" value="{{$ListData->QADate}}" id="QADate">
+                                            <input class="form-control" type="datetime-local" value="{{$ListData->QADate}}" id="QADate">
                                             @else
-                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="QADate">
+                                            <input class="form-control" type="datetime-local" value="<?php echo date('Y-m-d H:i:s'); ?>" id="QADate">
                                             @endif
 
                                         </div>
                                         <div class="col-2" id="">
-                                            <label>完修</label>
+                                            <label>RMA完修時間</label>
                                             @if($ListData->completedDate)
-                                            <input class="form-control" type="date" value="{{$ListData->completedDate}}" id="completedDate">
+                                            <input class="form-control" type="datetime-local" value="{{$ListData->completedDate}}" id="completedDate">
                                             @else
-                                            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="completedDate">
+                                            <input class="form-control" type="datetime-local" value="<?php echo date('Y-m-d H:i:s'); ?>" id="completedDate">
                                             @endif
                                         </div>
                                     </div>
@@ -594,7 +594,8 @@
 
         }
         if (workingHours == null || $.trim(workingHours) == '') {
-            $('#workingHours').val('1');
+            const hours = diffhours()
+            $('#workingHours').val(hours);
         }
         if (toll == null) {
             $('#toll').val('yes');
@@ -603,7 +604,24 @@
 
     });
 
+    function diffhours(){    
 
+        const time1 = $('#QADate').val();
+        const time2 = $('#completedDate').val();
+
+
+        const time1_ms = new Date(time1).getTime();
+        const time2_ms = new Date(time2).getTime();
+        // 計算兩個時間的差值
+        const diff_ms = time2_ms - time1_ms;
+
+        // 計算兩個時間相差多少個小時
+        const hours = Math.floor(diff_ms / (1000 * 60 * 60));
+
+        // 取到小數第一位
+        return hours + (diff_ms % (1000 * 60 * 60)) / (1000 * 60) * 0.01;
+        
+    }
 
 
     $('#maintenanceUpdate').click(function() {
@@ -620,6 +638,9 @@
         const maintenanceStaffID = $('#maintenanceStaffID').val();
         const maintenanceStaff = $('#maintenanceStaff').val();
         const toll = $('#toll').val();
+        const hours = diffhours()
+        $('#workingHours').val(hours);
+        
         const workingHours = $('#workingHours').val();
         const records = $('#records').val();
         
@@ -1019,7 +1040,7 @@
         $('#maintenanceStaffID').prop('disabled', type);
         $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
-        $('#workingHours').prop('disabled', type);
+        $('#workingHours').prop('disabled', true);
         if (type == true) {           
             $('#records').css('background', '#e9ecef');
             $('#records').prop('readonly', type);
