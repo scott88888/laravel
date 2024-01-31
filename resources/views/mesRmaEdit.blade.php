@@ -90,10 +90,10 @@
                                     <div class="col-1">
                                             <label>狀態</label>
                                             <select id="formStat" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                                <option value="0">已維修完結案</option>
-                                                <option value="1">不維修結案</option>
-                                                <option value="2">待客戶回復</option>
-                                                <option value="3">待外廠維修</option>
+                                                <option value="0" style="color: black;">已維修完結案</option>
+                                                <option value="1" style="color: red;">不維修結案</option>
+                                                <option value="2" style="color: red;">待客戶回復</option>
+                                                <option value="3" style="color: red;">待外廠維修</option>
                                             </select>
                                     </div>
                                         <div class="col-1" style="margin-left: 3rem;">
@@ -517,6 +517,12 @@
 
         }
         qrCode();
+        if ( $('#formStat').val() == 0) {
+            $('#formStat').css('color', 'black');
+        }else{
+            $('#formStat').css('color', 'red');
+        }
+       
     });
 
     function qrCode() {
@@ -832,7 +838,7 @@
             return;
         }
         const numTitle = $('#numTitle').val();
-        const repairNum = $('#repairNum').val();
+        const repairNum = $('#repairNum').val();        
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
         const customerNumber = $('#customerNumber').val();
@@ -856,6 +862,11 @@
         const HDDText = $('#HDDText').val();
         const otherText = $('#otherText').val();
         const formStat = $('#formStat').val();
+        if ( $('#formStat').val() == 0) {
+            $('#formStat').css('color', 'black');
+        }else{
+            $('#formStat').css('color', 'red');
+        }
         const remark = $('#remark').val();
         const formData = {
             idNum,

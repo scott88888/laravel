@@ -84,10 +84,11 @@
                                 <th>料號</th>
                                 <th>說明</th>
                                 <th>加總</th>
-
+                                <th>承認書</th>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -312,7 +313,7 @@
             responsive: true,
             order: [0, "desc"],
         };
-
+        let Backup_icon = '<img src=' + '{{ asset("images/icon/Backup_Blue_64x64px.png")}} style="width: 1.5rem;"">';
         table = $('#ListData').DataTable({
             ...tableConfig,
             order: [
@@ -373,7 +374,20 @@
                 }, {
                     "data": "total",
                     "title": "加總%"
+                }, {
+                    "data": "COD_ITEM",
+                    "targets": 0,
+                    "title": "承認書",
+                    "render": function(data, type, row) {
+                        if (data.length > 0) {
+                            return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';                        
+                        } else {
+                            return '';
+                        }
+                    }
+                  
                 }
+            
 
             ]
         });
