@@ -50,6 +50,10 @@ Route::match(['get', 'post'], '/VendorMSDSCopyListAjax', [VendorController::clas
 Route::match(['get', 'post'], '/VendorMSDSCopyAjax', [VendorController::class, 'VendorMSDSCopyAjax']);
 Route::match(['get', 'post'], '/VendorEditMSDSAjax', [VendorController::class, 'VendorEditMSDSAjax']);
 
+Route::match(['get', 'post'], '/uploadMSDSFile', [VendorController::class, 'uploadMSDSFile']);
+
+
+
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //排行榜

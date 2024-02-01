@@ -4,7 +4,7 @@
 <head>
 
     @include('layouts/head')
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <script>
@@ -142,6 +142,21 @@
                                         <button type="button" id="updateWeight" class="btn btn-primary ">更新重量</button>
 
                                     </div>
+                                </div>
+                                <div class="col-5" style="margin: 2rem;">
+                                    <span class="ti-upload">承認書</span>
+                                    <input id="certificateName" style="display: none;">
+                                    <form id="certificateForm" enctype="multipart/form-data">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="certificateInput" id="certificateInput" accept=".pdf" onchange="updateFileName(this,'certificate')">
+                                                <label class="custom-file-label" id="certificate">Choose file</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="input-group-text" type="button" onclick="uploadFile('certificate')">Upload</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 
@@ -380,14 +395,15 @@
                     "title": "承認書",
                     "render": function(data, type, row) {
                         if (data.length > 0) {
-                            return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/' + data + '" target="_blank">' + Backup_icon + '</a>';                        
+                            return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/upload/certificateMSDS/' + row.COD_FACT +'/'+ data + '.pdf" target="_blank">' + Backup_icon + '</a>';
+                            
                         } else {
                             return '';
                         }
                     }
-                  
+
                 }
-            
+
 
             ]
         });
@@ -978,7 +994,83 @@
             });
         }
 
+
     });
+
+    function updateFileName(input, labelId) {
+        var fileName = input.files[0].name;
+        var label = document.getElementById(labelId);
+        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
+    }
+
+    function updateFileStatus(input, labelId) {
+        var fileName = input.files[0].name;
+        var label = document.getElementById(labelId);
+        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
+    }
+
+
+    function uploadFile(type) {
+ 
+
+        if (1>2) {
+            alert("請確認*必填資料，才能上傳檔案");
+        } else {
+            var fileInput, formId;
+            if (type === 'certificate') {
+                fileInput = document.querySelector('input[name="certificateInput"]');
+                formId = 'certificate';
+            } 
+            var file = fileInput.files[0];           
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('COD_FACT', COD_FACT);
+            formData.append('partNumber', $('#partNumber').val());
+            
+            $('#loading').show();
+            $.ajax({
+                url: "{{ asset('uploadMSDSFile') }}",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            var progressPercent = Math.round((e.loaded / e.total) * 100);
+                            $('#progressBarFill').css('width', progressPercent + '%');
+                        }
+                    });
+                    return xhr;
+                },
+                success: function(response) {
+                    console.log(response.message);
+                    console.log(response.filename);
+                    $('#' + type + '_Name').val(response.filename).hide();
+                    var label = document.getElementById(type);
+                    label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
+                    // console.log(response.filesize);
+                    // console.log(type);
+
+                    $('#loading').hide();
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    console.log(status);
+                    var label = document.getElementById(type);
+                    label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
+                    $('#loading').hide();
+                }
+            });
+        }
+
+
+    }
 </script>
 
 </html>
