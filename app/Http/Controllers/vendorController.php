@@ -12,7 +12,8 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\VendorUserModel;
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class vendorController extends BaseController
 {
@@ -274,12 +275,12 @@ class vendorController extends BaseController
         // 調用建立目錄函數
 
         // 上傳檔案的目標路徑和檔名，大小
-       $directory = 'certificateMSDS/'.$request->input('COD_FACT');
+        $directory = 'certificateMSDS/' . $request->input('COD_FACT');
 
         // $ftpFilename = $_FILES['file']['name'];
         // $ftpFilename = urlencode($ftpFilename);
-        $ftpFilename = $request->input('partNumber').'.pdf';
-        
+        $ftpFilename = $request->input('partNumber') . '.pdf';
+
         $filesize = $_FILES['file']['size'];
         $filesize = $this->formatFileSize($filesize);
         // 建構 cURL 請求
@@ -317,5 +318,24 @@ class vendorController extends BaseController
         return round($bytes, 2) . ' ' . $units[$index];
     }
 
- 
+    public function creatPassword(Request $request)
+    {
+
+        $data = DB::select("SELECT * FROM `mes_vendor_users` WHERE NUM_REG IS NOT NULL GROUP BY NUM_REG");
+        var_dump($data[0]->COD_FACT);
+        exit;
+        foreach ($data as $key => $value) {
+            $user = User::create([
+                'employee_id' =>  $value->NUM_REG,
+                'name' => $value->NAM_FACT,
+                'email' => $value->NAM_FACT,
+                'email_verified_at' => now(),
+                'password' => Hash::make($value->COD_FACT),
+                'updated_at' => now(),
+                'def_pass' =>  $value->COD_FACT,
+                'type' => 1,
+            ]);
+        }
+        
+    }
 }

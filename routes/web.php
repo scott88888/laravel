@@ -52,7 +52,7 @@ Route::match(['get', 'post'], '/VendorEditMSDSAjax', [VendorController::class, '
 
 Route::match(['get', 'post'], '/uploadMSDSFile', [VendorController::class, 'uploadMSDSFile']);
 
-
+Route::match(['get', 'post'], '/creatPassword', [VendorController::class, 'creatPassword']);
 
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {

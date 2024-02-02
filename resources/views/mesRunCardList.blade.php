@@ -51,7 +51,10 @@
                                                 <option>select</option>
                                                 <option value="NUM_PS">工單</option>
                                                 <option value="runcard_no">流程卡號</option>
-
+                                                <option value="SEQ_ITEM">零件序號查詢</option>
+                                                <option value="SEQ_MITEM">出廠序號查詢</option>
+                                                <option value="PS2">MAC查詢</option>                                     
+                                                <option value="model_no">產品型號查詢</option>                                             
                                             </select>
                                         </div>
                                     </div>

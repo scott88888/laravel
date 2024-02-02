@@ -161,10 +161,10 @@ class MesModelList extends Authenticatable
             $value = DB::select("SELECT `PS1`, `NUM_PS`, `work_no`, `COD_MITEM`, `SEQ_MITEM`, `PS2`, `version`, `PS3`, `P2PKey`, `LPR_Key`, `COD_ITEM`, `SEQ_ITEM`, `SEQ_NO`, `startTime`, `productionLine`, `operation`
                     FROM `runcard`
                     WHERE YEAR(`startTime`) = $search;");
+        }else{
+            $value = DB::select("SELECT * FROM `runcard` WHERE `$searchtype` like '$search%'");
         }
-        if ($searchtype == 'NUM_PS' || $searchtype == 'runcard_no') {
-            $value = DB::select("SELECT * FROM `runcard` WHERE `$searchtype` = '$search'");
-        }
+      
 
         return $value;
     }
