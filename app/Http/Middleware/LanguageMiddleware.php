@@ -17,7 +17,7 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-       
+
 
         if (Auth::check()) {
             $user = Auth::user();
@@ -25,9 +25,9 @@ class LanguageMiddleware
             $browserLanguage = DB::select("SELECT * 
         FROM mes_check_permission
         WHERE employee_id = '$employee_id'");
-
-            if ($browserLanguage[0]->lang_default) {
-
+            if (count($browserLanguage) == 0) {
+                app()->setLocale('zh');
+            } elseif ($browserLanguage[0]->lang_default) {
                 app()->setLocale($browserLanguage[0]->lang_default);
             } else {
                 $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);

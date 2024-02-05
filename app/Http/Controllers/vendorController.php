@@ -323,7 +323,7 @@ class vendorController extends BaseController
 
         $data = DB::select("SELECT * FROM `mes_vendor_users` WHERE NUM_REG IS NOT NULL GROUP BY NUM_REG");
         var_dump($data[0]->COD_FACT);
-        exit;
+
         foreach ($data as $key => $value) {
             $user = User::create([
                 'employee_id' =>  $value->NUM_REG,
@@ -335,7 +335,13 @@ class vendorController extends BaseController
                 'def_pass' =>  $value->COD_FACT,
                 'type' => 1,
             ]);
+            $insert = DB::table('mes_check_permission')->insert([
+                'employee_id' => $value->NUM_REG,
+                'name' => $value->NAM_FACT,
+                'permission' => 34,
+                'default' => 34,
+                'lang_default' => 'zh'
+            ]);
         }
-        
     }
 }

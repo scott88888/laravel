@@ -4,7 +4,7 @@ const url = new URL(window.location.href);
 const searchParams = new URLSearchParams(url.search);
 const page = path.split('/').pop();
 const prefix = page.substring(0, 3);
-
+console.log(page);
 if (page == "mesUploadList" || page == "mesModelList" || page == "mesKickoffList" || page == "mesModelList" || page == "mesCutsQuery" || page == "mesProductionResumeList" || page == "mesHistoryProductionQuantity" || page == "mesRunCardList" || page == "mesRuncardListNotin" || page == "mesDefectiveList" || page == "mesDefectiveRate" || page == "mesRepairNGList" || page == "mesBuyDelay" || page == "mesECNList") {
   setActive('#documentSearch');
   removeActive(['#RMA', '#dashBoard', '#setup', '#fileCenter', '#inventoryList', '#salesManagement','#supplierMmanagement']);
@@ -39,8 +39,8 @@ function setActive(elementId) {
 }
 
 function removeActive(elements) {
-  elements.forEach(function (element) {
-    $(element).removeClass('active');
+  elements.forEach(function (elements) {
+    $(elements).removeClass('active');
   });
 }
 
@@ -158,9 +158,9 @@ switch (page) {
   case 'mesRmasear':
     $('#mesRmasearBtn').last().addClass("active");
     break;
-    case 'mesMSDS':
-      $('#mesMSDSBtn').last().addClass("active");
-      break;
+  case 'mesMSDS':
+    $('#mesMSDSBtn').last().addClass("active");
+    break;
   default:
     console.log('Sorry, we are out of ' + page + '.');
 
@@ -189,8 +189,10 @@ $(document).ready(function () {
       checkAndHideCategory('fileCenter');
       checkAndHideCategory('inventoryList');
       checkAndHideCategory('setup');
-      checkAndHideCategory('mesMSDS');
-      
+      checkAndHideCategory('salesManagement');
+      checkAndHideCategory('supplierMmanagement');
+
+
       if (pageName == 'inventoryList') {
         hideInventoryList();
 
