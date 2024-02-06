@@ -7,7 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 use Illuminate\Support\Facades\Auth;
-
+use App\Services\LangService;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\VendorUserModel;
@@ -20,47 +20,34 @@ class vendorController extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     protected $langService;
-    public function vendorLogin(Request $request)
-    {
 
-        return view('vendorLogin');
+    public function __construct(LangService $langService)
+    {
+        $this->langService = $langService;
     }
 
-    public function vendorCheckLogin(Request $request)
-    {
-        $dealerId = $request->input('dealer_id');
-        $password = $request->input('password');
 
-        // 在資料庫中驗證帳號密碼
-        $user = VendorUserModel::where('NUM_REG', $dealerId)
-            ->where('COD_FACT', $password)
-            ->first();
-
-        if ($user) {
-            session(['user' => $user]);
-            return redirect()->route('vendorMSDS');
-        } else {
-            // 驗證失敗
-            return view('vendorLogin')->with('error', '帳號或密碼錯誤');
-        }
-        // return view('DealerMsds');
-
-    }
 
     public function vendorMSDS(Request $request)
     {
-        $user = $request->session()->get('user');
-        if ($user) {
-            $casCode = DB::select(" SELECT * FROM mes_msds_cas");
 
-            $COD_FACT = $user->COD_FACT;
+        $lang = app()->getLocale();
+        $page = 'mesMSDS';
+        $langArray = $this->langService->getLang($lang, $page);
+        $page = 'sidebar';
+        $sidebarLang = $this->langService->getLang($lang, $page);
 
+        $casCode = DB::select(" SELECT * FROM mes_msds_cas");
 
-
-
-            return view('vendorMSDS', compact('casCode', 'COD_FACT'));
+        $user = Auth::user();
+       
+        if ($user->type == 1 ) {
+            $COD_FACT = $user->def_pass;          
+            return view('mesMSDS', compact('langArray', 'sidebarLang', 'casCode','COD_FACT'));
         } else {
-            return view('vendorLogin');
+            $COD_FACT = null;
+            return view('mesMSDS', compact('langArray', 'sidebarLang', 'casCode','COD_FACT'));
+
         }
     }
     public function VendorMSDSAjax(Request $request)
@@ -68,34 +55,29 @@ class vendorController extends BaseController
         $searchType = $request->input('searchType');
         $searchName = $request->input('searchName');
 
-
-
-
         if ($searchType == 'COD_FACT') {
-            $user = $request->session()->get('user');
             $data = DB::select("SELECT * FROM mes_fitm
             LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
-            WHERE mes_fitm.COD_FACT LIKE '$user->COD_FACT'
+            WHERE mes_fitm.COD_FACT LIKE '$searchName'
             ORDER BY mes_fitm.COD_FACT desc; ");
 
-            foreach ($data as $key => $value) {
-                $percentage = DB::select("SELECT *,CONCAT(FORMAT(SUM(mes_msds_list.content / mes_msds_part.partWeight) * 100, 2), '%') AS TAO
-                FROM mes_msds_list
-                LEFT JOIN mes_msds_part ON mes_msds_list.partNumber = mes_msds_part.COD_ITEM
-                                       AND mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
-                WHERE mes_msds_list.partNumber = '$value->COD_ITEM' AND mes_msds_list.COD_FACT = '$value->COD_FACT'");
-                $value->NUM_FAX = 100;
-                $value->total = $percentage[0]->TAO;
-            }
+            
         } else {
             $data = DB::select("SELECT * FROM mes_fitm
             LEFT JOIN mes_fact ON mes_fitm.COD_FACT = mes_fact.COD_FACT
             WHERE mes_fitm.COD_ITEM LIKE '$searchName%'
             ORDER BY mes_fitm.COD_FACT desc; ");
+      
         }
-
-
-
+        foreach ($data as $key => $value) {
+            $percentage = DB::select("SELECT *,CONCAT(FORMAT(SUM(mes_msds_list.content / mes_msds_part.partWeight) * 100, 2), '%') AS TAO
+            FROM mes_msds_list
+            LEFT JOIN mes_msds_part ON mes_msds_list.partNumber = mes_msds_part.COD_ITEM
+                                   AND mes_msds_list.COD_FACT = mes_msds_part.COD_FACT
+            WHERE mes_msds_list.partNumber = '$value->COD_ITEM' AND mes_msds_list.COD_FACT = '$value->COD_FACT'");
+            $value->NUM_FAX = 100;
+            $value->total = $percentage[0]->TAO;
+        }
         if ($data) {
             return response()->json($data);
         }

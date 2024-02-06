@@ -33,26 +33,6 @@ Route::match(['get', 'post'], '/mesAutoUpdate', [AutoUpdateController::class, 'm
 Route::match(['get', 'post'], 'show-image/{target}/{model}/{filename}', [uploadImgAPIController::class, 'showImage']);
 // test
 Route::match(['get', 'post'], '/test', [TestController::class, 'test']);
-// 經銷
-Route::match(['get', 'post'], '/vendorLogin', [vendorController::class, 'vendorLogin'])->name('vendorlogin');
-
-Route::match(['get', 'post'], '/vendorCheckLogin', [vendorController::class, 'vendorCheckLogin']);
-Route::match(['get', 'post'], '/vendorMSDS', [vendorController::class, 'vendorMSDS'])->name('vendorMSDS');
-
-
-Route::match(['get', 'post'], '/VendorMSDSAjax', [VendorController::class, 'VendorMSDSAjax']);
-Route::match(['get', 'post'], '/VendorCasCodeSearchAjax', [VendorController::class, 'VendorCasCodeSearchAjax']);
-Route::match(['get', 'post'], '/VendorCasInsertAjax', [VendorController::class, 'VendorCasInsertAjax']);
-Route::match(['get', 'post'], '/VendorSelectMSDSAjax', [VendorController::class, 'VendorSelectMSDSAjax']);
-Route::match(['get', 'post'], '/VendorDelMSDSAjax', [VendorController::class, 'VendorDelMSDSAjax']);
-Route::match(['get', 'post'], '/VendorMSDSupdateWeightAjax', [VendorController::class, 'VendorMSDSupdateWeightAjax']);
-Route::match(['get', 'post'], '/VendorMSDSCopyListAjax', [VendorController::class, 'VendorMSDSCopyListAjax']);
-Route::match(['get', 'post'], '/VendorMSDSCopyAjax', [VendorController::class, 'VendorMSDSCopyAjax']);
-Route::match(['get', 'post'], '/VendorEditMSDSAjax', [VendorController::class, 'VendorEditMSDSAjax']);
-
-Route::match(['get', 'post'], '/uploadMSDSFile', [VendorController::class, 'uploadMSDSFile']);
-
-Route::match(['get', 'post'], '/creatPassword', [VendorController::class, 'creatPassword']);
 
 //內容頁
 Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
@@ -119,19 +99,19 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/RMAAnalysisAjax', [MesController::class, 'RMAAnalysisAjax']);
     Route::match(['get', 'post'], '/RMAbadPartAjax', [MesController::class, 'RMAbadPartAjax']);
     Route::match(['get', 'post'], '/mesRmaEdit', [MesController::class, 'mesRmaEdit'])
-    ->middleware(CheckPermission::class . ':mesRmaEdit');
+        ->middleware(CheckPermission::class . ':mesRmaEdit');
     Route::get('/mesRmaEditAjax', [MesController::class, 'mesRmaEditAjax']);
     Route::get('/mesRmaGetNumAjax', [MesController::class, 'mesRmaGetNumAjax']);
     Route::get('/mesRmaeEditSave', [MesController::class, 'mesRmaeEditSave']);
     Route::get('/mesRmasear', [MesController::class, 'mesRmasear'])
-    ->middleware(CheckPermission::class . ':mesRmasear');
+        ->middleware(CheckPermission::class . ':mesRmasear');
     Route::get('/mesRmasearAjax', [MesController::class, 'mesRmasearAjax']);
     Route::get('/mesRmasear30daysAjax', [MesController::class, 'mesRmasear30daysAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptCreateAjax', [MesController::class, 'mesRmaEditReceiptCreateAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptSaveAjax', [MesController::class, 'mesRmaEditReceiptSaveAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptUpdateAjax', [MesController::class, 'mesRmaEditReceiptUpdateAjax']);
     Route::match(['get', 'post'], '/mesMaintenanceUpdateAjax', [MesController::class, 'mesMaintenanceUpdateAjax']);
-    
+
 
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
@@ -193,17 +173,20 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 
     // 供應商
-    Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS'])
-    ->middleware(CheckPermission::class . ':mesMSDS');
-    Route::match(['get', 'post'], '/mesMSDSAjax', [MesController::class, 'mesMSDSAjax']);
-    Route::match(['get', 'post'], '/mesCasCodeSearchAjax', [MesController::class, 'mesCasCodeSearchAjax']);
-    Route::match(['get', 'post'], '/mesCasInsertAjax', [MesController::class, 'mesCasInsertAjax']);
-    Route::match(['get', 'post'], '/mesSelectMSDSAjax', [MesController::class, 'mesSelectMSDSAjax']);
-    Route::match(['get', 'post'], '/mesDelMSDSAjax', [MesController::class, 'mesDelMSDSAjax']);
-    Route::match(['get', 'post'], '/mesMSDSupdateWeightAjax', [MesController::class, 'mesMSDSupdateWeightAjax']);
-    Route::match(['get', 'post'], '/mesMSDSCopyListAjax', [MesController::class, 'mesMSDSCopyListAjax']);
-    Route::match(['get', 'post'], '/mesMSDSCopyAjax', [MesController::class, 'mesMSDSCopyAjax']);
-    Route::match(['get', 'post'], '/mesEditMSDSAjax', [MesController::class, 'mesEditMSDSAjax']);
-    
-});
+    // Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS'])
+    Route::match(['get', 'post'], '/mesMSDS', [vendorController::class, 'vendorMSDS'])
+        ->middleware(CheckPermission::class . ':mesMSDS');
 
+
+
+    Route::match(['get', 'post'], '/VendorMSDSAjax', [VendorController::class, 'VendorMSDSAjax']);
+    Route::match(['get', 'post'], '/VendorCasCodeSearchAjax', [VendorController::class, 'VendorCasCodeSearchAjax']);
+    Route::match(['get', 'post'], '/VendorCasInsertAjax', [VendorController::class, 'VendorCasInsertAjax']);
+    Route::match(['get', 'post'], '/VendorSelectMSDSAjax', [VendorController::class, 'VendorSelectMSDSAjax']);
+    Route::match(['get', 'post'], '/VendorDelMSDSAjax', [VendorController::class, 'VendorDelMSDSAjax']);
+    Route::match(['get', 'post'], '/VendorMSDSupdateWeightAjax', [VendorController::class, 'VendorMSDSupdateWeightAjax']);
+    Route::match(['get', 'post'], '/VendorMSDSCopyListAjax', [VendorController::class, 'VendorMSDSCopyListAjax']);
+    Route::match(['get', 'post'], '/VendorMSDSCopyAjax', [VendorController::class, 'VendorMSDSCopyAjax']);
+    Route::match(['get', 'post'], '/VendorEditMSDSAjax', [VendorController::class, 'VendorEditMSDSAjax']);
+    Route::match(['get', 'post'], '/uploadMSDSFile', [VendorController::class, 'uploadMSDSFile']);
+});

@@ -4,7 +4,7 @@
 <head>
 
     @include('layouts/head')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <script>
@@ -19,10 +19,6 @@
             display: none;
         }
     }
-
-    .modal-footer .button-group {
-        float: left;
-    }
 </style>
 
 <body>
@@ -34,7 +30,7 @@
     </div>
 
     <div class="page-container">
-    @include('layouts/sidebar')
+        @include('layouts/sidebar')
         <div class="main-content">
             @include('layouts/headerarea')
 
@@ -43,7 +39,7 @@
                 <div class="col-12" style="padding: 8px;">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">MSDS表(經銷)</h4>
+                            <h4 class="header-title">MSDS表</h4>
                             <div class="form-row">
                                 <div class="col-md-2 mb-3">
                                     <label class="col-form-label" style="padding-top: 0;">查詢類型</label>
@@ -55,7 +51,7 @@
 
                                 <div class="col-md-2 mb-3">
                                     <label class="col-form-label" style="padding-top: 0;">查詢內容</label>
-                                    <input id="searchName" type="texy" class="form-control" value="{{$COD_FACT}}">
+                                    <input id="searchName" type="texy" class="form-control" placeholder="" required="">
                                 </div>
 
 
@@ -83,13 +79,11 @@
                                 <th>廠商名稱</th>
                                 <th>料號</th>
                                 <th>說明</th>
-                                <th>加總</th>
-                                <th>承認書</th>
+
+
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -114,24 +108,24 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-row align-items-center" style="margin: 2rem;">
+
+                                <div class="col-4" id="">
+                                    <label>料件名稱</label>
+                                    <input id="partName" type="text" class="form-control" placeholder="" value="">
+                                </div>
                                 <div class="col-4" id="">
                                     <label>料件編號</label>
                                     <input id="partNumber" type="text" class="form-control" placeholder="" value="" readonly>
                                 </div>
                                 <div class="col-4" id="">
-                                    <label>料件名稱</label>
-                                    <input id="partName" type="text" class="form-control" placeholder="" value="">
-                                </div>
-
-                                <div class="col-4" id="">
-                                    <label>廠商料件名稱(可空白)</label>
+                                    <label>廠商料件名稱</label>
                                     <input id="factoryPartName" type="text" class="form-control" placeholder="" value="">
                                 </div>
 
                             </div>
                             <div class="form-row align-items-center" style="margin: 2rem;">
                                 <div class="col-3" id="">
-                                    <label>料件總重量(mg)</label>
+                                    <label>料件重量(mg)</label>
                                     <input id="partWeight" type="number" class="form-control" placeholder="" value="" readonly>
                                 </div>
 
@@ -142,21 +136,6 @@
                                         <button type="button" id="updateWeight" class="btn btn-primary ">更新重量</button>
 
                                     </div>
-                                </div>
-                                <div class="col-5" style="margin: 2rem;">
-                                    <span class="ti-upload">承認書</span>
-                                    <input id="certificateName" style="display: none;">
-                                    <form id="certificateForm" enctype="multipart/form-data">
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="certificateInput" id="certificateInput" accept=".pdf" onchange="updateFileName(this,'certificate')">
-                                                <label class="custom-file-label" id="certificate">Choose file</label>
-                                            </div>
-                                            <div class="input-group-append">
-                                                <button class="input-group-text" type="button" onclick="uploadFile('certificate')">Upload</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
 
@@ -234,10 +213,9 @@
 
                         <div class="modal-footer" style="justify-content:center">
                             <button type="button" class="btn btn-info" id="editMSDS">修改</button>
-                            <button type="button" class="btn btn-danger" style="margin-right: 60%;" id="delMSDS">刪除</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
+                            <button type="button" class="btn btn-danger" style="margin-right: 30rem;" id="delMSDS">刪除</button>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" style="padding: 11.25px 7%;">確認</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -328,7 +306,7 @@
             responsive: true,
             order: [0, "desc"],
         };
-        let Backup_icon = '<img src=' + '{{ asset("images/icon/Backup_Blue_64x64px.png")}} style="width: 1.5rem;"">';
+
         table = $('#ListData').DataTable({
             ...tableConfig,
             order: [
@@ -386,24 +364,7 @@
                 {
                     "data": "NAM_ITEMF",
                     "title": "說明"
-                }, {
-                    "data": "total",
-                    "title": "加總%"
-                }, {
-                    "data": "COD_ITEM",
-                    "targets": 0,
-                    "title": "承認書",
-                    "render": function(data, type, row) {
-                        if (data.length > 0) {
-                            return '<a href="https://mes.meritlilin.com.tw/support/www/MES/lilin/upload/certificateMSDS/' + row.COD_FACT +'/'+ data + '.pdf" target="_blank">' + Backup_icon + '</a>';
-                            
-                        } else {
-                            return '';
-                        }
-                    }
-
-                }
-
+                },
 
             ]
         });
@@ -474,7 +435,7 @@
 
                 $('#loading').show();
                 $.ajax({
-                    url: 'VendorMSDSCopyListAjax',
+                    url: 'mesMSDSCopyListAjax',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -522,7 +483,7 @@
 
                 $('#loading').show();
                 $.ajax({
-                    url: 'VendorMSDSCopyAjax',
+                    url: 'mesMSDSCopyAjax',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -629,40 +590,14 @@
 
         });
 
-        var FACT = '{{$COD_FACT}}';
 
-        if (FACT.length > 1) {
-            var searchType = 'COD_FACT';
-            var searchName = FACT;
-            $('#loading').show();
-            $.ajax({
-                url: 'VendorMSDSAjax',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    searchType: searchType,
-                    searchName: searchName
-                },
-                success: function(response) {
-                    table.clear();
-                    table.rows.add(response);
-                    table.draw();
-
-                    $('#loading').hide();
-                },
-                error: function(xhr, status, error) {
-                    console.log('no data');
-                    $('#loading').hide();
-                }
-            });
-        }
 
         $('#submit').click(function() {
-            var searchType = $('#searchType').val();    
+            var searchType = $('#searchType').val();
             var searchName = $('#searchName').val();
             $('#loading').show();
             $.ajax({
-                url: 'VendorMSDSAjax',
+                url: 'mesMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -673,8 +608,8 @@
                     table.clear();
                     table.rows.add(response);
                     table.draw();
+
                     $('#loading').hide();
-                    console.log(response);
                 },
                 error: function(xhr, status, error) {
                     console.log('no data');
@@ -727,62 +662,62 @@
             } else if (displayValue !== 'none') {
                 alert('請先更新重量');
                 return;
-            } else {
-                var addDataArray = [];
-                addDataArray['id'] = editCOSid;
-                addDataArray['partName'] = $('#partName').val();
-                addDataArray['partNumber'] = $('#partNumber').val();
-                addDataArray['casCode'] = $('#casCode').val();
-                addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
-                addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
-                addDataArray['content'] = $('#content').val();
-                addDataArray['COD_FACT_part'] = window.COD_FACT;
-                console.log(addDataArray);
+            }else {
+            var addDataArray = [];
+            addDataArray['id'] = editCOSid;
+            addDataArray['partName'] = $('#partName').val();
+            addDataArray['partNumber'] = $('#partNumber').val();
+            addDataArray['casCode'] = $('#casCode').val();
+            addDataArray['CAS_NoE'] = $('#CAS_NoE').val();
+            addDataArray['CAS_NoC'] = $('#CAS_NoC').val();
+            addDataArray['content'] = $('#content').val();
+            addDataArray['COD_FACT_part'] = window.COD_FACT;
+            console.log(addDataArray);
 
-                $('#loading').show();
-                $.ajax({
-                    url: 'VendorEditMSDSAjax',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        editCOSid: editCOSid,
-                        partName: $('#partName').val(),
-                        partNumber: $('#partNumber').val(),
-                        casCode: $('#casCode').val(),
-                        CAS_NoE: $('#CAS_NoE').val(),
-                        CAS_NoC: $('#CAS_NoC').val(),
-                        content: $('#content').val(),
-                        COD_FACT_part: COD_FACT,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        MSDStable.clear();
-                        MSDStable.rows.add(response);
-                        MSDStable.draw();
-                        $('#loading').hide();
-                        alert('修改成功');
-                        $('#partName').val('');
-                        $('#factoryPartName').val('');
-                        $('#casCode').val('');
-                        $('#CAS_NoE').val('');
-                        $('#CAS_NoC').val('');
-                        $('#content').val('');
+            $('#loading').show();
+            $.ajax({
+                url: 'mesEditMSDSAjax',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    editCOSid: editCOSid,
+                    partName: $('#partName').val(),
+                    partNumber: $('#partNumber').val(),
+                    casCode: $('#casCode').val(),
+                    CAS_NoE: $('#CAS_NoE').val(),
+                    CAS_NoC: $('#CAS_NoC').val(),
+                    content: $('#content').val(),
+                    COD_FACT_part: COD_FACT,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    MSDStable.clear();
+                    MSDStable.rows.add(response);
+                    MSDStable.draw();
+                    $('#loading').hide();
+                    alert('修改成功');
+                    $('#partName').val('');
+                    $('#factoryPartName').val('');
+                    $('#casCode').val('');
+                    $('#CAS_NoE').val('');
+                    $('#CAS_NoC').val('');
+                    $('#content').val('');
 
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(response);
-                        $('#loading').hide();
-                    }
-                });
+                },
+                error: function(xhr, status, error) {
+                    console.log(response);
+                    $('#loading').hide();
+                }
+            });
             }
 
-
+            
         });
 
         function selectMSDS(modalValue, modalName, COD_FACT) {
             $('#loading').show();
             $.ajax({
-                url: 'VendorSelectMSDSAjax',
+                url: 'mesSelectMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -826,7 +761,7 @@
             var casCode = $('#casCode').val();
             $('#loading').show();
             $.ajax({
-                url: 'VendorCasCodeSearchAjax',
+                url: 'mesCasCodeSearchAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -894,7 +829,7 @@
         function MesCasInsertAjax(addDataArray) {
             $('#loading').show();
             $.ajax({
-                url: 'VendorCasInsertAjax',
+                url: 'mesCasInsertAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -930,7 +865,7 @@
             var partNumber = $('#partNumber').val();
             $('#loading').show();
             $.ajax({
-                url: 'VendorDelMSDSAjax',
+                url: 'mesDelMSDSAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -972,7 +907,7 @@
         function updateWeightAjax(COD_FACT, partNumber, partWeight) {
             $('#loading').show();
             $.ajax({
-                url: 'VendorMSDSupdateWeightAjax',
+                url: 'mesMSDSupdateWeightAjax',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -994,83 +929,7 @@
             });
         }
 
-
     });
-
-    function updateFileName(input, labelId) {
-        var fileName = input.files[0].name;
-        var label = document.getElementById(labelId);
-        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
-    }
-
-    function updateFileStatus(input, labelId) {
-        var fileName = input.files[0].name;
-        var label = document.getElementById(labelId);
-        label.innerHTML = "<span style='color: red;'>" + fileName + " (尚未上傳)</span>";
-    }
-
-
-    function uploadFile(type) {
- 
-
-        if (1>2) {
-            alert("請確認*必填資料，才能上傳檔案");
-        } else {
-            var fileInput, formId;
-            if (type === 'certificate') {
-                fileInput = document.querySelector('input[name="certificateInput"]');
-                formId = 'certificate';
-            } 
-            var file = fileInput.files[0];           
-            var formData = new FormData();
-            formData.append('file', file);
-            formData.append('COD_FACT', COD_FACT);
-            formData.append('partNumber', $('#partNumber').val());
-            
-            $('#loading').show();
-            $.ajax({
-                url: "{{ asset('uploadMSDSFile') }}",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener('progress', function(e) {
-                        if (e.lengthComputable) {
-                            var progressPercent = Math.round((e.loaded / e.total) * 100);
-                            $('#progressBarFill').css('width', progressPercent + '%');
-                        }
-                    });
-                    return xhr;
-                },
-                success: function(response) {
-                    console.log(response.message);
-                    console.log(response.filename);
-                    $('#' + type + '_Name').val(response.filename).hide();
-                    var label = document.getElementById(type);
-                    label.innerHTML = "<span style='color: blue;'>" + response.filename + "(" + response.filesize + ")...上傳成功</span>";
-                    // console.log(response.filesize);
-                    // console.log(type);
-
-                    $('#loading').hide();
-
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                    console.log(status);
-                    var label = document.getElementById(type);
-                    label.innerHTML = "<span style='color: red;'>上傳失敗(檔名不能包含中文或特殊符號)</span>";
-                    $('#loading').hide();
-                }
-            });
-        }
-
-
-    }
 </script>
 
 </html>
