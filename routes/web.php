@@ -25,7 +25,7 @@ Route::match(['get', 'post'], '/uploadImg', [uploadImgAPIController::class, 'upl
 Route::match(['get', 'post'], '/showImg', [uploadImgAPIController::class, 'show']);
 Route::get('/', [LogoutController::class, 'perform'])->name('logout.perform');
 Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
-// Route::view('/temp', 'temp');
+
 Route::match(['get', 'post'], '/mailMFR', [MailController::class, 'mailMFR']);
 // sidebar控制頁
 Route::match(['get', 'post'], '/sidebarPageAjax', [SidebarController::class, 'sidebarPageAjax']);
@@ -153,6 +153,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     //設定
     Route::match(['get', 'post'], '/showUpdateForm', [PasswordController::class, 'showUpdateForm']);
     Route::match(['get', 'post'], '/userPasswordUpdate', [PasswordController::class, 'update']);
+    Route::match(['get', 'post'], '/userCreate', [PasswordController::class, 'userCreate']);
+    Route::match(['get', 'post'], '/userCreateAccount', [PasswordController::class, 'userCreateAccount']);
+    
     Route::match(['get', 'post'], '/userLoginLog', [SetupController::class, 'userLoginLog'])
         ->middleware(CheckPermission::class . ':userLoginLog');
     Route::match(['get', 'post'], '/userCheckPermission', [SetupController::class, 'userCheckPermission'])
@@ -173,7 +176,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
 
     // 供應商
-    // Route::match(['get', 'post'], '/mesMSDS', [MesController::class, 'mesMSDS'])
+
     Route::match(['get', 'post'], '/mesMSDS', [vendorController::class, 'vendorMSDS'])
         ->middleware(CheckPermission::class . ':mesMSDS');
 

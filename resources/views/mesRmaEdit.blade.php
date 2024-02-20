@@ -718,20 +718,21 @@
         $('#faultCauseCode').val(faultCauseText).trigger('input');
         $('#records').val(recordsText).trigger('textarea');
         var customRadio = '{{$ramData[0]->repairType }}';
+        console.log(customRadio);
         switch (customRadio) {
             case '維修':
                 $('#customRadio1').prop('checked', true);
                 break;
-            case '借':
+            case '借品':
                 $('#customRadio2').prop('checked', true);
                 break;
-            case '退':
+            case '借品專用':
                 $('#customRadio3').prop('checked', true);
                 break;
             case '換':
                 $('#customRadio4').prop('checked', true);
                 break;
-            case 'LZ':
+            case '退':
                 $('#customRadio5').prop('checked', true);
                 break;
             default:

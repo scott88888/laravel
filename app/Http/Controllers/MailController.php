@@ -88,7 +88,7 @@ class MailController extends Controller
     public function getMfrOverdueUser()
     {
         //需要通知的業務
-        $saleList = array('E201', 'E220', 'E230', 'E235', 'E242', 'E802', 'E708', 'E712', 'E718', 'E810', 'E302', 'E105', 'E107', 'E150', 'E151', 'E152', 'E153');
+        $saleList = array('E201', 'E220', 'E230', 'E235', 'E242', 'E802', 'E708', 'E712', 'E718', 'E303', 'E302', 'E205', 'E107', 'E150', 'E151', 'E152', 'E153');
         $saleListSql = '';
         for ($i = 0; $i < count($saleList); $i++) {
             $saleListSql .= "`EMP_BROW` = '" . $saleList[$i] . "' OR ";
