@@ -70,7 +70,7 @@ class PasswordController extends Controller
     public function userCreateAccount(Request $request)
     {
        
-        if ($request->employee_id && $request->name && $request->email) {
+        if ($request->employee_id && $request->name) {
             // 檢查是否已存在相同的 employee_id
             $existingUser = User::where('employee_id', $request->employee_id)->first();
         
@@ -100,10 +100,5 @@ class PasswordController extends Controller
                 return response()->json(['error' => 'Employee ID already exists'], 422);
             }
         }
-        
-      
-
-        
- 
     }
 }

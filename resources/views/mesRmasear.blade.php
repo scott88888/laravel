@@ -56,8 +56,12 @@
                                     </div>
 
                                     <div class="col-2">
-                                        <label>送修日期</label>
-                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
+                                        <label>送修日期(起)</label>
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDateS">
+                                    </div>
+                                    <div class="col-2">
+                                        <label>送修日期(迄)</label>
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDateE">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
@@ -224,7 +228,8 @@
         $('#submit').click(function() {
             var numTitle = $('#numTitle').val();
             var repairNum = $('#repairNum').val();
-            var noticeDate = $('#noticeDate').val();
+            var noticeDateS = $('#noticeDateS').val();
+            var noticeDateE = $('#noticeDateE').val();
             $('#loading').show();
             $.ajax({
                 url: 'mesRmasearAjax',
@@ -233,7 +238,8 @@
                 data: {
                     numTitle: numTitle,
                     repairNum: repairNum,
-                    noticeDate: noticeDate
+                    noticeDateS: noticeDateS,
+                    noticeDateE: noticeDateE,
                 },
                 success: function(response) {
 

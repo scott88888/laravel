@@ -710,15 +710,16 @@ class MesController extends BaseController
 
         $numTitle = $request->input('numTitle');
         $repairNum = $request->input('repairNum');
-        $noticeDate = $request->input('noticeDate');
-        $formatted_date = str_replace("-", "", $noticeDate);
-
+        $noticeDateS = $request->input('noticeDateS');
+        $noticeDateE = $request->input('noticeDateE');
+        $formatted_dateS = str_replace("-", "", $noticeDateS);
+        $formatted_dateE = str_replace("-", "", $noticeDateE);
         
 
         if ($repairNum) {
             $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
         } else {
-            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate = '$formatted_date' ");
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$formatted_dateS' AND '$formatted_dateE' ");
         }
 
         return response()->json($mesRmaSearData);
@@ -1617,8 +1618,8 @@ class MesController extends BaseController
             $newNumber = $numberPart + 1;
             $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
         } else {
-            $newCode = $numTitle . $today . '001';
-            $newNumber = $today . '001';
+            $newCode = $numTitle . $today . '000001';
+            $newNumber = $today . '000001';
         }
 
         $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];
