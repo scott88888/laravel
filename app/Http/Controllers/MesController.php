@@ -1230,6 +1230,7 @@ class MesController extends BaseController
                 'maintenanceStaffID' => null,
                 'maintenanceStaff' => null,
                 'records' => null,
+                'records2' => null,
                 'formStat' => null,
                 'remark' => null
                 
@@ -1324,13 +1325,11 @@ class MesController extends BaseController
 
     public function mesRmaEditReceiptSaveAjax(Request $request)
     {
-
         $numTitle = $request->input('numTitle');
         $repairNum = $request->input('repairNum');
         $num = $numTitle . $repairNum;
         $selectedValue = $request->input('selectedValue');
         $serchCon = $request->input('serchCon');
-        // $svgImage = $request->input('svgImage');
         $qrcode = DB::select("SELECT * FROM `mes_rma_qrcode` WHERE NUM = '$num' limit 1");
         $svgImage = 'data:image/svg+xml;base64,' . $qrcode[0]->qrcode;
         $num256 = $qrcode[0]->num256;
@@ -1355,8 +1354,7 @@ class MesController extends BaseController
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
         $formStat = $request->input('formStat');
-        $remark = $request->input('remark');
-  
+        $remark = $request->input('remark');  
         $data = DB::table('mes_rma_edit')->insertGetId([
             'ID' => '',
             'NUM' => $num,
@@ -1403,7 +1401,6 @@ class MesController extends BaseController
         $num = $numTitle . $repairNum;
         $selectedValue = $request->input('selectedValue');
         $serchCon = $request->input('serchCon');
-
         $customerNumber = $request->input('customerNumber');
         $customerName = $request->input('customerName');
         $customerAttn = $request->input('customerAttn');
@@ -1487,7 +1484,8 @@ class MesController extends BaseController
         $toll = $request->input('toll');
         $workingHours = $request->input('workingHours');
         $records = $request->input('records');
-
+        $records2 = $request->input('records2');
+        $formStat = $request->input('formStat');
         // 假设您有一个名为 'idNum' 的条件用于确定要更新的记录
 
         $data = [
@@ -1504,7 +1502,9 @@ class MesController extends BaseController
             'maintenanceStaff' => $maintenanceStaff,
             'toll' => $toll,
             'workingHours' => $workingHours,
-            'records' => $records
+            'records' => $records,
+            'records2' => $records2,
+            'formStat' => $formStat
         ];
 
         // 使用 update 方法来更新数据，并获取更新是否成功的结果
@@ -1531,13 +1531,10 @@ class MesController extends BaseController
         $productNum = $request->input('productNum');
         $productName = $request->input('productName');
         $noticeDate = $request->input('noticeDate');
-
-
         $faultSituationCodes = $request->input('faultSituationCodes');
         $faultSituation = explode('-', $faultSituationCodes);
         $faultCauseCodes = $request->input('faultCauseCodes');
         $faultCause = explode('-', $faultCauseCodes);
-
         $faultPart = $request->input('faultPart');
         $faultLocation = $request->input('faultLocation');
         $responsibility = $request->input('responsibility');
@@ -1618,8 +1615,8 @@ class MesController extends BaseController
             $newNumber = $numberPart + 1;
             $newCode = preg_replace('/[0-9]+/', $newNumber, $num);
         } else {
-            $newCode = $numTitle . $today . '000001';
-            $newNumber = $today . '000001';
+            $newCode = $numTitle . $today . '0001';
+            $newNumber = $today . '0001';
         }
 
         $newCodeNum[] = (object)['newCode' => $newCode, 'newNumber' => $newNumber];

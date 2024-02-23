@@ -86,17 +86,18 @@
                                         </div>
                                     </div>
 
-                                    
+
                                     <div class="col-1">
-                                            <label>狀態</label>
-                                            <select id="formStat" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                                <option value="0" style="color: black;">已維修完結案</option>
-                                                <option value="1" style="color: red;">不維修結案</option>
-                                                <option value="2" style="color: red;">待客戶回復</option>
-                                                <option value="3" style="color: red;">待外廠維修</option>
-                                            </select>
+                                        <label>狀態</label>
+                                        <select id="formStat" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="0" style="color: black;">已維修完結案</option>
+                                            <option value="1" style="color: red;">不維修結案</option>
+                                            <option value="2" style="color: red;">待客戶回復</option>
+                                            <option value="3" style="color: red;">待外廠維修</option>
+                                            <option value="4" style="color: black;">撤銷</option>
+                                        </select>
                                     </div>
-                                        <div class="col-1" style="margin-left: 3rem;">
+                                    <div class="col-1" style="margin-left: 3rem;">
                                         @if($ListData->svgImage)
                                         <img id="svgImage" src="{{$ListData->svgImage}}" alt="SVG Image">
                                         @else
@@ -234,11 +235,11 @@
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                        <label>備註:</label>
-                                        <div class="col-12" id="">
-                                            <textarea id='remark' rows="4" cols="200" placeholder="在此输入...">{{$ListData->remark}}</textarea>
-                                        </div>
+                                    <label>備註:</label>
+                                    <div class="col-12" id="">
+                                        <textarea id='remark' rows="4" cols="200" placeholder="在此输入...">{{$ListData->remark}}</textarea>
                                     </div>
+                                </div>
 
                                 <div class="0" style="margin: 4% 25%;width: 50%;text-align: center;margin-bottom: 5rem;">
                                     <button type="button" id="createRMA" class="btn btn-primary btn-block">
@@ -349,9 +350,70 @@
                                             <label>工時</label>
                                             <input id="workingHours" type="text" class="form-control" placeholder="" value="{{$ListData->workingHours}}">
                                         </div>
+                                        <div class="col-1">
+                                            <label>狀態</label>
+                                            <select id="formStat2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                                <option value="0" style="color: black;">已維修完結案</option>
+                                                <option value="1" style="color: red;">不維修結案</option>
+                                                <option value="2" style="color: red;">待客戶回復</option>
+                                                <option value="3" style="color: red;">待外廠維修</option>
+                                                <option value="4" style="color: black;">撤銷</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-row align-items-center" style="padding-top: 2rem;">
-                                        <label>維修紀錄</label>
+
+                                    <div class="form-row align-items-center">
+                                        <div class="col-12" style="padding-top: 2rem;"> <label>維修紀錄</label> </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="Innerbox" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="Innerbox">內盒</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="Wire" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="Wire">電線</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="OctopusCable" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="OctopusCable">八爪線</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="WaterDamage" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="WaterDamage">滲水不修</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="Accessories" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="Accessories">配件</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="Mouseom" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="Mouseom">滑鼠</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="FullSetom" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="FullSetom">全配</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="12V1A" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="12V1A">12V1A</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="12V3A" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="12V3A">12V3A</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="12V5A" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="12V5A">12V5A</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="HDDErr" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="HDDErr">HDD未固定，撞壞機板</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="Irreparable" name="records" class="custom-control-input">
+                                            <label class="custom-control-label" for="Irreparable">無修復價值不修</label>
+                                        </div>
                                         <div class="col-12" id="">
                                             <textarea id='records' rows="4" cols="200" placeholder="在此输入...">{{$ListData->records}}</textarea>
                                         </div>
@@ -517,12 +579,9 @@
 
         }
         qrCode();
-        if ( $('#formStat').val() == 0) {
-            $('#formStat').css('color', 'black');
-        }else{
-            $('#formStat').css('color', 'red');
-        }
-       
+        selectColor()
+
+
     });
 
     function qrCode() {
@@ -537,6 +596,15 @@
         };
     }
 
+    function selectColor() {
+        if ($('#formStat').val() == 0) {
+            $('#formStat').css('color', 'black');
+            $('#formStat2').css('color', 'black');
+        } else {
+            $('#formStat').css('color', 'red');
+            $('#formStat2').css('color', 'red');
+        }
+    }
     $('#submitSearch').click(function() {
         var serchCon = $('#serchCon').val();
         $('#loading').show();
@@ -610,7 +678,7 @@
 
     });
 
-    function diffhours(){    
+    function diffhours() {
 
         const time1 = $('#QADate').val();
         const time2 = $('#completedDate').val();
@@ -626,7 +694,7 @@
 
         // 取到小數第一位
         return hours + (diff_ms % (1000 * 60 * 60)) / (1000 * 60) * 0.01;
-        
+
     }
 
 
@@ -646,10 +714,11 @@
         const toll = $('#toll').val();
         const hours = diffhours()
         $('#workingHours').val(hours);
-        
+
         const workingHours = $('#workingHours').val();
         const records = $('#records').val();
-        
+        const records2 = $('input[name="records"]:checked').next('label').text();
+        const formStat = $('#formStat2').val();
         $('#loading').show();
         $.ajax({
             url: 'mesMaintenanceUpdateAjax',
@@ -670,7 +739,10 @@
                 maintenanceStaff: maintenanceStaff,
                 toll: toll,
                 workingHours: workingHours,
-                records:records
+                records: records,
+                records2: records2,
+                formStat: formStat
+
             },
             success: function(response) {
                 $('#loading').hide();
@@ -700,8 +772,9 @@
         }
         var formStat = '{{$ramData[0]->formStat}}';
         $('#formStat').val(formStat);
+        $('#formStat2').val(formStat);
         var remark = '{{$ramData[0]->remark}}';
-        
+
         var faultSituationText = '{{$ramData[0]->faultSituationCode. $ramData[0]->faultSituation }}';
         var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';
         var recordsText = '{{$ramData[0]->records}}';
@@ -718,7 +791,6 @@
         $('#faultCauseCode').val(faultCauseText).trigger('input');
         $('#records').val(recordsText).trigger('textarea');
         var customRadio = '{{$ramData[0]->repairType }}';
-        console.log(customRadio);
         switch (customRadio) {
             case '維修':
                 $('#customRadio1').prop('checked', true);
@@ -739,8 +811,51 @@
                 $('#customRadio1').prop('checked', true);
                 break;
         }
+        var records2Radio = '{{$ramData[0]->records2 }}';
+        console.log(records2Radio);
+        switch (records2Radio) {
+            case '內盒':
+                $('#Innerbox').prop('checked', true);
+                break;
+            case '電線':
+                $('#Wire').prop('checked', true);
+                break;
+            case '八爪線':
+                $('#OctopusCable').prop('checked', true);
+                break;
+            case '滲水不修':
+                $('#WaterDamage').prop('checked', true);
+                break;
+            case '配件':
+                $('#Accessories').prop('checked', true);
+                break;
+            case '滑鼠':
+                $('#Mouseom').prop('checked', true);
+                break;
+            case '全配':
+                $('#FullSetom').prop('checked', true);
+                break;
+            case '12V1A':
+                $('#12V1A').prop('checked', true);
+                break;
+            case '12V3A':
+                $('#12V3A').prop('checked', true);
+                break;
+            case '12V5A':
+                $('#12V5A').prop('checked', true);
+                break;
+            case 'HDD未固定，撞壞機板':
+                $('#HDDErr').prop('checked', true);
+                break;
+            case '無修復價值不修':
+                $('#Irreparable').prop('checked', true);
+                break;
 
-        
+            default:
+                $('#records2Radio1').prop('checked', true);
+                break;
+        }
+
 
     };
 
@@ -839,7 +954,7 @@
             return;
         }
         const numTitle = $('#numTitle').val();
-        const repairNum = $('#repairNum').val();        
+        const repairNum = $('#repairNum').val();
         const selectedValue = $('input[name="customRadio1"]:checked').next('label').text();
         const serchCon = $('#serchCon').val();
         const customerNumber = $('#customerNumber').val();
@@ -863,11 +978,7 @@
         const HDDText = $('#HDDText').val();
         const otherText = $('#otherText').val();
         const formStat = $('#formStat').val();
-        if ( $('#formStat').val() == 0) {
-            $('#formStat').css('color', 'black');
-        }else{
-            $('#formStat').css('color', 'red');
-        }
+        selectColor()
         const remark = $('#remark').val();
         const formData = {
             idNum,
@@ -945,8 +1056,8 @@
         const otherText = $('#otherText').val();
         const formStat = $('#formStat').val();
         const remark = $('#remark').val();
-        
-            
+
+
         const formData = {
             numTitle,
             repairNum,
@@ -1028,14 +1139,14 @@
         $('#HDDText').prop('disabled', type);
         $('#otherText').prop('disabled', type);
         $('#formStat').prop('disabled', type);
-        if (type == true) {           
+        if (type == true) {
             $('#remark').css('background', '#e9ecef');
             $('#remark').prop('readonly', type);
-        }else{
+        } else {
             $('#remark').css('background', '#ffffff');
             $('#remark').prop('readonly', type);
         }
-       
+
     }
 
 
@@ -1053,10 +1164,11 @@
         $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', true);
-        if (type == true) {           
+        $('#formStat2').prop('disabled', type);
+        if (type == true) {
             $('#records').css('background', '#e9ecef');
             $('#records').prop('readonly', type);
-        }else{
+        } else {
             $('#records').css('background', '#ffffff');
             $('#records').prop('readonly', type);
         }

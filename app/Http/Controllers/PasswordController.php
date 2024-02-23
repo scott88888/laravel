@@ -21,7 +21,6 @@ class PasswordController extends Controller
 
     public function showUpdateForm()
     {
-
         $lang = app()->getLocale();
         $page = 'userSetup';
         $langArray = $this->langService->getLang($lang, $page);
@@ -29,8 +28,7 @@ class PasswordController extends Controller
         $sidebarLang = $this->langService->getLang($lang, $page);
         $user = Auth::user();
         $def_pass = $user->def_pass;
-        return view('userSetup', compact('langArray', 'sidebarLang','def_pass'));
-   
+        return view('userSetup', compact('langArray', 'sidebarLang','def_pass'));   
     }
 
     public function update(Request $request)
