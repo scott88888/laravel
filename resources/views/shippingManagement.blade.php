@@ -43,8 +43,13 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">棧板</label>
                                         <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="">test</option>
-                                            
+                                            <option value="W1200D1000">W1200D1000</option>
+                                            <option value="W1200D800">W1200D800</option>
+                                            <option value="W1100D1100">W1100D1100</option>
+                                            <option value="W1100D1000">W1100D1000</option>
+                                            <option value="W1220D1100">W1220D1100</option>
+                                            <option value="W1140D1140">W1140D1140</option>
+                                            <option value="W1103D800">W1103D800</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
@@ -56,28 +61,20 @@
                                 </div>
                                 <div class="form-row align-items-center">
                                 <div class="col-md-2 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">型號</label>
-                                        <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                          <option value=""></option>                                            
-                                        </select>
+                                        <label class="col-form-label" style="padding-top: 0;">型號1</label>
+                                        <input id="" type="text" class="form-control" placeholder="" value="">
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">型號</label>
-                                        <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option value=""></option>
-                                        </select>
+                                        <label class="col-form-label" style="padding-top: 0;">型號2</label>
+                                        <input id="" type="text" class="form-control" placeholder="" value="">
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">型號</label>
-                                        <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                          <option value=""></option>                                            
-                                        </select>
+                                        <label class="col-form-label" style="padding-top: 0;">型號3</label>
+                                        <input id="" type="text" class="form-control" placeholder="" value="">
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                        <label class="col-form-label" style="padding-top: 0;">型號</label>
-                                        <select id="pallet" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                          <option value=""></option>                                            
-                                        </select>
+                                        <label class="col-form-label" style="padding-top: 0;">型號4</label>
+                                        <input id="" type="text" class="form-control" placeholder="" value="">
                                     </div>
                                 </div>
                             </div>
