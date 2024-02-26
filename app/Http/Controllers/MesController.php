@@ -1232,7 +1232,8 @@ class MesController extends BaseController
                 'records' => null,
                 'records2' => null,
                 'formStat' => null,
-                'remark' => null
+                'remark' => null,
+                'SEQ_MITEM' => null
                 
             ];
             $pagetype = "create";
@@ -1280,13 +1281,7 @@ class MesController extends BaseController
             WHERE SEQ_ITEM = '$search'
             limit 1");
         }
-        if (empty($data)) {
-            $data = DB::select(" SELECT * FROM mac_query 
-            LEFT JOIN pops AS pops on pops.NUM_PS = mac_query.NUM_PS 
-            LEFT JOIN CUST AS CUST on CUST.COD_CUST = pops.COD_CUST 
-            WHERE COD_MITEM = '$search'
-            limit 1");
-        }
+
         //    LEFT JOIN mes_mbom AS mes_mbom on mes_mbom.COD_ITEM = pops.COD_ITEM 
         $COD_ITEM = $data[0]->COD_ITEM;
         $modal = DB::select("SELECT * FROM `mes_lcst_parts` WHERE COD_ITEM = '$COD_ITEM' limit 1");
@@ -1355,6 +1350,7 @@ class MesController extends BaseController
         $otherText = $request->input('otherText');
         $formStat = $request->input('formStat');
         $remark = $request->input('remark');  
+        $SEQ_MITEM = $request->input('SEQ_MITEM');  
         $data = DB::table('mes_rma_edit')->insertGetId([
             'ID' => '',
             'NUM' => $num,
@@ -1383,7 +1379,9 @@ class MesController extends BaseController
             'otherText' => $otherText,
             'num256' => $num256,
             'formStat' => $formStat,
-            'remark' => $remark   
+            'remark' => $remark,
+            'SN' => $SEQ_MITEM,
+            'newSN' => $SEQ_MITEM    
         ]);
         if ($data) {
             return response()->json($data);

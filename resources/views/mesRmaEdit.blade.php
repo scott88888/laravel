@@ -76,7 +76,7 @@
                                         <input id="repairNum" type="text" class="form-control" placeholder="" required="" disabled>
                                     </div>
                                     <div class="col-4" id="">
-                                        <label>產品序號/零件序號/MAC/產品型號</label>
+                                        <label>產品序號/零件序號/MAC</label>
                                         <input id="serchCon" type="text" class="form-control" placeholder="" required="" value="{{$ListData->serchCon}}">
                                     </div>
                                     <div class="col-2" style="margin-left: 3rem;">
@@ -180,6 +180,12 @@
                                         @endif
                                     </div>
 
+                                </div>
+                                <div class="form-row align-items-center" style="">
+                                    <div class="col-2" id="">
+                                        <label>出場序號</label>
+                                        <input id="SEQ_MITEM" type="text" class="form-control" placeholder="" value="{{$ListData->SN}}">
+                                    </div>                              
                                 </div>
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
@@ -905,6 +911,7 @@
         var NAM_ATTN = response[0]['NAM_ATTN'];
         var NUM_TEL1 = response[0]['NUM_TEL1'];
         var ADD_REG = response[0]['ADD_REG'];
+        var SEQ_MITEM = response[0]['SEQ_MITEM'];
         $('#customerName').val(customerName);
         $('#customerNumber').val(customerNumber);
         $('#productNum').val(productNum);
@@ -914,6 +921,7 @@
         $('#customerAttn').val(NAM_ATTN);
         $('#customerTel').val(NUM_TEL1);
         $('#customerAdd').val(ADD_REG);
+        $('#SEQ_MITEM').val(SEQ_MITEM);
     }
     $('#createRMA').click(function() {
 
@@ -1056,7 +1064,8 @@
         const otherText = $('#otherText').val();
         const formStat = $('#formStat').val();
         const remark = $('#remark').val();
-
+        const SEQ_MITEM = $('#SEQ_MITEM').val();
+   
 
         const formData = {
             numTitle,
@@ -1084,7 +1093,8 @@
             HDDText,
             otherText,
             formStat,
-            remark
+            remark,
+            SEQ_MITEM
         };
         $('#loading').show();
         $.ajax({
@@ -1146,7 +1156,8 @@
             $('#remark').css('background', '#ffffff');
             $('#remark').prop('readonly', type);
         }
-
+        
+        $('#SEQ_MITEM').prop('disabled', type);
     }
 
 
