@@ -91,10 +91,11 @@
                                         <label>狀態</label>
                                         <select id="formStat" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
                                             <option value="0" style="color: black;">已維修完結案</option>
-                                            <option value="1" style="color: red;">不維修結案</option>
+                                            <option value="1" style="color: black;">不維修結案</option>
                                             <option value="2" style="color: red;">待客戶回復</option>
-                                            <option value="3" style="color: red;">待外廠維修</option>
+                                            <option value="3" style="color: red;">待外廠維修</option>                                      
                                             <option value="4" style="color: black;">撤銷</option>
+                                            <option value="5" style="color: red;" selected>廠內維修中</option>
                                         </select>
                                     </div>
                                     <div class="col-1" style="margin-left: 3rem;">
@@ -359,11 +360,12 @@
                                         <div class="col-1">
                                             <label>狀態</label>
                                             <select id="formStat2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                                <option value="0" style="color: black;">已維修完結案</option>
-                                                <option value="1" style="color: red;">不維修結案</option>
-                                                <option value="2" style="color: red;">待客戶回復</option>
-                                                <option value="3" style="color: red;">待外廠維修</option>
-                                                <option value="4" style="color: black;">撤銷</option>
+                                            <option value="0" style="color: black;">已維修完結案</option>
+                                            <option value="1" style="color: black;">不維修結案</option>
+                                            <option value="2" style="color: red;">待客戶回復</option>
+                                            <option value="3" style="color: red;">待外廠維修</option>                                      
+                                            <option value="4" style="color: black;">撤銷</option>
+                                            <option value="5" style="color: red;" selected>廠內維修中</option>
                                             </select>
                                         </div>
                                     </div>
@@ -603,7 +605,7 @@
     }
 
     function selectColor() {
-        if ($('#formStat').val() == 0) {
+        if ($('#formStat').val() == 0 || $('#formStat').val() == 1 || $('#formStat').val() == 4) {
             $('#formStat').css('color', 'black');
             $('#formStat2').css('color', 'black');
         } else {

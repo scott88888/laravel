@@ -92,11 +92,15 @@
                                     <th>維修類別</th>
                                     <th>故障情形</th>
                                     <th>故障原因</th>
+                                    <th>故障原因</th>
+                                    <th>故障原因</th>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
                                         </td>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -115,6 +119,7 @@
                 </div>
             </div>
         </div>
+
         <!-- <div id="autocomplete">
             <input type="text" id="input" placeholder="Type something...">
             <div id="suggestions"></div>
@@ -221,6 +226,45 @@
 
                     "data": "faultCause",
                     "title": "故障原因"
+                },
+                {
+
+                    "data": "formStat",
+                    "title": "狀態",
+                    "render": function(data, type, row) {
+                        switch (data) {
+                            case 0:
+                                return '已維修完結案'
+                                break;
+                            case 1:
+                                return '<span style="color: red;">'+'不維修結案</span>'
+                               
+                                break;
+                            case 2:
+                                return '<span style="color: red;">'+'待客戶回復</span>'
+                                break;
+                            case 3:
+                                return '<span style="color: red;">'+'待外廠維修</span>'
+                                break;                            
+                            case 4:
+                                return '撤銷'
+                                break;
+                            default:
+                            return ''
+                                break;
+                        }
+                        
+                    }
+                },
+                {                    
+                    "data": "completedDate",
+                    "title": "完修時間",
+                    "render": function(data, type, row) {
+                        if (type === 'display' && data && data.length > 0) {
+                        return data.substring(0, 10);
+                        }
+                        return '';                        
+                    }
                 }
             ]
         });
