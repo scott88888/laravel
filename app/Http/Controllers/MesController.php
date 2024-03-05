@@ -1516,7 +1516,17 @@ class MesController extends BaseController
             return response()->json('error');
         }
     }
+    public function mesCustomerSearchAjax(Request $request)
+    {
+        $customerNumber = $request->input('customerNumber');
+        $customerList= DB::select("SELECT cdpt.* ,cust.NAM_CUST FROM `cdpt` LEFT JOIN cust ON cust.COD_CUST = cdpt.COD_CUST WHERE cdpt.COD_CUST = '$customerNumber'");
 
+        if ($customerList) {
+            return response()->json($customerList);
+        } else {
+            return response()->json('error');
+        }
+    }
 
     public function mesRmaeEditSave(Request $request)
     {

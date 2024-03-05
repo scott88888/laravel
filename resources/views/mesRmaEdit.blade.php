@@ -93,7 +93,7 @@
                                             <option value="0" style="color: black;">已維修完結案</option>
                                             <option value="1" style="color: black;">不維修結案</option>
                                             <option value="2" style="color: red;">待客戶回復</option>
-                                            <option value="3" style="color: red;">待外廠維修</option>                                      
+                                            <option value="3" style="color: red;">待外廠維修</option>
                                             <option value="4" style="color: black;">撤銷</option>
                                             <option value="5" style="color: red;" selected>廠內維修中</option>
                                         </select>
@@ -133,6 +133,17 @@
                                         <label>客戶編號</label>
                                         <input id="customerNumber" type="text" class="form-control" placeholder="" value="{{$ListData->customerNumber}}">
                                     </div>
+                                    <div class="col-2" style="margin-left: 3rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button type="button" id="customerSearch" class="btn btn-primary btn-block">送出</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-row align-items-center" style="margin-top: 2rem;">
                                     <div class="col-3" id="">
                                         <label>客戶名稱</label>
                                         <input id="customerName" type="text" class="form-control" placeholder="" value="{{$ListData->customerName}}">
@@ -145,11 +156,10 @@
                                         <label>電話</label>
                                         <input id="customerTel" type="text" class="form-control" placeholder="" value="{{$ListData->customerTel}}">
                                     </div>
-                                    <div class="col-3" id="">
+                                    <div class="col-5" id="">
                                         <label>地址</label>
                                         <input id="customerAdd" type="text" class="form-control" placeholder="" value="{{$ListData->customerAdd}}">
                                     </div>
-
 
                                 </div>
                                 <div class="form-row align-items-center" style="">
@@ -157,7 +167,7 @@
                                         <label>產品型號</label>
                                         <input id="productNum" type="text" class="form-control" placeholder="" value="{{$ListData->productNum}}">
                                     </div>
-                                    <div class="col-5" id="">
+                                    <div class="col-4" id="">
                                         <label>產品名稱</label>
                                         <input id="productName" type="text" class="form-control" placeholder="" value="{{$ListData->productName}}">
                                     </div>
@@ -165,7 +175,7 @@
                                         <label>收貨人員編號</label>
                                         <input id="userID" type="text" class="form-control" placeholder="" value="{{$ListData->userID}}">
                                     </div>
-                                    <div class="col-2" id="">
+                                    <div class="col-1" id="">
                                         <label>收貨人員</label>
                                         <input id="userName" type="text" class="form-control" placeholder="" value="{{$ListData->userName}}">
                                     </div>
@@ -180,14 +190,12 @@
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDate">
                                         @endif
                                     </div>
-
-                                </div>
-                                <div class="form-row align-items-center" style="">
                                     <div class="col-2" id="">
                                         <label>出場序號</label>
                                         <input id="SEQ_MITEM" type="text" class="form-control" placeholder="" value="{{$ListData->SN}}">
-                                    </div>                              
+                                    </div>
                                 </div>
+
                                 <div class="form-row align-items-center" style="padding-top: 2rem;">
                                     <div class="col-2" id="">
                                         <div class="custom-control custom-checkbox custom-control-inline">
@@ -360,12 +368,12 @@
                                         <div class="col-1">
                                             <label>狀態</label>
                                             <select id="formStat2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                            <option value="0" style="color: black;">已維修完結案</option>
-                                            <option value="1" style="color: black;">不維修結案</option>
-                                            <option value="2" style="color: red;">待客戶回復</option>
-                                            <option value="3" style="color: red;">待外廠維修</option>                                      
-                                            <option value="4" style="color: black;">撤銷</option>
-                                            <option value="5" style="color: red;" selected>廠內維修中</option>
+                                                <option value="0" style="color: black;">已維修完結案</option>
+                                                <option value="1" style="color: black;">不維修結案</option>
+                                                <option value="2" style="color: red;">待客戶回復</option>
+                                                <option value="3" style="color: red;">待外廠維修</option>
+                                                <option value="4" style="color: black;">撤銷</option>
+                                                <option value="5" style="color: red;" selected>廠內維修中</option>
                                             </select>
                                         </div>
                                     </div>
@@ -492,8 +500,53 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel">
+                <div class="modal-dialog" role="document" style="max-width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="customerModalLabel">聯絡人</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">                            
+                            <div class="data-tables datatable-dark" style="margin: 2rem;">
+                                <label>目的料號(請選)</label>
+                                <table id="customerModalTable" class="display text-center" style="width:100%">
+                                    <thead class="text-capitalize" style=" background: darkgrey;">
+                                        <tr>
+                                            <th>選取</th>
+                                            <th>編號</th>
+                                            <th>廠商</th>
+                                            <th>地址</th>
+                                            <th>聯絡人</th>
+                                            <th>電話</th>
+                                            <th>傳真</th>
+                                         
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 1px;"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
+        
     </div>
     </div>
     @include('layouts/footer')
@@ -588,7 +641,50 @@
         }
         qrCode();
         selectColor()
+        customerModalTable = $('#customerModalTable').DataTable({
+            ...tableConfig,
+            order: [
+                [1, 'asc']
 
+            ],
+            columns: [{
+                    "targets": 0,
+                    "data": "check",
+                    "title": "選取",
+                    "type": "checkbox",
+                    "render": function(data, type, row, meta) {
+                        var encodedRow = btoa(unescape(encodeURIComponent(JSON.stringify(row))));
+                return '<a href="#" class="select-link" data-row="' + encodedRow + '">選取</a>';
+            
+                    }
+                },
+                {
+                    "data": "NUM_DPT",
+                    "title": "編號"
+                },
+                {
+                    "data": "NAM_DPT",
+                    "title": "廠商"
+                },
+                {
+                    "data": "ADD_DPT",
+                    "title": "地址"
+                },
+                {
+                    "data": "NAM_ATTN",
+                    "title": "聯絡人"
+                },
+                {
+                    "data": "NUM_TEL",
+                    "title": "電話"
+                },
+                {
+                    "data": "NUM_FAX",
+                    "title": "傳真"
+                }
+
+            ]
+        });
 
     });
 
@@ -633,7 +729,22 @@
         });
     });
 
+    $('#customerModalTable').on('click', '.select-link', function () {
 
+    var encodedRow = $(this).data('row');
+    var decodedRow = JSON.parse(decodeURIComponent(escape(atob(encodedRow))));
+    
+   
+        myFunction(decodedRow);
+    });
+
+   
+    function myFunction(rowData) {
+        $('#customerName').val(rowData.NAM_CUST);       
+        $('#customerAttn').val(rowData.NAM_ATTN);
+        $('#customerTel').val(rowData.NUM_TEL);
+        $('#customerAdd').val(rowData.ADD_DPT);        
+    }
 
 
     $('#maintenanceEdit').click(function() {
@@ -952,6 +1063,31 @@
         });
     });
 
+    $('#customerSearch').click(function() {
+
+        var customerNumber = $('#customerNumber').val();
+        $.ajax({
+            url: 'mesCustomerSearchAjax',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                customerNumber: customerNumber
+            },
+            success: function(response) {
+                $('#loading').hide();
+                customerModalTable.clear();
+                        customerModalTable.rows.add(response);
+                        customerModalTable.draw();
+                $('#customerModal').modal('show');
+            }, 
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+            }
+        });
+       
+        
+    });
+
     $('#updateRMA').click(function() {
         disabled(false);
         displayBtn();
@@ -1067,7 +1203,7 @@
         const formStat = $('#formStat').val();
         const remark = $('#remark').val();
         const SEQ_MITEM = $('#SEQ_MITEM').val();
-   
+
 
         const formData = {
             numTitle,
@@ -1158,7 +1294,7 @@
             $('#remark').css('background', '#ffffff');
             $('#remark').prop('readonly', type);
         }
-        
+
         $('#SEQ_MITEM').prop('disabled', type);
     }
 
@@ -1188,10 +1324,7 @@
     }
 
 
-    // 添加點擊事件
-    window.addEventListener("beforeunload", function() {
-        alert('123')
-    });
+
 </script>
 
 </html>

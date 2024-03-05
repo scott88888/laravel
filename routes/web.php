@@ -111,8 +111,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesRmaEditReceiptSaveAjax', [MesController::class, 'mesRmaEditReceiptSaveAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptUpdateAjax', [MesController::class, 'mesRmaEditReceiptUpdateAjax']);
     Route::match(['get', 'post'], '/mesMaintenanceUpdateAjax', [MesController::class, 'mesMaintenanceUpdateAjax']);
-
-
+    Route::match(['get', 'post'], '/mesCustomerSearchAjax', [MesController::class, 'mesCustomerSearchAjax']);
+    
     //mesuploadfile
     Route::post('/uploadjpg', [FileController::class, 'uploadjpg']);
     Route::post('/delJpgAjax', [FileController::class, 'delJpgAjax']);
@@ -129,6 +129,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/fileECNCreateAjax', [FileController::class, 'fileECNCreateAjax']);
     Route::match(['get', 'post'], '/fileECRNEditPMAjax', [FileController::class, 'fileECRNEditPMAjax']);
     Route::post('/ECNuploadFile', [FileController::class, 'ECNuploadFile']);
+
 
     //檔案管理
     Route::match(['get', 'post'], '/fileFirmwareUpload', [FileController::class, 'fileFirmwareUpload'])
