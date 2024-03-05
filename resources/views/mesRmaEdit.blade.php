@@ -730,20 +730,18 @@
     });
 
     $('#customerModalTable').on('click', '.select-link', function () {
-
     var encodedRow = $(this).data('row');
     var decodedRow = JSON.parse(decodeURIComponent(escape(atob(encodedRow))));
-    
-   
-        myFunction(decodedRow);
+        addData(decodedRow);
     });
 
    
-    function myFunction(rowData) {
+    function addData(rowData) {
         $('#customerName').val(rowData.NAM_CUST);       
         $('#customerAttn').val(rowData.NAM_ATTN);
         $('#customerTel').val(rowData.NUM_TEL);
-        $('#customerAdd').val(rowData.ADD_DPT);        
+        $('#customerAdd').val(rowData.ADD_DPT);     
+        $('#customerModal').modal('hide');   
     }
 
 
