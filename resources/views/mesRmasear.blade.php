@@ -63,16 +63,41 @@
                                         <label>送修日期(迄)</label>
                                         <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="noticeDateE">
                                     </div>
-                                    <div class="col-2" style="margin-left: 3rem;">
+                                    <div class="col-1" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
                                         <div class="col" style="text-align: center;">
                                             <button type="button" id="submit" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
-                                    <div class="col-2" style="margin-left: 3rem;">
+                                    <div class="col-1" style="margin-left: 3rem;">
                                         <label for="">查詢</label>
                                         <div class="col" style="text-align: center;">
                                             <button type="button" id="submit30days" class="btn btn-primary btn-block">過去30天</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="">
+                                        <label class="col-form-label" style="padding-top: 0;">條件</label>
+                                        <select id="condition1" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                            <option value="1">維修類別</option>
+                                            <option value="2">狀態</option>
+                                            <option value="3">完修時間</option>
+                                        </select>
+                                    </div>
+                                    <div class="" id="condition2Label">
+                                        <label class="col-form-label" style="padding-top: 0;">條件</label>
+                                        <select id="condition2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        </select>
+                                    </div>
+                                    <div class="col-2"  id="finDateLabel">
+                                        <label>完修日期</label>
+                                        <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" id="finDate">
+                                    </div>
+                                    <div class="col-1" style="margin-left: 3rem;">
+                                        <label for="">查詢</label>
+                                        <div class="col" style="text-align: center;">
+                                            <button type="button" id="submitCondition" class="btn btn-primary btn-block">送出</button>
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +160,7 @@
 <script>
     var table;
     $(document).ready(function() {
-       
+
         let Model;
         $('#loading').hide();
         $('#rang').hide();
@@ -152,8 +177,8 @@
                     title: "產品維修單明細表",
                     autoPrint: false,
                     exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7,8,9,10]
-                    }                    
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
                 }
             ],
             lengthMenu: [
@@ -237,38 +262,72 @@
                                 return '已維修完結案'
                                 break;
                             case 1:
-                                return '<span style="color: red;">'+'不維修結案</span>'
-                               
+                                return '<span style="color: red;">' + '不維修結案</span>'
+
                                 break;
                             case 2:
-                                return '<span style="color: red;">'+'待客戶回復</span>'
+                                return '<span style="color: red;">' + '待客戶回復</span>'
                                 break;
                             case 3:
-                                return '<span style="color: red;">'+'待外廠維修</span>'
-                                break;                            
+                                return '<span style="color: red;">' + '待外廠維修</span>'
+                                break;
                             case 4:
                                 return '撤銷'
                                 break;
                             default:
-                            return ''
+                                return ''
                                 break;
                         }
-                        
+
                     }
                 },
-                {                    
+                {
                     "data": "completedDate",
                     "title": "完修時間",
                     "render": function(data, type, row) {
                         if (type === 'display' && data && data.length > 0) {
-                        return data.substring(0, 10);
+                            return data.substring(0, 10);
                         }
-                        return '';                        
+                        return '';
                     }
                 }
             ]
         });
+        updateCondition2Options();
+        $('#condition1').on('change', function() {
+            updateCondition2Options();
+        });
 
+        function updateCondition2Options() {
+            var condition1Value = $('#condition1').val();
+            var condition2Select = $('#condition2');
+            var condition2Label = $('#condition2Label');
+            var finDateLabel = $('#finDateLabel');
+            
+
+            condition2Select.empty();
+            if (condition1Value === '1') {
+                condition2Select.append('<option value="維修">維修</option>');
+                condition2Select.append('<option value="借品">借品</option>');
+                condition2Select.append('<option value="借品專用">借品專用</option>');
+                condition2Select.append('<option value="換">換</option>');
+                condition2Select.append('<option value="退">退</option>');
+                condition2Label.show();
+                finDateLabel.hide();
+            } else if (condition1Value === '2') {
+                condition2Select.append('<option value="0">已維修完結案</option>');
+                condition2Select.append('<option value="1">不維修結案</option>');
+                condition2Select.append('<option value="2">待客戶回復</option>');
+                condition2Select.append('<option value="3">待外廠維修</option>');
+                condition2Select.append('<option value="4">撤銷</option>');
+                condition2Select.append('<option value="5">廠內維修中</option>');
+                condition2Label.show();
+                finDateLabel.hide();
+            } else {
+                condition2Label.hide();
+                finDateLabel.show();
+            }
+        }
         $('#submit').click(function() {
             var numTitle = $('#numTitle').val();
             var repairNum = $('#repairNum').val();
@@ -300,7 +359,7 @@
             });
 
         });
-
+        
         $('#submit30days').click(function() {
             $('#loading').show();
             $.ajax({
@@ -308,6 +367,36 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
+                    table.clear();
+                    table.rows.add(response);
+                    table.draw();
+                    console.log(response);
+                    $('#loading').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.log('no data');
+                    $('#loading').hide();
+                }
+            });
+
+        });
+        $('#submitCondition').click(function() {
+            var condition1 = $('#condition1').val();
+            var condition2 = $('#condition2').val();
+            var finDate = $('#finDate').val();
+          
+            $('#loading').show();
+            $.ajax({
+                url: 'mesRmasearConditionAjax',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    condition1: condition1,
+                    condition2: condition2,
+                    finDate: finDate
+                },
+                success: function(response) {
+
                     table.clear();
                     table.rows.add(response);
                     table.draw();

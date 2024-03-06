@@ -714,7 +714,7 @@ class MesController extends BaseController
         $noticeDateE = $request->input('noticeDateE');
         $formatted_dateS = str_replace("-", "", $noticeDateS);
         $formatted_dateE = str_replace("-", "", $noticeDateE);
-        
+
 
         if ($repairNum) {
             $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE NUM like '$numTitle$repairNum%'");
@@ -734,7 +734,26 @@ class MesController extends BaseController
         $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE noticeDate BETWEEN '$previousMonthDate' AND '$todayDate' ");
         return response()->json($mesRmaSearData);
     }
+    public function mesRmasearConditionAjax(Request $request)
+    {
 
+        $condition1 = $request->input('condition1');
+        $condition2 = $request->input('condition2');
+        $finDate = $request->input('finDate');
+       
+        if ($condition1 == 1) {
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE repairType = '$condition2'");
+        }
+        if ($condition1 == 2) {           
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE formStat = '$condition2'");
+        }
+        if ($condition1 == 3) {
+            $mesRmaSearData = DB::select("SELECT *  FROM mes_rma_edit WHERE completedDate like '$finDate%'");
+        }
+
+
+        return response()->json($mesRmaSearData);
+    }
 
     public function mesShipmentListAjax(Request $request)
     {
@@ -1234,7 +1253,7 @@ class MesController extends BaseController
                 'formStat' => null,
                 'remark' => null,
                 'SEQ_MITEM' => null
-                
+
             ];
             $pagetype = "create";
             // 将包含所有列都为null的数组赋值给$ramData
@@ -1349,8 +1368,8 @@ class MesController extends BaseController
         $HDDText = $request->input('HDDText');
         $otherText = $request->input('otherText');
         $formStat = $request->input('formStat');
-        $remark = $request->input('remark');  
-        $SEQ_MITEM = $request->input('SEQ_MITEM');  
+        $remark = $request->input('remark');
+        $SEQ_MITEM = $request->input('SEQ_MITEM');
         $data = DB::table('mes_rma_edit')->insertGetId([
             'ID' => '',
             'NUM' => $num,
@@ -1381,7 +1400,7 @@ class MesController extends BaseController
             'formStat' => $formStat,
             'remark' => $remark,
             'SN' => $SEQ_MITEM,
-            'newSN' => $SEQ_MITEM    
+            'newSN' => $SEQ_MITEM
         ]);
         if ($data) {
             return response()->json($data);
@@ -1451,7 +1470,7 @@ class MesController extends BaseController
             'other' => $other,
             'otherText' => $otherText,
             'formStat' => $formStat,
-            'remark' => $remark   
+            'remark' => $remark
         ];
 
         // 使用 update 方法来更新数据，并获取更新是否成功的结果
@@ -1519,7 +1538,7 @@ class MesController extends BaseController
     public function mesCustomerSearchAjax(Request $request)
     {
         $customerNumber = $request->input('customerNumber');
-        $customerList= DB::select("SELECT cdpt.* ,cust.NAM_CUST FROM `cdpt` LEFT JOIN cust ON cust.COD_CUST = cdpt.COD_CUST WHERE cdpt.COD_CUST = '$customerNumber'");
+        $customerList = DB::select("SELECT cdpt.* ,cust.NAM_CUST FROM `cdpt` LEFT JOIN cust ON cust.COD_CUST = cdpt.COD_CUST WHERE cdpt.COD_CUST = '$customerNumber'");
 
         if ($customerList) {
             return response()->json($customerList);

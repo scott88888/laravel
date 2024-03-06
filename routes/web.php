@@ -106,6 +106,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::get('/mesRmasear', [MesController::class, 'mesRmasear'])
         ->middleware(CheckPermission::class . ':mesRmasear');
     Route::get('/mesRmasearAjax', [MesController::class, 'mesRmasearAjax']);
+    Route::get('/mesRmasearConditionAjax', [MesController::class, 'mesRmasearConditionAjax']);
     Route::get('/mesRmasear30daysAjax', [MesController::class, 'mesRmasear30daysAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptCreateAjax', [MesController::class, 'mesRmaEditReceiptCreateAjax']);
     Route::match(['get', 'post'], '/mesRmaEditReceiptSaveAjax', [MesController::class, 'mesRmaEditReceiptSaveAjax']);
