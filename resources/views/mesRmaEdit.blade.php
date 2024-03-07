@@ -361,6 +361,10 @@
                                                 <option value="no" {{$ListData->toll == 'no' ? 'selected' : ''}}>否</option>
                                             </select>
                                         </div>
+                                        <div class="col-1" id="">
+                                            <label>金額</label>
+                                            <input id="money" type="text" class="form-control" placeholder="" value="">
+                                        </div>
                                         <div class="col-3" id="">
                                             <label>工時</label>
                                             <input id="workingHours" type="text" class="form-control" placeholder="" value="{{$ListData->workingHours}}">
@@ -711,6 +715,11 @@
     }
     $('#submitSearch').click(function() {
         var serchCon = $('#serchCon').val();
+        var formStat = $('#formStat').val();
+        if (formStat == null) {
+            $('#formStat').val('5');
+        }
+        
         $('#loading').show();
         $.ajax({
             url: 'mesRmaEditAjax',
@@ -721,6 +730,7 @@
             },
             success: function(response) {
                 pullData(response)
+
                 $('#loading').hide();
             },
             error: function(xhr, status, error) {
