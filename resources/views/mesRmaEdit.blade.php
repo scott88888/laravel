@@ -363,7 +363,7 @@
                                         </div>
                                         <div class="col-1" id="">
                                             <label>金額</label>
-                                            <input id="money" type="text" class="form-control" placeholder="" value="">
+                                            <input id="money" type="number" class="form-control" placeholder="" value="{{$ListData->money}}">
                                         </div>
                                         <div class="col-3" id="">
                                             <label>工時</label>
@@ -780,6 +780,8 @@
 
         const maintenanceStaff = $('#maintenanceStaff').val();
         const maintenanceStaffID = $('#maintenanceStaffID').val();
+        const money = $('#money').val();
+        
         const SN = $('#SN').val();
         const newSN = $('#newSN').val();
         const toll = $('#toll').val();
@@ -837,6 +839,8 @@
         const QADate = $('#QADate').val();
         const completedDate = $('#completedDate').val();
         const maintenanceStaffID = $('#maintenanceStaffID').val();
+        const money = $('#money').val();
+        
         const maintenanceStaff = $('#maintenanceStaff').val();
         const toll = $('#toll').val();
         const hours = diffhours()
@@ -863,6 +867,7 @@
                 QADate: QADate,
                 completedDate: completedDate,
                 maintenanceStaffID: maintenanceStaffID,
+                money:money,
                 maintenanceStaff: maintenanceStaff,
                 toll: toll,
                 workingHours: workingHours,
@@ -904,7 +909,8 @@
 
         var faultSituationText = '{{$ramData[0]->faultSituationCode. $ramData[0]->faultSituation }}';
         var faultCauseText = '{{$ramData[0]->faultCauseCode.$ramData[0]->faultCause }}';
-        var recordsText = '{{$ramData[0]->records}}';
+        var recordsText = '{!! json_encode($ramData[0]->records) !!}';      
+        recordsText = recordsText.replace('"', '');
         $('#responsibility').val('{{$ramData[0]->responsibility }}');
         $('#toll').val('{{$ramData[0]->toll }}');
         $('#newPackaging').prop('checked', {{$ramData[0]->newPackaging }});
@@ -916,7 +922,7 @@
         $('#other').prop('checked', {{$ramData[0]->other }});
         $('#faultSituationCode').val(faultSituationText).trigger('input');
         $('#faultCauseCode').val(faultCauseText).trigger('input');
-        $('#records').val(recordsText).trigger('textarea');
+        $('#records').html(recordsText).trigger('textarea');
         var customRadio = '{{$ramData[0]->repairType }}';
         switch (customRadio) {
             case '維修':
@@ -1318,6 +1324,8 @@
         $('#QADate').prop('disabled', type);
         $('#completedDate').prop('disabled', type);
         $('#maintenanceStaffID').prop('disabled', type);
+        $('#money').prop('disabled', type);
+        
         $('#maintenanceStaff').prop('disabled', type);
         $('#toll').prop('disabled', type);
         $('#workingHours').prop('disabled', true);

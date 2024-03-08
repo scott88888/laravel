@@ -1248,6 +1248,8 @@ class MesController extends BaseController
                 'otherText' => null,
                 'maintenanceStaffID' => null,
                 'maintenanceStaff' => null,
+                'money' => null,
+                
                 'records' => null,
                 'records2' => null,
                 'formStat' => null,
@@ -1264,6 +1266,7 @@ class MesController extends BaseController
             $ramData[0]->maintenanceStaffID = Auth::user()->employee_id;
             $ramData[0]->maintenanceStaff = Auth::user()->name;
         }
+        
 
 
         $lang = app()->getLocale();
@@ -1498,6 +1501,7 @@ class MesController extends BaseController
         $completedDate = $request->input('completedDate');
         $maintenanceStaffID = $request->input('maintenanceStaffID');
         $maintenanceStaff = $request->input('maintenanceStaff');
+        $money = $request->input('money');
         $toll = $request->input('toll');
         $workingHours = $request->input('workingHours');
         $records = $request->input('records');
@@ -1517,6 +1521,7 @@ class MesController extends BaseController
             'completedDate' => $completedDate,
             'maintenanceStaffID' => $maintenanceStaffID,
             'maintenanceStaff' => $maintenanceStaff,
+            "money" =>$money,
             'toll' => $toll,
             'workingHours' => $workingHours,
             'records' => $records,
