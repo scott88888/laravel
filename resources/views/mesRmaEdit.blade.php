@@ -382,59 +382,71 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-row align-items-center">
+                                    <div class="form-row align-items-center" id="recordsMark">
                                         <div class="col-12" style="padding-top: 2rem;"> <label>維修紀錄</label> </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="Innerbox" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="Innerbox" >
                                             <label class="custom-control-label" for="Innerbox">內盒</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="Wire" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="Wire" >
                                             <label class="custom-control-label" for="Wire">電線</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="OctopusCable" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="OctopusCable" >
                                             <label class="custom-control-label" for="OctopusCable">八爪線</label>
                                         </div>
 
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="WaterDamage" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="WaterDamage" >
                                             <label class="custom-control-label" for="WaterDamage">滲水不修</label>
                                         </div>
 
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="Accessories" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="Accessories" >
                                             <label class="custom-control-label" for="Accessories">配件</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="Mouseom" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="Mouseom" >
                                             <label class="custom-control-label" for="Mouseom">滑鼠</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="FullSetom" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="FullSetom" >
                                             <label class="custom-control-label" for="FullSetom">全配</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="12V1A" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="12V1A" >
                                             <label class="custom-control-label" for="12V1A">12V1A</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="12V3A" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="12V3A" >
                                             <label class="custom-control-label" for="12V3A">12V3A</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="12V5A" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="12V5A" >
                                             <label class="custom-control-label" for="12V5A">12V5A</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="HDDErr" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="HDDErr" >
                                             <label class="custom-control-label" for="HDDErr">HDD未固定，撞壞機板</label>
                                         </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="Irreparable" name="records" class="custom-control-input">
+                                         <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="Irreparable" >
                                             <label class="custom-control-label" for="Irreparable">無修復價值不修</label>
                                         </div>
-                                        <div class="col-12" id="">
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="notRepair" >
+                                            <label class="custom-control-label" for="notRepair">客戶不修</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="repairScrap" >
+                                            <label class="custom-control-label" for="repairScrap">不修報廢</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="cutLine" >
+                                            <label class="custom-control-label" for="cutLine">客戶剪線</label>
+                                        </div>                                     
+                                         <div class="col-12" id="">
                                             <textarea id='records' rows="4" cols="200" placeholder="在此输入...">{{$ListData->records}}</textarea>
                                         </div>
                                     </div>
@@ -689,7 +701,15 @@
 
             ]
         });
+        $('#recordsMark input[type="checkbox"]').on('change', function() {
+            
+            var checkedValues = $('#recordsMark input[type="checkbox"]:checked').map(function() {
+                return this.id;
+            }).get();
 
+          
+            console.log(checkedValues);
+        });
     });
 
     function qrCode() {
@@ -848,7 +868,9 @@
 
         const workingHours = $('#workingHours').val();
         const records = $('#records').val();
-        const records2 = $('input[name="records"]:checked').next('label').text();
+        const records2 =  $('#recordsMark input[type="checkbox"]:checked').map(function() {
+                return this.id;
+            }).get();
         const formStat = $('#formStat2').val();
         $('#loading').show();
         $.ajax({
@@ -944,61 +966,23 @@
                 $('#customRadio1').prop('checked', true);
                 break;
         }
-        var records2Radio = '{{$ramData[0]->records2 }}';
-        console.log(records2Radio);
-        switch (records2Radio) {
-            case '內盒':
-                $('#Innerbox').prop('checked', true);
-                break;
-            case '電線':
-                $('#Wire').prop('checked', true);
-                break;
-            case '八爪線':
-                $('#OctopusCable').prop('checked', true);
-                break;
-            case '滲水不修':
-                $('#WaterDamage').prop('checked', true);
-                break;
-            case '配件':
-                $('#Accessories').prop('checked', true);
-                break;
-            case '滑鼠':
-                $('#Mouseom').prop('checked', true);
-                break;
-            case '全配':
-                $('#FullSetom').prop('checked', true);
-                break;
-            case '12V1A':
-                $('#12V1A').prop('checked', true);
-                break;
-            case '12V3A':
-                $('#12V3A').prop('checked', true);
-                break;
-            case '12V5A':
-                $('#12V5A').prop('checked', true);
-                break;
-            case 'HDD未固定，撞壞機板':
-                $('#HDDErr').prop('checked', true);
-                break;
-            case '無修復價值不修':
-                $('#Irreparable').prop('checked', true);
-                break;
-
-            default:
-                $('#records2Radio1').prop('checked', true);
-                break;
+           // 使用 json_encode 將 PHP 變數轉換為 JSON 字串
+        var records2checkbox = {!! json_encode($ramData[0]->records2) !!};        
+        // 使用 JSON.parse 將 JSON 字串轉換為 JavaScript 變數
+        records2checkbox = JSON.parse(records2checkbox);
+            console.log(records2checkbox);        
+        if (records2checkbox) {
+            records2checkbox.forEach(function(item) {
+                $('#' + item).prop('checked', true);
+                console.log(item);       
+            });
         }
-
-
     };
 
     $('#openModalButton').click(function() {
-
-
         const modalValue = $('#productNum').val();
         selectBOM(modalValue);
         console.log(modalValue);
-
     });
 
     function selectBOM(modalValue) {
@@ -1337,6 +1321,22 @@
             $('#records').css('background', '#ffffff');
             $('#records').prop('readonly', type);
         }
+        $('#Innerbox').prop('disabled', type);
+        $('#Wire').prop('disabled', type);
+        $('#OctopusCable').prop('disabled', type);
+        $('#WaterDamage').prop('disabled', type);
+        $('#Accessories').prop('disabled', type);
+        $('#Mouseom').prop('disabled', type);
+        $('#FullSetom').prop('disabled', type);
+        $('#12V1A').prop('disabled', type);
+        $('#12V3A').prop('disabled', type);
+        $('#12V5A').prop('disabled', type);
+        $('#HDDErr').prop('disabled', type);
+        $('#Irreparable').prop('disabled', type);
+        $('#notRepair').prop('disabled', type);
+        $('#repairScrap').prop('disabled', type);
+        $('#cutLine').prop('disabled', type);
+
     }
 
 
