@@ -29,7 +29,8 @@ class salesManagementController extends BaseController
         $page = 'sidebar';
         $sidebarLang = $this->langService->getLang($lang, $page);
         $shippingManagement = DB::select("SELECT * FROM `mes_lcst_parts` WHERE  COD_ITEM LIKE '72%' GROUP BY COD_ITEM");
-        return view('shippingManagement', compact('shippingManagement', 'langArray', 'sidebarLang'));
+        $modal = DB::select("SELECT COD_ITEM FROM mes_item_list GROUP BY COD_ITEM");
+        return view('shippingManagement', compact('shippingManagement','modal', 'langArray', 'sidebarLang'));
 
 
         

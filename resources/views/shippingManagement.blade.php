@@ -52,29 +52,51 @@
                                             <option value="W1103D800">W1103D800</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label>運算</label>
-                                        <div class="col">
-                                            <button id="checkButton" class="btn btn-primary">結果</button>
-                                        </div>
-                                    </div>
+                             
                                 </div>
                                 <div class="form-row align-items-center">
                                 <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號1</label>
-                                        <input id="" type="text" class="form-control" placeholder="" value="">
+                                        <select id="box1" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option value=""></option>
+                                            @foreach ($modal as $item)
+                                            <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號2</label>
-                                        <input id="" type="text" class="form-control" placeholder="" value="">
+                                        <select id="box2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option value=""></option>
+                                            @foreach ($modal as $item)
+                                            <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號3</label>
-                                        <input id="" type="text" class="form-control" placeholder="" value="">
+                                        <select id="box3" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option value=""></option>
+                                            @foreach ($modal as $item)
+                                            <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號4</label>
-                                        <input id="" type="text" class="form-control" placeholder="" value="">
+                                        <select id="box4" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
+                                        <option value=""></option>
+                                            @foreach ($modal as $item)
+                                            <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                 
+                                        <label class="col-form-label" style="padding-top: 0;">運算</label>
+                                        <div class="col">
+                                            <button id="checkButton" class="btn btn-primary">結果</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +201,9 @@
         });
 
         function sendAjax(selectedData, searchtype, pallet) {
+            console.log(selectedData);
+            console.log(searchtype);
+            console.log(pallet);
             $.ajax({
                 type: "GET",
                 url: "shippingManagementAjax",

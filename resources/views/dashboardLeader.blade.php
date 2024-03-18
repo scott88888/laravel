@@ -118,6 +118,8 @@
                                                 <td>{{ $item->total_qty }}</td>
                                             </tr>
                                             @endforeach
+
+                                          
                                         </tbody>
                                     </table>
                                 </div>
