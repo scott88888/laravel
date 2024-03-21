@@ -176,7 +176,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/mesBOMItemAjax', [MesController::class, 'mesBOMItemAjax']);
     Route::match(['get', 'post'], '/mesBOMSelectAjax', [MesController::class, 'mesBOMSelectAjax']);
     Route::match(['get', 'post'], '/shippingManagementAjax', [salesManagementController::class, 'shippingManagementAjax']);
-
+    Route::match(['get', 'post'], '/shippingManagementAjax2', [salesManagementController::class, 'shippingManagementAjax2']);
     // 供應商
 
     Route::match(['get', 'post'], '/mesMSDS', [vendorController::class, 'vendorMSDS'])

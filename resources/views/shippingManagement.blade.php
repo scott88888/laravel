@@ -52,13 +52,13 @@
                                             <option value="W1103D800">W1103D800</option>
                                         </select>
                                     </div>
-                             
+
                                 </div>
                                 <div class="form-row align-items-center">
-                                <div class="col-md-2 mb-3">
+                                    <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號1</label>
                                         <select id="box1" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option value=""></option>
+                                            <option value=""></option>
                                             @foreach ($modal as $item)
                                             <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
                                             @endforeach
@@ -67,7 +67,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號2</label>
                                         <select id="box2" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option value=""></option>
+                                            <option value=""></option>
                                             @foreach ($modal as $item)
                                             <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
                                             @endforeach
@@ -76,7 +76,7 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號3</label>
                                         <select id="box3" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option value=""></option>
+                                            <option value=""></option>
                                             @foreach ($modal as $item)
                                             <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
                                             @endforeach
@@ -85,14 +85,14 @@
                                     <div class="col-md-2 mb-3">
                                         <label class="col-form-label" style="padding-top: 0;">型號4</label>
                                         <select id="box4" class="form-control" style="padding: 0;height: calc(2.25rem + 10px);">
-                                        <option value=""></option>
+                                            <option value=""></option>
                                             @foreach ($modal as $item)
                                             <option value="{{ $item->COD_ITEM }}">{{ $item->COD_ITEM}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                 
+
                                         <label class="col-form-label" style="padding-top: 0;">運算</label>
                                         <div class="col">
                                             <button id="checkButton" class="btn btn-primary">結果</button>
@@ -195,21 +195,53 @@
             if (checkedCount > 0 && checkedCount <= 6 && checkedCount <= 6) {
                 $('#loading').show();
                 sendAjax(selectedData, searchtype, pallet);
+            } else if (checkedCount == 0) {
+                $('#loading').show();
+                sendAjax2(searchtype, pallet);
             } else {
                 alert('選擇異常，請重新確認');
             }
         });
 
-        function sendAjax(selectedData, searchtype, pallet) {
-            console.log(selectedData);
-            console.log(searchtype);
-            console.log(pallet);
+        function sendAjax(selectedData, searchtype, pallet) {        
             $.ajax({
                 type: "GET",
                 url: "shippingManagementAjax",
                 dataType: 'json',
                 data: {
                     selectedData: selectedData,
+                    searchtype: searchtype,
+                    pallet: pallet
+                },
+                success: function(response) {
+                    $('#loading').hide();
+                    var imageUrl = "{{ asset('pallet') }}/" + response;
+                    $('#palletImage').attr('src', imageUrl);
+                    $('#palletImg').modal('show');                
+                },
+                error: function(xhr, status, error) {
+                    $('#loading').hide();
+                    console.log('no data');
+
+                }
+            });
+        }
+
+        function sendAjax2(searchtype, pallet) {            
+            var box1 = $('#box1').val();
+            var box2 = $('#box2').val();
+            var box3 = $('#box3').val();
+            var box4 = $('#box4').val();
+            console.log(box1);
+            $.ajax({
+                type: "GET",
+                url: "shippingManagementAjax2",
+                dataType: 'json',
+                data: {
+                    box1: box1,
+                    box2: box2,
+                    box3: box3,
+                    box4: box4,
                     searchtype: searchtype,
                     pallet: pallet
                 },
